@@ -42,7 +42,7 @@ export default function Dashboard() {
           {[
             <Stat key="eq" label="Equity" value={ausd(r.equity)} unit="AUSD" size="lg" sub={`economic ${ausd(s.economicEquity)} after fees`} />,
             <Stat key="av" label="Available" value={ausd(s.available)} unit="AUSD" sub="free margin in Perpl" />,
-            <Stat key="uc" label="Used credit" value={ausd(s.usedCredit)} unit="AUSD" sub={r.borrowed > 0n ? `of ${ausd(s.deskSize)} desk` : "evaluation: no credit"} />,
+            <Stat key="uc" label="Restricted credit" value={ausd(s.usedCredit)} unit="AUSD" sub={r.borrowed > 0n ? `of ${ausd(s.deskSize)} desk` : "evaluation: no credit"} />,
             <Stat key="up" label="Unrealized PnL" value={signedAusd(s.unrealized)} unit="AUSD" tone={s.unrealized >= 0n ? "safe" : "breach"} sub="not claimable" />,
             <Stat key="rp" label="Realized PnL" value={signedAusd(s.realized)} unit="AUSD" tone={s.realized >= 0n ? "safe" : "breach"} sub="this tier" />,
             <Stat key="rb" label="Risk buffer" value={ausd(s.riskBuffer)} unit="AUSD" tone={s.riskBuffer > 0n ? undefined : "breach"} sub="equity minus floor" />,

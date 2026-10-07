@@ -1,0 +1,9 @@
+{
+  "enforce_full_close_and_settle": 449684,
+  "gas_schedule": "Foundry 1.5.1 EVM (cancun), Ethereum pricing - not Monad pricing",
+  "graduate_with_funding": 207105,
+  "guarded_trade_close": 188713,
+  "guarded_trade_open": 461254,
+  "note": "includes test-harness prank/call overhead of a few thousand gas",
+  "status": "LOCAL_REPRODUCTION"
+}

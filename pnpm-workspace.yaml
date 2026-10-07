@@ -1,0 +1,9 @@
+packages:
+  - packages/*
+  - web
+  - relayer
+  - keeper
+  - indexer
+  - scripts
+allowBuilds:
+  esbuild: true

@@ -1,0 +1,125 @@
+{
+  "id": "GATE0_MAINNET",
+  "environment": "mainnet",
+  "network": "Monad Mainnet",
+  "chain_id": 143,
+  "timestamp_utc": "2026-10-07T15:51:12Z",
+  "git_commit": "5ce3af63b30ed835c84e7eeff2021e93be595892",
+  "operation": "perpl_gate0_read",
+  "status": "MAINNET_VERIFIED",
+  "tx_hash": null,
+  "block_number": 111364201,
+  "contract": "0x34B6552d57a35a1D042CcAe1951BD1C370112a6F",
+  "explorer_url": "https://monadscan.com/address/0x34B6552d57a35a1D042CcAe1951BD1C370112a6F",
+  "inputs": {
+    "exchange": "0x34B6552d57a35a1D042CcAe1951BD1C370112a6F",
+    "markets": [
+      {
+        "symbol": "BTC",
+        "perpId": 1,
+        "priceDecimals": 1,
+        "lotDecimals": 5
+      },
+      {
+        "symbol": "ETH",
+        "perpId": 20,
+        "priceDecimals": 2,
+        "lotDecimals": 3
+      }
+    ],
+    "primary_rpc": "https://rpc.monad.xyz",
+    "verification_rpc": "https://rpc-mainnet.monadinfra.com"
+  },
+  "outputs": {
+    "whitelistingEnabled": false,
+    "halted": false,
+    "contractVersion": [
+      "1",
+      "7",
+      "5"
+    ],
+    "collateralToken": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+    "collateralSymbol": "AUSD",
+    "collateralDecimals": 6,
+    "exchangeBalanceCNS": "3775016636462",
+    "minAccountOpenCNS": "10000000",
+    "markets": {
+      "BTC": {
+        "perpId": 1,
+        "name": "BTC Perp",
+        "symbol": "BTC",
+        "priceDecimals": "1",
+        "lotDecimals": "5",
+        "markPNS": "833375",
+        "markTimestamp": "1791388246",
+        "refPriceMaxAgeSec": "60",
+        "status": 4,
+        "takerFeePer1e6": "345",
+        "configMatches": true
+      },
+      "ETH": {
+        "perpId": 20,
+        "name": "ETH",
+        "symbol": "ETH",
+        "priceDecimals": "2",
+        "lotDecimals": "3",
+        "markPNS": "256599",
+        "markTimestamp": "1791388248",
+        "refPriceMaxAgeSec": "60",
+        "status": 4,
+        "takerFeePer1e6": "345",
+        "configMatches": true
+      }
+    }
+  },
+  "verification": {
+    "method": "read-only eth_call at a pinned block on two independent RPC providers",
+    "verification_rpc_chain_id": 143,
+    "readbacks_agree": true,
+    "verification_readback": {
+      "whitelistingEnabled": false,
+      "halted": false,
+      "contractVersion": [
+        "1",
+        "7",
+        "5"
+      ],
+      "collateralToken": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+      "collateralSymbol": "AUSD",
+      "collateralDecimals": 6,
+      "exchangeBalanceCNS": "3775016636462",
+      "minAccountOpenCNS": "10000000",
+      "markets": {
+        "BTC": {
+          "perpId": 1,
+          "name": "BTC Perp",
+          "symbol": "BTC",
+          "priceDecimals": "1",
+          "lotDecimals": "5",
+          "markPNS": "833375",
+          "markTimestamp": "1791388246",
+          "refPriceMaxAgeSec": "60",
+          "status": 4,
+          "takerFeePer1e6": "345",
+          "configMatches": true
+        },
+        "ETH": {
+          "perpId": 20,
+          "name": "ETH",
+          "symbol": "ETH",
+          "priceDecimals": "2",
+          "lotDecimals": "3",
+          "markPNS": "256599",
+          "markTimestamp": "1791388248",
+          "refPriceMaxAgeSec": "60",
+          "status": 4,
+          "takerFeePer1e6": "345",
+          "configMatches": true
+        }
+      }
+    },
+    "config_collateral_matches_chain": true,
+    "config_market_decimals_match_chain": true
+  },
+  "notes": "Gate 0 decision: whitelistingEnabled=false means no Perpl whitelist prerequisite for desk contracts. Values are a snapshot at block_number; re-run before any deployment."
+}

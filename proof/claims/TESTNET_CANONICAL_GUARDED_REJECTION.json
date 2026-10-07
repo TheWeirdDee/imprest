@@ -1,0 +1,21 @@
+{
+  "claim_id": "TESTNET_CANONICAL_GUARDED_REJECTION",
+  "statement": "An over-limit (6.00x) order sent directly to Desk.trade() on Monad testnet was mined and reverted by the contract with LeverageExceeded",
+  "value": "LeverageExceeded",
+  "unit": "named contract error",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": null,
+  "source": "scripts/src/testnet-demo.ts",
+  "evidence": [
+    "proof/receipts/testnet/testnet_canonical_guarded_rejection.json"
+  ],
+  "transaction_hash": "0x7097805b99b834998467dd32fb972121b5efcc41ad1e27b56e6635bb9634f3fd",
+  "block_number": 69010850,
+  "timestamp_utc": "2026-10-07T15:53:44Z",
+  "status": "TESTNET_VERIFIED",
+  "methodology": "Real testnet transaction; receipt and post-state read on an independent RPC at the receipt block",
+  "sample_size": 1,
+  "denominator": "one canonical run",
+  "expected_tx_status": "reverted"
+}

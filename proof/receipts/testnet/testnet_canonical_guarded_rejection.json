@@ -1,0 +1,42 @@
+{
+  "id": "TESTNET_CANONICAL_GUARDED_REJECTION",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T15:53:21Z",
+  "git_commit": null,
+  "operation": "direct_contract_rejection",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0x7097805b99b834998467dd32fb972121b5efcc41ad1e27b56e6635bb9634f3fd",
+  "block_number": 69010850,
+  "contract": null,
+  "explorer_url": "https://testnet.monadscan.com/tx/0x7097805b99b834998467dd32fb972121b5efcc41ad1e27b56e6635bb9634f3fd",
+  "inputs": {
+    "order": {
+      "perpId": "16",
+      "side": 0,
+      "priceLimit": "833803",
+      "lots": "100",
+      "leverage": "600",
+      "reduceOnly": false,
+      "fillOrKill": false
+    }
+  },
+  "outputs": {
+    "revert": "LeverageExceeded",
+    "seconds_submit_to_verified": 3.021
+  },
+  "verification": {
+    "method": "receipt and post-state read on the independent RPC at the receipt block",
+    "rpc": "https://rpc-testnet.monadinfra.com",
+    "expected": {
+      "receiptStatus": "reverted",
+      "lotsAfter": "0"
+    },
+    "observed": {
+      "receiptStatus": "reverted",
+      "lotsAfter": "0"
+    }
+  },
+  "notes": "6.00x order sent straight to Desk.trade(); mined and reverted by the contract."
+}

@@ -80,10 +80,13 @@
       "verifiedAt": "2026-10-07T12:44:53Z"
     },
     "imprest": {
-      "pool": null,
-      "factory": null,
-      "deployBlock": null,
-      "cohorts": {}
+      "pool": "0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457",
+      "factory": "0x1569ee4a7210e226db932b5b7633e63d3ac8c544",
+      "deployBlock": 69010507,
+      "cohorts": {
+        "demo-v0": 0,
+        "standard-v0": 1
+      }
     },
     "rpcNotes": "Primary QuickNode (50 rps); verification RPC Monad Foundation (20 rps). Source: docs.monad.xyz/developer-essentials/testnets, read 2026-10-07",
     "faucet": "https://faucet.monad.xyz",

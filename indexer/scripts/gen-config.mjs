@@ -62,7 +62,10 @@ chains:
     start_block: ${net.imprest.deployBlock ?? 0}
     rpc:
       - url: ${net.rpcUrls[0]}
-        for: fallback
+        for: ${process.env.ENVIO_API_TOKEN ? "fallback" : "sync"}
+        # Monad public RPCs cap eth_getLogs at 100 blocks per call.
+        initial_block_interval: 100
+        interval_ceiling: 100
     contracts:
       - name: DeskFactory
         address: ${addr(net.imprest.factory)}

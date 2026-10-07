@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { expectNoOverflow, expectNoPlaceholder, watchErrors } from "./helpers";
 
 const ROUTES: [string, RegExp][] = [
-  ["/", /Real capital\./],
+  ["/", /Onchain trading credit/],
   ["/app", /Dashboard/],
   ["/app/trade/btc", /BTC-PERP/],
   ["/app/trade/eth", /ETH-PERP/],
@@ -35,7 +35,7 @@ test("unknown market is a 404, not a crash", async ({ page }) => {
   expect(res?.status()).toBe(404);
 });
 
-for (const width of [375, 390, 430, 768, 1024, 1280, 1440]) {
+for (const width of [320, 375, 390, 414, 430, 768, 1024, 1280, 1440, 1920]) {
   test(`no horizontal overflow at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ["/", "/proof", "/app", "/app/trade/btc", "/app/desk", "/app/risk", "/app/claims", "/lp", "/status", "/docs"]) {

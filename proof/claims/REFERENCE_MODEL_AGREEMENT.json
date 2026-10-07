@@ -1,0 +1,21 @@
+{
+  "value": "26/26",
+  "unit": "cases",
+  "network": "local Foundry EVM",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/reference_model/results.json",
+    "proof/reference_model/imprest_model.py"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:27:11Z",
+  "sample_size": 26,
+  "denominator": "accrual, claim, settlement and paired-desk identity cases",
+  "claim_id": "REFERENCE_MODEL_AGREEMENT",
+  "statement": "Independent Python reference model (exact rational arithmetic, no shared code) agrees with contract outputs from real desk executions",
+  "status": "LOCAL_REPRODUCTION",
+  "methodology": "Independent Fraction-based model of PRD v3 rules vs outputs observed from real desk executions on Perpl exchange bytecode rc_v1.1.7-203.",
+  "source": "proof/reference_model/run_reference.py"
+}

@@ -72,7 +72,7 @@ export default function RiskCenter() {
                 </div>
               </Card>
               <Card title="Credit">
-                <KV k="Credit used" v={ausd(r.borrowed)} />
+                <KV k="Restricted credit" v={ausd(r.borrowed)} />
                 <KV k="Desk size" v={ausd(r.originalStake + r.borrowed)} />
                 <KV k="Your first-loss stake" v={ausd(r.originalStake)} />
                 <div className="mt-2 border-t border-line pt-2">

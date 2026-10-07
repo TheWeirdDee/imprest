@@ -1,0 +1,21 @@
+{
+  "value": true,
+  "unit": "test passed",
+  "network": "local Foundry EVM",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/local/forge-test-results.json",
+    "contracts/test/unit/DeskPolicy.t.sol"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:27:11Z",
+  "sample_size": null,
+  "denominator": null,
+  "claim_id": "LOCAL_GUARDED_ORDER_REJECTION",
+  "statement": "An order one unit over the 5.00x leverage cap (5.01x) is rejected by the Desk contract with LeverageExceeded, and no position exists afterwards",
+  "status": "LOCAL_REPRODUCTION",
+  "methodology": "Direct Desk.trade() call bypassing any frontend; Perpl bytecode harness",
+  "source": "contracts/test/unit/DeskPolicy.t.sol::test_leverage_oneUnitOverCapRejected"
+}

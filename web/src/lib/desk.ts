@@ -132,14 +132,16 @@ export function useCohorts() {
       ? async () => {
           const pc = primaryClient();
           const n = (await pc.readContract({ address: network.imprest.factory!, abi: deskFactoryAbi, functionName: "cohortCount" })) as bigint;
-          const out: { id: number; active: boolean; policy: CohortPolicy }[] = [];
-          for (let i = 0n; i < n; i++) {
-            const [raw, active] = await Promise.all([
-              pc.readContract({ address: network.imprest.factory!, abi: deskFactoryAbi, functionName: "getCohort", args: [i] }),
-              pc.readContract({ address: network.imprest.factory!, abi: deskFactoryAbi, functionName: "cohortActive", args: [i] }),
-            ]);
-            out.push({ id: Number(i), active: active as boolean, policy: toCohortPolicy(raw) });
-          }
+          const ids = Array.from({ length: Number(n) }, (_, i) => BigInt(i));
+          const out = await Promise.all(
+            ids.map(async (i) => {
+              const [raw, active] = await Promise.all([
+                pc.readContract({ address: network.imprest.factory!, abi: deskFactoryAbi, functionName: "getCohort", args: [i] }),
+                pc.readContract({ address: network.imprest.factory!, abi: deskFactoryAbi, functionName: "cohortActive", args: [i] }),
+              ]);
+              return { id: Number(i), active: active as boolean, policy: toCohortPolicy(raw) };
+            }),
+          );
           return out;
         }
       : null,

@@ -1,0 +1,308 @@
+{
+  "advisories": {
+    "1099520": {
+      "findings": [
+        {
+          "version": "1.20.2",
+          "paths": [
+            "indexer>envio>express>body-parser"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1099520,
+      "title": "body-parser vulnerable to denial of service when url encoding is enabled",
+      "module_name": "body-parser",
+      "vulnerable_versions": "<1.20.3",
+      "patched_versions": ">=1.20.3",
+      "severity": "high",
+      "cwe": "CWE-405",
+      "github_advisory_id": "GHSA-qwcr-r2fm-qrc7",
+      "url": "https://github.com/advisories/GHSA-qwcr-r2fm-qrc7"
+    },
+    "1100528": {
+      "findings": [
+        {
+          "version": "1.15.0",
+          "paths": [
+            "indexer>envio>express>serve-static"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1100528,
+      "title": "serve-static vulnerable to template injection that can lead to XSS",
+      "module_name": "serve-static",
+      "vulnerable_versions": "<1.16.0",
+      "patched_versions": ">=1.16.0",
+      "severity": "low",
+      "cwe": "CWE-79",
+      "github_advisory_id": "GHSA-cm22-4g7w-348p",
+      "url": "https://github.com/advisories/GHSA-cm22-4g7w-348p"
+    },
+    "1100530": {
+      "findings": [
+        {
+          "version": "4.19.2",
+          "paths": [
+            "indexer>envio>express"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1100530,
+      "title": "express vulnerable to XSS via response.redirect()",
+      "module_name": "express",
+      "vulnerable_versions": "<4.20.0",
+      "patched_versions": ">=4.20.0",
+      "severity": "low",
+      "cwe": "CWE-79",
+      "github_advisory_id": "GHSA-qw6h-vgh9-j6wx",
+      "url": "https://github.com/advisories/GHSA-qw6h-vgh9-j6wx"
+    },
+    "1101850": {
+      "findings": [
+        {
+          "version": "0.1.7",
+          "paths": [
+            "indexer>envio>express>path-to-regexp"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1101850,
+      "title": "path-to-regexp outputs backtracking regular expressions",
+      "module_name": "path-to-regexp",
+      "vulnerable_versions": "<0.1.10",
+      "patched_versions": ">=0.1.10",
+      "severity": "high",
+      "cwe": "CWE-1333",
+      "github_advisory_id": "GHSA-9wv6-86v2-598j",
+      "url": "https://github.com/advisories/GHSA-9wv6-86v2-598j"
+    },
+    "1103907": {
+      "findings": [
+        {
+          "version": "0.6.0",
+          "paths": [
+            "indexer>envio>express>cookie"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1103907,
+      "title": "cookie accepts cookie name, path, and domain with out of bounds characters",
+      "module_name": "cookie",
+      "vulnerable_versions": "<0.7.0",
+      "patched_versions": ">=0.7.0",
+      "severity": "low",
+      "cwe": "CWE-74",
+      "github_advisory_id": "GHSA-pxg6-pf52-xh8x",
+      "url": "https://github.com/advisories/GHSA-pxg6-pf52-xh8x"
+    },
+    "1105199": {
+      "findings": [
+        {
+          "version": "0.1.7",
+          "paths": [
+            "indexer>envio>express>path-to-regexp"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1105199,
+      "title": "path-to-regexp contains a ReDoS",
+      "module_name": "path-to-regexp",
+      "vulnerable_versions": "<0.1.12",
+      "patched_versions": ">=0.1.12",
+      "severity": "high",
+      "cwe": "CWE-1333",
+      "github_advisory_id": "GHSA-rhx6-c78j-4q9w",
+      "url": "https://github.com/advisories/GHSA-rhx6-c78j-4q9w"
+    },
+    "1109556": {
+      "findings": [
+        {
+          "version": "0.18.0",
+          "paths": [
+            "indexer>envio>express>send",
+            "indexer>envio>express>serve-static>send"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1109556,
+      "title": "send vulnerable to template injection that can lead to XSS",
+      "module_name": "send",
+      "vulnerable_versions": "<0.19.0",
+      "patched_versions": ">=0.19.0",
+      "severity": "low",
+      "cwe": "CWE-79",
+      "github_advisory_id": "GHSA-m6fv-jmcg-4jfg",
+      "url": "https://github.com/advisories/GHSA-m6fv-jmcg-4jfg"
+    },
+    "1113161": {
+      "findings": [
+        {
+          "version": "6.11.0",
+          "paths": [
+            "indexer>envio>express>body-parser>qs",
+            "indexer>envio>express>qs"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1113161,
+      "title": "qs's arrayLimit bypass in comma parsing allows denial of service",
+      "module_name": "qs",
+      "vulnerable_versions": ">=6.7.0 <=6.14.1",
+      "patched_versions": ">=6.14.2",
+      "severity": "low",
+      "cwe": "CWE-20",
+      "github_advisory_id": "GHSA-w7fw-mjwx-w883",
+      "url": "https://github.com/advisories/GHSA-w7fw-mjwx-w883"
+    },
+    "1113719": {
+      "findings": [
+        {
+          "version": "6.11.0",
+          "paths": [
+            "indexer>envio>express>body-parser>qs",
+            "indexer>envio>express>qs"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1113719,
+      "title": "qs's arrayLimit bypass in its bracket notation allows DoS via memory exhaustion",
+      "module_name": "qs",
+      "vulnerable_versions": "<6.14.1",
+      "patched_versions": ">=6.14.1",
+      "severity": "moderate",
+      "cwe": "CWE-20",
+      "github_advisory_id": "GHSA-6rw7-vpxm-498p",
+      "url": "https://github.com/advisories/GHSA-6rw7-vpxm-498p"
+    },
+    "1115527": {
+      "findings": [
+        {
+          "version": "0.1.7",
+          "paths": [
+            "indexer>envio>express>path-to-regexp"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1115527,
+      "title": "path-to-regexp vulnerable to Regular Expression Denial of Service via multiple route parameters",
+      "module_name": "path-to-regexp",
+      "vulnerable_versions": "<0.1.13",
+      "patched_versions": ">=0.1.13",
+      "severity": "high",
+      "cwe": "CWE-1333",
+      "github_advisory_id": "GHSA-37ch-88jc-xwx2",
+      "url": "https://github.com/advisories/GHSA-37ch-88jc-xwx2"
+    },
+    "1123259": {
+      "findings": [
+        {
+          "version": "8.20.1",
+          "paths": [
+            "indexer>envio>viem>isows>ws",
+            "indexer>envio>viem>ws"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1123259,
+      "title": "ws: Memory exhaustion DoS from tiny fragments and data chunks",
+      "module_name": "ws",
+      "vulnerable_versions": ">=8.0.0 <8.21.0",
+      "patched_versions": ">=8.21.0",
+      "severity": "high",
+      "cwe": "CWE-400, CWE-770, CWE-1050",
+      "github_advisory_id": "GHSA-96hv-2xvq-fx4p",
+      "url": "https://github.com/advisories/GHSA-96hv-2xvq-fx4p"
+    },
+    "1123977": {
+      "findings": [
+        {
+          "version": "1.20.2",
+          "paths": [
+            "indexer>envio>express>body-parser"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1123977,
+      "title": "body-parser vulnerable to denial of service when invalid limit value silently disables size enforcement",
+      "module_name": "body-parser",
+      "vulnerable_versions": "<1.20.6",
+      "patched_versions": ">=1.20.6",
+      "severity": "low",
+      "cwe": "CWE-770",
+      "github_advisory_id": "GHSA-v422-hmwv-36x6",
+      "url": "https://github.com/advisories/GHSA-v422-hmwv-36x6"
+    },
+    "1158507": {
+      "findings": [
+        {
+          "version": "6.11.0",
+          "paths": [
+            "indexer>envio>express>body-parser>qs",
+            "indexer>envio>express>qs"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1158507,
+      "title": "qs: Denial of Service via Attacker Controlled isBuffer",
+      "module_name": "qs",
+      "vulnerable_versions": ">=2.2.5 <6.16.0",
+      "patched_versions": ">=6.16.0",
+      "severity": "moderate",
+      "cwe": "CWE-248, CWE-703",
+      "github_advisory_id": "GHSA-4mjr-xmp4-gh2g",
+      "url": "https://github.com/advisories/GHSA-4mjr-xmp4-gh2g"
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 6,
+      "moderate": 2,
+      "high": 5,
+      "critical": 0
+    },
+    "dependencies": 166,
+    "devDependencies": 128,
+    "optionalDependencies": 119,
+    "totalDependencies": 337
+  }
+}

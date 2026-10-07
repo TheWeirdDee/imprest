@@ -1,0 +1,58 @@
+{
+  "id": "TESTNET_DEPLOY_IMPRESTPOOL",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T15:51:37Z",
+  "git_commit": "5ce3af63b30ed835c84e7eeff2021e93be595892",
+  "operation": "deploy",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0x5e132b6b1dc9db6e744481054ac689872d5d1c9f913e3a2bb45845985ab07625",
+  "block_number": 69010507,
+  "contract": "0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457",
+  "contract_name": "ImprestPool",
+  "address": "0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457",
+  "deployer": "0xba71146cbc0db5236a28da46ec40cc04a093283f",
+  "explorer_url": "https://testnet.monadscan.com/address/0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457",
+  "inputs": {
+    "constructor_arguments": [
+      "0xa9012a055bd4e0eDfF8Ce09f960291C09D5322dC",
+      "0xbA71146CBc0dB5236A28Da46eC40Cc04A093283f",
+      "0xf9f4653957bAdCBf6C7C421C6DD8767F43dA3BdB",
+      "86400"
+    ],
+    "compiler": "solc 0.8.28, optimizer 200, via-IR, evm cancun"
+  },
+  "outputs": {
+    "abi_sha256": "082336a5edebd99202a728cb65d4ef920154e5a8bcd9261328c0fa5816482b2f",
+    "compiled_runtime_sha256": "ac0c93756432cd12765f7039b9948e827b7432b75032a165b3fd7151ac2e18b7"
+  },
+  "verification": {
+    "method": "receipt + code read on two independent RPCs; runtime compared to compiled bytecode with immutables masked",
+    "readbacks": [
+      {
+        "rpc": "https://testnet-rpc.monad.xyz",
+        "status": "success",
+        "blockNumber": 69010507,
+        "contractAddress": "0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457",
+        "from": "0xba71146cbc0db5236a28da46ec40cc04a093283f",
+        "codeSha256": "d07c12ff2797011468fb088547d86a77ce0e41ed5cac40e8a44f8d9c227b71b2",
+        "maskedMatches": true,
+        "timestamp": 1791388297
+      },
+      {
+        "rpc": "https://rpc-testnet.monadinfra.com",
+        "status": "success",
+        "blockNumber": 69010507,
+        "contractAddress": "0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457",
+        "from": "0xba71146cbc0db5236a28da46ec40cc04a093283f",
+        "codeSha256": "d07c12ff2797011468fb088547d86a77ce0e41ed5cac40e8a44f8d9c227b71b2",
+        "maskedMatches": true,
+        "timestamp": 1791388297
+      }
+    ],
+    "readbacks_agree": true,
+    "source_verification": "PENDING (Monadscan API key: owner action)"
+  },
+  "notes": ""
+}

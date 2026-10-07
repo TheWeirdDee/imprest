@@ -39,15 +39,18 @@ contracts:
       - event: PositionLiquidated
 chains:
   - id: 10143
-    start_block: 0
+    start_block: 69010507
     rpc:
       - url: https://testnet-rpc.monad.xyz
-        for: fallback
+        for: sync
+        # Monad public RPCs cap eth_getLogs at 100 blocks per call.
+        initial_block_interval: 100
+        interval_ceiling: 100
     contracts:
       - name: DeskFactory
-        address: 0x0000000000000000000000000000000000000000
+        address: 0x1569ee4a7210e226db932b5b7633e63d3ac8c544
       - name: ImprestPool
-        address: 0x0000000000000000000000000000000000000000
+        address: 0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457
       - name: Desk
       - name: PerplExchange
         address: 0x1964C32f0bE608E7D29302AFF5E61268E72080cc

@@ -8,7 +8,8 @@ real Perpl desk several times larger, funded by an LP pool. The desk contract ow
 Perpl account, checks and stamps every order, re-checks equity after the fill in the same
 transaction, and pays realized profit above the high-water mark by contract.
 
-> Built for Monad Metropolis, Track 1 (Onchain Finance & Trading). Status: **testnet build**.
+> Built for Monad Metropolis, Track 1 (Onchain Finance & Trading). Status: **live on Monad testnet**
+> (ImprestPool `0x85fFff6B1e8e62d2cE8ACA45B69AE530C6FbF457`, DeskFactory `0x1569EE4A7210e226db932B5B7633E63d3AC8c544`).
 > Nothing on mainnet is claimed. See [docs/FINAL_STATUS.md](docs/FINAL_STATUS.md).
 
 ## The mechanism
@@ -45,7 +46,8 @@ Generated from evidence; full list in [docs/CLAIM_LEDGER.md](docs/CLAIM_LEDGER.m
 | Perpl whitelisting is off; testnet margins in Agora AUSD; account minimums | TESTNET_VERIFIED / MAINNET_VERIFIED (read-only, two RPCs) |
 | Paired long/short self-attack: 15% gap costs the pool 206.40 AUSD without an effective desk cap, ~0 with a 2x-desk cap | LOCAL_REPRODUCTION |
 | Pre-registered replay: in-transaction enforcement vs a 1 s keeper, median overshoot gap **0.0 bps** (n = 51): **null threshold hit, headline dropped** | SIMULATED |
-| Testnet deployment, canonical testnet run, mainnet payouts, real traders | **PENDING** |
+| Deployed on Monad testnet; a 6x order sent straight to the desk was mined and reverted `LeverageExceeded`; a real Perpl trade opened and closed; desk closed with a 99.95 AUSD payout verified on a second RPC | **TESTNET_VERIFIED** |
+| Testnet graduation and profit claim (market-dependent), mainnet payouts, real traders | **PENDING** |
 
 ## Repository
 

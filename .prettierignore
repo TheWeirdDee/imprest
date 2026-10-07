@@ -1,0 +1,7 @@
+contracts/lib
+contracts/out
+contracts/perpl-artifacts
+node_modules
+pnpm-lock.yaml
+proof/receipts
+proof/experiments

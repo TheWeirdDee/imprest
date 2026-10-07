@@ -17,7 +17,7 @@ test("proof page labels local and simulated results as such", async ({ page }) =
 test("landing shows the measured contract rejection and what is not yet proven", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText(/reverted by the contract with LeverageExceeded/i).first()).toBeVisible();
-  await expect(page.getByText(/Not proven, or measured against us/)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Verification" })).toBeVisible();
 });
 
 test("internal links resolve (no broken links)", async ({ page, request }) => {

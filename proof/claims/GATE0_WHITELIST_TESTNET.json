@@ -1,0 +1,20 @@
+{
+  "value": false,
+  "unit": "whitelistingEnabled()",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": "0x1964C32f0bE608E7D29302AFF5E61268E72080cc",
+  "evidence": [
+    "proof/receipts/testnet/gate0.json"
+  ],
+  "transaction_hash": null,
+  "block_number": 69010396,
+  "timestamp_utc": "2026-10-07T15:51:04Z",
+  "sample_size": null,
+  "denominator": null,
+  "claim_id": "GATE0_WHITELIST_TESTNET",
+  "statement": "Perpl's exchange on Monad Testnet has whitelisting disabled, so a desk contract can open its own account without a whitelist step",
+  "status": "TESTNET_VERIFIED",
+  "methodology": "read-only eth_call at a pinned block on two independent RPC providers; readbacks agree",
+  "source": "scripts/src/gate0.ts"
+}

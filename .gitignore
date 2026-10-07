@@ -1,0 +1,40 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+keystore/
+# internal strategy (PRD build contract: gitignored)
+internal/
+# deps / builds
+node_modules/
+.next/
+dist/
+out/
+build/
+.turbo/
+coverage/
+*.tsbuildinfo
+.expo/
+# foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/*/31337/
+# envio
+indexer/generated/
+indexer/.envio/
+# playwright
+web/test-results/
+web/playwright-report/
+# python
+__pycache__/
+*.pyc
+.venv/
+# os
+.DS_Store
+Thumbs.db
+
+# replay raw data (re-fetch with proof/experiments/replay/fetch_data.py; hashes in MANIFEST.json)
+proof/experiments/replay/data/*.zip
+.secrets/

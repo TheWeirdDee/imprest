@@ -1,0 +1,22 @@
+{
+  "value": "0 bps median gap (n=51); null threshold hit, overshoot headline dropped",
+  "unit": "bps of desk equity",
+  "network": "simulation on real Binance spot price history",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/experiments/replay/results.json",
+    "proof/experiments/replay/PROTOCOL.md",
+    "proof/experiments/replay/data/MANIFEST.json"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:03:13Z",
+  "sample_size": 51,
+  "denominator": "replayed breach windows (protocol target up to 100)",
+  "claim_id": "REPLAY_ATOMIC_VS_KEEPER_OVERSHOOT",
+  "statement": "Median overshoot past the floor: in-transaction enforcement vs a 1 s keeper, on replayed real BTC/ETH 1-second history (pre-registered protocol; null threshold 10 bps)",
+  "status": "SIMULATED",
+  "methodology": "Python simulation of PROTOCOL.md on real Binance 1 s BTC/ETH history; not the Perpl-bytecode harness. Breaches per arm: treatment 48, 1 s 48, 5 s 48, 10 s 48; max overshoot treatment 94.624 bps vs 10 s keeper 150.866 bps; pool loss beyond stake 0 in every arm.",
+  "source": "proof/experiments/replay/replay.py"
+}

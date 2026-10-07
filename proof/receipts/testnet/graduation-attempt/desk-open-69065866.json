@@ -1,0 +1,24 @@
+{
+  "id": "TESTNET_GRADUATION_ATTEMPT_DESK_OPEN",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T20:30:16Z",
+  "git_commit": null,
+  "operation": "open_desk",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0x237b87ab70377a0e15ea7f492e1c6dd1eed73f8fd31fd89c116891f1955230ad",
+  "block_number": 69065866,
+  "contract": "0xfc653827479A9D96d197785de22db581FF5dFCC6",
+  "explorer_url": null,
+  "inputs": {
+    "stake": "100000000",
+    "cohort": "demo-v0"
+  },
+  "outputs": {},
+  "verification": {
+    "method": "receipt on primary RPC",
+    "receiptStatus": "success"
+  },
+  "notes": "Desk for the honest graduation attempt."
+}

@@ -1,0 +1,405 @@
+{
+  "status": "LOCAL_REPRODUCTION",
+  "generated_utc": "2026-10-07T15:27:11Z",
+  "python": "3.12.10",
+  "cases": 26,
+  "failures": 0,
+  "gate": "PASS",
+  "method": "Independent Fraction-based model of PRD v3 rules vs outputs observed from real desk executions on Perpl exchange bytecode rc_v1.1.7-203.",
+  "results": {
+    "accrual": [
+      {
+        "case": 0,
+        "model": 558393,
+        "contract": 558393,
+        "match": true
+      },
+      {
+        "case": 1,
+        "model": 754312,
+        "contract": 754312,
+        "match": true
+      },
+      {
+        "case": 2,
+        "model": 1707106,
+        "contract": 1707106,
+        "match": true
+      },
+      {
+        "case": 3,
+        "model": 1052699,
+        "contract": 1052699,
+        "match": true
+      },
+      {
+        "case": 4,
+        "model": 0,
+        "contract": 0,
+        "match": true
+      },
+      {
+        "case": 5,
+        "model": 632615,
+        "contract": 632615,
+        "match": true
+      }
+    ],
+    "claims": [
+      {
+        "case": 0,
+        "match": true,
+        "fields": {
+          "trader": {
+            "model": 8998440,
+            "contract": 8998440
+          },
+          "protocol": {
+            "model": 562402,
+            "contract": 562402
+          },
+          "pool_fees": {
+            "model": 579976,
+            "contract": 579976
+          },
+          "pool_share": {
+            "model": 1687209,
+            "contract": 1687209
+          }
+        }
+      },
+      {
+        "case": 1,
+        "match": true,
+        "fields": {
+          "trader": {
+            "model": 13930803,
+            "contract": 13930803
+          },
+          "protocol": {
+            "model": 870675,
+            "contract": 870675
+          },
+          "pool_fees": {
+            "model": 448527,
+            "contract": 448527
+          },
+          "pool_share": {
+            "model": 2612026,
+            "contract": 2612026
+          }
+        }
+      },
+      {
+        "case": 2,
+        "match": true,
+        "fields": {
+          "trader": {
+            "model": 7526242,
+            "contract": 7526242
+          },
+          "protocol": {
+            "model": 470390,
+            "contract": 470390
+          },
+          "pool_fees": {
+            "model": 26520,
+            "contract": 26520
+          },
+          "pool_share": {
+            "model": 1411171,
+            "contract": 1411171
+          }
+        }
+      },
+      {
+        "case": 3,
+        "match": true,
+        "fields": {
+          "trader": {
+            "model": 6084207,
+            "contract": 6084207
+          },
+          "protocol": {
+            "model": 380262,
+            "contract": 380262
+          },
+          "pool_fees": {
+            "model": 305925,
+            "contract": 305925
+          },
+          "pool_share": {
+            "model": 1140790,
+            "contract": 1140790
+          }
+        }
+      },
+      {
+        "case": 4,
+        "match": true,
+        "fields": {
+          "trader": {
+            "model": 2491091,
+            "contract": 2491091
+          },
+          "protocol": {
+            "model": 155693,
+            "contract": 155693
+          },
+          "pool_fees": {
+            "model": 312581,
+            "contract": 312581
+          },
+          "pool_share": {
+            "model": 467080,
+            "contract": 467080
+          }
+        }
+      },
+      {
+        "case": 5,
+        "match": true,
+        "fields": {
+          "trader": {
+            "model": 8682916,
+            "contract": 8682916
+          },
+          "protocol": {
+            "model": 542682,
+            "contract": 542682
+          },
+          "pool_fees": {
+            "model": 132576,
+            "contract": 132576
+          },
+          "pool_share": {
+            "model": 1628047,
+            "contract": 1628047
+          }
+        }
+      }
+    ],
+    "settlements": [
+      {
+        "case": 0,
+        "match": true,
+        "cash_conserved": true,
+        "fields": {
+          "pool_in": {
+            "model": 377393747,
+            "contract": 377393747
+          },
+          "keeper": {
+            "model": 0,
+            "contract": 0
+          },
+          "trader": {
+            "model": 0,
+            "contract": 0
+          },
+          "principal_loss": {
+            "model": 22606253,
+            "contract": 22606253
+          },
+          "fees_written_off": {
+            "model": 366335,
+            "contract": 366335
+          },
+          "fees_collected": {
+            "model": 0,
+            "contract": 0
+          }
+        }
+      },
+      {
+        "case": 1,
+        "match": true,
+        "cash_conserved": true,
+        "fields": {
+          "pool_in": {
+            "model": 374905822,
+            "contract": 374905822
+          },
+          "keeper": {
+            "model": 0,
+            "contract": 0
+          },
+          "trader": {
+            "model": 0,
+            "contract": 0
+          },
+          "principal_loss": {
+            "model": 25094178,
+            "contract": 25094178
+          },
+          "fees_written_off": {
+            "model": 186763,
+            "contract": 186763
+          },
+          "fees_collected": {
+            "model": 0,
+            "contract": 0
+          }
+        }
+      },
+      {
+        "case": 2,
+        "match": true,
+        "cash_conserved": true,
+        "fields": {
+          "pool_in": {
+            "model": 400519812,
+            "contract": 400519812
+          },
+          "keeper": {
+            "model": 500000,
+            "contract": 500000
+          },
+          "trader": {
+            "model": 10704107,
+            "contract": 10704107
+          },
+          "principal_loss": {
+            "model": 0,
+            "contract": 0
+          },
+          "fees_written_off": {
+            "model": 0,
+            "contract": 0
+          },
+          "fees_collected": {
+            "model": 519812,
+            "contract": 519812
+          }
+        }
+      },
+      {
+        "case": 3,
+        "match": true,
+        "cash_conserved": true,
+        "fields": {
+          "pool_in": {
+            "model": 400377826,
+            "contract": 400377826
+          },
+          "keeper": {
+            "model": 500000,
+            "contract": 500000
+          },
+          "trader": {
+            "model": 44741616,
+            "contract": 44741616
+          },
+          "principal_loss": {
+            "model": 0,
+            "contract": 0
+          },
+          "fees_written_off": {
+            "model": 0,
+            "contract": 0
+          },
+          "fees_collected": {
+            "model": 377826,
+            "contract": 377826
+          }
+        }
+      },
+      {
+        "case": 4,
+        "match": true,
+        "cash_conserved": true,
+        "fields": {
+          "pool_in": {
+            "model": 400552141,
+            "contract": 400552141
+          },
+          "keeper": {
+            "model": 500000,
+            "contract": 500000
+          },
+          "trader": {
+            "model": 22110796,
+            "contract": 22110796
+          },
+          "principal_loss": {
+            "model": 0,
+            "contract": 0
+          },
+          "fees_written_off": {
+            "model": 0,
+            "contract": 0
+          },
+          "fees_collected": {
+            "model": 552141,
+            "contract": 552141
+          }
+        }
+      },
+      {
+        "case": 5,
+        "match": true,
+        "cash_conserved": true,
+        "fields": {
+          "pool_in": {
+            "model": 400276442,
+            "contract": 400276442
+          },
+          "keeper": {
+            "model": 500000,
+            "contract": 500000
+          },
+          "trader": {
+            "model": 1120571,
+            "contract": 1120571
+          },
+          "principal_loss": {
+            "model": 0,
+            "contract": 0
+          },
+          "fees_written_off": {
+            "model": 0,
+            "contract": 0
+          },
+          "fees_collected": {
+            "model": 276442,
+            "contract": 276442
+          }
+        }
+      }
+    ],
+    "paired_desk_identities": [
+      {
+        "scenario": "calm_cap2500",
+        "match": true
+      },
+      {
+        "scenario": "gap15pct_cap1000",
+        "match": true
+      },
+      {
+        "scenario": "gap15pct_cap1500",
+        "match": true
+      },
+      {
+        "scenario": "gap15pct_cap2500",
+        "match": true
+      },
+      {
+        "scenario": "gap8pct_cap2500",
+        "match": true
+      },
+      {
+        "scenario": "gapdown15pct_cap2500",
+        "match": true
+      },
+      {
+        "scenario": "trend3pct_atomic_keeper_cap2500",
+        "match": true
+      },
+      {
+        "scenario": "trend3pct_delayed_keeper_cap2500",
+        "match": true
+      }
+    ]
+  }
+}

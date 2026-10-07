@@ -1,0 +1,15 @@
+{
+  "name": "@imprest/indexer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "gen-config": "node scripts/gen-config.mjs",
+    "codegen": "pnpm gen-config && envio codegen",
+    "dev": "pnpm gen-config && envio dev",
+    "start": "pnpm gen-config && envio start",
+    "validate-config": "node scripts/validate-config.mjs"
+  },
+  "dependencies": { "envio": "3.14.0" },
+  "devDependencies": { "typescript": "^5.9.3", "ajv": "^8.17.1", "yaml": "^2.8.1" }
+}

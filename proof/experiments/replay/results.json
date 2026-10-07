@@ -1,0 +1,2650 @@
+{
+ "status": "SIMULATED",
+ "label": "Python simulation of PROTOCOL.md on real Binance 1 s BTC/ETH history; not the Perpl-bytecode harness",
+ "generated_utc": "2026-10-07T15:03:13Z",
+ "protocol": "proof/experiments/replay/PROTOCOL.md",
+ "data_manifest": "proof/experiments/replay/data/MANIFEST.json",
+ "data_files": 28,
+ "candidate_windows": 51,
+ "candidates_by_class": {
+  "gapping": 5,
+  "trending": 30,
+  "calm": 16
+ },
+ "windows": 51,
+ "windows_by_class": {
+  "gapping": 5,
+  "trending": 30,
+  "calm": 16
+ },
+ "summary": {
+  "treatment": {
+   "breaches": 48,
+   "median_overshoot_bps": 24.917,
+   "p90_overshoot_bps": 44.788,
+   "max_overshoot_bps": 94.624,
+   "mean_overshoot_bps": 26.144,
+   "total_pool_loss_beyond_stake": 0.0,
+   "windows_with_pool_loss": 0
+  },
+  "keeper_1s": {
+   "breaches": 48,
+   "median_overshoot_bps": 24.917,
+   "p90_overshoot_bps": 44.788,
+   "max_overshoot_bps": 94.624,
+   "mean_overshoot_bps": 26.144,
+   "total_pool_loss_beyond_stake": 0.0,
+   "windows_with_pool_loss": 0
+  },
+  "keeper_5s": {
+   "breaches": 48,
+   "median_overshoot_bps": 23.474,
+   "p90_overshoot_bps": 71.703,
+   "max_overshoot_bps": 142.975,
+   "mean_overshoot_bps": 27.175,
+   "total_pool_loss_beyond_stake": 0.0,
+   "windows_with_pool_loss": 0
+  },
+  "keeper_10s": {
+   "breaches": 48,
+   "median_overshoot_bps": 24.634,
+   "p90_overshoot_bps": 69.506,
+   "max_overshoot_bps": 150.866,
+   "mean_overshoot_bps": 31.598,
+   "total_pool_loss_beyond_stake": 0.0,
+   "windows_with_pool_loss": 0
+  }
+ },
+ "overshoot_gap_vs_treatment": {
+  "keeper_1s": {
+   "median_gap_bps": 0.0,
+   "mean_gap_bps": 0.0
+  },
+  "keeper_5s": {
+   "median_gap_bps": -0.165,
+   "mean_gap_bps": 1.031
+  },
+  "keeper_10s": {
+   "median_gap_bps": 0.0,
+   "mean_gap_bps": 5.454
+  }
+ },
+ "by_class": {
+  "gapping": {
+   "n": 5,
+   "median_gap_vs_1s_bps": 0.0,
+   "median_overshoot_treatment_bps": 10.506,
+   "median_overshoot_keeper_1s_bps": 10.506
+  },
+  "trending": {
+   "n": 30,
+   "median_gap_vs_1s_bps": 0.0,
+   "median_overshoot_treatment_bps": 25.395,
+   "median_overshoot_keeper_1s_bps": 25.395
+  },
+  "calm": {
+   "n": 16,
+   "median_gap_vs_1s_bps": 0.0,
+   "median_overshoot_treatment_bps": 26.966,
+   "median_overshoot_keeper_1s_bps": 26.966
+  }
+ },
+ "null_threshold_bps": 10,
+ "median_gap_vs_1s_keeper_bps": 0.0,
+ "decision": "NULL_THRESHOLD_HIT: drop the atomic-enforcement overshoot headline",
+ "rows": [
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-17T11:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01433,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3518,
+    "close_second": 3519,
+    "equity_at_close": 468.706379,
+    "overshoot_bps": 25.8724,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.124
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3518,
+    "close_second": 3519,
+    "equity_at_close": 468.706379,
+    "overshoot_bps": 25.8724,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.124
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3518,
+    "close_second": 3523,
+    "equity_at_close": 469.471145,
+    "overshoot_bps": 10.5771,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.3596
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3518,
+    "close_second": 3528,
+    "equity_at_close": 469.056513,
+    "overshoot_bps": 18.8697,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.774
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-17T12:00:00Z",
+   "side": "short",
+   "class": "calm",
+   "adverse_excursion": 0.01531,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1839,
+    "close_second": 1840,
+    "equity_at_close": 468.629743,
+    "overshoot_bps": 27.4051,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.0827
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1839,
+    "close_second": 1840,
+    "equity_at_close": 468.629743,
+    "overshoot_bps": 27.4051,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.0827
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1839,
+    "close_second": 1844,
+    "equity_at_close": 465.779913,
+    "overshoot_bps": 84.4017,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2277.9313
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1839,
+    "close_second": 1849,
+    "equity_at_close": 465.163982,
+    "overshoot_bps": 96.7204,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2278.547
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-18T13:00:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.03148,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2443,
+    "close_second": 2444,
+    "equity_at_close": 468.029172,
+    "overshoot_bps": 39.4166,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.7563
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2443,
+    "close_second": 2444,
+    "equity_at_close": 468.029172,
+    "overshoot_bps": 39.4166,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.7563
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2443,
+    "close_second": 2448,
+    "equity_at_close": 466.37412,
+    "overshoot_bps": 72.5176,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2277.4106
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2443,
+    "close_second": 2453,
+    "equity_at_close": 468.726929,
+    "overshoot_bps": 25.4614,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.0588
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-18T13:00:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.03028,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2448,
+    "close_second": 2449,
+    "equity_at_close": 469.262907,
+    "overshoot_bps": 14.7419,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.5808
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2448,
+    "close_second": 2449,
+    "equity_at_close": 469.262907,
+    "overshoot_bps": 14.7419,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.5808
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2448,
+    "close_second": 2453,
+    "equity_at_close": 470.743706,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.1006
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2448,
+    "close_second": 2458,
+    "equity_at_close": 474.728401,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2269.1177
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-18T13:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.03597,
+   "treatment": {
+    "breach": true,
+    "breach_second": 844,
+    "close_second": 845,
+    "equity_at_close": 468.75416,
+    "overshoot_bps": 24.9168,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.7584
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 844,
+    "close_second": 845,
+    "equity_at_close": 468.75416,
+    "overshoot_bps": 24.9168,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.7584
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 844,
+    "close_second": 849,
+    "equity_at_close": 469.284035,
+    "overshoot_bps": 14.3193,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.2287
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 844,
+    "close_second": 854,
+    "equity_at_close": 468.779721,
+    "overshoot_bps": 24.4056,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.7328
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-18T13:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.0309,
+   "treatment": {
+    "breach": true,
+    "breach_second": 971,
+    "close_second": 972,
+    "equity_at_close": 467.904786,
+    "overshoot_bps": 41.9043,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.9162
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 971,
+    "close_second": 972,
+    "equity_at_close": 467.904786,
+    "overshoot_bps": 41.9043,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.9162
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 971,
+    "close_second": 976,
+    "equity_at_close": 468.155708,
+    "overshoot_bps": 36.8858,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.6654
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 971,
+    "close_second": 981,
+    "equity_at_close": 466.524715,
+    "overshoot_bps": 69.5057,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2277.2956
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-19T08:00:00Z",
+   "side": "short",
+   "class": "calm",
+   "adverse_excursion": 0.01338,
+   "treatment": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_1s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_5s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_10s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-20T02:00:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.02033,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3245,
+    "close_second": 3246,
+    "equity_at_close": 468.052036,
+    "overshoot_bps": 38.9593,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.4062
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3245,
+    "close_second": 3246,
+    "equity_at_close": 468.052036,
+    "overshoot_bps": 38.9593,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.4062
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3245,
+    "close_second": 3250,
+    "equity_at_close": 468.549191,
+    "overshoot_bps": 29.0162,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9036
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3245,
+    "close_second": 3255,
+    "equity_at_close": 468.574906,
+    "overshoot_bps": 28.5019,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9293
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-20T02:30:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01901,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1582,
+    "close_second": 1583,
+    "equity_at_close": 467.877728,
+    "overshoot_bps": 42.4454,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.2076
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1582,
+    "close_second": 1583,
+    "equity_at_close": 467.877728,
+    "overshoot_bps": 42.4454,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.2076
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1582,
+    "close_second": 1587,
+    "equity_at_close": 467.989404,
+    "overshoot_bps": 40.2119,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.3193
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1582,
+    "close_second": 1592,
+    "equity_at_close": 467.078813,
+    "overshoot_bps": 58.4237,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.4083
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-20T15:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01365,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2517,
+    "close_second": 2518,
+    "equity_at_close": 468.914135,
+    "overshoot_bps": 21.7173,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.9471
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2517,
+    "close_second": 2518,
+    "equity_at_close": 468.914135,
+    "overshoot_bps": 21.7173,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.9471
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2517,
+    "close_second": 2522,
+    "equity_at_close": 470.568188,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.2938
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2517,
+    "close_second": 2527,
+    "equity_at_close": 470.178489,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.6833
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-20T16:00:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01329,
+   "treatment": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_1s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_5s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_10s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-21T00:00:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.02368,
+   "treatment": {
+    "breach": true,
+    "breach_second": 802,
+    "close_second": 803,
+    "equity_at_close": 467.742883,
+    "overshoot_bps": 45.1423,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.7544
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 802,
+    "close_second": 803,
+    "equity_at_close": 467.742883,
+    "overshoot_bps": 45.1423,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.7544
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 802,
+    "close_second": 807,
+    "equity_at_close": 470.085664,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.4126
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 802,
+    "close_second": 812,
+    "equity_at_close": 469.635782,
+    "overshoot_bps": 7.2844,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.8623
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-21T01:00:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01691,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3299,
+    "close_second": 3300,
+    "equity_at_close": 468.909234,
+    "overshoot_bps": 21.8153,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.0561
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3299,
+    "close_second": 3300,
+    "equity_at_close": 468.909234,
+    "overshoot_bps": 21.8153,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.0561
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3299,
+    "close_second": 3304,
+    "equity_at_close": 469.719171,
+    "overshoot_bps": 5.6166,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.8664
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3299,
+    "close_second": 3309,
+    "equity_at_close": 468.842435,
+    "overshoot_bps": 23.1513,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9893
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-21T08:00:00Z",
+   "side": "short",
+   "class": "gapping",
+   "adverse_excursion": 0.03003,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2192,
+    "close_second": 2193,
+    "equity_at_close": 469.474692,
+    "overshoot_bps": 10.5062,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.2585
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2192,
+    "close_second": 2193,
+    "equity_at_close": 469.474692,
+    "overshoot_bps": 10.5062,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.2585
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2192,
+    "close_second": 2197,
+    "equity_at_close": 470.486434,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.2472
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2192,
+    "close_second": 2202,
+    "equity_at_close": 471.413269,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2272.3207
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-21T08:00:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01948,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2299,
+    "close_second": 2300,
+    "equity_at_close": 468.451937,
+    "overshoot_bps": 30.9613,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.3989
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2299,
+    "close_second": 2300,
+    "equity_at_close": 468.451937,
+    "overshoot_bps": 30.9613,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.3989
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2299,
+    "close_second": 2304,
+    "equity_at_close": 470.173327,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.6783
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2299,
+    "close_second": 2309,
+    "equity_at_close": 466.258009,
+    "overshoot_bps": 74.8398,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2277.5919
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-21T08:30:00Z",
+   "side": "short",
+   "class": "gapping",
+   "adverse_excursion": 0.0287,
+   "treatment": {
+    "breach": true,
+    "breach_second": 508,
+    "close_second": 509,
+    "equity_at_close": 465.268807,
+    "overshoot_bps": 94.6239,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2278.4898
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 508,
+    "close_second": 509,
+    "equity_at_close": 465.268807,
+    "overshoot_bps": 94.6239,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2278.4898
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 508,
+    "close_second": 513,
+    "equity_at_close": 462.851246,
+    "overshoot_bps": 142.9751,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2280.9063
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 508,
+    "close_second": 518,
+    "equity_at_close": 462.456693,
+    "overshoot_bps": 150.8661,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2281.3007
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-21T08:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01515,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3567,
+    "close_second": 3568,
+    "equity_at_close": 469.010136,
+    "overshoot_bps": 19.7973,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.3856
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3567,
+    "close_second": 3568,
+    "equity_at_close": 469.010136,
+    "overshoot_bps": 19.7973,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.3856
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3567,
+    "close_second": 3572,
+    "equity_at_close": 467.293303,
+    "overshoot_bps": 54.1339,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2276.1016
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3567,
+    "close_second": 3577,
+    "equity_at_close": 470.140733,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.2555
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-21T09:00:00Z",
+   "side": "short",
+   "class": "gapping",
+   "adverse_excursion": 0.0181,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2202,
+    "close_second": 2203,
+    "equity_at_close": 470.132489,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.7108
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2202,
+    "close_second": 2203,
+    "equity_at_close": 470.132489,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.7108
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2202,
+    "close_second": 2207,
+    "equity_at_close": 470.89584,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2272.9478
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2202,
+    "close_second": 2212,
+    "equity_at_close": 471.111068,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2272.7327
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-21T09:00:00Z",
+   "side": "short",
+   "class": "calm",
+   "adverse_excursion": 0.01973,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1974,
+    "close_second": 1975,
+    "equity_at_close": 468.463473,
+    "overshoot_bps": 30.7305,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.3879
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1974,
+    "close_second": 1975,
+    "equity_at_close": 468.463473,
+    "overshoot_bps": 30.7305,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.3879
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1974,
+    "close_second": 1979,
+    "equity_at_close": 468.122246,
+    "overshoot_bps": 37.5551,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.729
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1974,
+    "close_second": 1984,
+    "equity_at_close": 467.098565,
+    "overshoot_bps": 58.0287,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.7522
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-21T19:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01503,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3299,
+    "close_second": 3300,
+    "equity_at_close": 469.293265,
+    "overshoot_bps": 14.1347,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.5723
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3299,
+    "close_second": 3300,
+    "equity_at_close": 469.293265,
+    "overshoot_bps": 14.1347,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.5723
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3299,
+    "close_second": 3304,
+    "equity_at_close": 470.194534,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.6714
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3299,
+    "close_second": 3309,
+    "equity_at_close": 470.397523,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.4685
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-21T20:00:00Z",
+   "side": "short",
+   "class": "calm",
+   "adverse_excursion": 0.01611,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1288,
+    "close_second": 1289,
+    "equity_at_close": 467.396633,
+    "overshoot_bps": 52.0673,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2276.3879
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1288,
+    "close_second": 1289,
+    "equity_at_close": 467.396633,
+    "overshoot_bps": 52.0673,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2276.3879
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1288,
+    "close_second": 1293,
+    "equity_at_close": 469.257892,
+    "overshoot_bps": 14.8422,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.5275
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1288,
+    "close_second": 1298,
+    "equity_at_close": 468.778354,
+    "overshoot_bps": 24.4329,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.0068
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-21T20:30:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01462,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2858,
+    "close_second": 2859,
+    "equity_at_close": 468.762196,
+    "overshoot_bps": 24.7561,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.174
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2858,
+    "close_second": 2859,
+    "equity_at_close": 468.762196,
+    "overshoot_bps": 24.7561,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.174
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2858,
+    "close_second": 2863,
+    "equity_at_close": 468.754189,
+    "overshoot_bps": 24.9162,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.166
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2858,
+    "close_second": 2868,
+    "equity_at_close": 468.3138,
+    "overshoot_bps": 33.724,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.7254
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-22T14:00:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01569,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2146,
+    "close_second": 2147,
+    "equity_at_close": 468.491312,
+    "overshoot_bps": 30.1738,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.8046
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2146,
+    "close_second": 2147,
+    "equity_at_close": 468.491312,
+    "overshoot_bps": 30.1738,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.8046
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2146,
+    "close_second": 2151,
+    "equity_at_close": 468.116959,
+    "overshoot_bps": 37.6608,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.4301
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2146,
+    "close_second": 2156,
+    "equity_at_close": 465.073306,
+    "overshoot_bps": 98.5339,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2212.3851
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-23T13:30:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01891,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2987,
+    "close_second": 2988,
+    "equity_at_close": 468.631033,
+    "overshoot_bps": 27.3793,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.7088
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2987,
+    "close_second": 2988,
+    "equity_at_close": 468.631033,
+    "overshoot_bps": 27.3793,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.7088
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2987,
+    "close_second": 2992,
+    "equity_at_close": 468.417377,
+    "overshoot_bps": 31.6525,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.495
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2987,
+    "close_second": 2997,
+    "equity_at_close": 468.41344,
+    "overshoot_bps": 31.7312,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.4911
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-23T13:30:00Z",
+   "side": "long",
+   "class": "gapping",
+   "adverse_excursion": 0.02491,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2476,
+    "close_second": 2477,
+    "equity_at_close": 469.620248,
+    "overshoot_bps": 7.595,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.9412
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2476,
+    "close_second": 2477,
+    "equity_at_close": 469.620248,
+    "overshoot_bps": 7.595,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.9412
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2476,
+    "close_second": 2481,
+    "equity_at_close": 468.826322,
+    "overshoot_bps": 23.4736,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.1469
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2476,
+    "close_second": 2486,
+    "equity_at_close": 467.288091,
+    "overshoot_bps": 54.2382,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.608
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-23T14:00:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.02247,
+   "treatment": {
+    "breach": true,
+    "breach_second": 788,
+    "close_second": 789,
+    "equity_at_close": 468.461764,
+    "overshoot_bps": 30.7647,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.7744
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 788,
+    "close_second": 789,
+    "equity_at_close": 468.461764,
+    "overshoot_bps": 30.7647,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.7744
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 788,
+    "close_second": 793,
+    "equity_at_close": 466.448944,
+    "overshoot_bps": 71.0211,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2213.7607
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 788,
+    "close_second": 798,
+    "equity_at_close": 470.40051,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2217.714
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-23T14:00:00Z",
+   "side": "long",
+   "class": "gapping",
+   "adverse_excursion": 0.0252,
+   "treatment": {
+    "breach": true,
+    "breach_second": 673,
+    "close_second": 674,
+    "equity_at_close": 468.887333,
+    "overshoot_bps": 22.2533,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2313
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 673,
+    "close_second": 674,
+    "equity_at_close": 468.887333,
+    "overshoot_bps": 22.2533,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2313
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 673,
+    "close_second": 678,
+    "equity_at_close": 469.143631,
+    "overshoot_bps": 17.1274,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.4877
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 673,
+    "close_second": 683,
+    "equity_at_close": 468.0523,
+    "overshoot_bps": 38.954,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.3959
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-23T15:30:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01452,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1935,
+    "close_second": 1936,
+    "equity_at_close": 467.663908,
+    "overshoot_bps": 46.7218,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.0109
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1935,
+    "close_second": 1936,
+    "equity_at_close": 467.663908,
+    "overshoot_bps": 46.7218,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.0109
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1935,
+    "close_second": 1940,
+    "equity_at_close": 467.672305,
+    "overshoot_bps": 46.5539,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.0193
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1935,
+    "close_second": 1945,
+    "equity_at_close": 468.595991,
+    "overshoot_bps": 28.0802,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9434
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-24T08:00:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01447,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2989,
+    "close_second": 2990,
+    "equity_at_close": 469.182267,
+    "overshoot_bps": 16.3547,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.3626
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2989,
+    "close_second": 2990,
+    "equity_at_close": 469.182267,
+    "overshoot_bps": 16.3547,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.3626
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2989,
+    "close_second": 2994,
+    "equity_at_close": 468.459141,
+    "overshoot_bps": 30.8172,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.6392
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2989,
+    "close_second": 2999,
+    "equity_at_close": 466.779374,
+    "overshoot_bps": 64.4125,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2213.9587
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-24T08:00:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01411,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2989,
+    "close_second": 2990,
+    "equity_at_close": 468.907168,
+    "overshoot_bps": 21.8566,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2206
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2989,
+    "close_second": 2990,
+    "equity_at_close": 468.907168,
+    "overshoot_bps": 21.8566,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2206
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2989,
+    "close_second": 2994,
+    "equity_at_close": 468.548678,
+    "overshoot_bps": 29.0264,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.862
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2989,
+    "close_second": 2999,
+    "equity_at_close": 467.564915,
+    "overshoot_bps": 48.7017,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.8778
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-24T09:00:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.02606,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2098,
+    "close_second": 2099,
+    "equity_at_close": 468.955724,
+    "overshoot_bps": 20.8855,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2402
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2098,
+    "close_second": 2099,
+    "equity_at_close": 468.955724,
+    "overshoot_bps": 20.8855,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2402
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2098,
+    "close_second": 2103,
+    "equity_at_close": 465.894076,
+    "overshoot_bps": 82.1185,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2213.1771
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2098,
+    "close_second": 2108,
+    "equity_at_close": 465.439875,
+    "overshoot_bps": 91.2025,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2212.7227
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-24T09:30:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.02067,
+   "treatment": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_1s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_5s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   },
+   "keeper_10s": {
+    "breach": false,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-24T13:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.0139,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3548,
+    "close_second": 3549,
+    "equity_at_close": 468.459292,
+    "overshoot_bps": 30.8142,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.2053
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3548,
+    "close_second": 3549,
+    "equity_at_close": 468.459292,
+    "overshoot_bps": 30.8142,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.2053
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3548,
+    "close_second": 3553,
+    "equity_at_close": 469.331703,
+    "overshoot_bps": 13.3659,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.3333
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3548,
+    "close_second": 3558,
+    "equity_at_close": 468.768321,
+    "overshoot_bps": 24.6336,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.8964
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-24T13:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.0138,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3550,
+    "close_second": 3551,
+    "equity_at_close": 469.135616,
+    "overshoot_bps": 17.2877,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.4853
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3550,
+    "close_second": 3551,
+    "equity_at_close": 469.135616,
+    "overshoot_bps": 17.2877,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.4853
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3550,
+    "close_second": 3555,
+    "equity_at_close": 470.452172,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.1694
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3550,
+    "close_second": 3560,
+    "equity_at_close": 469.329724,
+    "overshoot_bps": 13.4055,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.2913
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-24T14:30:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01751,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1345,
+    "close_second": 1346,
+    "equity_at_close": 468.837662,
+    "overshoot_bps": 23.2468,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2335
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1345,
+    "close_second": 1346,
+    "equity_at_close": 468.837662,
+    "overshoot_bps": 23.2468,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2335
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1345,
+    "close_second": 1350,
+    "equity_at_close": 468.123826,
+    "overshoot_bps": 37.5235,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.5193
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1345,
+    "close_second": 1355,
+    "equity_at_close": 467.84443,
+    "overshoot_bps": 43.1114,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.2398
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-24T14:30:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.0182,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1344,
+    "close_second": 1345,
+    "equity_at_close": 468.507779,
+    "overshoot_bps": 29.8444,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.8404
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1344,
+    "close_second": 1345,
+    "equity_at_close": 468.507779,
+    "overshoot_bps": 29.8444,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.8404
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1344,
+    "close_second": 1349,
+    "equity_at_close": 468.007651,
+    "overshoot_bps": 39.847,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.3401
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1344,
+    "close_second": 1354,
+    "equity_at_close": 467.457509,
+    "overshoot_bps": 50.8498,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.7897
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-25T11:30:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01475,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2873,
+    "close_second": 2874,
+    "equity_at_close": 469.412255,
+    "overshoot_bps": 11.7549,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.5522
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2873,
+    "close_second": 2874,
+    "equity_at_close": 469.412255,
+    "overshoot_bps": 11.7549,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.5522
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2873,
+    "close_second": 2878,
+    "equity_at_close": 466.414831,
+    "overshoot_bps": 71.7034,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2213.5534
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2873,
+    "close_second": 2883,
+    "equity_at_close": 467.09831,
+    "overshoot_bps": 58.0338,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.2372
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-25T13:00:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01382,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2830,
+    "close_second": 2831,
+    "equity_at_close": 469.192961,
+    "overshoot_bps": 16.1408,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.5687
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2830,
+    "close_second": 2831,
+    "equity_at_close": 469.192961,
+    "overshoot_bps": 16.1408,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.5687
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2830,
+    "close_second": 2835,
+    "equity_at_close": 471.498432,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2218.8752
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2830,
+    "close_second": 2840,
+    "equity_at_close": 469.531757,
+    "overshoot_bps": 9.3649,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.9076
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-28T14:00:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01448,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3193,
+    "close_second": 3194,
+    "equity_at_close": 467.245645,
+    "overshoot_bps": 55.0871,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.5651
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3193,
+    "close_second": 3194,
+    "equity_at_close": 467.245645,
+    "overshoot_bps": 55.0871,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.5651
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3193,
+    "close_second": 3198,
+    "equity_at_close": 469.966404,
+    "overshoot_bps": 0.6719,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2217.2871
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3193,
+    "close_second": 3203,
+    "equity_at_close": 471.218288,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2218.5396
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-28T15:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01349,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3477,
+    "close_second": 3478,
+    "equity_at_close": 469.240753,
+    "overshoot_bps": 15.1849,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.5103
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3477,
+    "close_second": 3478,
+    "equity_at_close": 469.240753,
+    "overshoot_bps": 15.1849,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.5103
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3477,
+    "close_second": 3482,
+    "equity_at_close": 469.60569,
+    "overshoot_bps": 7.8862,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.1455
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3477,
+    "close_second": 3487,
+    "equity_at_close": 470.173912,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2273.5775
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-29T14:30:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01643,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3242,
+    "close_second": 3243,
+    "equity_at_close": 468.155144,
+    "overshoot_bps": 36.8971,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.5134
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3242,
+    "close_second": 3243,
+    "equity_at_close": 468.155144,
+    "overshoot_bps": 36.8971,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.5134
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3242,
+    "close_second": 3247,
+    "equity_at_close": 469.626838,
+    "overshoot_bps": 7.4632,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.9857
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3242,
+    "close_second": 3252,
+    "equity_at_close": 469.916216,
+    "overshoot_bps": 1.6757,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2217.2752
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-29T15:00:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01568,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1504,
+    "close_second": 1505,
+    "equity_at_close": 469.423639,
+    "overshoot_bps": 11.5272,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.8118
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1504,
+    "close_second": 1505,
+    "equity_at_close": 469.423639,
+    "overshoot_bps": 11.5272,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.8118
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1504,
+    "close_second": 1509,
+    "equity_at_close": 469.100588,
+    "overshoot_bps": 17.9882,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.4886
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1504,
+    "close_second": 1514,
+    "equity_at_close": 469.274538,
+    "overshoot_bps": 14.5092,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.6627
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-30T12:00:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01905,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2455,
+    "close_second": 2456,
+    "equity_at_close": 468.645483,
+    "overshoot_bps": 27.0903,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.2019
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2455,
+    "close_second": 2456,
+    "equity_at_close": 468.645483,
+    "overshoot_bps": 27.0903,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.2019
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2455,
+    "close_second": 2460,
+    "equity_at_close": 469.519496,
+    "overshoot_bps": 9.6101,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.3283
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2455,
+    "close_second": 2465,
+    "equity_at_close": 469.57275,
+    "overshoot_bps": 8.545,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2274.2751
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-30T12:00:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.01527,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2717,
+    "close_second": 2718,
+    "equity_at_close": 468.528291,
+    "overshoot_bps": 29.4342,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.0687
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2717,
+    "close_second": 2718,
+    "equity_at_close": 468.528291,
+    "overshoot_bps": 29.4342,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.0687
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2717,
+    "close_second": 2722,
+    "equity_at_close": 468.103748,
+    "overshoot_bps": 37.925,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.4931
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2717,
+    "close_second": 2727,
+    "equity_at_close": 468.578237,
+    "overshoot_bps": 28.4353,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.0188
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-30T12:30:00Z",
+   "side": "short",
+   "class": "trending",
+   "adverse_excursion": 0.02024,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1122,
+    "close_second": 1123,
+    "equity_at_close": 468.030528,
+    "overshoot_bps": 39.3894,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.8154
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1122,
+    "close_second": 1123,
+    "equity_at_close": 468.030528,
+    "overshoot_bps": 39.3894,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.8154
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1122,
+    "close_second": 1127,
+    "equity_at_close": 468.494101,
+    "overshoot_bps": 30.118,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.3521
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1122,
+    "close_second": 1132,
+    "equity_at_close": 468.786208,
+    "overshoot_bps": 24.2758,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2275.0601
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-30T13:00:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01523,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2438,
+    "close_second": 2439,
+    "equity_at_close": 468.831593,
+    "overshoot_bps": 23.3681,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2238
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2438,
+    "close_second": 2439,
+    "equity_at_close": 468.831593,
+    "overshoot_bps": 23.3681,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2238
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2438,
+    "close_second": 2443,
+    "equity_at_close": 468.356774,
+    "overshoot_bps": 32.8645,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.7488
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2438,
+    "close_second": 2448,
+    "equity_at_close": 467.369763,
+    "overshoot_bps": 52.6047,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.7614
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-30T13:00:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01521,
+   "treatment": {
+    "breach": true,
+    "breach_second": 2441,
+    "close_second": 2442,
+    "equity_at_close": 468.673607,
+    "overshoot_bps": 26.5279,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9159
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 2441,
+    "close_second": 2442,
+    "equity_at_close": 468.673607,
+    "overshoot_bps": 26.5279,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9159
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 2441,
+    "close_second": 2446,
+    "equity_at_close": 468.385885,
+    "overshoot_bps": 32.2823,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.6281
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 2441,
+    "close_second": 2451,
+    "equity_at_close": 466.865065,
+    "overshoot_bps": 62.6987,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.1066
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-30T13:30:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.0181,
+   "treatment": {
+    "breach": true,
+    "breach_second": 656,
+    "close_second": 657,
+    "equity_at_close": 469.6066,
+    "overshoot_bps": 7.868,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.8214
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 656,
+    "close_second": 657,
+    "equity_at_close": 469.6066,
+    "overshoot_bps": 7.868,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.8214
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 656,
+    "close_second": 661,
+    "equity_at_close": 470.024122,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2217.2391
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 656,
+    "close_second": 666,
+    "equity_at_close": 470.975409,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2218.1909
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-30T13:30:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01695,
+   "treatment": {
+    "breach": true,
+    "breach_second": 3140,
+    "close_second": 3141,
+    "equity_at_close": 468.576096,
+    "overshoot_bps": 28.4781,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9625
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 3140,
+    "close_second": 3141,
+    "equity_at_close": 468.576096,
+    "overshoot_bps": 28.4781,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9625
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 3140,
+    "close_second": 3145,
+    "equity_at_close": 468.584345,
+    "overshoot_bps": 28.3131,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.9707
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 3140,
+    "close_second": 3150,
+    "equity_at_close": 470.547486,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2217.9348
+   }
+  },
+  {
+   "symbol": "BTCUSDT",
+   "window_start_utc": "2026-09-30T14:00:00Z",
+   "side": "long",
+   "class": "calm",
+   "adverse_excursion": 0.01495,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1965,
+    "close_second": 1966,
+    "equity_at_close": 467.760592,
+    "overshoot_bps": 44.7882,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.9502
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1965,
+    "close_second": 1966,
+    "equity_at_close": 467.760592,
+    "overshoot_bps": 44.7882,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2214.9502
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1965,
+    "close_second": 1970,
+    "equity_at_close": 465.953083,
+    "overshoot_bps": 80.9383,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2213.1418
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1965,
+    "close_second": 1975,
+    "equity_at_close": 468.0832,
+    "overshoot_bps": 38.336,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.2729
+   }
+  },
+  {
+   "symbol": "ETHUSDT",
+   "window_start_utc": "2026-09-30T14:00:00Z",
+   "side": "long",
+   "class": "trending",
+   "adverse_excursion": 0.01561,
+   "treatment": {
+    "breach": true,
+    "breach_second": 1959,
+    "close_second": 1960,
+    "equity_at_close": 469.364282,
+    "overshoot_bps": 12.7144,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2382
+   },
+   "keeper_1s": {
+    "breach": true,
+    "breach_second": 1959,
+    "close_second": 1960,
+    "equity_at_close": 469.364282,
+    "overshoot_bps": 12.7144,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.2382
+   },
+   "keeper_5s": {
+    "breach": true,
+    "breach_second": 1959,
+    "close_second": 1964,
+    "equity_at_close": 470.076709,
+    "overshoot_bps": 0.0,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2216.9509
+   },
+   "keeper_10s": {
+    "breach": true,
+    "breach_second": 1959,
+    "close_second": 1969,
+    "equity_at_close": 468.453037,
+    "overshoot_bps": 30.9393,
+    "pool_loss": 0.0,
+    "adds": 1,
+    "refused": 0,
+    "final_notional": 2215.3265
+   }
+  }
+ ]
+}

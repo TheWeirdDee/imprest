@@ -45,3 +45,4 @@ proof/experiments/replay/data/*.zip
 .slither.txt
 .forge-build.txt
 .app-package.bak
+proof/receipts/testnet/graduation-attempt/state.json

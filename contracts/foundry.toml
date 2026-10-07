@@ -1,0 +1,44 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+test = "test"
+script = "script"
+solc_version = "0.8.28"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+# Perpl's exchange implementation is 128,199 bytes. Monad allows 128 KiB contracts;
+# the local harness must allow the same limit or the exchange cannot be deployed.
+code_size_limit = 131072
+gas_limit = 2000000000
+block_gas_limit = 2000000000
+fs_permissions = [
+  { access = "read", path = "./perpl-artifacts" },
+  { access = "read", path = "../config" },
+  { access = "read-write", path = "../proof" },
+]
+remappings = [
+  "forge-std/=lib/forge-std/src/",
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+]
+
+[profile.default.fuzz]
+runs = 512
+seed = "0x1337"
+
+[profile.default.invariant]
+runs = 64
+depth = 96
+fail_on_revert = false
+
+[profile.ci.fuzz]
+runs = 2048
+
+[rpc_endpoints]
+monad_testnet = "${MONAD_TESTNET_RPC_URL}"
+monad_mainnet = "${MONAD_MAINNET_RPC_URL}"
+
+[etherscan]
+monad_testnet = { key = "${MONAD_EXPLORER_API_KEY}", url = "${MONAD_TESTNET_VERIFIER_URL}", chain = 10143 }

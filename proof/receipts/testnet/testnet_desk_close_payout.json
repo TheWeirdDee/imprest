@@ -1,0 +1,34 @@
+{
+  "id": "TESTNET_DESK_CLOSE_PAYOUT",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T15:53:39Z",
+  "git_commit": null,
+  "operation": "close_desk",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0xcf831720c51b1ba12b94f35475b2d882aadf02d318ba9f479a70bce4c57c208d",
+  "block_number": 69010911,
+  "contract": null,
+  "explorer_url": "https://testnet.monadscan.com/tx/0xcf831720c51b1ba12b94f35475b2d882aadf02d318ba9f479a70bce4c57c208d",
+  "inputs": {},
+  "outputs": {
+    "equityAtClose": "99948853",
+    "seconds_submit_to_verified": 4.925
+  },
+  "verification": {
+    "method": "receipt and post-state read on the independent RPC at the receipt block",
+    "rpc": "https://rpc-testnet.monadinfra.com",
+    "expected": {
+      "receiptStatus": "success",
+      "status": "2",
+      "traderBalance": "199948853"
+    },
+    "observed": {
+      "receiptStatus": "success",
+      "status": "2",
+      "traderBalance": "199948853"
+    }
+  },
+  "notes": "Voluntary close of a flat evaluation desk; residual paid by contract, verified on the second RPC."
+}

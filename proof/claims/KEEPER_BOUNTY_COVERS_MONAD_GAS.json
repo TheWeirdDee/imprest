@@ -1,0 +1,18 @@
+{
+  "value": null,
+  "unit": null,
+  "network": "Monad Testnet",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:54:55Z",
+  "sample_size": null,
+  "denominator": null,
+  "claim_id": "KEEPER_BOUNTY_COVERS_MONAD_GAS",
+  "statement": "The payable 0.5 AUSD keeper bounty exceeds measured Monad enforce() gas cost plus margin",
+  "status": "PENDING",
+  "methodology": "Not yet measured. See docs/FINAL_STATUS.md for the gate that produces it.",
+  "source": "pending"
+}

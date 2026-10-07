@@ -1,0 +1,20 @@
+{
+  "claim_id": "TESTNET_CANONICAL_CLOSE_PAYOUT",
+  "statement": "A flat desk was closed on Monad testnet and its residual AUSD was paid by contract; the trader's higher balance was read back on an independent RPC",
+  "value": "99948853 base units; 4.925 s submit-to-verified",
+  "unit": "AUSD base units",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": null,
+  "source": "scripts/src/testnet-demo.ts",
+  "evidence": [
+    "proof/receipts/testnet/testnet_desk_close_payout.json"
+  ],
+  "transaction_hash": "0xcf831720c51b1ba12b94f35475b2d882aadf02d318ba9f479a70bce4c57c208d",
+  "block_number": 69010911,
+  "timestamp_utc": "2026-10-07T15:53:44Z",
+  "status": "TESTNET_VERIFIED",
+  "methodology": "Real testnet transaction; receipt and post-state read on an independent RPC at the receipt block",
+  "sample_size": 1,
+  "denominator": "one canonical run"
+}

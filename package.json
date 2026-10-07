@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "pnpm --filter @imprest/web dev",
     "start": "pnpm --filter @imprest/web start",
+    "mobile": "cd app && npx expo start",
     "build": "pnpm -r --filter ./packages/* build && pnpm -r --filter !./packages/* --filter !imprest build",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",

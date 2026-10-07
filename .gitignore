@@ -38,3 +38,5 @@ Thumbs.db
 # replay raw data (re-fetch with proof/experiments/replay/fetch_data.py; hashes in MANIFEST.json)
 proof/experiments/replay/data/*.zip
 .secrets/
+.relayer.log
+.keeper.log

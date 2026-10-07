@@ -51,6 +51,11 @@ export function HistoryList({ kinds }: { kinds?: DeskEvent["kind"][] }) {
   const rows = (h.data?.events ?? []).filter((e) => !kinds || kinds.includes(e.kind));
   return (
     <div>
+      {h.data?.source === "rpc-scan" && (
+        <p role="status" className="border-b border-line bg-warn-bg px-3 py-2 text-xs text-warn">
+          Indexer unavailable — blockchain data may be delayed. Showing a direct RPC scan of recent blocks only.
+        </p>
+      )}
       {rows.length === 0 ? (
         <EmptyState title="No activity yet" />
       ) : (

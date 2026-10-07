@@ -7,7 +7,7 @@
  */
 import { createServer } from "node:http";
 import { randomUUID } from "node:crypto";
-import { createPublicClient, createWalletClient, defineChain, http, type Address, type Hex } from "viem";
+import { createPublicClient, createWalletClient, defineChain, fallback, http, type Address, type Hex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { deskAbi, deskFactoryAbi, getNetwork, toAppError, toCohortPolicy, type CohortPolicy, type RiskState } from "@imprest/core";
 import { decide } from "./decide";
@@ -15,7 +15,7 @@ import { decide } from "./decide";
 const env = process.env.IMPREST_ENV ?? "testnet";
 const net = getNetwork(env);
 const key = process.env.KEEPER_PRIVATE_KEY as Hex | undefined;
-const POLL_MS = Number(process.env.KEEPER_POLL_MS ?? 2000);
+const POLL_MS = Number(process.env.KEEPER_POLL_MS ?? 4000);
 const GRADUATE = process.env.KEEPER_GRADUATE !== "false";
 const CHECKPOINT_AFTER = Number(process.env.KEEPER_CHECKPOINT_AFTER_SEC ?? 6 * 3600);
 const DRY_RUN = process.env.KEEPER_DRY_RUN === "true";
@@ -37,7 +37,8 @@ const chain = defineChain({
   nativeCurrency: { name: net.nativeSymbol, symbol: net.nativeSymbol, decimals: 18 },
   rpcUrls: { default: { http: [net.rpcUrls[0]!] } },
 });
-const pc = createPublicClient({ chain, transport: http(net.rpcUrls[0]) });
+// Public testnet RPCs rate-limit; reads fall back to the second endpoint instead of failing the loop.
+const pc = createPublicClient({ chain, transport: fallback(net.rpcUrls.map((u) => http(u, { retryCount: 2, retryDelay: 400 }))) });
 const account = key ? privateKeyToAccount(key) : null;
 const wc = account ? createWalletClient({ chain, account, transport: http(net.rpcUrls[0]) }) : null;
 const factory = net.imprest.factory as Address;
@@ -111,7 +112,8 @@ async function loop() {
     stats.lastLoopAt = new Date().toISOString();
   } catch (e) {
     stats.errors++;
-    log({ level: "error", msg: (e as Error).message.split("\n")[0] });
+    const err = e as Error & { status?: number; details?: string };
+    log({ level: "error", msg: err.message.split("\n")[0], status: err.status ?? null, details: err.details?.slice(0, 120) ?? null });
   }
   setTimeout(loop, POLL_MS);
 }

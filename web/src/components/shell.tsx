@@ -88,7 +88,7 @@ export function SiteHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-2">
-          <NetworkPill className="hidden sm:inline-flex" />
+          <span className="hidden sm:block"><NetworkPill /></span>
           <Link href="/app" className="hidden rounded-md bg-fg px-3 py-1.5 text-sm font-medium text-white hover:bg-fg-2 sm:inline-block">
             Open app
           </Link>
@@ -193,7 +193,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Link href="/" className="text-fg lg:hidden" aria-label="Imprest home">
                 <Logo />
               </Link>
-              <NetworkPill className="hidden md:inline-flex" />
+              <span className="hidden md:block"><NetworkPill /></span>
             </div>
             <AccountButton />
           </header>

@@ -1,0 +1,32 @@
+{
+  "id": "TESTNET_RELAYED_OPEN_1",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T20:33:43Z",
+  "git_commit": null,
+  "operation": "relayed_trade",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0xb2e83f497ed2667296c0c8d9dab07c41557c21d90fc0f1de8558fc9cb344665e",
+  "block_number": 69066545,
+  "contract": "0xfc653827479A9D96d197785de22db581FF5dFCC6",
+  "explorer_url": null,
+  "inputs": {
+    "side": 1,
+    "lots": "359",
+    "leverage": "300",
+    "priceLimit": "833025",
+    "reduceOnly": false,
+    "nonce": "1",
+    "submitted_by": "relayer"
+  },
+  "outputs": {
+    "relayer_gas": "698427",
+    "lotsAfterPrimary": "359"
+  },
+  "verification": {
+    "method": "position read on the independent RPC at the receipt block",
+    "lotsOnVerifyRpc": "359"
+  },
+  "notes": "Trader-signed EIP-712 intent submitted by the Imprest relayer."
+}

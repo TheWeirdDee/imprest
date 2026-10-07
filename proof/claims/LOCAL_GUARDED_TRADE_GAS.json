@@ -1,0 +1,20 @@
+{
+  "value": 461254,
+  "unit": "gas (Ethereum schedule, not Monad pricing)",
+  "network": "local Foundry EVM",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/local/gas-profile.json"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:54:55Z",
+  "sample_size": null,
+  "denominator": null,
+  "claim_id": "LOCAL_GUARDED_TRADE_GAS",
+  "statement": "Gas used by a guarded desk trade (policy checks + Perpl fill + floor re-check), measured on Foundry's Ethereum gas schedule",
+  "status": "LOCAL_REPRODUCTION",
+  "methodology": "gasleft() delta around Desk.trade in contracts/test/perpl/GasProfile.t.sol",
+  "source": "contracts/test/perpl/GasProfile.t.sol"
+}

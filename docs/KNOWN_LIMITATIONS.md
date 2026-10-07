@@ -9,7 +9,7 @@ Honest list of what is not done, not proven, or depends on others.
 | Testnet graduation and profit claim | PENDING | Need a desk that actually makes +2% over two round trips on the live market | Trade from the app; never forced |
 | Relayer and keeper running | PENDING | Need funded keys and the deployment | Same runbook |
 | Indexer running | PENDING | Envio has no Windows binary; needs Linux/macOS/Docker and the deployment | `cd indexer && pnpm codegen && pnpm dev` |
-| Mobile app (Expo, Mera React Native) | NOT BUILT | Scope: the web app covers the trader flow on mobile browsers (375 px tested); the PRD's Agora mobile bounty needs the native app | Build `app/` with `@category-labs/mera/react-native-webauthn-client` |
+| Mobile app on a device | PENDING | Built (`app/`), typechecked, tested, Android bundle compiles; passkeys need the app associated with a hosted domain and a native dev build | [MOBILE.md](MOBILE.md) |
 | Aurora (Tron/BSC -> Monad) and Kuru (USDC -> AUSD) funding | NOT BUILT | Not on the critical mechanism path; testnet AUSD comes from Agora's faucet | Separate integration |
 | Contract source verification on Monadscan | PENDING | Needs an explorer API key | `forge verify-contract` |
 | Buffered payout when Perpl rate-limits withdrawals | NOT IN V0 | DECISIONS D-011; claims/closes revert with a named error and can be retried | V1 |

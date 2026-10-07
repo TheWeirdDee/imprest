@@ -7,3 +7,11 @@ packages:
   - scripts
 allowBuilds:
   esbuild: true
+# Security: Envio 3.14 pins an old express/ws (dev-time indexer tooling only). Patched
+# versions are API-compatible within the same major. See docs/SECURITY_REVIEW.md.
+overrides:
+  "envio>express": "^4.22.3"
+  "ws@>=8.0.0 <8.21.0": "^8.21.0"
+  "body-parser@<1.20.6": "^1.20.6"
+  "qs@<6.16.0": "^6.16.0"
+  "path-to-regexp@<0.1.13": "^0.1.13"

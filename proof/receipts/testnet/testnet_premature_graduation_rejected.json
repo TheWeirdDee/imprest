@@ -1,0 +1,32 @@
+{
+  "id": "TESTNET_PREMATURE_GRADUATION_REJECTED",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T15:53:24Z",
+  "git_commit": null,
+  "operation": "premature_graduation",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0x5a37f89f6d9d3f39b82ce14de6cc2118a5cf3d5b5298e492ef85682f09574200",
+  "block_number": 69010862,
+  "contract": null,
+  "explorer_url": "https://testnet.monadscan.com/tx/0x5a37f89f6d9d3f39b82ce14de6cc2118a5cf3d5b5298e492ef85682f09574200",
+  "inputs": {},
+  "outputs": {
+    "revert": "GraduationNotEligible",
+    "seconds_submit_to_verified": 4.236
+  },
+  "verification": {
+    "method": "receipt and post-state read on the independent RPC at the receipt block",
+    "rpc": "https://rpc-testnet.monadinfra.com",
+    "expected": {
+      "receiptStatus": "reverted",
+      "tier": "0"
+    },
+    "observed": {
+      "receiptStatus": "reverted",
+      "tier": "0"
+    }
+  },
+  "notes": "graduate() on an ineligible desk."
+}

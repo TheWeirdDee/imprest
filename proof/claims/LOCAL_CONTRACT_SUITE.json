@@ -1,0 +1,20 @@
+{
+  "value": "120/120",
+  "unit": "tests",
+  "network": "local Foundry EVM",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/local/forge-test-results.json"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:27:11Z",
+  "sample_size": 120,
+  "denominator": "all contract tests excluding the opt-in testnet fork test",
+  "claim_id": "LOCAL_CONTRACT_SUITE",
+  "statement": "Imprest contract tests passing against Perpl's own exchange bytecode (rc_v1.1.7-203) on a local EVM",
+  "status": "LOCAL_REPRODUCTION",
+  "methodology": "cd contracts && forge test --json --no-match-contract TestnetFork",
+  "source": "contracts/test"
+}

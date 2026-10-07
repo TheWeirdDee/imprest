@@ -1,0 +1,1426 @@
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\DeskFactory.sol:30:34
+   |
+30 |     ImprestPool public immutable pool;
+   |                                  ^^^^ help: consider using: `POOL`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\ImprestPool.sol:28:30
+   |
+28 |     uint256 public immutable capIncreaseDelay;
+   |                              ^^^^^^^^^^^^^^^^ help: consider using: `CAP_INCREASE_DELAY`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> test\perpl\TestnetFork.t.sol:46:16
+   |
+46 |         m[0] = Market(BTC, 1, 5);
+   |                ^^^^^^^^^^^^^^^^^ help: consider using named fields: `Market({ perpId: BTC, priceDecimals: 1, lotDecimals: 5 })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[unused-import]: unused imports should be removed
+ --> test\unit\DeskSettlement.t.sol:6:9
+  |
+6 | import {Order, DeskStatus, EnforceReason, ImprestErrors as E} from "../../src/libraries/ImprestTypes.sol";
+  |         ^^^^^
+  |
+  = help: https://book.getfoundry.sh/reference/forge/forge-lint#unused-import
+
+note[unused-import]: unused imports should be removed
+ --> test\unit\DeskSettlement.t.sol:8:9
+  |
+8 | import {IPerplExchange, IPerplExchangeAdmin} from "../../src/interfaces/IPerplExchange.sol";
+  |         ^^^^^^^^^^^^^^
+  |
+  = help: https://book.getfoundry.sh/reference/forge/forge-lint#unused-import
+
+note[unused-import]: unused imports should be removed
+ --> test\unit\DeskPolicy.t.sol:7:16
+  |
+7 | import {Order, DeskStatus, EnforceReason, ImprestErrors as E} from "../../src/libraries/ImprestTypes.sol";
+  |                ^^^^^^^^^^
+  |
+  = help: https://book.getfoundry.sh/reference/forge/forge-lint#unused-import
+
+note[unused-import]: unused imports should be removed
+ --> test\unit\DeskPolicy.t.sol:7:28
+  |
+7 | import {Order, DeskStatus, EnforceReason, ImprestErrors as E} from "../../src/libraries/ImprestTypes.sol";
+  |                            ^^^^^^^^^^^^^
+  |
+  = help: https://book.getfoundry.sh/reference/forge/forge-lint#unused-import
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\DeskFactory.sol:31:37
+   |
+31 |     IPerplExchange public immutable exchange;
+   |                                     ^^^^^^^^ help: consider using: `EXCHANGE`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\security\PairedDesk.t.sol:69:24
+   |
+69 |             int256 m = int256(btcMark) + int256(btcMark) * stepBps / 10_000;
+   |                        ^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'int256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\unit\DeskSettlement.t.sol:71:26
+   |
+71 |         assertGe(_eq(s), int256(STAKE * 108 / 100));
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'int256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> test\unit\DeskPolicy.t.sol:196:21
+    |
+196 |             if (e < int256(target)) lo = mid;
+    |                     ^^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'int256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\DeskFactory.sol:32:29
+   |
+32 |     IERC20 public immutable ausd;
+   |                             ^^^^ help: consider using: `AUSD`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[unsafe-cheatcode]: usage of unsafe cheatcodes that can perform dangerous operations
+   --> test\accounting\ReferenceVectors.t.sol:165:12
+    |
+165 |         vm.writeFile(string.concat(DIR, "accrual.json"), string.concat(accrualJson, "]"));
+    |            ^^^^^^^^^
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-cheatcode
+
+note[unsafe-cheatcode]: usage of unsafe cheatcodes that can perform dangerous operations
+   --> test\accounting\ReferenceVectors.t.sol:172:12
+    |
+172 |         vm.writeFile(string.concat(DIR, "claims.json"), string.concat(claimJson, "]"));
+    |            ^^^^^^^^^
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-cheatcode
+
+note[unsafe-cheatcode]: usage of unsafe cheatcodes that can perform dangerous operations
+   --> test\accounting\ReferenceVectors.t.sol:180:12
+    |
+180 |         vm.writeFile(string.concat(DIR, "settlements.json"), string.concat(settleJson, "]"));
+    |            ^^^^^^^^^
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-cheatcode
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\security\PairedDesk.t.sol:69:42
+   |
+69 |             int256 m = int256(btcMark) + int256(btcMark) * stepBps / 10_000;
+   |                                          ^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'int256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\Desk.sol:51:30
+   |
+51 |     address public immutable factory;
+   |                              ^^^^^^^ help: consider using: `FACTORY`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[unwrapped-modifier-logic]: wrap modifier logic to reduce code size
+  --> src\ImprestPool.sol:82:5
+   |
+82 | /     modifier onlyDesk() {
+83 | |         if (!isDesk[msg.sender]) revert E.UnknownDesk(msg.sender);
+84 | |         _;
+85 | |     }
+   | |_____^
+   |
+help: wrap modifier logic to reduce code size
+   |
+82 ~     modifier onlyDesk() {
+83 +         _onlyDesk();
+84 +         _;
+85 +     }
+86 + 
+87 +     function _onlyDesk() internal {
+88 +         if (!isDesk[msg.sender]) revert E.UnknownDesk(msg.sender);
+89 +     }
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unwrapped-modifier-logic
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> test\unit\DeskPolicy.t.sol:246:28
+    |
+246 |         assertEq(dayStart, int256(STAKE)); // first trade of the day snapshots pre-trade equity
+    |                            ^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'int256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\accounting\ReferenceVectors.t.sol:38:29
+   |
+38 |         address t = address(uint160(0xF00D00 + seed));
+   |                             ^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint160' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\accounting\ReferenceVectors.t.sol:80:29
+   |
+80 |         address t = address(uint160(0xC1A100 + seed));
+   |                             ^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint160' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\Desk.sol:52:30
+   |
+52 |     address public immutable trader;
+   |                              ^^^^^^ help: consider using: `TRADER`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\Desk.sol:53:30
+   |
+53 |     uint256 public immutable cohortId;
+   |                              ^^^^^^^^ help: consider using: `COHORT_ID`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\Desk.sol:54:34
+   |
+54 |     ImprestPool public immutable pool;
+   |                                  ^^^^ help: consider using: `POOL`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\Desk.sol:55:37
+   |
+55 |     IPerplExchange public immutable exchange;
+   |                                     ^^^^^^^^ help: consider using: `EXCHANGE`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> src\Desk.sol:56:29
+   |
+56 |     IERC20 public immutable ausd;
+   |                             ^^^^ help: consider using: `AUSD`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> test\accounting\ReferenceVectors.t.sol:101:46
+    |
+101 |             ",\"flat_equity\":", vm.toString(uint256(eq)),
+    |                                              ^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> src\ImprestPool.sol:128:39
+    |
+128 |             pendingGrossCap[perpId] = Pending(value, readyAt);
+    |                                       ^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Pending({ value: value, readyAt: readyAt })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\security\PairedDesk.t.sol:70:22
+   |
+70 |             _moveBtc(uint256(m));
+   |                      ^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+   --> src\DeskFactory.sol:159:28
+    |
+159 |         bytes32 initHash = keccak256(abi.encodePacked(type(Desk).creationCode, abi.encode(trader, cohortId)));
+    |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#asm-keccak256
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+   --> src\DeskFactory.sol:160:21
+    |
+160 |           bytes32 h = keccak256(
+    |  _____________________^
+161 | |             abi.encodePacked(bytes1(0xff), address(this), _salt(trader, cohortId, deskCount[trader][cohortId]), initHash)
+162 | |         );
+    | |_________^
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#asm-keccak256
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> test\unit\DeskPolicy.t.sol:247:37
+    |
+247 |         assertEq(desk.dailyFloor(), int256(STAKE * 9_700 / 10_000));
+    |                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'int256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\security\PairedDesk.t.sol:157:38
+    |
+157 |         Result memory r = _pairedRun(Run("calm_cap2500", 2_500e6, 2_000, 50, 2, true));
+    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Run({ name: "calm_cap2500", deskCap: 2_500e6, lots: 2_000, movePathBps: 50, steps: 2, enforceEachStep: true })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> test\accounting\ReferenceVectors.t.sol:116:29
+    |
+116 |         address t = address(uint160(0x5E7700 + seed));
+    |                             ^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint160' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[unsafe-cheatcode]: usage of unsafe cheatcodes that can perform dangerous operations
+  --> script\Deploy.s.sol:29:32
+   |
+29 |         string memory cfg = vm.readFile("../config/networks.json");
+   |                                ^^^^^^^^
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-cheatcode
+
+note[unwrapped-modifier-logic]: wrap modifier logic to reduce code size
+   --> src\Desk.sol:133:5
+    |
+133 | /     modifier onlyTrader() {
+134 | |         if (msg.sender != trader) revert E.Unauthorized(msg.sender);
+135 | |         _;
+136 | |     }
+    | |_____^
+    |
+help: wrap modifier logic to reduce code size
+    |
+133 ~     modifier onlyTrader() {
+134 +         _onlyTrader();
+135 +         _;
+136 +     }
+137 + 
+138 +     function _onlyTrader() internal {
+139 +         if (msg.sender != trader) revert E.Unauthorized(msg.sender);
+140 +     }
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unwrapped-modifier-logic
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> src\ImprestPool.sol:149:38
+    |
+149 |             pendingDeskNotionalCap = Pending(value, readyAt);
+    |                                      ^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Pending({ value: value, readyAt: readyAt })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> test\perpl\TestnetFork.t.sol:47:16
+   |
+47 |         m[1] = Market(32, 2, 3);
+   |                ^^^^^^^^^^^^^^^^ help: consider using named fields: `Market({ perpId: 32, priceDecimals: 2, lotDecimals: 3 })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\security\PairedDesk.t.sol:162:20
+    |
+162 |         _pairedRun(Run("trend3pct_atomic_keeper_cap2500", 2_500e6, 2_000, 300, 12, true));
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Run({ name: "trend3pct_atomic_keeper_cap2500", deskCap: 2_500e6, lots: 2_000, movePathBps: 300, steps: 12, enforceEachStep: true })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\security\PairedDesk.t.sol:166:20
+    |
+166 |         _pairedRun(Run("trend3pct_delayed_keeper_cap2500", 2_500e6, 2_000, 300, 12, false));
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Run({ name: "trend3pct_delayed_keeper_cap2500", deskCap: 2_500e6, lots: 2_000, movePathBps: 300, steps: 12, enforceEachStep: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> test\ImprestFixture.sol:126:62
+    |
+126 |     function _quote(uint256 perpId, uint8 orderType, uint256 pricePNS, uint256 lots) internal {
+    |                                                              ^^^^^^^^ help: consider using: `pricePns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> test\perpl\TestnetFork.t.sol:62:22
+   |
+62 |         c.tiers[0] = TierParams(1, 0, 10_000, 0, 0, 0, 0, 0);
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 1, feeRatePpmPerDay: 0, traderSplitBps: 10_000, protocolSplitBps: 0, gradProfitBps: 0, gradMinClosedTrades: 0, gradMinSeconds: 0, gradMinClaims: 0 })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> test\ImprestFixture.sol:89:16
+   |
+89 |         m[0] = Market(BTC, uint8(BTC_PRICE_DEC), uint8(BTC_LOT_DEC));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Market({ perpId: BTC, priceDecimals: uint8(BTC_PRICE_DEC), lotDecimals: uint8(BTC_LOT_DEC) })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\ImprestFixture.sol:89:28
+   |
+89 |         m[0] = Market(BTC, uint8(BTC_PRICE_DEC), uint8(BTC_LOT_DEC));
+   |                            ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint8' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\ImprestFixture.sol:89:50
+   |
+89 |         m[0] = Market(BTC, uint8(BTC_PRICE_DEC), uint8(BTC_LOT_DEC));
+   |                                                  ^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint8' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> test\ImprestFixture.sol:90:16
+   |
+90 |         m[1] = Market(ETH, uint8(ETH_PRICE_DEC), uint8(ETH_LOT_DEC));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Market({ perpId: ETH, priceDecimals: uint8(ETH_PRICE_DEC), lotDecimals: uint8(ETH_LOT_DEC) })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\ImprestFixture.sol:90:28
+   |
+90 |         m[1] = Market(ETH, uint8(ETH_PRICE_DEC), uint8(ETH_LOT_DEC));
+   |                            ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint8' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\ImprestFixture.sol:90:50
+   |
+90 |         m[1] = Market(ETH, uint8(ETH_PRICE_DEC), uint8(ETH_LOT_DEC));
+   |                                                  ^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint8' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> test\unit\DeskPolicy.t.sol:269:41
+    |
+269 |         assertEq(desk.dayStartEquity(), uint256(before));
+    |                                         ^^^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\security\PairedDesk.t.sol:170:20
+    |
+170 |         _pairedRun(Run("gap8pct_cap2500", 2_500e6, 2_000, 800, 1, true));
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Run({ name: "gap8pct_cap2500", deskCap: 2_500e6, lots: 2_000, movePathBps: 800, steps: 1, enforceEachStep: true })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+   --> src\DeskFactory.sol:167:16
+    |
+167 |         return keccak256(abi.encode(trader, cohortId, index));
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#asm-keccak256
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:20:17
+   |
+20 |         uint256 pricePNS;
+   |                 ^^^^^^^^ help: consider using: `pricePns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> test\perpl\TestnetFork.t.sol:63:22
+   |
+63 |         c.tiers[1] = TierParams(5, 500, 8_000, 500, 200, 2, 0, 0);
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 5, feeRatePpmPerDay: 500, traderSplitBps: 8_000, protocolSplitBps: 500, gradProfitBps: 200, gradMinClosedTrades: 2, gradMinSeconds: 0, gradMinClaims: 0 })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:107:22
+    |
+107 |         c.tiers[0] = TierParams(1, 0, 10_000, 0, 0, 0, 0, 0);
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 1, feeRatePpmPerDay: 0, traderSplitBps: 10_000, protocolSplitBps: 0, gradProfitBps: 0, gradMinClosedTrades: 0, gradMinSeconds: 0, gradMinClaims: 0 })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\security\PairedDesk.t.sol:174:20
+    |
+174 |         _pairedRun(Run("gap15pct_cap2500", 2_500e6, 2_000, 1_500, 1, true));
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Run({ name: "gap15pct_cap2500", deskCap: 2_500e6, lots: 2_000, movePathBps: 1_500, steps: 1, enforceEachStep: true })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> test\security\Reentrancy.t.sol:32:65
+   |
+32 |             else if (m == 3) call = abi.encodeCall(Desk.trade, (Order(d.perpId, 0, d.pricePNS, 1, 100, false, false)));
+   |                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: d.perpId, side: 0, priceLimit: d.pricePNS, lots: 1, leverage: 100, reduceOnly: false, fillOrKill: false })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> script\Deploy.s.sol:44:26
+   |
+44 |               markets[i] = Market(
+   |  __________________________^
+45 | |                 vm.parseJsonUint(cfg, string.concat(mk, ".perpId")),
+46 | |                 uint8(vm.parseJsonUint(cfg, string.concat(mk, ".priceDecimals"))),
+47 | |                 uint8(vm.parseJsonUint(cfg, string.concat(mk, ".lotDecimals")))
+48 | |             );
+   | |_____________^ help: consider using named fields: `Market({ perpId: vm.parseJsonUint(cfg, string.concat(mk, ".perpId")), priceDecimals: uint8(vm.parseJsonUint(cfg, string.concat(mk, ".priceDecimals"))), lotDecimals: uint8(vm.parseJsonUint(cfg, string.concat(mk, ".lotDecimals"))) })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:108:22
+    |
+108 |         c.tiers[1] = TierParams(5, 500, 8_000, 500, 800, 5, 1 days, 0);
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 5, feeRatePpmPerDay: 500, traderSplitBps: 8_000, protocolSplitBps: 500, gradProfitBps: 800, gradMinClosedTrades: 5, gradMinSeconds: 1 days, gradMinClaims: 0 })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:21:17
+   |
+21 |         uint256 lotLNS;
+   |                 ^^^^^^ help: consider using: `lotLns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> src\Desk.sol:347:32
+    |
+347 |         uint256 eqU = eq > 0 ? uint256(eq) : 0;
+    |                                ^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\security\PairedDesk.t.sol:178:20
+    |
+178 |         _pairedRun(Run("gap15pct_cap1500", 1_500e6, 1_200, 1_500, 1, true));
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Run({ name: "gap15pct_cap1500", deskCap: 1_500e6, lots: 1_200, movePathBps: 1_500, steps: 1, enforceEachStep: true })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> test\unit\DeskPolicy.t.sol:270:44
+    |
+270 |         assertEq(desk.dailyFloor(), int256(uint256(before) * 9_700 / 10_000));
+    |                                            ^^^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:109:22
+    |
+109 |         c.tiers[2] = TierParams(10, 300, 8_500, 375, 0, 0, 14 days, 1);
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 10, feeRatePpmPerDay: 300, traderSplitBps: 8_500, protocolSplitBps: 375, gradProfitBps: 0, gradMinClosedTrades: 0, gradMinSeconds: 14 days, gradMinClaims: 1 })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> src\Desk.sol:434:49
+    |
+434 |             emit EnforcementStarted(reason, eq, uint256(fl), dfl, feeOutstanding);
+    |                                                 ^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[unused-import]: unused imports should be removed
+ --> test\unit\DeskLifecycle.t.sol:6:9
+  |
+6 | import {Order, DeskStatus, EnforceReason, ImprestErrors as E} from "../../src/libraries/ImprestTypes.sol";
+  |         ^^^^^
+  |
+  = help: https://book.getfoundry.sh/reference/forge/forge-lint#unused-import
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:118:22
+    |
+118 |         c.tiers[1] = TierParams(5, 500, 8_000, 500, 200, 2, 0, 0);
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 5, feeRatePpmPerDay: 500, traderSplitBps: 8_000, protocolSplitBps: 500, gradProfitBps: 200, gradMinClosedTrades: 2, gradMinSeconds: 0, gradMinClaims: 0 })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\security\PairedDesk.t.sol:182:20
+    |
+182 |         _pairedRun(Run("gap15pct_cap1000", 1_000e6, 800, 1_500, 1, true));
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Run({ name: "gap15pct_cap1000", deskCap: 1_000e6, lots: 800, movePathBps: 1_500, steps: 1, enforceEachStep: true })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[unsafe-cheatcode]: usage of unsafe cheatcodes that can perform dangerous operations
+  --> test\perpl-harness\PerplHarness.sol:40:63
+   |
+40 |         bytes memory code = abi.encodePacked(vm.parseBytes(vm.readFile(hexPath)), ctorArgs);
+   |                                                               ^^^^^^^^
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-cheatcode
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> script\Deploy.s.sol:100:22
+    |
+100 |         c.tiers[0] = TierParams(1, 0, 10_000, 0, 0, 0, 0, 0);
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 1, feeRatePpmPerDay: 0, traderSplitBps: 10_000, protocolSplitBps: 0, gradProfitBps: 0, gradMinClosedTrades: 0, gradMinSeconds: 0, gradMinClaims: 0 })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[unused-import]: unused imports should be removed
+ --> test\unit\DeskLifecycle.t.sol:6:28
+  |
+6 | import {Order, DeskStatus, EnforceReason, ImprestErrors as E} from "../../src/libraries/ImprestTypes.sol";
+  |                            ^^^^^^^^^^^^^
+  |
+  = help: https://book.getfoundry.sh/reference/forge/forge-lint#unused-import
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\perpl\TestnetFork.t.sol:102:17
+    |
+102 |         d.trade(Order(BTC, 0, mark, 100, 600, false, false));
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: BTC, side: 0, priceLimit: mark, lots: 100, leverage: 600, reduceOnly: false, fillOrKill: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:138:21
+    |
+138 |         quotes.push(Quote(perpId, s.orderId));
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Quote({ perpId: perpId, orderId: s.orderId })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> src\Desk.sol:444:36
+    |
+444 |         uint256 eqU = eqFlat > 0 ? uint256(eqFlat) : 0;
+    |                                    ^^^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:29:17
+   |
+29 |         uint256 amountCNS;
+   |                 ^^^^^^^^^ help: consider using: `amountCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:30:17
+   |
+30 |         uint256 maxNegPnlCollatBPS;
+   |                 ^^^^^^^^^^^^^^^^^^ help: consider using: `maxNegPnlCollatBps`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\security\PairedDesk.t.sol:186:20
+    |
+186 |         _pairedRun(Run("gapdown15pct_cap2500", 2_500e6, 2_000, -1_500, 1, true));
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Run({ name: "gapdown15pct_cap2500", deskCap: 2_500e6, lots: 2_000, movePathBps: -1_500, steps: 1, enforceEachStep: true })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> test\perpl-harness\PerplHarness.sol:83:47
+   |
+83 |     function _setMark(uint256 perpId, uint256 markPNS) internal {
+   |                                               ^^^^^^^ help: consider using: `markPns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> script\Deploy.s.sol:103:26
+    |
+103 |             c.tiers[1] = TierParams(5, 500, 8_000, 500, 200, 2, 0, 0);
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 5, feeRatePpmPerDay: 500, traderSplitBps: 8_000, protocolSplitBps: 500, gradProfitBps: 200, gradMinClosedTrades: 2, gradMinSeconds: 0, gradMinClaims: 0 })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\unit\DeskLifecycle.t.sol:23:22
+   |
+23 |         assertEq(eq, int256(STAKE));
+   |                      ^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'int256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:47:17
+   |
+47 |         uint256 balanceCNS;
+   |                 ^^^^^^^^^^ help: consider using: `balanceCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:48:17
+   |
+48 |         uint256 lockedBalanceCNS;
+   |                 ^^^^^^^^^^^^^^^^ help: consider using: `lockedBalanceCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\perpl\TestnetFork.t.sol:108:21
+    |
+108 |             d.trade(Order(BTC, 0, mark, 100, 500, false, false));
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: BTC, side: 0, priceLimit: mark, lots: 100, leverage: 500, reduceOnly: false, fillOrKill: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\unit\DeskLifecycle.t.sol:41:29
+   |
+41 |         assertLt(_eq(desk), int256(STAKE)); // paid spread + taker fee
+   |                             ^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'int256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> src\Desk.sol:652:25
+    |
+652 |         return eq > 0 ? uint256(eq) : 0;
+    |                         ^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> test\perpl-harness\PerplHarness.sol:89:67
+   |
+89 |     function _makerQuote(uint256 perpId, uint8 orderType, uint256 pricePNS, uint256 lots) internal {
+   |                                                                   ^^^^^^^^ help: consider using: `pricePns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-function]: function names should use mixedCase
+  --> test\invariant\PoolInvariant.t.sol:12:14
+   |
+12 |     function h_graduatePath(address desk) external;
+   |              ^^^^^^^^^^^^^^ help: consider using: `hGraduatePath`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:204:16
+    |
+204 |         return Order(perpId, 0, mark + mark * 20 / 10_000, lots, lev, false, false);
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: perpId, side: 0, priceLimit: mark + mark * 20 / 10_000, lots: lots, leverage: lev, reduceOnly: false, fillOrKill: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> script\Deploy.s.sol:106:26
+    |
+106 |             c.tiers[1] = TierParams(5, 500, 8_000, 500, 800, 5, 1 days, 0);
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 5, feeRatePpmPerDay: 500, traderSplitBps: 8_000, protocolSplitBps: 500, gradProfitBps: 800, gradMinClosedTrades: 5, gradMinSeconds: 1 days, gradMinClaims: 0 })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\perpl\TestnetFork.t.sol:114:17
+    |
+114 |         d.trade(Order(BTC, 0, mark + mark * 30 / 10_000, 100, 500, false, false));
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: BTC, side: 0, priceLimit: mark + mark * 30 / 10_000, lots: 100, leverage: 500, reduceOnly: false, fillOrKill: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[mixed-case-function]: function names should use mixedCase
+  --> test\invariant\PoolInvariant.t.sol:13:14
+   |
+13 |     function h_requote(uint256 btcMid, uint256 ethMid) external;
+   |              ^^^^^^^^^ help: consider using: `hRequote`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+note[mixed-case-function]: function names should use mixedCase
+  --> test\invariant\PoolInvariant.t.sol:14:14
+   |
+14 |     function h_advance(uint256 secs) external;
+   |              ^^^^^^^^^ help: consider using: `hAdvance`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:60:17
+   |
+60 |         uint256 depositCNS;
+   |                 ^^^^^^^^^^ help: consider using: `depositCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:61:17
+   |
+61 |         uint256 pricePNS;
+   |                 ^^^^^^^^ help: consider using: `pricePns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> src\Desk.sol:659:42
+    |
+659 |             dayStartEquity = eqNow > 0 ? uint256(eqNow) : 0;
+    |                                          ^^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'uint256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   --> src\Desk.sol:677:16
+    |
+677 |         return int256((dayStartEquity * (BPS - p.dailyLossBps)) / BPS);
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: consider disabling this lint if you're certain the cast is safe
+            
+            // casting to 'int256' is safe because [explain why]
+            // forge-lint: disable-next-line(unsafe-typecast)
+            
+            
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-function]: function names should use mixedCase
+   --> test\invariant\PoolInvariant.t.sol:211:14
+    |
+211 |     function h_requote(uint256 b, uint256 e) external {
+    |              ^^^^^^^^^ help: consider using: `hRequote`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:62:17
+   |
+62 |         uint256 lotLNS;
+   |                 ^^^^^^ help: consider using: `lotLns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:64:16
+   |
+64 |         int256 pnlCNS;
+   |                ^^^^^^ help: consider using: `pnlCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\unit\DeskLifecycle.t.sol:42:29
+   |
+42 |         assertGt(_eq(desk), int256(STAKE) - 1e6);
+   |                             ^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'int256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-function]: function names should use mixedCase
+   --> test\invariant\PoolInvariant.t.sol:217:14
+    |
+217 |     function h_graduatePath(address d) external {
+    |              ^^^^^^^^^^^^^^ help: consider using: `hGraduatePath`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> script\Deploy.s.sol:107:26
+    |
+107 |             c.tiers[2] = TierParams(10, 300, 8_500, 375, 0, 0, 14 days, 1);
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `TierParams({ sizeMultiple: 10, feeRatePpmPerDay: 300, traderSplitBps: 8_500, protocolSplitBps: 375, gradProfitBps: 0, gradMinClosedTrades: 0, gradMinSeconds: 14 days, gradMinClaims: 1 })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\perpl-harness\PerplHarness.sol:85:39
+   |
+85 |         ex.updateMarkPricePNS(perpId, uint32(markPNS));
+   |                                       ^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint32' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:65:16
+   |
+65 |         int256 deltaPnlCNS;
+   |                ^^^^^^^^^^^ help: consider using: `deltaPnlCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:66:16
+   |
+66 |         int256 premiumPnlCNS;
+   |                ^^^^^^^^^^^^^ help: consider using: `premiumPnlCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-function]: function names should use mixedCase
+   --> test\invariant\PoolInvariant.t.sol:225:14
+    |
+225 |     function h_advance(uint256 secs) external {
+    |              ^^^^^^^^^ help: consider using: `hAdvance`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\unit\DeskLifecycle.t.sol:51:26
+   |
+51 |         assertGe(eqEval, int256(STAKE * 102 / 100), "eval target");
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'int256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\unit\DeskLifecycle.t.sol:60:38
+   |
+60 |         assertEq(desk.startEquity(), uint256(eqEval) + 4 * STAKE);
+   |                                      ^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:209:16
+    |
+209 |         return Order(perpId, 1, mark - mark * 20 / 10_000, lots, lev, false, false);
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: perpId, side: 1, priceLimit: mark - mark * 20 / 10_000, lots: lots, leverage: lev, reduceOnly: false, fillOrKill: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[unsafe-cheatcode]: usage of unsafe cheatcodes that can perform dangerous operations
+   --> test\invariant\PoolInvariant.t.sol:301:12
+    |
+301 |         vm.writeLine(
+    |            ^^^^^^^^^
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-cheatcode
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\perpl\TestnetFork.t.sol:122:21
+    |
+122 |             d.trade(Order(BTC, 1, mark - mark * 30 / 10_000, p.lotLNS, 500, true, false));
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: BTC, side: 1, priceLimit: mark - mark * 30 / 10_000, lots: p.lotLNS, leverage: 500, reduceOnly: true, fillOrKill: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\unit\DeskLifecycle.t.sol:61:38
+   |
+61 |         assertEq(_eq(desk), eqEval + int256(4 * STAKE));
+   |                                      ^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'int256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:79:17
+   |
+79 |         uint256 positionBalanceCNS;
+   |                 ^^^^^^^^^^^^^^^^^^ help: consider using: `positionBalanceCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:80:17
+   |
+80 |         uint256 insuranceBalanceCNS;
+   |                 ^^^^^^^^^^^^^^^^^^^ help: consider using: `insuranceBalanceCns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:214:16
+    |
+214 |         return Order(perpId, 1, mark - mark * 20 / 10_000, lots, 500, true, false);
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: perpId, side: 1, priceLimit: mark - mark * 20 / 10_000, lots: lots, leverage: 500, reduceOnly: true, fillOrKill: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\invariant\PoolInvariant.t.sol:52:34
+   |
+52 |             traders.push(address(uint160(0xA11CE0 + i)));
+   |                                  ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint160' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\unit\DeskLifecycle.t.sol:84:25
+   |
+84 |         uint256 gross = uint256(eqFlat) - desk.hwm();
+   |                         ^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint256' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:81:17
+   |
+81 |         uint256 markPNS;
+   |                 ^^^^^^^ help: consider using: `markPns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+  --> test\invariant\PoolInvariant.t.sol:75:19
+   |
+75 |         uint8 s = uint8(side % 2);
+   |                   ^^^^^^^^^^^^^^^
+   |
+   = note: consider disabling this lint if you're certain the cast is safe
+           
+           // casting to 'uint8' is safe because [explain why]
+           // forge-lint: disable-next-line(unsafe-typecast)
+           
+           
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:83:17
+   |
+83 |         uint256 lastPNS;
+   |                 ^^^^^^^ help: consider using: `lastPns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+   --> test\ImprestFixture.sol:219:16
+    |
+219 |         return Order(perpId, 0, mark + mark * 20 / 10_000, lots, 500, true, false);
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: perpId, side: 0, priceLimit: mark + mark * 20 / 10_000, lots: lots, leverage: 500, reduceOnly: true, fillOrKill: false })`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:85:17
+   |
+85 |         uint256 oraclePNS;
+   |                 ^^^^^^^^^ help: consider using: `oraclePns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:87:17
+   |
+87 |         uint256 longOpenInterestLNS;
+   |                 ^^^^^^^^^^^^^^^^^^^ help: consider using: `longOpenInterestLns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:88:17
+   |
+88 |         uint256 shortOpenInterestLNS;
+   |                 ^^^^^^^^^^^^^^^^^^^^ help: consider using: `shortOpenInterestLns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[named-struct-fields]: prefer initializing structs with named fields
+  --> test\invariant\PoolInvariant.t.sol:87:21
+   |
+87 |         try d.trade(Order(perpId, s, price, lots, lev, reduce, false)) {
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using named fields: `Order({ perpId: perpId, side: s, priceLimit: price, lots: lots, leverage: lev, reduceOnly: reduce, fillOrKill: false })`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#named-struct-fields
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:93:17
+   |
+93 |         uint256 basePricePNS;
+   |                 ^^^^^^^^^^^^ help: consider using: `basePricePns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:94:17
+   |
+94 |         uint256 maxBidPriceONS;
+   |                 ^^^^^^^^^^^^^^ help: consider using: `maxBidPriceOns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:95:17
+   |
+95 |         uint256 minBidPriceONS;
+   |                 ^^^^^^^^^^^^^^ help: consider using: `minBidPriceOns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:96:17
+   |
+96 |         uint256 maxAskPriceONS;
+   |                 ^^^^^^^^^^^^^^ help: consider using: `maxAskPriceOns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+  --> src\interfaces\IPerplExchange.sol:97:17
+   |
+97 |         uint256 minAskPriceONS;
+   |                 ^^^^^^^^^^^^^^ help: consider using: `minAskPriceOns`
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:103:36
+    |
+103 |     function createAccount(uint256 amountCNS) external returns (uint256);
+    |                                    ^^^^^^^^^ help: consider using: `amountCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:104:40
+    |
+104 |     function depositCollateral(uint256 amountCNS) external;
+    |                                        ^^^^^^^^^ help: consider using: `amountCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:105:41
+    |
+105 |     function withdrawCollateral(uint256 amountCNS) external;
+    |                                         ^^^^^^^^^ help: consider using: `amountCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:115:60
+    |
+115 |         returns (PositionInfo memory positionInfo, uint256 markPricePNS, bool markPriceValid);
+    |                                                            ^^^^^^^^^^^^ help: consider using: `markPricePns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-function]: function names should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:117:14
+    |
+117 |     function getMinAccountOpenCNS() external view returns (uint256);
+    |              ^^^^^^^^^^^^^^^^^^^^ help: consider using: `getMinAccountOpenCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:122:21
+    |
+122 |             uint256 balanceCNS,
+    |                     ^^^^^^^^^^ help: consider using: `balanceCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:123:21
+    |
+123 |             uint256 protocolBalanceCNS,
+    |                     ^^^^^^^^^^^^^^^^^^ help: consider using: `protocolBalanceCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:124:21
+    |
+124 |             uint256 recycleBalanceCNS,
+    |                     ^^^^^^^^^^^^^^^^^ help: consider using: `recycleBalanceCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:134:26
+    |
+134 |         returns (uint256 allowanceCNS, uint256 expiryBlock, uint256 lastAllowanceBlock, uint256 cnsPerBlock);
+    |                          ^^^^^^^^^^^^ help: consider using: `allowanceCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:153:17
+    |
+153 |         uint256 basePricePNS,
+    |                 ^^^^^^^^^^^^ help: consider using: `basePricePns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-function]: function names should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:160:14
+    |
+160 |     function updateMarkPricePNS(uint256 perpId, uint32 markPricePNS) external;
+    |              ^^^^^^^^^^^^^^^^^^ help: consider using: `updateMarkPricePns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:160:56
+    |
+160 |     function updateMarkPricePNS(uint256 perpId, uint32 markPricePNS) external;
+    |                                                        ^^^^^^^^^^^^ help: consider using: `markPricePns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:164:63
+    |
+164 |     function setDefaultPerpFeeSchedValues(uint256[8] calldata takerFeesPPM, uint256[8] calldata makerFeesPPM)
+    |                                                               ^^^^^^^^^^^^ help: consider using: `takerFeesPpm`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:164:97
+    |
+164 |     function setDefaultPerpFeeSchedValues(uint256[8] calldata takerFeesPPM, uint256[8] calldata makerFeesPPM)
+    |                                                                                                 ^^^^^^^^^^^^ help: consider using: `makerFeesPpm`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:167:78
+    |
+167 |     function setFundingSum(uint256 perpId, int256 fundingRatePct100k, uint32 pricePNS, bool allowOverwrite, bool revertOnFail)
+    |                                                                              ^^^^^^^^ help: consider using: `pricePns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-function]: function names should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:169:14
+    |
+169 |     function setThousandthsTvlWRLS(uint256 thousandthsTvl) external;
+    |              ^^^^^^^^^^^^^^^^^^^^^ help: consider using: `setThousandthsTvlWrls`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-function
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:170:42
+    |
+170 |     function setMinWithdrawLimit(uint256 limitCNS) external;
+    |                                          ^^^^^^^^ help: consider using: `limitCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:171:40
+    |
+171 |     function depositToProtocol(uint256 amountCNS) external;
+    |                                        ^^^^^^^^^ help: consider using: `amountCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:175:17
+    |
+175 |         uint256 lotLNS;
+    |                 ^^^^^^ help: consider using: `lotLns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+
+note[mixed-case-variable]: mutable variables should use mixedCase
+   --> src\interfaces\IPerplExchange.sol:187:57
+    |
+187 |     function xferProtocolToPerp(uint256 perpId, uint256 amountCNS, bool insurance) external;
+    |                                                         ^^^^^^^^^ help: consider using: `amountCns`
+    |
+    = help: https://book.getfoundry.sh/reference/forge/forge-lint#mixed-case-variable
+

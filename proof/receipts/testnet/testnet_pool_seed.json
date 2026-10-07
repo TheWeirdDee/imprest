@@ -1,0 +1,33 @@
+{
+  "id": "TESTNET_POOL_SEED",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T15:52:43Z",
+  "git_commit": null,
+  "operation": "pool_deposit",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0x453f6c99a79fb1ebc218db198a94235cc14d765e686345419c67c037d24caa9e",
+  "block_number": 69010724,
+  "contract": null,
+  "explorer_url": "https://testnet.monadscan.com/tx/0x453f6c99a79fb1ebc218db198a94235cc14d765e686345419c67c037d24caa9e",
+  "inputs": {
+    "amount": "5000 AUSD"
+  },
+  "outputs": {
+    "seconds_submit_to_verified": 3.474
+  },
+  "verification": {
+    "method": "receipt and post-state read on the independent RPC at the receipt block",
+    "rpc": "https://rpc-testnet.monadinfra.com",
+    "expected": {
+      "receiptStatus": "success",
+      "idleAssets": "5000000000"
+    },
+    "observed": {
+      "receiptStatus": "success",
+      "idleAssets": "5000000000"
+    }
+  },
+  "notes": "LP seed from Agora testnet faucet AUSD."
+}

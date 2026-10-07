@@ -55,6 +55,7 @@ Generated from evidence; full list in [docs/CLAIM_LEDGER.md](docs/CLAIM_LEDGER.m
 contracts/   Foundry: Desk, DeskFactory, ImprestPool, SettlementMath; tests on Perpl bytecode
 packages/core  shared TS: config, ABIs, errors, EIP-712, policy pre-check, accounting, verification
 web/         Next.js: landing, trading app, risk center, claims, LP console, /proof, /docs, /status
+app/         Expo (React Native) mobile client on the same shared core: Home, Trade, Positions, Risk, Claims, History
 relayer/     EIP-712 intent relayer (fetch handler + Node adapter)
 keeper/      enforce / graduate / checkpoint watcher (simulate-then-send)
 indexer/     Envio HyperIndex v3 config, schema, handlers
@@ -72,6 +73,9 @@ cd contracts && forge build && cd ..
 pnpm proof:local                                   # contract suite on Perpl bytecode + reference model
 NEXT_PUBLIC_IMPREST_ENV=testnet pnpm --filter @imprest/web dev    # http://localhost:3000
 ```
+
+Mobile: `cd app && npm install && npm test && npx expo run:android` (needs a passkey domain; see
+[docs/MOBILE.md](docs/MOBILE.md)).
 
 Requirements, every test command and the experiments: [docs/SETUP.md](docs/SETUP.md).
 Testnet deployment (needs a deployer key funded with testnet MON):

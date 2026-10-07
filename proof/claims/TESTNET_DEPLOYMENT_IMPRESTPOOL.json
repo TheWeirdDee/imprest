@@ -1,0 +1,20 @@
+{
+  "value": "0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457",
+  "unit": "address",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": "0x85ffff6b1e8e62d2ce8aca45b69ae530c6fbf457",
+  "evidence": [
+    "proof/receipts/deployments/testnet-ImprestPool.json"
+  ],
+  "transaction_hash": "0x5e132b6b1dc9db6e744481054ac689872d5d1c9f913e3a2bb45845985ab07625",
+  "block_number": 69010507,
+  "timestamp_utc": "2026-10-07T15:51:37Z",
+  "sample_size": null,
+  "denominator": null,
+  "claim_id": "TESTNET_DEPLOYMENT_IMPRESTPOOL",
+  "statement": "ImprestPool deployed on Monad testnet; deployed runtime matches the compiled bytecode (immutables masked)",
+  "status": "TESTNET_VERIFIED",
+  "methodology": "receipt + code read on two independent RPCs; runtime compared to compiled bytecode with immutables masked",
+  "source": "contracts/script/Deploy.s.sol"
+}

@@ -1,0 +1,24 @@
+{
+  "source": "crates.io perpl-sdk 0.2.9 (MIT), abi/dex + abi/testing",
+  "revision": "rc_v1.1.7-203-g0e5902dd",
+  "artifacts": {
+    "Exchange": {
+      "creation_bytes": 128424,
+      "deployed_bytes": 128199,
+      "creation_sha256": "fb8d225f44191b9105eed3011b315efe13f60be599ec5940198be41f94dc1a76",
+      "deployed_sha256": "9f0d259dd45bda91b47bcff63e6aeff000eccd44c1750ab2eb02b2925342415c"
+    },
+    "ERC1967Proxy": {
+      "creation_bytes": 988,
+      "deployed_bytes": 225,
+      "creation_sha256": "73e704dd2e9a5515f321fbfd80fc0f87d33bd13720350c4f16b8f2d34573e601",
+      "deployed_sha256": "601add918447fe2fa88b8b8f38c7b3cabcddae7343eecfe7b64b87158a0a5240"
+    },
+    "TestToken": {
+      "creation_bytes": 3385,
+      "deployed_bytes": 2446,
+      "creation_sha256": "133f4d130793a127a8803bb79912985b1435a2f1ab0c336c2d16806b5503cf32",
+      "deployed_sha256": "a6badb7746dcf2e43e9a91e0180f9008f1ac6e1498b32498a88913c249e9668a"
+    }
+  }
+}

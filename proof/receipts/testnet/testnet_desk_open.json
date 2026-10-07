@@ -1,0 +1,37 @@
+{
+  "id": "TESTNET_DESK_OPEN",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T15:53:15Z",
+  "git_commit": null,
+  "operation": "open_desk",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0xf5d425413aae4af620b3347d7d97feedb8331ee5aa87a1507675cb87f9016ccf",
+  "block_number": 69010830,
+  "contract": null,
+  "explorer_url": "https://testnet.monadscan.com/tx/0xf5d425413aae4af620b3347d7d97feedb8331ee5aa87a1507675cb87f9016ccf",
+  "inputs": {
+    "stake": "100 AUSD",
+    "cohort": "demo-v0"
+  },
+  "outputs": {
+    "desk": "0x119799Df45C3f0fd2dc1060fb2a72EF88617c597",
+    "seconds_submit_to_verified": 3.665
+  },
+  "verification": {
+    "method": "receipt and post-state read on the independent RPC at the receipt block",
+    "rpc": "https://rpc-testnet.monadinfra.com",
+    "expected": {
+      "receiptStatus": "success",
+      "deskTrader": "0xae7848e88635946c233e8a2f431ddaec37e7b3e3",
+      "perplBalance": "100000000"
+    },
+    "observed": {
+      "receiptStatus": "success",
+      "deskTrader": "0xae7848e88635946c233e8a2f431ddaec37e7b3e3",
+      "perplBalance": "100000000"
+    }
+  },
+  "notes": "Desk opened its own Perpl testnet account with the full stake."
+}

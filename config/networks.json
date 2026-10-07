@@ -1,0 +1,152 @@
+{
+  "$comment": "Single source of truth for chains, venues and Imprest deployments. Values marked with source/verifiedAt were read on-chain; see proof/receipts/gate0.json. Imprest deployment addresses are null until a real deployment receipt exists in proof/receipts/deployments/.",
+  "development": {
+    "environment": "development",
+    "label": "LOCAL",
+    "chainId": 31337,
+    "rpcUrls": [
+      "http://127.0.0.1:8545"
+    ],
+    "explorer": null,
+    "perpl": {
+      "exchange": null,
+      "collateralToken": null,
+      "collateralSymbol": "USD",
+      "collateralDecimals": 6,
+      "markets": [
+        {
+          "symbol": "BTC",
+          "perpId": 16,
+          "priceDecimals": 1,
+          "lotDecimals": 5
+        },
+        {
+          "symbol": "ETH",
+          "perpId": 32,
+          "priceDecimals": 2,
+          "lotDecimals": 3
+        }
+      ]
+    },
+    "imprest": {
+      "pool": null,
+      "factory": null,
+      "deployBlock": null,
+      "cohorts": {}
+    },
+    "nativeSymbol": "ETH",
+    "ausdFaucet": null
+  },
+  "testnet": {
+    "environment": "testnet",
+    "label": "TESTNET",
+    "chainId": 10143,
+    "rpcUrls": [
+      "https://testnet-rpc.monad.xyz",
+      "https://rpc-testnet.monadinfra.com"
+    ],
+    "explorer": {
+      "name": "Monadscan (testnet)",
+      "url": "https://testnet.monadscan.com",
+      "tx": "/tx/",
+      "address": "/address/",
+      "alt": {
+        "name": "MonadVision (testnet)",
+        "url": "https://testnet.monadvision.com"
+      }
+    },
+    "perpl": {
+      "exchange": "0x1964C32f0bE608E7D29302AFF5E61268E72080cc",
+      "collateralToken": "0xa9012a055bd4e0eDfF8Ce09f960291C09D5322dC",
+      "collateralSymbol": "AUSD",
+      "collateralDecimals": 6,
+      "apiUrl": "https://testnet.perpl.xyz/api",
+      "wsUrl": "wss://testnet.perpl.xyz",
+      "markets": [
+        {
+          "symbol": "BTC",
+          "perpId": 16,
+          "priceDecimals": 1,
+          "lotDecimals": 5
+        },
+        {
+          "symbol": "ETH",
+          "perpId": 32,
+          "priceDecimals": 2,
+          "lotDecimals": 3
+        }
+      ],
+      "source": "PerplFoundation/api-docs README + perpl-sdk 0.2.9 Chain::testnet; collateral, decimals and market decimals read on-chain",
+      "verifiedAt": "2026-10-07T12:44:53Z"
+    },
+    "imprest": {
+      "pool": null,
+      "factory": null,
+      "deployBlock": null,
+      "cohorts": {}
+    },
+    "rpcNotes": "Primary QuickNode (50 rps); verification RPC Monad Foundation (20 rps). Source: docs.monad.xyz/developer-essentials/testnets, read 2026-10-07",
+    "faucet": "https://faucet.monad.xyz",
+    "nativeSymbol": "MON",
+    "ausdFaucet": {
+      "address": "0xd236c18D274E54FAccC3dd9DDA4b27965a73ee6C",
+      "function": "requestFunds(address)",
+      "dripAmount": "10000000000",
+      "maxAmountToOwn": "100000000000",
+      "maxDripFrequencySec": 60,
+      "source": "docs.agora.finance/developer/contract-deployments; parameters read on-chain 2026-10-07"
+    }
+  },
+  "mainnet": {
+    "environment": "mainnet",
+    "label": "MAINNET",
+    "chainId": 143,
+    "rpcUrls": [
+      "https://rpc.monad.xyz",
+      "https://rpc-mainnet.monadinfra.com"
+    ],
+    "explorer": {
+      "name": "Monadscan",
+      "url": "https://monadscan.com",
+      "tx": "/tx/",
+      "address": "/address/",
+      "alt": {
+        "name": "MonadVision",
+        "url": "https://monadvision.com"
+      }
+    },
+    "perpl": {
+      "exchange": "0x34B6552d57a35a1D042CcAe1951BD1C370112a6F",
+      "collateralToken": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+      "collateralSymbol": "AUSD",
+      "collateralDecimals": 6,
+      "apiUrl": "https://app.perpl.xyz/api",
+      "wsUrl": "wss://app.perpl.xyz",
+      "markets": [
+        {
+          "symbol": "BTC",
+          "perpId": 1,
+          "priceDecimals": 1,
+          "lotDecimals": 5
+        },
+        {
+          "symbol": "ETH",
+          "perpId": 20,
+          "priceDecimals": 2,
+          "lotDecimals": 3
+        }
+      ],
+      "source": "PerplFoundation/api-docs README + Agora contract deployments; collateral and market decimals read on-chain",
+      "verifiedAt": "2026-10-07T12:44:53Z"
+    },
+    "imprest": {
+      "pool": null,
+      "factory": null,
+      "deployBlock": null,
+      "cohorts": {}
+    },
+    "rpcNotes": "Primary QuickNode; verification RPC Monad Foundation. Source: docs.monad.xyz/developer-essentials/network-information, read 2026-10-07",
+    "nativeSymbol": "MON",
+    "ausdFaucet": null
+  }
+}

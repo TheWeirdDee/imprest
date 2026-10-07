@@ -1,0 +1,57 @@
+{
+  "id": "TESTNET_DEPLOY_DESKFACTORY",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T15:51:41Z",
+  "git_commit": "5ce3af63b30ed835c84e7eeff2021e93be595892",
+  "operation": "deploy",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0xc4dc64b84b3916a9cfc6be54e621b4afcb2db8e88e1a699a2d745d12a595a49d",
+  "block_number": 69010521,
+  "contract": "0x1569ee4a7210e226db932b5b7633e63d3ac8c544",
+  "contract_name": "DeskFactory",
+  "address": "0x1569ee4a7210e226db932b5b7633e63d3ac8c544",
+  "deployer": "0xba71146cbc0db5236a28da46ec40cc04a093283f",
+  "explorer_url": "https://testnet.monadscan.com/address/0x1569ee4a7210e226db932b5b7633e63d3ac8c544",
+  "inputs": {
+    "constructor_arguments": [
+      "0x85fFff6B1e8e62d2cE8ACA45B69AE530C6FbF457",
+      "0x1964C32f0bE608E7D29302AFF5E61268E72080cc",
+      "0xbA71146CBc0dB5236A28Da46eC40Cc04A093283f"
+    ],
+    "compiler": "solc 0.8.28, optimizer 200, via-IR, evm cancun"
+  },
+  "outputs": {
+    "abi_sha256": "69a9a3c453010bc9450d941901243ee597695ce7d1ba0fe2374e470000ffcec3",
+    "compiled_runtime_sha256": "16989622f63f27af2bc3aec3d10d81d28ec2e23ece726f1dcd97b6c9dc04c4b5"
+  },
+  "verification": {
+    "method": "receipt + code read on two independent RPCs; runtime compared to compiled bytecode with immutables masked",
+    "readbacks": [
+      {
+        "rpc": "https://testnet-rpc.monad.xyz",
+        "status": "success",
+        "blockNumber": 69010521,
+        "contractAddress": "0x1569ee4a7210e226db932b5b7633e63d3ac8c544",
+        "from": "0xba71146cbc0db5236a28da46ec40cc04a093283f",
+        "codeSha256": "a2a4f83b10bedca6ca790eaac2ee32d5625cca8c69a84e7f08f53bbce7ae9677",
+        "maskedMatches": true,
+        "timestamp": 1791388301
+      },
+      {
+        "rpc": "https://rpc-testnet.monadinfra.com",
+        "status": "success",
+        "blockNumber": 69010521,
+        "contractAddress": "0x1569ee4a7210e226db932b5b7633e63d3ac8c544",
+        "from": "0xba71146cbc0db5236a28da46ec40cc04a093283f",
+        "codeSha256": "a2a4f83b10bedca6ca790eaac2ee32d5625cca8c69a84e7f08f53bbce7ae9677",
+        "maskedMatches": true,
+        "timestamp": 1791388301
+      }
+    ],
+    "readbacks_agree": true,
+    "source_verification": "PENDING (Monadscan API key: owner action)"
+  },
+  "notes": ""
+}

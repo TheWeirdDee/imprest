@@ -1,0 +1,107 @@
+# Imprest indexer schema. Display data for track records, history and the LP console.
+# Nothing here authorizes money movement: the app and keeper read money state from chain.
+
+type Desk {
+  id: ID! # desk address (lowercase)
+  trader: String!
+  cohortId: BigInt!
+  accountId: BigInt
+  stake: BigInt!
+  tier: Int!
+  status: String! # Active | Enforcing | Closed
+  borrowed: BigInt!
+  trades: Int!
+  claims: Int!
+  totalPaidToTrader: BigInt!
+  feesAccrued: BigInt!
+  openedBlock: BigInt!
+  openedAt: BigInt!
+  lastEventBlock: BigInt!
+  settleReason: String
+  events: [DeskEvent!]! @derivedFrom(field: "desk")
+}
+
+type DeskEvent {
+  id: ID! # txHash-logIndex
+  desk: Desk!
+  kind: String! # Trade | Graduated | Claimed | Settled | EnforcementStarted | FeesAccrued | PartialClose | DeskActivated | EnforceCloseFailed | SettlementPending
+  txHash: String!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  argsJson: String!
+}
+
+type Trade {
+  id: ID!
+  desk: Desk!
+  perpId: BigInt!
+  side: Int!
+  orderType: Int!
+  priceLimit: BigInt!
+  lots: BigInt!
+  leverage: BigInt!
+  fillOrKill: Boolean!
+  lotsBefore: BigInt!
+  lotsAfter: BigInt!
+  markPrice: BigInt!
+  equityBefore: BigInt!
+  equityAfter: BigInt!
+  nonce: BigInt!
+  txHash: String!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}
+
+type Settlement {
+  id: ID!
+  desk: Desk!
+  reason: String!
+  borrowed: BigInt!
+  equity: BigInt!
+  principalRepaid: BigInt!
+  principalLoss: BigInt!
+  keeper: String!
+  keeperPaid: BigInt!
+  feesAccruedTotal: BigInt!
+  feesCollected: BigInt!
+  feesWrittenOff: BigInt!
+  traderRemainder: BigInt!
+  txHash: String!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}
+
+type PoolTotals {
+  id: ID! # "pool"
+  lpDeposited: BigInt!
+  lpWithdrawn: BigInt!
+  deployedPrincipal: BigInt!
+  principalLoss: BigInt!
+  feesCollected: BigInt!
+  feesWrittenOff: BigInt!
+  profitShare: BigInt!
+  keeperPaid: BigInt!
+  desksFunded: Int!
+  desksSettled: Int!
+}
+
+type PerpExposure {
+  id: ID! # perpId
+  gross: BigInt!
+  updatedBlock: BigInt!
+}
+
+type VenueLiquidation {
+  id: ID!
+  desk: Desk!
+  perpId: BigInt!
+  liqLotLNS: BigInt!
+  markPricePNS: BigInt!
+  txHash: String!
+  blockNumber: BigInt!
+}
+
+type AccountIndex {
+  id: ID! # Perpl accountId -> desk, for venue events keyed by account
+  desk: Desk!
+}

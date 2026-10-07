@@ -1,58 +1,42 @@
-# Build state
+# Build state and gap matrix
 
-Snapshot of the repository as built on 2026-10-07. Statuses use the evidence labels from
-[EVIDENCE_STANDARD.md](EVIDENCE_STANDARD.md). Nothing here is presented as a network result
-unless it says TESTNET VERIFIED or MAINNET VERIFIED.
+Updated 2026-10-07 after the testnet deployment and the frontend/mobile pass. "Done" means
+evidenced, not merely coded. Severity: P0 blocks the core claim, P1 blocks a strong
+submission, P2 is polish or optional.
 
-## Starting point (audit)
+## Deployment (preserved, not redeployed)
 
-The repository started with two files: the PRD v2 and v3 markdown documents. No git
-history, no code, no contracts, no tests, no environment files, no deployments. Foundry was
-not installed. Both PRDs were moved to `internal/` (gitignored, per the PRD build contract).
-
-## What exists now
-
-| Area | Path | State |
+| Contract | Address (Monad testnet 10143) | Evidence |
 | --- | --- | --- |
-| Contracts | `contracts/src` | ImprestPool, DeskFactory, Desk, SettlementMath, IPerplExchange. Compile with solc 0.8.28 (via-IR). |
-| Contract tests | `contracts/test` | 120 tests in 11 suites against Perpl's own exchange bytecode; all pass (LOCAL_REPRODUCTION). |
-| Perpl harness | `contracts/test/perpl-harness`, `contracts/perpl-artifacts` | Perpl exchange bytecode rc_v1.1.7-203 from perpl-sdk (MIT), hashes in MANIFEST.json. |
-| Testnet fork test | `contracts/test/perpl/TestnetFork.t.sol` | Desk against a fork of live Monad testnet: real Perpl account, real book fill. Passes (SIMULATED). |
-| Deploy script | `contracts/script/Deploy.s.sol` | Simulated against forked testnet state. Not broadcast (needs a funded key: owner action). |
-| Reference model | `proof/reference_model` | Independent Python model; 26/26 cases agree with contract outputs. |
-| Paired-desk self-attack | `contracts/test/security/PairedDesk.t.sol`, `proof/experiments/paired-desk` | 8 scenarios measured (LOCAL_REPRODUCTION). |
-| Replay experiment | `proof/experiments/replay` | Pre-registered; ran on 51 real BTC/ETH windows; null threshold hit (SIMULATED). |
-| Gate 0 | `scripts/src/gate0.ts`, `proof/receipts/{testnet,mainnet}/gate0.json` | Live reads on two RPCs per network (read-only, verified). |
-| Shared TS core | `packages/core` | Config loader, ABIs, errors, EIP-712, policy pre-check, accounting, verification state machine, evidence rules. 24 tests pass. |
-| Web app | `web` | Next.js 16: landing, app (dashboard, trade, risk, desk, positions, history, claims, receipts), LP console, proof, docs, status. Builds clean. |
-| Relayer | `relayer` | EIP-712 verification, nonce/deadline/registry/quota checks, simulation, capped gas. 11 tests pass. Not running (needs a funded key). |
-| Keeper | `keeper` | Direct-RPC watcher; simulate-then-send enforce/graduate/checkpoint. 9 tests pass. Not running (needs a funded key + deployment). |
-| Indexer | `indexer` | Envio v3 config generator, schema, handlers. Config validates against Envio's schema. Not run: Envio has no Windows binary. |
-| Evidence system | `proof/claims`, `scripts/src/build-claims.ts`, `scripts/src/validate-evidence.ts` | 30 claims generated from artifacts; validator passes (with on-chain checks). |
-| Mobile app | `app` | Not built. See [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md). |
+| ImprestPool | `0x85fFff6B1e8e62d2cE8ACA45B69AE530C6FbF457` | proof/receipts/deployments/testnet-ImprestPool.json |
+| DeskFactory | `0x1569EE4A7210e226db932B5B7633E63d3AC8c544` | proof/receipts/deployments/testnet-DeskFactory.json |
 
-## What is real vs mocked
+The frontend redesign and the mobile client required **no** contract change, so the
+deployment and every receipt remain valid.
 
-- **Real**: Perpl's exchange bytecode in the harness; live testnet and mainnet reads in
-  Gate 0 and the status page; live Perpl testnet market data in the terminal; the forked
-  testnet state in the fork test; Binance price history in the replay.
-- **Mocked, and labeled**: the local harness's market maker and its insurance fund (test
-  scaffolding around Perpl's real bytecode); the relayer tests' chain port; the
-  development-only mock account (local network only, behind a flag, labeled
-  DEVELOPMENT MOCK).
-- **Fake data**: none. Unmeasured values render as PENDING.
+## Gap matrix
 
-## Network configuration
-
-`config/networks.json` is the single source of addresses. Testnet and mainnet Perpl and
-AUSD addresses were read on chain (Gate 0). Imprest deployment addresses are `null` in all
-environments until a deployment receipt exists.
-
-## Contract deployment status
-
-| Network | Status |
-| --- | --- |
-| Local Foundry EVM | Deployed in every test run (LOCAL_REPRODUCTION) |
-| Monad testnet fork | Deployed in the fork test and the deploy dry-run (SIMULATED) |
-| Monad testnet | TESTNET_VERIFIED: pool `0x85fFff6B1e8e62d2cE8ACA45B69AE530C6FbF457`, factory `0x1569EE4A7210e226db932B5B7633E63d3AC8c544`; canonical run receipts in proof/receipts/testnet |
-| Monad mainnet | PENDING: needs real AUSD seed credit; not authorized |
+| Area | Current state | Desired state | Sev | Work | Verification | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| PROTOCOL | Deployed, bytecode verified, operator/treasury separated | same | P0 | none | sync-deployment, owner() on 2nd RPC | DONE |
+| TRADING | Real 0.001 BTC trade opened/closed through a desk on Perpl testnet | same | P0 | none | testnet receipts | DONE |
+| RISK | Direct 6x order reverted `LeverageExceeded` on testnet; 28 policy tests | same | P0 | none | testnet receipt + forge | DONE |
+| ACCOUNTING | Solidity, TS and Python agree (26/26); waterfall fuzzed | same | P0 | none | reference model | DONE |
+| CLAIMS | Implemented and tested locally; no testnet profit yet | real claim | P0 | needs genuine profit | testnet receipt | PENDING (market) |
+| GRADUATION | Premature graduation reverted on testnet | real graduation | P0 | needs genuine +2% | testnet receipt | PENDING (market) |
+| FRONTEND | Rebuilt: light design system, compact hero, live product panel, verification table, network pill | credible fintech UI | P0 | done this pass | screenshots + E2E | DONE |
+| RESPONSIVENESS | Overflow checks 320-1920 px across 10 pages | same | P0 | done | Playwright width matrix | see FINAL_AUDIT |
+| MOBILE | Expo app on shared core: Home, Trade, Positions, Risk, Claims, History | runs on a device | P1 | passkey domain + dev build (owner) | typecheck, tests, Android bundle | PARTIAL |
+| WALLET | Mera passkey web flow tested with a virtual PRF authenticator | same + mobile on device | P1 | device run | Playwright passkey tests | PARTIAL |
+| BACKEND | Relayer built and tested; not running | running | P1 | fund relayer key, start | relayer tests | PENDING |
+| INDEXER | Config/schema/handlers; config validates | running, UI shows LIVE/SYNCING/STALE | P1 | Linux/Docker run | Envio | PENDING |
+| TESTING | 120 forge, 44 TS, 3 mobile, Playwright suite | same | P0 | none | runs | see FINAL_AUDIT |
+| ACCESSIBILITY | Semantic HTML, labels, focus rings, status never color-only, reduced motion | audited with a tool | P2 | axe audit | manual + E2E | PARTIAL |
+| PERFORMANCE | Chart lazy-loaded; parallel cohort reads; bounded polling | measured budget | P2 | Lighthouse run | none yet | PENDING |
+| DOCUMENTATION | Full set incl. SPONSOR_MATRIX, MOBILE, FINAL_AUDIT | matches reality | P1 | keep updated | review | DONE |
+| EVIDENCE | 33 generated claims, validator passes on-chain | same | P0 | none | validate-evidence --onchain | DONE |
+| SPONSOR INTEGRATIONS | Perpl, AUSD, Mera, Monad used; Envio built not run; Aurora/Kuru not built | per matrix | P2 | see SPONSOR_MATRIX | matrix | PARTIAL |
+| SECURITY | Red-team suite passes; no audit | audit | P1 | external audit | none | PENDING |
+| OBSERVABILITY | Relayer/keeper JSON logs with operation_id; /status live checks | same + dashboards | P2 | none | /status | PARTIAL |
+| HOSTING | Web runs locally | public URL | P1 | owner chooses host/domain | none | PENDING (owner) |
+| MAINNET | Not deployed | optional | P2 | real capital, owner decision | none | NOT STARTED |

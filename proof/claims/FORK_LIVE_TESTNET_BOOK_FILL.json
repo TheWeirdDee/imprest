@@ -1,0 +1,21 @@
+{
+  "value": "100 lots (BTC, 0.00001 BTC each)",
+  "unit": "lots",
+  "network": "Monad Testnet fork (local, nothing broadcast)",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/local/testnet-fork-run.json",
+    "contracts/test/perpl/TestnetFork.t.sol"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:25:08Z",
+  "sample_size": null,
+  "denominator": null,
+  "claim_id": "FORK_LIVE_TESTNET_BOOK_FILL",
+  "statement": "In a fork of live Monad testnet, a desk opened its own Perpl account, filled an IOC order against the real testnet order book, and closed reduce-only; a 6x order was refused by the contract",
+  "status": "SIMULATED",
+  "methodology": "cd contracts && FORK_TESTNET=true forge test --match-contract TestnetFork -vv",
+  "source": "contracts/test/perpl/TestnetFork.t.sol"
+}

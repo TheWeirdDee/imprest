@@ -55,6 +55,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@noble/hashes':
+        specifier: 2.2.0
+        version: 2.2.0
       viem:
         specifier: ^2.57.3
         version: 2.57.3(typescript@5.9.3)

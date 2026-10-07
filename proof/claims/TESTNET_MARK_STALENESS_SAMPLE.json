@@ -1,0 +1,21 @@
+{
+  "value": "0/90",
+  "unit": "stale samples",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": "0x1964C32f0bE608E7D29302AFF5E61268E72080cc",
+  "evidence": [
+    "proof/receipts/testnet/mark-staleness.json",
+    "proof/experiments/mark-staleness-testnet.json"
+  ],
+  "transaction_hash": null,
+  "block_number": 68993265,
+  "timestamp_utc": "2026-10-07T14:25:28Z",
+  "sample_size": 90,
+  "denominator": "sampled blocks",
+  "claim_id": "TESTNET_MARK_STALENESS_SAMPLE",
+  "statement": "Share of sampled testnet blocks where Perpl's BTC mark was older than its 60 s max age (when desks refuse new risk)",
+  "status": "TESTNET_VERIFIED",
+  "methodology": "read-only eth_call getPerpetualInfo at sampled historical blocks; age = block.timestamp - markTimestamp; window blocks 68991040-68993265, stride 25",
+  "source": "scripts/src/mark-staleness.ts"
+}

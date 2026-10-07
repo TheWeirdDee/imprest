@@ -26,14 +26,67 @@ is copied. One passkey derives the same Imprest account on both clients
 
 Vocabulary matches the web app: "restricted credit", "risk floor", "high-water mark".
 
+## See it on your phone (5 minutes, free)
+
+1. Install **Expo Go** from the App Store or Google Play. Use the version that supports SDK 57.
+2. Put the phone on the **same Wi-Fi** as this computer.
+3. In the repository root, run:
+
+   ```
+   npm run mobile
+   ```
+
+   A QR code appears in the terminal. It only appears in a real terminal window, not when
+   the output is piped to a file.
+4. Scan it. On Android, use the scanner inside Expo Go. On iPhone, use the Camera app.
+5. If the phone cannot connect (guest Wi-Fi, a corporate network, or a firewall), stop and
+   run `cd app && npx expo start --tunnel` instead.
+
+### What works in Expo Go and what does not
+
+| Works | Does not work in Expo Go |
+| --- | --- |
+| Every screen and navigation | **Passkey sign-in.** Passkeys need a native module and a domain linked to the app. Expo Go has neither, so the app shows `RP_ID_NOT_CONFIGURED`. It never pretends to sign you in. |
+| Live BTC/ETH marks from Perpl testnet | Sending trades, opening a desk, claiming (all need the signed-in account) |
+| | Risk limits, positions, claims and history (all read from your own desk, so they need the signed-in account) |
+
+In short: Expo Go shows the real app reading real testnet data. Trading from the phone needs
+the development build described below.
+
 ## Verified so far
 
 | Check | Result |
 | --- | --- |
-| `npm run typecheck` | see FINAL_AUDIT.md |
-| `npm test` (shared logic) | see FINAL_AUDIT.md |
-| `npm run bundle:check` (Android JS bundle via `expo export`) | see FINAL_AUDIT.md |
-| Run on a device | PENDING |
+| `npm run typecheck` | clean |
+| `npm test` (shared logic) | 3/3 pass |
+| `npm run bundle:check` (Android JS bundle via `expo export`) | exports |
+| `npm run mobile` starts Metro; manifest served (SDK 57, "Imprest"); Android dev bundle served (16 MB, HTTP 200) | LOCAL, 2026-10-07 |
+| Scanned and opened on a physical phone | PENDING (needs a phone; the owner can do it with the steps above) |
+
+## Passkeys on a phone: what is needed and why
+
+**Why:** iOS and Android only release a passkey to an app the domain owner has vouched for.
+The website proves this by publishing two small files, and the app declares the same domain.
+Without that link the operating system refuses, which is the anti-phishing design.
+
+**What, where, how much:**
+
+| Item | Where | Cost |
+| --- | --- | --- |
+| A domain you control (e.g. `imprest.xyz`) | any registrar | about $10–15 per year |
+| Host the web app on it over HTTPS | Vercel, Netlify or Cloudflare Pages free tier | $0 |
+| `/.well-known/apple-app-site-association` with `{"webcredentials":{"apps":["<TEAMID>.xyz.imprest.app"]}}` | `web/public/.well-known/` (I generate it once you give me the Team ID) | $0 |
+| `/.well-known/assetlinks.json` with package `xyz.imprest.app` and the signing certificate's SHA-256 | `web/public/.well-known/` (I generate it from the debug or release keystore) | $0 |
+| `ios.associatedDomains: ["webcredentials:<domain>"]` | `app/app.json` (currently the placeholder `webcredentials:imprest.example`) | $0 |
+| `EXPO_PUBLIC_PASSKEY_RP_ID=<domain>` | `app/.env` | $0 |
+| `NEXT_PUBLIC_PASSKEY_RP_ID=<domain>` | web host environment variables | $0 |
+| Android development build: `cd app && npx expo run:android` | Android Studio on this PC, phone over USB | $0 |
+| iOS development build: `npx expo run:ios`, or `eas build --profile development` | needs a Mac with Xcode, or an Expo account for cloud builds | Apple Developer Program, $99 per year |
+
+**Owner steps:** (1) buy or choose a domain, (2) deploy `web/` to it, (3) send me the domain,
+plus the Apple Team ID if you want iOS, (4) I fill in the files above and rebuild, (5) run
+the development build on your phone. Android alone costs only the domain. Nothing has been
+bought or signed up for on your behalf.
 
 ## What a device run needs (owner)
 

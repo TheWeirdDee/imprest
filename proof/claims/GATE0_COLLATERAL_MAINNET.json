@@ -1,0 +1,20 @@
+{
+  "value": "AUSD",
+  "unit": "collateral symbol",
+  "network": "Monad Mainnet",
+  "chain_id": 143,
+  "contract": "0x34B6552d57a35a1D042CcAe1951BD1C370112a6F",
+  "evidence": [
+    "proof/receipts/mainnet/gate0.json"
+  ],
+  "transaction_hash": null,
+  "block_number": 111364201,
+  "timestamp_utc": "2026-10-07T15:51:12Z",
+  "sample_size": null,
+  "denominator": null,
+  "claim_id": "GATE0_COLLATERAL_MAINNET",
+  "statement": "Perpl's Monad Mainnet exchange margins in Agora AUSD (0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a)",
+  "status": "MAINNET_VERIFIED",
+  "methodology": "read-only eth_call getExchangeInfo() and ERC20 symbol() at a pinned block on two RPCs",
+  "source": "scripts/src/gate0.ts"
+}

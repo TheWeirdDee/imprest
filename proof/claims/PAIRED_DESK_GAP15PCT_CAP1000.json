@@ -1,0 +1,21 @@
+{
+  "value": "0.60",
+  "unit": "AUSD (pool net, negative = pool loss)",
+  "network": "local Foundry EVM",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/experiments/paired-desk/gap15pct_cap1000.json",
+    "contracts/test/security/PairedDesk.t.sol"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:27:11Z",
+  "sample_size": 1,
+  "denominator": "one deterministic scenario run",
+  "claim_id": "PAIRED_DESK_GAP15PCT_CAP1000",
+  "statement": "Paired long/short desks run by one actor, scored jointly (gap15pct_cap1000): pool net result after principal loss, fees and profit share",
+  "status": "LOCAL_REPRODUCTION",
+  "methodology": "Perpl bytecode harness; move 1500 bps in 1 step(s); desk notional cap 1000.00 AUSD; principal loss 18.03; actor net extraction 6.73. A measured scenario, not a universal bound.",
+  "source": "contracts/test/security/PairedDesk.t.sol"
+}

@@ -1,0 +1,21 @@
+{
+  "value": 31200,
+  "unit": "random handler calls",
+  "network": "local Foundry EVM",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/local/forge-test-results.json",
+    "contracts/test/invariant/PoolInvariant.t.sol"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:27:11Z",
+  "sample_size": 325,
+  "denominator": "invariant runs logged",
+  "claim_id": "LOCAL_INVARIANT_CAMPAIGN",
+  "statement": "Stateful invariant campaign (cash-basis pool identity, principal and exposure ledgers, fee subledger and cap, closed desks empty) held across every run",
+  "status": "LOCAL_REPRODUCTION",
+  "methodology": "forge invariant runs; coverage: 1300 desks, 723 random trades, 491 graduations, 741 settlements, 1 claims",
+  "source": "contracts/test/invariant/PoolInvariant.t.sol"
+}

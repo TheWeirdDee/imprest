@@ -301,6 +301,8 @@ const pendingRun = [
   ["MAINNET_PRINCIPAL_LOSS_BEYOND_STAKES", "Pool principal loss beyond first-loss stakes across included mainnet breaches", "Monad Mainnet"],
   ["MAINNET_REAL_TRADERS_FUNDED", "Real outside traders evaluated and funded on mainnet", "Monad Mainnet"],
   ["REPLAY_ATOMIC_VS_KEEPER_OVERSHOOT", "Median overshoot past the floor: in-transaction enforcement vs a 1 s keeper over 100 replayed BTC/ETH windows", "simulation"],
+  ["TESTNET_RELAYED_TRADE", "A trader-signed intent submitted by the Imprest relayer fills on Perpl testnet and is verified on an independent RPC", "Monad Testnet"],
+  ["TESTNET_KEEPER_ACTION", "The Imprest keeper sends a contract-accepted action (graduate or enforce) on Monad testnet", "Monad Testnet"],
   ["KEEPER_BOUNTY_COVERS_MONAD_GAS", "The payable 0.5 AUSD keeper bounty exceeds measured Monad enforce() gas cost plus margin", "Monad Testnet"],
 ] as const;
 const existing = new Set(claims.map((c) => c.claim_id));

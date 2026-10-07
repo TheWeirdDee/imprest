@@ -28,7 +28,7 @@ function ClaimLine({ c }: { c: Claim | undefined }) {
   return (
     <div className="border-b border-line py-3 last:border-b-0">
       <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-4">
-        <div className="min-w-0 text-sm text-fg">{c.statement}</div>
+        <div className="min-w-0 text-sm [overflow-wrap:anywhere] text-fg">{c.statement}</div>
         <div className="flex flex-wrap items-start gap-2 sm:max-w-[18rem] sm:flex-col sm:items-end">
           {c.value !== null ? (
             <>
@@ -60,8 +60,8 @@ function ClaimLine({ c }: { c: Claim | undefined }) {
       </div>
       <details className="mt-1 text-xs text-muted">
         <summary className="cursor-pointer select-none">Method</summary>
-        <p className="mt-1 leading-relaxed">{c.methodology}</p>
-        <p className="num mt-1">source: {c.source}</p>
+        <p className="mt-1 leading-relaxed [overflow-wrap:anywhere]">{c.methodology}</p>
+        <p className="num mt-1 [overflow-wrap:anywhere]">source: {c.source}</p>
       </details>
     </div>
   );
@@ -124,6 +124,10 @@ export default function ProofPage() {
           </Card>
 
           <Card title="2. Contract deployments">
+            <dl className="mb-3 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
+              <div className="flex justify-between gap-2"><dt className="text-muted">Network</dt><dd>Monad testnet (chain 10143)</dd></div>
+              <div className="flex justify-between gap-2"><dt className="text-muted">Mainnet</dt><dd>not deployed</dd></div>
+            </dl>
             {deployments.length === 0 ? (
               <div className="flex flex-wrap items-center gap-3 text-sm text-fg-2">
                 <Pending /> No Imprest deployment receipt exists yet. Testnet deployment needs a funded deployer key (an owner
@@ -133,7 +137,7 @@ export default function ProofPage() {
               deployments.map((d) => (
                 <div key={d.file} className="flex flex-wrap items-center justify-between gap-2 border-b border-line py-2 text-sm last:border-b-0">
                   <span>{d.contract_name}</span>
-                  <span className="flex items-center gap-3">
+                  <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     <AddressLink address={d.address} />
                     {d.tx_hash && <TxLink hash={d.tx_hash} />}
                     <EvidenceBadge status={d.status} />

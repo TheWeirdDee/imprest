@@ -1,0 +1,46 @@
+{
+  "id": "MARK_STALENESS_TESTNET",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T14:25:28Z",
+  "git_commit": null,
+  "operation": "perpl_mark_age_sample",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": null,
+  "block_number": 68993265,
+  "contract": "0x1964C32f0bE608E7D29302AFF5E61268E72080cc",
+  "explorer_url": null,
+  "inputs": {
+    "samples": 90,
+    "stride_blocks": "25",
+    "rpc": "https://testnet-rpc.monad.xyz"
+  },
+  "outputs": {
+    "summary": [
+      {
+        "market": "BTC",
+        "perpId": 16,
+        "samples": 90,
+        "stale_samples": 0,
+        "stale_fraction": 0,
+        "median_age_sec": 20,
+        "max_age_sec": 49
+      },
+      {
+        "market": "ETH",
+        "perpId": 32,
+        "samples": 90,
+        "stale_samples": 0,
+        "stale_fraction": 0,
+        "median_age_sec": 18,
+        "max_age_sec": 49
+      }
+    ]
+  },
+  "verification": {
+    "method": "read-only eth_call getPerpetualInfo at sampled historical blocks; age = block.timestamp - markTimestamp",
+    "full_rows": "proof/experiments/mark-staleness-testnet.json"
+  },
+  "notes": "Read-only historical eth_calls; no transaction."
+}

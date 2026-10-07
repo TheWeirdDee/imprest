@@ -1,0 +1,21 @@
+{
+  "status": "SIMULATED",
+  "label": "Testnet fork simulation: live Monad testnet state (Perpl exchange, Agora AUSD + faucet, order book) forked locally; nothing broadcast",
+  "command": "cd contracts && FORK_TESTNET=true forge test --match-contract TestnetFork -vv",
+  "started_utc": "2026-10-07T15:25:08Z",
+  "exit_code": 0,
+  "pass": true,
+  "logs": [
+    "[PASS] test_fork_deskOpensRealPerplAccountAndPolicyHolds() (gas: 6535834)",
+    "Logs:",
+    "live testnet BTC mark (PNS): 829935",
+    "mark valid at fork block: true",
+    "fork block.timestamp: 1791386710",
+    "fork block.number: 69005251",
+    "perp markTimestamp: 1791386680",
+    "perp oracleTimestampSec: 1791386662",
+    "lots filled against live testnet book: 100",
+    "desk equity after fill (base units): 99968366",
+    "lots after reduce-only close: 0"
+  ]
+}

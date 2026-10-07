@@ -11,8 +11,17 @@
     "mark-staleness": "tsx src/mark-staleness.ts",
     "sync-deployment": "tsx src/sync-deployment.ts",
     "testnet-demo": "tsx src/testnet-demo.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "fund-testnet": "tsx src/fund-testnet.ts",
+    "graduation-attempt": "tsx src/graduation-attempt.ts"
   },
-  "dependencies": { "@imprest/core": "workspace:*", "viem": "^2.57.3" },
-  "devDependencies": { "tsx": "^4.20.6", "typescript": "^5.9.3", "@types/node": "^22.10.0" }
+  "dependencies": {
+    "@imprest/core": "workspace:*",
+    "viem": "^2.57.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "@types/node": "^22.10.0"
+  }
 }

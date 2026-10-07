@@ -1,0 +1,1477 @@
+{
+  "id": "MARK_STALENESS_TESTNET",
+  "environment": "testnet",
+  "status": "TESTNET_VERIFIED",
+  "method": "read-only eth_call getPerpetualInfo at sampled historical blocks; age = block.timestamp - markTimestamp",
+  "window": {
+    "from_block": "68991040",
+    "to_block": "68993265",
+    "from_ts": 1791382398,
+    "to_ts": 1791383075,
+    "stride_blocks": "25"
+  },
+  "rpc": "https://testnet-rpc.monad.xyz",
+  "generated_utc": "2026-10-07T14:25:28Z",
+  "summary": [
+    {
+      "market": "BTC",
+      "perpId": 16,
+      "samples": 90,
+      "stale_samples": 0,
+      "stale_fraction": 0,
+      "median_age_sec": 20,
+      "max_age_sec": 49
+    },
+    {
+      "market": "ETH",
+      "perpId": 32,
+      "samples": 90,
+      "stale_samples": 0,
+      "stale_fraction": 0,
+      "median_age_sec": 18,
+      "max_age_sec": 49
+    }
+  ],
+  "rows": [
+    {
+      "block": "68993265",
+      "ts": 1791383075,
+      "perp": 16,
+      "ageSec": 8,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993265",
+      "ts": 1791383075,
+      "perp": 32,
+      "ageSec": 26,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993240",
+      "ts": 1791383067,
+      "perp": 16,
+      "ageSec": 0,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993240",
+      "ts": 1791383067,
+      "perp": 32,
+      "ageSec": 18,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993215",
+      "ts": 1791383060,
+      "perp": 16,
+      "ageSec": 44,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993215",
+      "ts": 1791383060,
+      "perp": 32,
+      "ageSec": 11,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993190",
+      "ts": 1791383052,
+      "perp": 16,
+      "ageSec": 36,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993190",
+      "ts": 1791383052,
+      "perp": 32,
+      "ageSec": 3,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993165",
+      "ts": 1791383045,
+      "perp": 16,
+      "ageSec": 29,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993165",
+      "ts": 1791383045,
+      "perp": 32,
+      "ageSec": 22,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993140",
+      "ts": 1791383037,
+      "perp": 16,
+      "ageSec": 21,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993140",
+      "ts": 1791383037,
+      "perp": 32,
+      "ageSec": 14,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993115",
+      "ts": 1791383030,
+      "perp": 16,
+      "ageSec": 14,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993115",
+      "ts": 1791383030,
+      "perp": 32,
+      "ageSec": 7,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993090",
+      "ts": 1791383022,
+      "perp": 16,
+      "ageSec": 6,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993090",
+      "ts": 1791383022,
+      "perp": 32,
+      "ageSec": 23,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993065",
+      "ts": 1791383014,
+      "perp": 16,
+      "ageSec": 48,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993065",
+      "ts": 1791383014,
+      "perp": 32,
+      "ageSec": 15,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993040",
+      "ts": 1791383006,
+      "perp": 16,
+      "ageSec": 40,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993040",
+      "ts": 1791383006,
+      "perp": 32,
+      "ageSec": 7,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993015",
+      "ts": 1791382999,
+      "perp": 16,
+      "ageSec": 33,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68993015",
+      "ts": 1791382999,
+      "perp": 32,
+      "ageSec": 33,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992990",
+      "ts": 1791382991,
+      "perp": 16,
+      "ageSec": 25,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992990",
+      "ts": 1791382991,
+      "perp": 32,
+      "ageSec": 25,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992965",
+      "ts": 1791382983,
+      "perp": 16,
+      "ageSec": 17,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992965",
+      "ts": 1791382983,
+      "perp": 32,
+      "ageSec": 17,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992940",
+      "ts": 1791382976,
+      "perp": 16,
+      "ageSec": 10,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992940",
+      "ts": 1791382976,
+      "perp": 32,
+      "ageSec": 10,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992915",
+      "ts": 1791382968,
+      "perp": 16,
+      "ageSec": 2,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992915",
+      "ts": 1791382968,
+      "perp": 32,
+      "ageSec": 2,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992890",
+      "ts": 1791382960,
+      "perp": 16,
+      "ageSec": 45,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992890",
+      "ts": 1791382960,
+      "perp": 32,
+      "ageSec": 45,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992865",
+      "ts": 1791382953,
+      "perp": 16,
+      "ageSec": 38,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992865",
+      "ts": 1791382953,
+      "perp": 32,
+      "ageSec": 38,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992840",
+      "ts": 1791382945,
+      "perp": 16,
+      "ageSec": 30,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992840",
+      "ts": 1791382945,
+      "perp": 32,
+      "ageSec": 30,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992815",
+      "ts": 1791382937,
+      "perp": 16,
+      "ageSec": 22,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992815",
+      "ts": 1791382937,
+      "perp": 32,
+      "ageSec": 22,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992790",
+      "ts": 1791382930,
+      "perp": 16,
+      "ageSec": 15,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992790",
+      "ts": 1791382930,
+      "perp": 32,
+      "ageSec": 15,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992765",
+      "ts": 1791382922,
+      "perp": 16,
+      "ageSec": 7,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992765",
+      "ts": 1791382922,
+      "perp": 32,
+      "ageSec": 7,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992740",
+      "ts": 1791382915,
+      "perp": 16,
+      "ageSec": 0,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992740",
+      "ts": 1791382915,
+      "perp": 32,
+      "ageSec": 49,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992715",
+      "ts": 1791382906,
+      "perp": 16,
+      "ageSec": 25,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992715",
+      "ts": 1791382906,
+      "perp": 32,
+      "ageSec": 40,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992690",
+      "ts": 1791382898,
+      "perp": 16,
+      "ageSec": 17,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992690",
+      "ts": 1791382898,
+      "perp": 32,
+      "ageSec": 32,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992665",
+      "ts": 1791382890,
+      "perp": 16,
+      "ageSec": 9,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992665",
+      "ts": 1791382890,
+      "perp": 32,
+      "ageSec": 24,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992640",
+      "ts": 1791382883,
+      "perp": 16,
+      "ageSec": 2,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992640",
+      "ts": 1791382883,
+      "perp": 32,
+      "ageSec": 17,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992615",
+      "ts": 1791382875,
+      "perp": 16,
+      "ageSec": 45,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992615",
+      "ts": 1791382875,
+      "perp": 32,
+      "ageSec": 9,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992590",
+      "ts": 1791382868,
+      "perp": 16,
+      "ageSec": 38,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992590",
+      "ts": 1791382868,
+      "perp": 32,
+      "ageSec": 2,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992565",
+      "ts": 1791382860,
+      "perp": 16,
+      "ageSec": 30,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992565",
+      "ts": 1791382860,
+      "perp": 32,
+      "ageSec": 44,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992540",
+      "ts": 1791382853,
+      "perp": 16,
+      "ageSec": 23,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992540",
+      "ts": 1791382853,
+      "perp": 32,
+      "ageSec": 37,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992515",
+      "ts": 1791382845,
+      "perp": 16,
+      "ageSec": 15,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992515",
+      "ts": 1791382845,
+      "perp": 32,
+      "ageSec": 29,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992490",
+      "ts": 1791382837,
+      "perp": 16,
+      "ageSec": 7,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992490",
+      "ts": 1791382837,
+      "perp": 32,
+      "ageSec": 21,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992465",
+      "ts": 1791382830,
+      "perp": 16,
+      "ageSec": 14,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992465",
+      "ts": 1791382830,
+      "perp": 32,
+      "ageSec": 14,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992440",
+      "ts": 1791382822,
+      "perp": 16,
+      "ageSec": 6,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992440",
+      "ts": 1791382822,
+      "perp": 32,
+      "ageSec": 6,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992415",
+      "ts": 1791382815,
+      "perp": 16,
+      "ageSec": 28,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992415",
+      "ts": 1791382815,
+      "perp": 32,
+      "ageSec": 1,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992390",
+      "ts": 1791382807,
+      "perp": 16,
+      "ageSec": 20,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992390",
+      "ts": 1791382807,
+      "perp": 32,
+      "ageSec": 9,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992365",
+      "ts": 1791382800,
+      "perp": 16,
+      "ageSec": 13,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992365",
+      "ts": 1791382800,
+      "perp": 32,
+      "ageSec": 2,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992340",
+      "ts": 1791382792,
+      "perp": 16,
+      "ageSec": 5,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992340",
+      "ts": 1791382792,
+      "perp": 32,
+      "ageSec": 44,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992315",
+      "ts": 1791382785,
+      "perp": 16,
+      "ageSec": 24,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992315",
+      "ts": 1791382785,
+      "perp": 32,
+      "ageSec": 37,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992290",
+      "ts": 1791382777,
+      "perp": 16,
+      "ageSec": 16,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992290",
+      "ts": 1791382777,
+      "perp": 32,
+      "ageSec": 29,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992265",
+      "ts": 1791382769,
+      "perp": 16,
+      "ageSec": 8,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992265",
+      "ts": 1791382769,
+      "perp": 32,
+      "ageSec": 21,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992240",
+      "ts": 1791382762,
+      "perp": 16,
+      "ageSec": 1,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992240",
+      "ts": 1791382762,
+      "perp": 32,
+      "ageSec": 14,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992215",
+      "ts": 1791382754,
+      "perp": 16,
+      "ageSec": 43,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992215",
+      "ts": 1791382754,
+      "perp": 32,
+      "ageSec": 6,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992190",
+      "ts": 1791382747,
+      "perp": 16,
+      "ageSec": 36,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992190",
+      "ts": 1791382747,
+      "perp": 32,
+      "ageSec": 49,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992165",
+      "ts": 1791382739,
+      "perp": 16,
+      "ageSec": 28,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992165",
+      "ts": 1791382739,
+      "perp": 32,
+      "ageSec": 41,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992140",
+      "ts": 1791382731,
+      "perp": 16,
+      "ageSec": 20,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992140",
+      "ts": 1791382731,
+      "perp": 32,
+      "ageSec": 33,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992115",
+      "ts": 1791382724,
+      "perp": 16,
+      "ageSec": 13,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992115",
+      "ts": 1791382724,
+      "perp": 32,
+      "ageSec": 26,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992090",
+      "ts": 1791382716,
+      "perp": 16,
+      "ageSec": 5,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992090",
+      "ts": 1791382716,
+      "perp": 32,
+      "ageSec": 18,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992065",
+      "ts": 1791382709,
+      "perp": 16,
+      "ageSec": 15,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992065",
+      "ts": 1791382709,
+      "perp": 32,
+      "ageSec": 11,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992040",
+      "ts": 1791382701,
+      "perp": 16,
+      "ageSec": 7,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992040",
+      "ts": 1791382701,
+      "perp": 32,
+      "ageSec": 3,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992015",
+      "ts": 1791382694,
+      "perp": 16,
+      "ageSec": 0,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68992015",
+      "ts": 1791382694,
+      "perp": 32,
+      "ageSec": 46,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991990",
+      "ts": 1791382686,
+      "perp": 16,
+      "ageSec": 24,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991990",
+      "ts": 1791382686,
+      "perp": 32,
+      "ageSec": 38,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991965",
+      "ts": 1791382679,
+      "perp": 16,
+      "ageSec": 17,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991965",
+      "ts": 1791382679,
+      "perp": 32,
+      "ageSec": 31,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991940",
+      "ts": 1791382671,
+      "perp": 16,
+      "ageSec": 9,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991940",
+      "ts": 1791382671,
+      "perp": 32,
+      "ageSec": 23,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991915",
+      "ts": 1791382664,
+      "perp": 16,
+      "ageSec": 2,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991915",
+      "ts": 1791382664,
+      "perp": 32,
+      "ageSec": 16,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991890",
+      "ts": 1791382656,
+      "perp": 16,
+      "ageSec": 44,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991890",
+      "ts": 1791382656,
+      "perp": 32,
+      "ageSec": 8,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991865",
+      "ts": 1791382648,
+      "perp": 16,
+      "ageSec": 36,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991865",
+      "ts": 1791382648,
+      "perp": 32,
+      "ageSec": 0,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991840",
+      "ts": 1791382641,
+      "perp": 16,
+      "ageSec": 29,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991840",
+      "ts": 1791382641,
+      "perp": 32,
+      "ageSec": 40,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991815",
+      "ts": 1791382633,
+      "perp": 16,
+      "ageSec": 21,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991815",
+      "ts": 1791382633,
+      "perp": 32,
+      "ageSec": 32,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991790",
+      "ts": 1791382626,
+      "perp": 16,
+      "ageSec": 14,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991790",
+      "ts": 1791382626,
+      "perp": 32,
+      "ageSec": 25,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991765",
+      "ts": 1791382618,
+      "perp": 16,
+      "ageSec": 6,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991765",
+      "ts": 1791382618,
+      "perp": 32,
+      "ageSec": 17,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991740",
+      "ts": 1791382611,
+      "perp": 16,
+      "ageSec": 49,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991740",
+      "ts": 1791382611,
+      "perp": 32,
+      "ageSec": 10,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991715",
+      "ts": 1791382603,
+      "perp": 16,
+      "ageSec": 41,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991715",
+      "ts": 1791382603,
+      "perp": 32,
+      "ageSec": 2,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991690",
+      "ts": 1791382595,
+      "perp": 16,
+      "ageSec": 33,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991690",
+      "ts": 1791382595,
+      "perp": 32,
+      "ageSec": 3,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991665",
+      "ts": 1791382588,
+      "perp": 16,
+      "ageSec": 26,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991665",
+      "ts": 1791382588,
+      "perp": 32,
+      "ageSec": 16,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991640",
+      "ts": 1791382580,
+      "perp": 16,
+      "ageSec": 18,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991640",
+      "ts": 1791382580,
+      "perp": 32,
+      "ageSec": 8,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991615",
+      "ts": 1791382573,
+      "perp": 16,
+      "ageSec": 11,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991615",
+      "ts": 1791382573,
+      "perp": 32,
+      "ageSec": 1,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991590",
+      "ts": 1791382565,
+      "perp": 16,
+      "ageSec": 3,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991590",
+      "ts": 1791382565,
+      "perp": 32,
+      "ageSec": 2,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991565",
+      "ts": 1791382558,
+      "perp": 16,
+      "ageSec": 20,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991565",
+      "ts": 1791382558,
+      "perp": 32,
+      "ageSec": 1,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991540",
+      "ts": 1791382550,
+      "perp": 16,
+      "ageSec": 12,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991540",
+      "ts": 1791382550,
+      "perp": 32,
+      "ageSec": 7,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991515",
+      "ts": 1791382543,
+      "perp": 16,
+      "ageSec": 5,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991515",
+      "ts": 1791382543,
+      "perp": 32,
+      "ageSec": 35,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991490",
+      "ts": 1791382535,
+      "perp": 16,
+      "ageSec": 47,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991490",
+      "ts": 1791382535,
+      "perp": 32,
+      "ageSec": 27,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991465",
+      "ts": 1791382527,
+      "perp": 16,
+      "ageSec": 39,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991465",
+      "ts": 1791382527,
+      "perp": 32,
+      "ageSec": 19,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991440",
+      "ts": 1791382520,
+      "perp": 16,
+      "ageSec": 32,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991440",
+      "ts": 1791382520,
+      "perp": 32,
+      "ageSec": 12,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991415",
+      "ts": 1791382512,
+      "perp": 16,
+      "ageSec": 24,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991415",
+      "ts": 1791382512,
+      "perp": 32,
+      "ageSec": 4,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991390",
+      "ts": 1791382504,
+      "perp": 16,
+      "ageSec": 16,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991390",
+      "ts": 1791382504,
+      "perp": 32,
+      "ageSec": 46,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991365",
+      "ts": 1791382497,
+      "perp": 16,
+      "ageSec": 9,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991365",
+      "ts": 1791382497,
+      "perp": 32,
+      "ageSec": 39,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991340",
+      "ts": 1791382489,
+      "perp": 16,
+      "ageSec": 1,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991340",
+      "ts": 1791382489,
+      "perp": 32,
+      "ageSec": 31,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991315",
+      "ts": 1791382482,
+      "perp": 16,
+      "ageSec": 44,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991315",
+      "ts": 1791382482,
+      "perp": 32,
+      "ageSec": 24,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991290",
+      "ts": 1791382474,
+      "perp": 16,
+      "ageSec": 36,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991290",
+      "ts": 1791382474,
+      "perp": 32,
+      "ageSec": 16,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991265",
+      "ts": 1791382467,
+      "perp": 16,
+      "ageSec": 29,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991265",
+      "ts": 1791382467,
+      "perp": 32,
+      "ageSec": 9,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991240",
+      "ts": 1791382459,
+      "perp": 16,
+      "ageSec": 21,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991240",
+      "ts": 1791382459,
+      "perp": 32,
+      "ageSec": 1,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991215",
+      "ts": 1791382451,
+      "perp": 16,
+      "ageSec": 13,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991215",
+      "ts": 1791382451,
+      "perp": 32,
+      "ageSec": 23,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991190",
+      "ts": 1791382444,
+      "perp": 16,
+      "ageSec": 6,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991190",
+      "ts": 1791382444,
+      "perp": 32,
+      "ageSec": 16,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991165",
+      "ts": 1791382436,
+      "perp": 16,
+      "ageSec": 18,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991165",
+      "ts": 1791382436,
+      "perp": 32,
+      "ageSec": 8,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991140",
+      "ts": 1791382428,
+      "perp": 16,
+      "ageSec": 10,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991140",
+      "ts": 1791382428,
+      "perp": 32,
+      "ageSec": 0,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991115",
+      "ts": 1791382421,
+      "perp": 16,
+      "ageSec": 3,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991115",
+      "ts": 1791382421,
+      "perp": 32,
+      "ageSec": 3,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991090",
+      "ts": 1791382413,
+      "perp": 16,
+      "ageSec": 46,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991090",
+      "ts": 1791382413,
+      "perp": 32,
+      "ageSec": 37,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991065",
+      "ts": 1791382406,
+      "perp": 16,
+      "ageSec": 39,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991065",
+      "ts": 1791382406,
+      "perp": 32,
+      "ageSec": 30,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991040",
+      "ts": 1791382398,
+      "perp": 16,
+      "ageSec": 31,
+      "maxAge": 60,
+      "stale": false
+    },
+    {
+      "block": "68991040",
+      "ts": 1791382398,
+      "perp": 32,
+      "ageSec": 22,
+      "maxAge": 60,
+      "stale": false
+    }
+  ]
+}

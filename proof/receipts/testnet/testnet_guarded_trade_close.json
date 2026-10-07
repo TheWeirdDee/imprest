@@ -1,0 +1,39 @@
+{
+  "id": "TESTNET_GUARDED_TRADE_CLOSE",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-07T15:53:35Z",
+  "git_commit": null,
+  "operation": "guarded_trade",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0xad3d2ebbdfdf4a91c1b3aa9a8fda28ff949d12da7f9c45806bd55fa580729d8a",
+  "block_number": 69010897,
+  "contract": null,
+  "explorer_url": "https://testnet.monadscan.com/tx/0xad3d2ebbdfdf4a91c1b3aa9a8fda28ff949d12da7f9c45806bd55fa580729d8a",
+  "inputs": {
+    "order": {
+      "side": 1,
+      "reduceOnly": true,
+      "lots": "100",
+      "leverage": "500",
+      "priceLimit": "832136"
+    }
+  },
+  "outputs": {
+    "seconds_submit_to_verified": 2.886
+  },
+  "verification": {
+    "method": "receipt and post-state read on the independent RPC at the receipt block",
+    "rpc": "https://rpc-testnet.monadinfra.com",
+    "expected": {
+      "receiptStatus": "success",
+      "positionLotsOnVerifyRpc": "0"
+    },
+    "observed": {
+      "receiptStatus": "success",
+      "positionLotsOnVerifyRpc": "0"
+    }
+  },
+  "notes": "IOC order through the desk against Perpl's testnet book."
+}

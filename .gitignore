@@ -40,3 +40,8 @@ proof/experiments/replay/data/*.zip
 .secrets/
 .relayer.log
 .keeper.log
+.graduation.log
+.indexer.log
+.slither.txt
+.forge-build.txt
+.app-package.bak

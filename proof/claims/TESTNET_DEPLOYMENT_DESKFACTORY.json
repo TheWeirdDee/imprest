@@ -1,0 +1,20 @@
+{
+  "value": "0x1569ee4a7210e226db932b5b7633e63d3ac8c544",
+  "unit": "address",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": "0x1569ee4a7210e226db932b5b7633e63d3ac8c544",
+  "evidence": [
+    "proof/receipts/deployments/testnet-DeskFactory.json"
+  ],
+  "transaction_hash": "0xc4dc64b84b3916a9cfc6be54e621b4afcb2db8e88e1a699a2d745d12a595a49d",
+  "block_number": 69010521,
+  "timestamp_utc": "2026-10-07T15:51:41Z",
+  "sample_size": null,
+  "denominator": null,
+  "claim_id": "TESTNET_DEPLOYMENT_DESKFACTORY",
+  "statement": "DeskFactory deployed on Monad testnet; deployed runtime matches the compiled bytecode (immutables masked)",
+  "status": "TESTNET_VERIFIED",
+  "methodology": "receipt + code read on two independent RPCs; runtime compared to compiled bytecode with immutables masked",
+  "source": "contracts/script/Deploy.s.sol"
+}

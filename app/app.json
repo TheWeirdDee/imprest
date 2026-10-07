@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "Imprest",
+    "slug": "imprest",
+    "scheme": "imprest",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "xyz.imprest.app",
+      "supportsTablet": false,
+      "associatedDomains": ["webcredentials:imprest.example"]
+    },
+    "android": { "package": "xyz.imprest.app" },
+    "plugins": ["expo-router"],
+    "experiments": { "typedRoutes": false }
+  }
+}

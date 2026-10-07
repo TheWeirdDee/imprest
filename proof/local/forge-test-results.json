@@ -1,0 +1,832 @@
+{
+  "status": "LOCAL_REPRODUCTION",
+  "network": "local Foundry EVM (not a public network)",
+  "environment": {
+    "forge": "forge Version: 1.5.1-stable",
+    "forge_commit": "b0a9dd9ceda36f63e2326ce530c10e6916f4b8a2",
+    "solc": "0.8.28 (foundry.toml)",
+    "evm_version": "cancun",
+    "code_size_limit": 131072,
+    "perpl_revision": "rc_v1.1.7-203-g0e5902dd",
+    "perpl_artifacts": {
+      "Exchange": {
+        "creation_bytes": 128424,
+        "deployed_bytes": 128199,
+        "creation_sha256": "fb8d225f44191b9105eed3011b315efe13f60be599ec5940198be41f94dc1a76",
+        "deployed_sha256": "9f0d259dd45bda91b47bcff63e6aeff000eccd44c1750ab2eb02b2925342415c"
+      },
+      "ERC1967Proxy": {
+        "creation_bytes": 988,
+        "deployed_bytes": 225,
+        "creation_sha256": "73e704dd2e9a5515f321fbfd80fc0f87d33bd13720350c4f16b8f2d34573e601",
+        "deployed_sha256": "601add918447fe2fa88b8b8f38c7b3cabcddae7343eecfe7b64b87158a0a5240"
+      },
+      "TestToken": {
+        "creation_bytes": 3385,
+        "deployed_bytes": 2446,
+        "creation_sha256": "133f4d130793a127a8803bb79912985b1435a2f1ab0c336c2d16806b5503cf32",
+        "deployed_sha256": "a6badb7746dcf2e43e9a91e0180f9008f1ac6e1498b32498a88913c249e9668a"
+      }
+    },
+    "perpl_source": "crates.io perpl-sdk 0.2.9 (MIT), abi/dex + abi/testing",
+    "openzeppelin": "v5.4.0",
+    "python": "3.12.10",
+    "platform": "win32",
+    "git_commit": null
+  },
+  "forge": {
+    "command": "cd contracts && forge test --json --no-match-contract TestnetFork",
+    "started_utc": "2026-10-07T15:25:41Z",
+    "finished_utc": "2026-10-07T15:27:11Z",
+    "exit_code": 0,
+    "total": 120,
+    "passed": 120,
+    "failed": 0,
+    "suites": [
+      {
+        "suite": "test/accounting/ReferenceVectors.t.sol:ReferenceVectorsTest",
+        "tests": [
+          {
+            "test": "test_vectors_accrual()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_vectors_claims()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_vectors_settlements()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/accounting/SettlementMath.t.sol:SettlementMathTest",
+        "tests": [
+          {
+            "test": "testFuzz_accrue_chunkedEqualsSingle(uint256,uint256,uint256)",
+            "pass": true,
+            "runs": 512,
+            "reason": null
+          },
+          {
+            "test": "testFuzz_accrue_neverExceedsCap(uint256,uint256,uint256,uint256)",
+            "pass": true,
+            "runs": 512,
+            "reason": null
+          },
+          {
+            "test": "testFuzz_claimSplit_conservesGross(uint256,uint256,uint256,uint16,uint16)",
+            "pass": true,
+            "runs": 512,
+            "reason": null
+          },
+          {
+            "test": "testFuzz_waterfall_conservesCashAndOrdersPriority(uint256,uint256,uint256,uint256)",
+            "pass": true,
+            "runs": 512,
+            "reason": null
+          },
+          {
+            "test": "test_accrue_prdTier1Month()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_claimSplit_prdIllustrativeMonth()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_waterfall_prdExampleExactTradingLoss()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_waterfall_severeGapExhaustsResidual()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/invariant/PoolInvariant.t.sol:PoolInvariantTest",
+        "tests": [
+          {
+            "test": "invariant_cashBasisIdentity()",
+            "pass": true,
+            "runs": 64,
+            "reason": null
+          },
+          {
+            "test": "invariant_closedDesksHoldNothing()",
+            "pass": true,
+            "runs": 64,
+            "reason": null
+          },
+          {
+            "test": "invariant_feeSubledgerAndCap()",
+            "pass": true,
+            "runs": 64,
+            "reason": null
+          },
+          {
+            "test": "invariant_idleBackedByCash()",
+            "pass": true,
+            "runs": 64,
+            "reason": null
+          },
+          {
+            "test": "invariant_principalAndExposureLedgers()",
+            "pass": true,
+            "runs": 64,
+            "reason": null
+          },
+          {
+            "test": "test_handlerCanTrade()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/perpl-harness/PerplProbe.t.sol:PerplProbeTest",
+        "tests": [
+          {
+            "test": "test_probe_closeAndWithdrawEverything()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_probe_contractOwnedAccountOpensAndTrades()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_probe_deltaPnlTracksMark()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_probe_fokNoLiquidityReverts()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_probe_iocNoLiquidityDoesNotRevert()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_probe_markGoesStaleAfterMaxAge()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_probe_maxNegPnlRejectsOffMarketOpen()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_probe_venueClampsLeverageAboveListing()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/perpl/GasProfile.t.sol:GasProfileTest",
+        "tests": [
+          {
+            "test": "test_gas_profile()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/security/Attacks.t.sol:AttacksTest",
+        "tests": [
+          {
+            "test": "test_attack_offMarketCloseIntoAccompliceBidRefused()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_caps_bootstrapImmediateOnlyBeforeFactoryWiring()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_caps_evaluationDesksDoNotTouchPoolExposure()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_caps_grossCapAcrossDesksCannotBeBypassed()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_caps_increaseIsTimelocked()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_caps_perDeskNotionalCap()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_caps_reductionAlwaysPossibleEvenOverCap()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_keeper_cannotGraduateIneligibleOrEnforceHealthy()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_lp_cannotWithdrawDeployedPrincipal()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_relay_alteredFieldsRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_relay_expiredDeadlineRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_relay_lowerNonceRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_relay_malleableHighSRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_relay_signatureForAnotherDeskRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_relay_signedOrderStillPolicyChecked()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_relay_validSignedOrderExecutesOnce()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_relay_wrongSignerRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_unauth_deskCannotDrawCreditForAnotherDesk()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_unauth_deskCannotUnderReportExposure()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_unauth_operatorCannotMoveFunds()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_unauth_poolMoneyPathsRequireRegisteredDesk()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_unauth_strangerCannotTradeClaimClose()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_venue_haltedExchangeBlocksTradingButEnforceStatePersists()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_venue_perplErrorsSurfaceNamed()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/security/PairedDesk.t.sol:PairedDeskTest",
+        "tests": [
+          {
+            "test": "test_paired_calm()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_paired_gap15_cap1000()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_paired_gap15_cap1500()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_paired_gap15_cap2500()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_paired_gap8_cap2500()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_paired_gapDown15_cap2500()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_paired_trend_delayedKeeper()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_paired_trend_keeperEachStep()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/security/Reentrancy.t.sol:ReentrancyTest",
+        "tests": [
+          {
+            "test": "test_reentry_claimDuringTrade()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_reentry_closeDuringTrade()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_reentry_enforceDuringTrade()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_reentry_graduateDuringTrade()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_reentry_tradeDuringTrade()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/unit/DeskLifecycle.t.sol:DeskLifecycleTest",
+        "tests": [
+          {
+            "test": "test_evaluationTrade_opensAndClosesPosition()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_fullLifecycle_demoCohort_graduateTradeClaimClose()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_openDesk_ownsPerplAccountWithFullStake()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_predictDesk_matchesDeployment()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/unit/DeskPolicy.t.sol:DeskPolicyTest",
+        "tests": [
+          {
+            "test": "testFuzz_leverage_aboveCapAlwaysRejected(uint256)",
+            "pass": true,
+            "runs": 512,
+            "reason": null
+          },
+          {
+            "test": "testFuzz_priceBand(uint256)",
+            "pass": true,
+            "runs": 512,
+            "reason": null
+          },
+          {
+            "test": "test_control_healthyTraderFiftyTradesNoEnforcement()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_dailyLoss_breachBlocksNewRiskButAboveFloor()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_dailyLoss_measuredFromFirstTradeOfDay()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_dailyLoss_resetsNextUtcDay()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_floor_breachedDeskRejectsNewRiskAndReduce()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_floor_postTradeBreachRevertsWholeTransaction()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_leverage_exactlyAtCapAccepted()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_leverage_oneUnitOverCapRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_leverage_zeroRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_lots_zeroRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_market_notAllowlistedRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_negPnlStamp_perplRejectsFillFarFromMarkWithinBand()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_negPnlStamp_venueRefusesAddingToUnderwaterPosition()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_orderType_fokStampedAndRevertsAtomicallyWithoutLiquidity()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_orderType_iocWithoutLiquidityLeavesNoPosition()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_orderType_stampIsAlwaysImmediate()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_priceBand_appliesToClosesToo()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_priceBand_exactlyAtBandAccepted()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_priceBand_oneTickOutsideRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_reduceOnly_largerThanPositionRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_reduceOnly_withoutPositionRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_reduceOnly_wrongSideRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_side_invalidRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_staleMark_enforceWaits()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_staleMark_refusesNewRiskAllowsReduceOnly()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_stamp_negPnlAndExecutionBlock()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "suite": "test/unit/DeskSettlement.t.sol:DeskSettlementTest",
+        "tests": [
+          {
+            "test": "test_claim_feesNettedFirstAndBookedOnce()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_claim_hwmPreventsReclaimAfterLossAndRecovery()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_claim_onlyTrader()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_claim_unrealizedProfitCannotBeWithdrawn()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_close_onlyTrader()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_close_voluntaryPaysNoKeeperAndRequiresFlat()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_enforce_bankruptPositionWithoutVenueInsuranceStaysEnforcing()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_enforce_breachSettlesWaterfallAndPaysKeeperOnce()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_enforce_dailyLossReason()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_enforce_gapPastStakeRecordsPrincipalLossAndZeroKeeper()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_enforce_healthyDeskRejected()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_enforce_partialCloseDoesNotSettleAndPaysNothing()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_factoryPause_blocksNewDesksOnly()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_fees_capStopsAccrualAndNewRiskButAllowsReduceAndEnforce()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_fees_chunkedCheckpointsCannotRoundFeesAway()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_fees_evaluationDeskAccruesNothing()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_fees_exposedIntervalAccruesExactlyOnceDespitePositionsAndCheckpoints()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_fees_externalLiquidationCannotEraseExposureTime()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_fees_flatFundedDeskAccruesNothingForAMonth()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_graduation_pausedPoolBlocksButCloseStillWorks()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_graduation_prematureRejectsOnchain()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_graduation_requiresFlat()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_graduation_requiresTradeCount()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_graduation_standardCohortRequires24h()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          },
+          {
+            "test": "test_settledDeskIsInert()",
+            "pass": true,
+            "runs": null,
+            "reason": null
+          }
+        ]
+      }
+    ]
+  },
+  "invariant_coverage": {
+    "runs_logged": 325,
+    "handler_calls": 31200,
+    "desks_opened": 1300,
+    "random_trades_ok": 723,
+    "graduations": 491,
+    "claims": 1,
+    "settlements": 741
+  }
+}

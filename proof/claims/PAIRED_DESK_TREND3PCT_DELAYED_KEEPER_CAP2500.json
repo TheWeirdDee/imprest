@@ -1,0 +1,21 @@
+{
+  "value": "9.24",
+  "unit": "AUSD (pool net, negative = pool loss)",
+  "network": "local Foundry EVM",
+  "chain_id": null,
+  "contract": null,
+  "evidence": [
+    "proof/experiments/paired-desk/trend3pct_delayed_keeper_cap2500.json",
+    "contracts/test/security/PairedDesk.t.sol"
+  ],
+  "transaction_hash": null,
+  "block_number": null,
+  "timestamp_utc": "2026-10-07T15:27:11Z",
+  "sample_size": 1,
+  "denominator": "one deterministic scenario run",
+  "claim_id": "PAIRED_DESK_TREND3PCT_DELAYED_KEEPER_CAP2500",
+  "statement": "Paired long/short desks run by one actor, scored jointly (trend3pct_delayed_keeper_cap2500): pool net result after principal loss, fees and profit share",
+  "status": "LOCAL_REPRODUCTION",
+  "methodology": "Perpl bytecode harness; move 300 bps in 12 step(s); desk notional cap 2500.00 AUSD; principal loss 0.00; actor net extraction -1.21. A measured scenario, not a universal bound.",
+  "source": "contracts/test/security/PairedDesk.t.sol"
+}

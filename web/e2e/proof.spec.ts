@@ -40,3 +40,15 @@ test("market-data proxy only serves allowlisted read paths", async ({ request })
   expect((await request.get("/api/perpl/evil/path")).status()).toBe(400);
   expect((await request.get("/api/perpl/trading/orders")).status()).toBe(400);
 });
+
+test("rpc proxy forwards reads only and keeps the two providers separate", async ({ request }) => {
+  const send = (which: string, method: string, params: unknown[] = []) =>
+    request.post(`/api/rpc/${which}`, { data: { jsonrpc: "2.0", id: 1, method, params } });
+  expect((await send("primary", "eth_sendRawTransaction", ["0x00"])).status()).toBe(403);
+  expect((await send("verify", "eth_sign", [])).status()).toBe(403);
+  expect((await send("elsewhere", "eth_chainId")).status()).toBe(404);
+  const r = await send("verify", "eth_chainId");
+  expect(r.status()).toBe(200);
+  expect(r.headers()["x-imprest-upstream"]).toBe("verify");
+  expect((await r.json()).result).toBe("0x279f"); // 10143
+});

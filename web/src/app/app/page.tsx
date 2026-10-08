@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Activity, ArrowRight, Gauge, Layers, Wallet } from "lucide-react";
 import { DESK_STATUS, formatUnitsFixed } from "@imprest/core";
-import { useAccount } from "@/lib/account/AccountProvider";
+import { hasAccount, useAccount } from "@/lib/account/AccountProvider";
 import { useDesk } from "@/lib/desk-context";
 import { deployed, network } from "@/lib/env";
 import { ausd, signedAusd } from "@/lib/format";
@@ -40,7 +40,8 @@ export default function Dashboard() {
       </div>
 
       {!deployed && <NotDeployed />}
-      {deployed && a.status !== "ready" && <SignInPrompt reason="Sign in to see your desk." />}
+      {deployed && !a.ready && <Skeleton className="h-28 w-full" />}
+      {deployed && a.ready && !hasAccount(a) && <SignInPrompt reason="Sign in to see your desk." />}
 
       {r && s && (
         <section
@@ -133,10 +134,10 @@ export default function Dashboard() {
           ))}
         </section>
       )}
-      {deployed && a.status === "ready" && d.desk && !r && <Skeleton className="h-28 w-full" />}
+      {deployed && hasAccount(a) && d.desk && !r && <Skeleton className="h-28 w-full" />}
 
       {/* Signed out: one sign-in prompt above, not one per card. */}
-      {(a.status === "ready" || !deployed) && (
+      {(hasAccount(a) || !deployed) && (
         <>
           <div className="grid gap-4 lg:grid-cols-3">
             <Card title="Portfolio" icon={Wallet}>

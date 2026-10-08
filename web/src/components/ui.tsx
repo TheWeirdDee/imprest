@@ -148,9 +148,40 @@ export function Notice({ tone, title, children }: { tone: Tone; title: ReactNode
   );
 }
 
+export type ButtonVariant = "primary" | "secondary" | "tertiary" | "ghost" | "long" | "short" | "danger";
+
+/**
+ * The one button language. Primary: brand accent (one per view). Secondary: neutral surface
+ * with a border. Tertiary: text only. Long/short/danger are trading semantics, not brand.
+ * Used by <Button> and by links styled as buttons, so both always look the same.
+ */
+export function buttonClass(variant: ButtonVariant = "primary", size: "sm" | "md" | "lg" = "md", className?: string) {
+  const v = {
+    primary: "bg-accent text-on-accent hover:bg-accent-strong",
+    secondary: "border border-line-strong bg-surface text-fg hover:bg-surface-2",
+    tertiary: "text-accent hover:underline underline-offset-4 px-0!",
+    ghost: "text-fg-2 hover:bg-surface-2 hover:text-fg",
+    long: "bg-long text-on-accent hover:brightness-110",
+    short: "bg-short text-on-accent hover:brightness-110",
+    danger: "border border-breach/60 bg-breach-bg text-breach hover:brightness-110",
+  }[variant];
+  const z = { sm: "min-h-8 px-3 py-1.5 text-[13px]", md: "min-h-9 px-3.5 py-2 text-sm", lg: "min-h-11 px-4.5 py-2.5 text-sm" }[size];
+  // A caller that hides the button responsively ("hidden md:inline-flex") owns the display
+  // utility; otherwise the base inline-flex would win over "hidden" in the generated CSS.
+  const display = className && /(^|\s)hidden(\s|$)/.test(className) ? "" : "inline-flex";
+  return cx(
+    display,
+    "items-center justify-center gap-2 rounded-[var(--radius-sm)] font-semibold whitespace-nowrap transition disabled:cursor-not-allowed disabled:opacity-45",
+    z,
+    v,
+    className,
+  );
+}
+
 export function Button({
   children,
   variant = "primary",
+  size = "md",
   disabled,
   onClick,
   type = "button",
@@ -158,33 +189,16 @@ export function Button({
   ariaLabel,
 }: {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "ghost" | "long" | "short" | "danger";
+  variant?: ButtonVariant;
+  size?: "sm" | "md" | "lg";
   disabled?: boolean;
   onClick?: () => void;
   type?: "button" | "submit";
   className?: string;
   ariaLabel?: string;
 }) {
-  const v = {
-    primary: "bg-accent text-white hover:bg-accent-strong",
-    secondary: "border border-line-strong bg-surface-2 text-fg hover:bg-surface-3",
-    ghost: "text-fg-2 hover:bg-surface-2 hover:text-fg",
-    long: "bg-long text-white hover:brightness-110",
-    short: "bg-short text-white hover:brightness-110",
-    danger: "border border-breach/60 bg-breach-bg text-breach hover:brightness-125",
-  }[variant];
   return (
-    <button
-      type={type}
-      aria-label={ariaLabel}
-      disabled={disabled}
-      onClick={onClick}
-      className={cx(
-        "inline-flex min-h-9 items-center justify-center gap-2 rounded-md px-3.5 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-45",
-        v,
-        className,
-      )}
-    >
+    <button type={type} aria-label={ariaLabel} disabled={disabled} onClick={onClick} className={buttonClass(variant, size, className)}>
       {children}
     </button>
   );
@@ -238,3 +252,10 @@ export function KV({ k, v }: { k: ReactNode; v: ReactNode }) {
     </div>
   );
 }
+
+/** The one text-input style (order ticket, desk stake, cohort select). */
+export const inputClass = (className?: string) =>
+  cx(
+    "w-full rounded-[var(--radius-sm)] border border-line-strong bg-surface px-3 py-2 text-sm text-fg outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20",
+    className,
+  );

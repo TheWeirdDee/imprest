@@ -258,7 +258,10 @@ export function usePool() {
           const vc = verifyClient();
           if (vc) {
             try {
-              const b = await readPool(vc as any, blockNumber);
+              const b = await Promise.race([
+                readPool(vc as any, blockNumber),
+                new Promise<never>((_, rej) => setTimeout(() => rej(new Error("second RPC timeout")), 8_000)),
+              ]);
               confirmed = JSON.stringify(a, (_, x) => (typeof x === "bigint" ? x.toString() : x)) === JSON.stringify(b, (_, x) => (typeof x === "bigint" ? x.toString() : x));
             } catch {
               confirmed = false;

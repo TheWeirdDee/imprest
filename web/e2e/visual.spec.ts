@@ -1,33 +1,45 @@
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { expectNoOverflow } from "./helpers";
 
-// Visual QA capture. Opt-in: SCREENSHOTS=1 npx playwright test visual
+// Visual capture. Opt-in: SCREENSHOTS=1 npx playwright test visual
+// Optional: SHOT_WIDTHS=320,390 SHOT_THEMES=light,dark SHOT_PAGES=landing,trade
 const PAGES: [string, string][] = [
   ["landing", "/"],
   ["dashboard", "/app"],
   ["trade", "/app/trade/btc"],
+  ["positions", "/app/positions"],
   ["risk", "/app/risk"],
   ["claims", "/app/claims"],
+  ["history", "/app/history"],
+  ["desk", "/app/desk"],
   ["proof", "/proof"],
-  ["status", "/status"],
   ["lp", "/lp"],
+  ["docs", "/docs"],
+  ["status", "/status"],
 ];
-const SIZES: [string, number, number][] = [
-  ["desktop", 1440, 900],
-  ["mobile", 390, 844],
-];
+const pick = <T extends [string, ...unknown[]]>(all: T[], env?: string) => (env ? all.filter((x) => env.split(",").includes(x[0])) : all);
+const WIDTHS = (process.env.SHOT_WIDTHS ?? "390,1440").split(",").map(Number);
+const THEMES = (process.env.SHOT_THEMES ?? "light,dark").split(",");
 
 test.describe("visual capture", () => {
   test.skip(!process.env.SCREENSHOTS, "set SCREENSHOTS=1 to capture");
-  for (const [size, width, height] of SIZES) {
-    for (const [name, path] of PAGES) {
-      test(`${name} @ ${size}`, async ({ page }) => {
-        await page.setViewportSize({ width, height });
-        await page.goto(path, { waitUntil: "networkidle" });
-        await page.waitForTimeout(1500); // let live panels settle
-        await expectNoOverflow(page, `${path} @ ${width}px`);
-        await page.screenshot({ path: `../proof/screenshots/${size}-${name}.png`, fullPage: true });
-      });
+  for (const theme of THEMES) {
+    for (const width of WIDTHS) {
+      for (const [name, path] of pick(PAGES, process.env.SHOT_PAGES)) {
+        test(`${name} @ ${width} ${theme}`, async ({ page }) => {
+          await page.addInitScript((t) => localStorage.setItem("imprest.theme", t), theme);
+          // SHOT_ACCOUNT: a public address remembered on the device (read-only "locked" session, no key).
+          if (process.env.SHOT_ACCOUNT) {
+            await page.addInitScript((addr) => localStorage.setItem("imprest.account.v1.testnet", JSON.stringify({ address: addr, kind: "mera" })), process.env.SHOT_ACCOUNT);
+          }
+          await page.setViewportSize({ width, height: width < 768 ? 844 : 900 });
+          await page.goto(path, { waitUntil: "networkidle" });
+          await page.waitForTimeout(1200);
+          expect(await page.evaluate(() => document.documentElement.dataset.theme)).toBe(theme);
+          await expectNoOverflow(page, `${path} @ ${width}px ${theme}`);
+          await page.screenshot({ path: `../proof/screenshots/${process.env.SHOT_ACCOUNT ? "account-" : ""}${theme}-${width}-${name}.png`, fullPage: true });
+        });
+      }
     }
   }
 });

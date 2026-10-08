@@ -12,7 +12,7 @@ import {
   type MarketConfig,
   type OrderIntent,
 } from "@imprest/core";
-import { useAccount } from "@/lib/account/AccountProvider";
+import { hasAccount, useAccount } from "@/lib/account/AccountProvider";
 import { useDesk } from "@/lib/desk-context";
 import { usePoll } from "@/lib/desk";
 import { deployed, network, relayerUrl } from "@/lib/env";
@@ -20,7 +20,7 @@ import { primaryClient } from "@/lib/chain";
 import { tradeAction } from "@/lib/actions";
 import { sendWriteUnchecked, useAction } from "@/lib/tx";
 import { ausd } from "@/lib/format";
-import { Button, Notice, cx } from "./ui";
+import { Button, Notice, cx, inputClass } from "./ui";
 import { TxStatus } from "./tx-status";
 
 const BPS = 10_000n;
@@ -113,23 +113,26 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
       ? checkPolicy({ order, policy, risk, markPns, markValid, positionLots: pos?.lots ?? 0n, positionIsLong: pos && pos.lots > 0n ? pos.isLong : null })
       : null;
   const blocked = check ? !check.ok : false;
-  const canSubmit = deployed && a.status === "ready" && Boolean(d.desk) && Boolean(risk) && !parsed.error && !blocked;
+  const canSubmit = deployed && hasAccount(a) && a.status !== "connecting" && Boolean(d.desk) && Boolean(risk) && !parsed.error && !blocked;
   const busy = state.kind === "requested" || state.kind === "submitted" || state.kind === "confirming";
 
   const submit = async () => {
-    if (!a.account || !d.desk || !risk) return;
-    await run(tradeAction(a.account, d.desk, risk.accountId, order, via, `${side === 0 ? "Buy" : "Sell"} ${size} ${m.symbol}`));
+    if (!hasAccount(a) || !d.desk || !risk) return;
+    const desk = d.desk;
+    await run(async () => tradeAction(await a.getSigner(), desk, risk.accountId, order, via, `${side === 0 ? "Buy" : "Sell"} ${size} ${m.symbol}`));
     d.refreshAll();
   };
 
   /** Direct contract call, deliberately skipping frontend validation and simulation. */
   const submitToContract = async () => {
-    if (!a.account || !d.desk) return;
+    if (!hasAccount(a) || !d.desk) return;
+    const signer = await a.getSigner().catch(() => null);
+    if (!signer) return;
     await run({
       label: "Contract rejection test",
       expect: async () => ({ outcome: "contract-rejected" }),
       send: () =>
-        sendWriteUnchecked(a.account!, {
+        sendWriteUnchecked(signer, {
           address: d.desk!,
           abi: deskAbi,
           functionName: "trade",
@@ -145,14 +148,14 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
         <button
           onClick={() => setSide(0)}
           aria-pressed={side === 0}
-          className={cx("rounded-md py-2 text-sm font-semibold", side === 0 ? "bg-long text-white" : "text-fg-2 hover:text-fg")}
+          className={cx("rounded-md py-2 text-sm font-semibold", side === 0 ? "bg-long text-on-accent" : "text-fg-2 hover:text-fg")}
         >
           Long
         </button>
         <button
           onClick={() => setSide(1)}
           aria-pressed={side === 1}
-          className={cx("rounded-md py-2 text-sm font-semibold", side === 1 ? "bg-short text-white" : "text-fg-2 hover:text-fg")}
+          className={cx("rounded-md py-2 text-sm font-semibold", side === 1 ? "bg-short text-on-accent" : "text-fg-2 hover:text-fg")}
         >
           Short
         </button>
@@ -178,7 +181,7 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
           inputMode="decimal"
           value={priceText}
           onChange={(e) => setPriceStr(e.target.value)}
-          className="num mt-1 w-full rounded-md border border-line-strong bg-surface-2 px-3 py-2 text-sm outline-none focus:border-accent"
+          className={inputClass("num mt-1")}
         />
       </label>
       <label className="block">
@@ -187,7 +190,7 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
           inputMode="decimal"
           value={size}
           onChange={(e) => setSize(e.target.value)}
-          className="num mt-1 w-full rounded-md border border-line-strong bg-surface-2 px-3 py-2 text-sm outline-none focus:border-accent"
+          className={inputClass("num mt-1")}
         />
       </label>
       <label className="block">
@@ -298,9 +301,9 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
       </Button>
 
       {!deployed && <Notice tone="warn" title="Desk contracts PENDING deployment">Orders unlock once the testnet deployment is recorded.</Notice>}
-      {deployed && a.status !== "ready" && <Notice tone="info" title="Sign in to trade">A passkey account is needed to sign orders.</Notice>}
+      {deployed && a.ready && !hasAccount(a) && <Notice tone="info" title="Sign in to trade">A passkey account is needed to sign orders.</Notice>}
 
-      {blocked && deployed && a.status === "ready" && d.desk && (
+      {blocked && deployed && hasAccount(a) && d.desk && (
         <div className="rounded-lg border border-dashed border-line-strong p-3 text-xs">
           <div className="flex items-center gap-1.5 font-semibold">
             <FlaskConical size={13} aria-hidden /> Contract rejection test

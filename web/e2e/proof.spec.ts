@@ -14,10 +14,21 @@ test("proof page labels local and simulated results as such", async ({ page }) =
   await expect(page.getByText(/null threshold/i).first()).toBeVisible();
 });
 
-test("landing shows the measured contract rejection and what is not yet proven", async ({ page }) => {
+test("landing keeps proof out of the hero and states what is not yet proven", async ({ page }) => {
   await page.goto("/");
+  // Hero: product message and actions only.
+  const hero = page.locator("#product");
+  await expect(hero.getByRole("heading", { level: 1 })).toContainText("Trading credit with risk enforced at the order layer");
+  await expect(hero.getByText(/Contract-level risk rejection|Contracts deployed/)).toHaveCount(0);
+  // Proof section below the hero.
+  await expect(page.getByRole("heading", { name: "Verified on Monad testnet" })).toBeVisible();
+  await expect(page.getByText("Contract-level risk rejection")).toBeVisible();
+  await expect(page.getByText(/Not yet:.*mainnet/)).toBeVisible();
+});
+
+test("proof page shows the measured contract rejection", async ({ page }) => {
+  await page.goto("/proof");
   await expect(page.getByText(/reverted by the contract with LeverageExceeded/i).first()).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Verification" })).toBeVisible();
 });
 
 test("internal links resolve (no broken links)", async ({ page, request }) => {

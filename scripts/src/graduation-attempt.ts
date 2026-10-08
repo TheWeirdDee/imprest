@@ -11,7 +11,7 @@
  * Risk limits (demo cohort, 100 AUSD stake): daily floor 97, trading floor 94. This script
  * stops at 98.5 so it can never breach. Each round trip uses 3x notional.
  */
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createPublicClient, createWalletClient, decodeEventLog, defineChain, fallback, http, type Address, type Hex, type PublicClient } from "viem";
@@ -38,6 +38,10 @@ const STOP_LOSS = 900_000n;
 const MAX_ROUND_TRIPS = 8;
 const MAX_MS = 4 * 3600_000;
 const LEVERAGE = 300n;
+// CLAIM_MODE=1: after graduation, try for genuine realized profit above the high-water mark on
+// the funded desk, then the trader calls claim(). Size 1.5x equity (under the desk notional cap),
+// loss budget 4 AUSD below the HWM.
+const CLAIM = process.env.CLAIM_MODE === "1";
 
 const STATE = resolve(OUT, "state.json");
 const loadEntry = (): bigint | null => (existsSync(STATE) ? BigInt(JSON.parse(readFileSync(STATE, "utf8")).entryEquity) : null);
@@ -112,6 +116,32 @@ async function relay(desk: Address, accountId: bigint, o: OrderIntent, label: st
   return lotsAfter;
 }
 
+async function claimNow(desk: Address, r: RiskState) {
+  log({ step: "claim", equity: r.equity, hwm: r.hwm });
+  const hash = await tw.writeContract({ address: desk, abi: deskAbi, functionName: "claim" });
+  const rc = await pc.waitForTransactionReceipt({ hash, timeout: 90_000 });
+  let ev: Record<string, unknown> | null = null;
+  for (const l of rc.logs) {
+    try {
+      const d = decodeEventLog({ abi: deskAbi, data: l.data, topics: l.topics });
+      if (d.eventName === "Claimed") ev = d.args as Record<string, unknown>;
+    } catch {
+      /* other */
+    }
+  }
+  for (let i = 0; i < 60 && (await vc.getBlockNumber()) < rc.blockNumber; i++) await sleep(500);
+  const ausd = net.perpl.collateralToken!;
+  const before = await rd<bigint>(vc, { address: ausd, abi: erc20Abi, functionName: "balanceOf", args: [trader.address] }, rc.blockNumber - 1n);
+  const after = await rd<bigint>(vc, { address: ausd, abi: erc20Abi, functionName: "balanceOf", args: [trader.address] }, rc.blockNumber);
+  const share = ev ? BigInt(ev.traderShare as bigint) : 0n;
+  const verified = rc.status === "success" && ev !== null && after - before === share && share > 0n;
+  const S = (o: unknown) => JSON.parse(JSON.stringify(o, (_, v) => (typeof v === "bigint" ? v.toString() : v)));
+  const receipt = { id: "TESTNET_CANONICAL_CLAIM_PAID", environment: "testnet", network: "Monad Testnet", chain_id: net.chainId, timestamp_utc: now(), git_commit: null, operation: "claim", status: verified ? "TESTNET_VERIFIED" : "PENDING", tx_hash: hash, block_number: Number(rc.blockNumber), contract: desk, explorer_url: null, inputs: { sent_by: trader.address, equity_before: r.equity.toString(), hwm_before: r.hwm.toString() }, outputs: { claimed_event: S(ev), gas_used: rc.gasUsed.toString() }, verification: { method: "trader AUSD balance at block-1 and block on the independent RPC; delta must equal Claimed.traderShare", rpc: net.rpcUrls[1], balance_before: before.toString(), balance_after: after.toString(), delta: (after - before).toString() }, notes: "Realized profit above the high-water mark on the funded (tier 1) desk, from real relayed Perpl trades." };
+  writeFileSync(resolve(OUT, "claim-paid.json"), JSON.stringify(receipt, null, 2) + "\n");
+  writeFileSync(resolve(ROOT, "proof/claims-input/TESTNET_CANONICAL_CLAIM_PAID.json"), JSON.stringify({ claim_id: "TESTNET_CANONICAL_CLAIM_PAID", statement: "Realized profit above the high-water mark was claimed on Monad testnet; the trader's AUSD increase equals the contract's traderShare on an independent RPC", value: `${Number(share) / 1e6} AUSD to trader`, unit: "AUSD", network: "Monad Testnet", chain_id: net.chainId, contract: desk, source: "scripts/src/graduation-attempt.ts", evidence: ["proof/receipts/testnet/graduation-attempt/claim-paid.json"], transaction_hash: hash, block_number: Number(rc.blockNumber), timestamp_utc: receipt.timestamp_utc, status: receipt.status, methodology: receipt.verification.method, sample_size: 1, denominator: "one claim" }, null, 2) + "\n");
+  log({ step: "claim", tx: hash, verified, traderShare: share, delta: after - before });
+}
+
 async function main() {
   const t0 = Date.now();
   const desk = await ensureDesk();
@@ -121,12 +151,17 @@ async function main() {
   while (Date.now() - t0 < MAX_MS) {
     try {
     const r = (await rd<RiskState>(pc, { address: desk, abi: deskAbi, functionName: "riskState" })) as RiskState;
-    if (r.tier >= 1) {
+    if (!CLAIM && r.tier >= 1) {
       log({ result: "GRADUATED", tier: r.tier, borrowed: r.borrowed });
       break;
     }
     const m = await mark(r.accountId);
-    const target = (r.startEquity * 10_200n) / 10_000n;
+    const target = CLAIM ? r.hwm + 300_000n : (r.startEquity * 10_200n) / 10_000n;
+    const stopEq = CLAIM ? r.hwm - 4_000_000n : STOP_EQUITY;
+    if (CLAIM && r.flat && trips >= 1 && r.equity >= target) {
+      await claimNow(desk, r);
+      break;
+    }
     if (r.flat) {
       if (r.equity >= target && r.closedTradesThisTier >= 2n) {
         log({ step: "eligible", equity: r.equity, waiting_for: "keeper to call graduate()" });
@@ -140,8 +175,8 @@ async function main() {
         log({ step: "keeper", before: keeperBefore?.actionsSent, after: keeperAfter?.actionsSent });
         continue;
       }
-      if (r.equity <= STOP_EQUITY || trips >= MAX_ROUND_TRIPS) {
-        log({ result: "STOPPED", reason: r.equity <= STOP_EQUITY ? "loss budget reached" : "max round trips", equity: r.equity, trips });
+      if (r.equity <= stopEq || trips >= MAX_ROUND_TRIPS) {
+        log({ result: "STOPPED", reason: r.equity <= stopEq ? "loss budget reached" : "max round trips", equity: r.equity, trips });
         break;
       }
       const relayerHealth = await fetch(`${RELAYER}/health`).then((x) => x.json()).catch(() => null);
@@ -153,23 +188,31 @@ async function main() {
         await sleep(10_000);
         continue;
       }
+      const smallTrip = !CLAIM && r.equity >= target;
       const dr = await drift();
       const side: 0 | 1 = dr >= 0 ? 0 : 1;
-      const notional = (r.equity * LEVERAGE) / 100n; // AUSD base units
+      // Above target but short of the closed-trade count: a real but small round trip (0.5x equity)
+      // so a price move cannot erase the profit already earned. Disclosed in the receipts.
+      const notional = smallTrip ? r.equity / 2n : CLAIM ? (r.equity * 150n) / 100n : (r.equity * LEVERAGE) / 100n; // AUSD base units
       const lots = (notional * 10n ** BigInt(BTC.priceDecimals + BTC.lotDecimals)) / (m.pns * 1_000_000n);
       const price = side === 0 ? m.pns + (m.pns * 20n) / 10_000n : m.pns - (m.pns * 20n) / 10_000n;
       entryEquity = r.equity;
       saveEntry(r.equity);
+      if (smallTrip) writeFileSync(resolve(OUT, "small-trip.flag"), now());
       log({ step: "open", side: side === 0 ? "long" : "short", drift: dr, lots, equity: r.equity });
       await relay(desk, r.accountId, { perpId: BigInt(BTC.perpId), side, priceLimit: price, lots, leverage: LEVERAGE, reduceOnly: false, fillOrKill: false }, "open");
     } else {
       const pnl = r.equity - (entryEquity ?? r.equity);
-      if (pnl >= TAKE_PROFIT || pnl <= -STOP_LOSS || r.equity <= STOP_EQUITY + 200_000n || !entryEquity) {
+      const small = existsSync(resolve(OUT, "small-trip.flag"));
+      const tp = CLAIM ? 1_200_000n : TAKE_PROFIT;
+      const sl = CLAIM ? 2_000_000n : STOP_LOSS;
+      if (small || pnl >= tp || pnl <= -sl || r.equity <= stopEq + 200_000n || !entryEquity) {
         const side: 0 | 1 = m.isLong ? 1 : 0;
         const price = side === 1 ? m.pns - (m.pns * 20n) / 10_000n : m.pns + (m.pns * 20n) / 10_000n;
         log({ step: "close", pnl, equity: r.equity });
         await relay(desk, r.accountId, { perpId: BigInt(BTC.perpId), side, priceLimit: price, lots: m.lots, leverage: LEVERAGE, reduceOnly: true, fillOrKill: false }, "close");
         trips++;
+        if (small) rmSync(resolve(OUT, "small-trip.flag"));
       }
     }
     } catch (e) {

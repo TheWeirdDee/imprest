@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Fingerprint, PackageOpen, ServerOff } from "lucide-react";
-import { useAccount } from "@/lib/account/AccountProvider";
+import { hasAccount, useAccount } from "@/lib/account/AccountProvider";
 import { useDesk } from "@/lib/desk-context";
 import { deployed, network } from "@/lib/env";
 import { Button, Card, Notice, Pending, Skeleton } from "./ui";
@@ -74,7 +74,8 @@ export function RequireDesk({ children, what }: { children: ReactNode; what: str
   const a = useAccount();
   const d = useDesk();
   if (!deployed) return <NotDeployed />;
-  if (a.status !== "ready") return <SignInPrompt reason={`Sign in to see ${what}.`} />;
+  if (!a.ready) return <Skeleton className="h-40 w-full" />;
+  if (!hasAccount(a)) return <SignInPrompt reason={`Sign in to see ${what}.`} />;
   if (d.deskLoading && !d.desk) return <Skeleton className="h-40 w-full" />;
   if (!d.desk) {
     return (

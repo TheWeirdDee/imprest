@@ -74,6 +74,48 @@
   },
   "suites": [
     {
+      "title": "contrast.spec.ts",
+      "file": "contrast.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "text is readable on every page (WCAG contrast at least 3:1)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 35622,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T12:12:15.769Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "71a6ba077a40ffcb3ac4-e4198736fbf9de02425b",
+          "file": "contrast.spec.ts",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
       "title": "pages.spec.ts",
       "file": "pages.spec.ts",
       "column": 0,
@@ -92,15 +134,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 9679,
+                  "duration": 8337,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:11:11.633Z",
+                  "startTime": "2026-10-08T12:12:15.770Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -126,15 +168,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 4495,
+                  "duration": 1379,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:11:22.212Z",
+                  "startTime": "2026-10-08T12:12:26.452Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -160,15 +202,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 16415,
+                  "duration": 3009,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:11:26.787Z",
+                  "startTime": "2026-10-08T12:12:27.858Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -194,15 +236,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 11516,
+                  "duration": 3407,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:11:43.260Z",
+                  "startTime": "2026-10-08T12:12:30.898Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -228,15 +270,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 9004,
+                  "duration": 2396,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:11:54.846Z",
+                  "startTime": "2026-10-08T12:12:34.325Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -262,15 +304,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 9765,
+                  "duration": 5782,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:03.937Z",
+                  "startTime": "2026-10-08T12:12:36.743Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -296,15 +338,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1435,
+                  "duration": 1242,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:13.865Z",
+                  "startTime": "2026-10-08T12:12:42.548Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -330,15 +372,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1279,
+                  "duration": 1534,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:15.477Z",
+                  "startTime": "2026-10-08T12:12:43.827Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -364,15 +406,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 2013,
+                  "duration": 1578,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:16.787Z",
+                  "startTime": "2026-10-08T12:12:45.392Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -398,15 +440,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1543,
+                  "duration": 1178,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:18.833Z",
+                  "startTime": "2026-10-08T12:12:46.992Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -432,15 +474,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 16117,
+                  "duration": 5443,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:20.408Z",
+                  "startTime": "2026-10-08T12:12:48.188Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -466,15 +508,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 2513,
+                  "duration": 2233,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:36.551Z",
+                  "startTime": "2026-10-08T12:12:53.656Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -500,15 +542,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1974,
+                  "duration": 1910,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:39.094Z",
+                  "startTime": "2026-10-08T12:12:55.914Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -534,15 +576,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 7478,
+                  "duration": 7757,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:41.097Z",
+                  "startTime": "2026-10-08T12:12:57.852Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -568,15 +610,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 2175,
+                  "duration": 4308,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:48.619Z",
+                  "startTime": "2026-10-08T12:13:05.637Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -602,15 +644,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 37418,
+                  "duration": 36068,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:50.818Z",
+                  "startTime": "2026-10-08T12:13:09.975Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -636,15 +678,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 30906,
+                  "duration": 30617,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:13:28.257Z",
+                  "startTime": "2026-10-08T12:13:46.075Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -670,15 +712,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 36139,
+                  "duration": 23936,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:13:59.184Z",
+                  "startTime": "2026-10-08T12:14:16.715Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -704,15 +746,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 26095,
+                  "duration": 24493,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:14:35.348Z",
+                  "startTime": "2026-10-08T12:14:40.676Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -738,15 +780,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 25287,
+                  "duration": 25680,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:15:01.491Z",
+                  "startTime": "2026-10-08T12:15:05.189Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -772,15 +814,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 24841,
+                  "duration": 24830,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:15:26.803Z",
+                  "startTime": "2026-10-08T12:15:30.898Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -806,15 +848,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 25414,
+                  "duration": 25284,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:15:51.698Z",
+                  "startTime": "2026-10-08T12:15:55.778Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -840,15 +882,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 35342,
+                  "duration": 25132,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:16:17.143Z",
+                  "startTime": "2026-10-08T12:16:21.100Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -874,15 +916,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 25880,
+                  "duration": 25016,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:16:52.530Z",
+                  "startTime": "2026-10-08T12:16:46.257Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -908,15 +950,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 25541,
+                  "duration": 24535,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:17:18.440Z",
+                  "startTime": "2026-10-08T12:17:11.301Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -942,15 +984,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 19370,
+                  "duration": 29271,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:17:44.021Z",
+                  "startTime": "2026-10-08T12:17:35.867Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -976,15 +1018,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 18633,
+                  "duration": 17527,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:18:03.419Z",
+                  "startTime": "2026-10-08T12:18:05.164Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1010,15 +1052,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 18360,
+                  "duration": 17515,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:18:22.071Z",
+                  "startTime": "2026-10-08T12:18:22.717Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1044,15 +1086,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 19956,
+                  "duration": 17814,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:18:40.450Z",
+                  "startTime": "2026-10-08T12:18:40.252Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1078,15 +1120,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 15985,
+                  "duration": 17891,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:19:00.427Z",
+                  "startTime": "2026-10-08T12:18:58.085Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1112,15 +1154,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 17399,
+                  "duration": 18770,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:19:16.430Z",
+                  "startTime": "2026-10-08T12:19:15.996Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1146,15 +1188,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 16515,
+                  "duration": 18095,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:19:33.859Z",
+                  "startTime": "2026-10-08T12:19:34.787Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1180,15 +1222,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 16877,
+                  "duration": 19285,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:19:50.392Z",
+                  "startTime": "2026-10-08T12:19:52.901Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1222,15 +1264,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4384,
+                  "duration": 2369,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:11:11.668Z",
+                  "startTime": "2026-10-08T12:12:53.789Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1244,7 +1286,7 @@
           "column": 1
         },
         {
-          "title": "session survives navigation, direct URLs, reload, a new tab, theme and viewport changes",
+          "title": "session survives navigation, direct URLs, reload, a new tab and viewport changes",
           "ok": true,
           "tags": [],
           "tests": [
@@ -1256,15 +1298,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 47477,
+                  "duration": 18315,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:11:16.989Z",
+                  "startTime": "2026-10-08T12:12:56.210Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1272,7 +1314,7 @@
               "status": "expected"
             }
           ],
-          "id": "ab9706b4c5d4648443a8-95672c425e247db20d36",
+          "id": "ab9706b4c5d4648443a8-e141e57ae8d8862ee28e",
           "file": "passkey.spec.ts",
           "line": 38,
           "column": 1
@@ -1290,15 +1332,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5972,
+                  "duration": 3063,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:04.550Z",
+                  "startTime": "2026-10-08T12:13:14.564Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1308,7 +1350,7 @@
           ],
           "id": "ab9706b4c5d4648443a8-2d7fdc851d5e39a2eb81",
           "file": "passkey.spec.ts",
-          "line": 86,
+          "line": 82,
           "column": 1
         },
         {
@@ -1324,15 +1366,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6418,
+                  "duration": 5482,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:10.578Z",
+                  "startTime": "2026-10-08T12:13:17.667Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1342,7 +1384,7 @@
           ],
           "id": "ab9706b4c5d4648443a8-6658344600b57bdbd01a",
           "file": "passkey.spec.ts",
-          "line": 98,
+          "line": 94,
           "column": 1
         },
         {
@@ -1358,15 +1400,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1864,
+                  "duration": 875,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:17.041Z",
+                  "startTime": "2026-10-08T12:13:23.182Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1376,7 +1418,7 @@
           ],
           "id": "ab9706b4c5d4648443a8-c9db7e39d7d46e146d7b",
           "file": "passkey.spec.ts",
-          "line": 114,
+          "line": 110,
           "column": 1
         },
         {
@@ -1392,15 +1434,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1050,
+                  "duration": 776,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:18.931Z",
+                  "startTime": "2026-10-08T12:13:24.075Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1410,7 +1452,7 @@
           ],
           "id": "ab9706b4c5d4648443a8-bfced0349cc7e8b2e675",
           "file": "passkey.spec.ts",
-          "line": 122,
+          "line": 118,
           "column": 1
         }
       ]
@@ -1434,15 +1476,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1710,
+                  "duration": 1575,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:20.043Z",
+                  "startTime": "2026-10-08T12:13:24.902Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1468,15 +1510,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1656,
+                  "duration": 1224,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:21.775Z",
+                  "startTime": "2026-10-08T12:13:26.500Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1502,15 +1544,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2172,
+                  "duration": 1346,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:23.455Z",
+                  "startTime": "2026-10-08T12:13:27.753Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1536,15 +1578,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1661,
+                  "duration": 1354,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:25.662Z",
+                  "startTime": "2026-10-08T12:13:29.134Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1570,15 +1612,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 24736,
+                  "duration": 23842,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:27.362Z",
+                  "startTime": "2026-10-08T12:13:30.509Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1604,15 +1646,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1018,
+                  "duration": 113,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:52.127Z",
+                  "startTime": "2026-10-08T12:13:54.374Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1638,15 +1680,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1026,
+                  "duration": 877,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:53.168Z",
+                  "startTime": "2026-10-08T12:13:54.507Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1680,15 +1722,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3919,
+                  "duration": 3415,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:54.252Z",
+                  "startTime": "2026-10-08T12:13:55.423Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1714,15 +1756,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2196,
+                  "duration": 1567,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:12:58.190Z",
+                  "startTime": "2026-10-08T12:13:58.858Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1748,15 +1790,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3468,
+                  "duration": 4035,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:13:00.433Z",
+                  "startTime": "2026-10-08T12:14:00.472Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1782,15 +1824,15 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1477,
+                  "duration": 1484,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T11:13:03.950Z",
+                  "startTime": "2026-10-08T12:14:04.577Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1801,218 +1843,6 @@
           "id": "8f9206fb64e745a9d86f-6e68ba9ef2774529979e",
           "file": "terminal.spec.ts",
           "line": 24,
-          "column": 1
-        }
-      ]
-    },
-    {
-      "title": "theme.spec.ts",
-      "file": "theme.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "theme choice applies immediately and persists across navigation, reload and a new tab",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 11120,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-08T11:13:05.525Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8168eb6e17e693d86faf-14b9fe12675b658f0841",
-          "file": "theme.spec.ts",
-          "line": 6,
-          "column": 1
-        },
-        {
-          "title": "System follows the operating system setting",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 4741,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-08T11:13:16.686Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8168eb6e17e693d86faf-32b6563ca8b4b1cf9c7f",
-          "file": "theme.spec.ts",
-          "line": 28,
-          "column": 1
-        },
-        {
-          "title": "dark theme is set before first paint (no light flash)",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 2265,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-08T11:13:21.451Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8168eb6e17e693d86faf-c980ac3cf51479202800",
-          "file": "theme.spec.ts",
-          "line": 42,
-          "column": 1
-        },
-        {
-          "title": "dark mode: no white panels, text readable on every page",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 240000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 30011,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-08T11:13:23.746Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8168eb6e17e693d86faf-c62cb5fa78e057c842f8",
-          "file": "theme.spec.ts",
-          "line": 50,
-          "column": 48
-        },
-        {
-          "title": "light mode: text readable on every page",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 240000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 36178,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-08T11:13:53.788Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8168eb6e17e693d86faf-9dfdce901a467a194c3a",
-          "file": "theme.spec.ts",
-          "line": 50,
-          "column": 48
-        },
-        {
-          "title": "changing the theme does not clear other app storage",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1387,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-08T11:14:29.994Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8168eb6e17e693d86faf-8a7ad08fb2c216c7e4db",
-          "file": "theme.spec.ts",
-          "line": 112,
           "column": 1
         }
       ]
@@ -2031,7 +1861,7 @@
           "column": 6,
           "specs": [
             {
-              "title": "landing @ 390 light",
+              "title": "landing @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2061,7 +1891,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.697Z",
+                      "startTime": "2026-10-08T12:14:06.092Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2079,13 +1909,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-b668dbd3b5dcc20c3d84",
+              "id": "8324bb52c49185e48ff4-970b2131d579ccca218d",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "dashboard @ 390 light",
+              "title": "dashboard @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2115,7 +1945,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.742Z",
+                      "startTime": "2026-10-08T12:14:06.092Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2133,13 +1963,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-84c3ac7129ef74b5cf50",
+              "id": "8324bb52c49185e48ff4-6540c2994c759cc0aa10",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "trade @ 390 light",
+              "title": "trade @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2169,7 +1999,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.742Z",
+                      "startTime": "2026-10-08T12:14:06.092Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2187,13 +2017,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-00ef7240e231a37f3916",
+              "id": "8324bb52c49185e48ff4-0ec6ae719bbc9a6b9e5f",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "positions @ 390 light",
+              "title": "positions @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2223,7 +2053,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.742Z",
+                      "startTime": "2026-10-08T12:14:06.092Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2241,13 +2071,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-050470c73f0ca5ac5127",
+              "id": "8324bb52c49185e48ff4-658bd0ddbdef8d8de804",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "risk @ 390 light",
+              "title": "risk @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2277,7 +2107,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.742Z",
+                      "startTime": "2026-10-08T12:14:06.092Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2295,13 +2125,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-0ce2c4b6e012f6249cd9",
+              "id": "8324bb52c49185e48ff4-42f42de1a2efc9bce5c8",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "claims @ 390 light",
+              "title": "claims @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2331,7 +2161,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.742Z",
+                      "startTime": "2026-10-08T12:14:06.092Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2349,13 +2179,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-582c185824f8444b62a8",
+              "id": "8324bb52c49185e48ff4-f8b63c6d9374b6e36abd",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "history @ 390 light",
+              "title": "history @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2385,7 +2215,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.742Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2403,13 +2233,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-76b1722c8cc733bce219",
+              "id": "8324bb52c49185e48ff4-6fb382269d2be0611438",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "desk @ 390 light",
+              "title": "desk @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2439,7 +2269,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.742Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2457,13 +2287,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-63da138ebe2cc368f140",
+              "id": "8324bb52c49185e48ff4-0e7b034a9714cc5078dd",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "proof @ 390 light",
+              "title": "proof @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2493,7 +2323,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.742Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2511,13 +2341,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-6967b07dd1abd612ce1e",
+              "id": "8324bb52c49185e48ff4-297fe3b59610af293582",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "lp @ 390 light",
+              "title": "lp @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2547,7 +2377,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.746Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2565,13 +2395,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-bb6454bc2401aa1c2e01",
+              "id": "8324bb52c49185e48ff4-609313c97be0da5bc35f",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "docs @ 390 light",
+              "title": "docs @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2601,7 +2431,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.747Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2619,13 +2449,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-4016498634139c414024",
+              "id": "8324bb52c49185e48ff4-292f065bea95b8d23124",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "status @ 390 light",
+              "title": "status @ 390",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2655,7 +2485,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.747Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2673,13 +2503,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-15f3e1b4f3ff82a8f5fd",
+              "id": "8324bb52c49185e48ff4-8ae7df045f08af4b7c2c",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "landing @ 1440 light",
+              "title": "landing @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2709,7 +2539,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.747Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2727,13 +2557,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-d090dabe3c1517a92fa3",
+              "id": "8324bb52c49185e48ff4-2fd5d21f9fe73180dbbc",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "dashboard @ 1440 light",
+              "title": "dashboard @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2763,7 +2593,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.747Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2781,13 +2611,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-0023fe9cfa0e89d6ed69",
+              "id": "8324bb52c49185e48ff4-9af9578f6dcf088b45a6",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "trade @ 1440 light",
+              "title": "trade @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2817,7 +2647,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.747Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2835,13 +2665,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-42e0f9c9cf998cf6969d",
+              "id": "8324bb52c49185e48ff4-125276b9085742970a35",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "positions @ 1440 light",
+              "title": "positions @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2871,7 +2701,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2889,13 +2719,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-bdf6a043cc46b0e30261",
+              "id": "8324bb52c49185e48ff4-c82b0372bf9c2b4971d0",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "risk @ 1440 light",
+              "title": "risk @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2925,7 +2755,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.093Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2943,13 +2773,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-41102571a6aa6cdd95e4",
+              "id": "8324bb52c49185e48ff4-05f2fbbfead73f1b8a5c",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "claims @ 1440 light",
+              "title": "claims @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -2979,7 +2809,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.094Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2997,13 +2827,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-c722d8317e0fd933c274",
+              "id": "8324bb52c49185e48ff4-be05105bb603f72f0acf",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "history @ 1440 light",
+              "title": "history @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -3033,7 +2863,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.094Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3051,13 +2881,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-a9ccd0a92249d7876ec5",
+              "id": "8324bb52c49185e48ff4-ebbfa53ef68ea3a882da",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "desk @ 1440 light",
+              "title": "desk @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -3087,7 +2917,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.094Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3105,13 +2935,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-20702048503b524c0306",
+              "id": "8324bb52c49185e48ff4-e3306cb54a031cf6d053",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "proof @ 1440 light",
+              "title": "proof @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -3141,7 +2971,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.094Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3159,13 +2989,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-54eecc544aa15498fc78",
+              "id": "8324bb52c49185e48ff4-ad23084bb4f7b7a1749c",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "lp @ 1440 light",
+              "title": "lp @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -3195,7 +3025,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.094Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3213,13 +3043,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-95304b45c5ed43fe4e7f",
+              "id": "8324bb52c49185e48ff4-42a0d4f0584b1a1774f1",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "docs @ 1440 light",
+              "title": "docs @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -3249,7 +3079,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.094Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3267,13 +3097,13 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-ea5f0134a07348c8087d",
+              "id": "8324bb52c49185e48ff4-64d1fdfe2f742b0651b5",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             },
             {
-              "title": "status @ 1440 light",
+              "title": "status @ 1440",
               "ok": true,
               "tags": [],
               "tests": [
@@ -3303,7 +3133,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.748Z",
+                      "startTime": "2026-10-08T12:14:06.094Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3321,1306 +3151,10 @@
                   "status": "skipped"
                 }
               ],
-              "id": "8324bb52c49185e48ff4-7bfde295b493557ac538",
+              "id": "8324bb52c49185e48ff4-fd06024b213789cd8433",
               "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "landing @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.751Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-8a954b4ed1c2153e66c2",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "dashboard @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.752Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-ac7595e7f43e57a1e568",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "trade @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.752Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-f6800959103a1a208ef9",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "positions @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.752Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-0d9edf00a4be0664d435",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "risk @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.752Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-f281270e16211c07f4e6",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "claims @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.753Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-c1d0ffa1c8f3a3eeafc5",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "history @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.753Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-0c8e01ef8ee249ed23b7",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "desk @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.753Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-1c0b4789d4dada6dc512",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "proof @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.753Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-ba13e66146fda2d7886e",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "lp @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.753Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-1cf6bf0a84b2114c5e36",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "docs @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.754Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-ce635e6058b29b19a448",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "status @ 390 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.754Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-1b526b4dfd9abf8057f0",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "landing @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.754Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-587930b3512a9c5dc29a",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "dashboard @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.754Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-916f14d540b01e46ef17",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "trade @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.754Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-b63d0d4be7484acc0f0b",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "positions @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.754Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-f47d62ee7059261dae01",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "risk @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.754Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-53728193c79ac03476d6",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "claims @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.754Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-3335b02fb17ab78421d9",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "history @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.755Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-9d3b85ed7e7b2cbba319",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "desk @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.757Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-a8e4d7d8cfacda594443",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "proof @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.757Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-4c8a7f7ddabaff4efa41",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "lp @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.759Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-654c9e02f21edd49828e",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "docs @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.759Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-360a1df4ecfcf971ec53",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
-            },
-            {
-              "title": "status @ 1440 dark",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "set SCREENSHOTS=1 to capture",
-                      "location": {
-                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                        "line": 25,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-10-08T11:14:31.759Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "set SCREENSHOTS=1 to capture",
-                          "location": {
-                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
-                            "line": 25,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8324bb52c49185e48ff4-f40896100349c9d86b2c",
-              "file": "visual.spec.ts",
-              "line": 29,
-              "column": 9
+              "line": 28,
+              "column": 7
             }
           ]
         }
@@ -4629,10 +3163,10 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-08T11:11:05.410Z",
-    "duration": 542464.441,
-    "expected": 56,
-    "skipped": 48,
+    "startTime": "2026-10-08T12:12:14.175Z",
+    "duration": 478373.78900000005,
+    "expected": 51,
+    "skipped": 24,
     "unexpected": 0,
     "flaky": 0
   }

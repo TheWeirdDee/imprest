@@ -2,7 +2,7 @@
 
 import { Gauge, ShieldAlert } from "lucide-react";
 import { DESK_STATUS, ENFORCE_REASON, INT256_MIN, notional, riskLevel } from "@imprest/core";
-import { useAccount } from "@/lib/account/AccountProvider";
+import { hasAccount, useAccount } from "@/lib/account/AccountProvider";
 import { useDesk } from "@/lib/desk-context";
 import { usePool } from "@/lib/desk";
 import { network } from "@/lib/env";
@@ -116,7 +116,7 @@ export default function RiskCenter() {
                   Anyone can call enforce(): it closes positions reduce-only and settles under the waterfall. You can call it yourself;
                   a keeper bounty is paid from residual equity to whoever finalizes it.
                 </Notice>
-                <Button variant="danger" className="mt-3" disabled={!a.account} onClick={() => void run(enforceAction(a.account!, d.desk!))}>
+                <Button variant="danger" className="mt-3" disabled={!hasAccount(a)} onClick={() => void run(async () => enforceAction(await a.getSigner(), d.desk!))}>
                   Call enforce()
                 </Button>
                 <div className="mt-3">

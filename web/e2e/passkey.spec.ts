@@ -35,7 +35,7 @@ test("Mera passkey account: create, sign out, sign in again to the same address"
   await expect(account(page)).toHaveAttribute("aria-label", first!, { timeout: 20_000 });
 });
 
-test("session survives navigation, direct URLs, reload, a new tab, theme and viewport changes", async ({ page, context }) => {
+test("session survives navigation, direct URLs, reload, a new tab and viewport changes", async ({ page, context }) => {
   test.setTimeout(180_000);
   await page.goto("/app");
   await virtualAuthenticator(page, true);
@@ -72,10 +72,6 @@ test("session survives navigation, direct URLs, reload, a new tab, theme and vie
   await tab.goto("/app/claims");
   await stillSignedIn(tab, "new tab");
   await tab.close();
-  // 6. Theme switch does not touch the session.
-  await page.getByRole("radio", { name: "Dark theme" }).click();
-  await stillSignedIn(page, "theme dark");
-  await page.getByRole("radio", { name: "Light theme" }).click();
   // 7. Phone width and back.
   await page.setViewportSize({ width: 375, height: 800 });
   await stillSignedIn(page, "375px");

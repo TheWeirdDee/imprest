@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { SiteHeader } from "@/components/shell";
 import { listDocs, readDoc } from "@/lib/proof";
 import { renderMarkdown } from "@/lib/markdown";
+import { DocArticle } from "@/components/doc-article";
 
 export function generateStaticParams() {
   return listDocs().map((name) => ({ name }));
@@ -26,7 +27,7 @@ export default async function DocPage({ params }: { params: Promise<{ name: stri
         <Link href="/docs" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg">
           <ArrowLeft size={14} aria-hidden /> All docs
         </Link>
-        <article className="prose-imprest" dangerouslySetInnerHTML={{ __html: renderMarkdown(md) }} />
+        <DocArticle html={renderMarkdown(md)} />
       </main>
     </div>
   );

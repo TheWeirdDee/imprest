@@ -157,7 +157,8 @@ async function main() {
     }
     const m = await mark(r.accountId);
     const target = CLAIM ? r.hwm + 300_000n : (r.startEquity * 10_200n) / 10_000n;
-    const stopEq = CLAIM ? r.hwm - 4_000_000n : STOP_EQUITY;
+    // CLAIM_STOP_EQUITY (base units) lets a new claim run set its own loss budget below the current equity.
+    const stopEq = CLAIM ? (process.env.CLAIM_STOP_EQUITY ? BigInt(process.env.CLAIM_STOP_EQUITY) : r.hwm - 4_000_000n) : STOP_EQUITY;
     if (CLAIM && r.flat && trips >= 1 && r.equity >= target) {
       await claimNow(desk, r);
       break;
@@ -204,7 +205,9 @@ async function main() {
     } else {
       const pnl = r.equity - (entryEquity ?? r.equity);
       const small = existsSync(resolve(ROOT, ".graduation-small-trip.flag"));
-      const tp = CLAIM ? 1_200_000n : TAKE_PROFIT;
+      // Claim mode: hold for enough to clear the high-water mark in one trip (at least 1.2 AUSD).
+      const need = target + 100_000n - (entryEquity ?? r.equity);
+      const tp = CLAIM ? (need > 1_200_000n ? need : 1_200_000n) : TAKE_PROFIT;
       const sl = CLAIM ? 2_000_000n : STOP_LOSS;
       if (small || pnl >= tp || pnl <= -sl || r.equity <= stopEq + 200_000n || !entryEquity) {
         const side: 0 | 1 = m.isLong ? 1 : 0;

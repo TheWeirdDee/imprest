@@ -1,5 +1,4 @@
 "use client";
-import { useTheme } from "@/lib/theme";
 
 import { useEffect, useRef, useState } from "react";
 import { CandlestickChart, Clock } from "lucide-react";
@@ -21,7 +20,7 @@ const RES = [
 ];
 
 /** Real Perpl candles. If the API is unreachable the chart says so; it never draws placeholder data. */
-/** Chart colors come from the same CSS tokens as the rest of the UI (light and dark). */
+/** Chart colors come from the same CSS tokens as the rest of the UI. */
 function chartColors() {
   const cs = getComputedStyle(document.documentElement);
   const v = (n: string, f: string) => cs.getPropertyValue(n).trim() || f;
@@ -35,7 +34,6 @@ function chartColors() {
 }
 
 export function PriceChart({ m, height = 360 }: { m: MarketConfig; height?: number }) {
-  const theme = useTheme();
   const el = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
   const seriesRef = useRef<any>(null);
@@ -74,18 +72,6 @@ export function PriceChart({ m, height = 360 }: { m: MarketConfig; height?: numb
       seriesRef.current = null;
     };
   }, [m.perpId, m.priceDecimals]);
-
-  // Re-read the design tokens when the theme changes.
-  useEffect(() => {
-    const c = chartColors();
-    chartRef.current?.applyOptions({
-      layout: { textColor: c.text },
-      grid: { vertLines: { color: c.grid }, horzLines: { color: c.grid } },
-      rightPriceScale: { borderColor: c.line },
-      timeScale: { borderColor: c.line },
-    });
-    seriesRef.current?.applyOptions({ upColor: c.up, downColor: c.down, wickUpColor: c.up, wickDownColor: c.down });
-  }, [theme.resolved]);
 
   useEffect(() => {
     const s = seriesRef.current;

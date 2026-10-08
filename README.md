@@ -74,8 +74,19 @@ pnpm proof:local                                   # contract suite on Perpl byt
 NEXT_PUBLIC_IMPREST_ENV=testnet pnpm --filter @imprest/web dev    # http://localhost:3000
 ```
 
-Mobile: `cd app && npm install && npm test && npx expo run:android` (needs a passkey domain; see
-[docs/MOBILE.md](docs/MOBILE.md)).
+### See the mobile app on your phone
+
+1. Install **Expo Go** from the App Store or Google Play.
+2. Put the phone on the same Wi-Fi as this computer.
+3. Run `npm run mobile` (first time: `cd app && npm install`).
+4. Scan the QR code that appears in the terminal (Android: inside Expo Go; iPhone: Camera app).
+
+Expo Go shows every screen and live testnet BTC/ETH prices. Passkey sign-in, and so your desk and trading
+from the phone, do not work in Expo Go: it needs a domain linked to the app and a
+development build. What that takes and costs is in [docs/MOBILE.md](docs/MOBILE.md).
+
+Security: an internal automated review is in [docs/SECURITY_REVIEW.md](docs/SECURITY_REVIEW.md).
+No independent third-party audit has been performed.
 
 Requirements, every test command and the experiments: [docs/SETUP.md](docs/SETUP.md).
 Testnet deployment (needs a deployer key funded with testnet MON):
@@ -84,7 +95,7 @@ Testnet deployment (needs a deployer key funded with testnet MON):
 
 ## Docs
 
-[Architecture](docs/ARCHITECTURE.md) · [Security](docs/SECURITY.md) ·
+[Architecture](docs/ARCHITECTURE.md) · [Security](docs/SECURITY.md) · [Security review](docs/SECURITY_REVIEW.md) · [Mobile](docs/MOBILE.md) · [Testnet](docs/TESTNET.md) ·
 [Threat model](docs/THREAT_MODEL.md) · [Decisions](docs/DECISIONS.md) ·
 [Known limitations](docs/KNOWN_LIMITATIONS.md) · [Evidence standard](docs/EVIDENCE_STANDARD.md) ·
 [Test matrix](docs/TEST_MATRIX.md) · [Networks](docs/NETWORKS.md) · [API](docs/API.md) ·

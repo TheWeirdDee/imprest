@@ -1,18 +1,20 @@
 {
-  "value": null,
-  "unit": null,
-  "network": "Monad Testnet",
-  "chain_id": null,
-  "contract": null,
-  "evidence": [],
-  "transaction_hash": null,
-  "block_number": null,
-  "timestamp_utc": "2026-10-07T19:23:06Z",
-  "sample_size": null,
-  "denominator": null,
   "claim_id": "TESTNET_CANONICAL_GRADUATION",
-  "statement": "A desk graduates on Monad testnet and is funded by the pool",
-  "status": "PENDING",
-  "methodology": "Not yet measured. See docs/FINAL_STATUS.md for the gate that produces it.",
-  "source": "pending"
+  "statement": "A desk earned +2% over two closed trades on Monad testnet, graduated to tier 1 and was funded by the pool",
+  "value": "400 AUSD credit",
+  "unit": "pool credit",
+  "methodology": "receipt, Graduated event and desk state read on the independent RPC at the receipt block",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": "0xfc653827479A9D96d197785de22db581FF5dFCC6",
+  "source": "scripts/src/verify-graduation.ts",
+  "evidence": [
+    "proof/receipts/testnet/graduation-attempt/05-graduate-by-keeper.json"
+  ],
+  "transaction_hash": "0x4e616c9939a95c0419c32d915dbb964e5074e724fe242a9e963be853f32587ed",
+  "block_number": 69156747,
+  "timestamp_utc": "2026-10-08T04:09:11Z",
+  "status": "TESTNET_VERIFIED",
+  "sample_size": 1,
+  "denominator": "one desk"
 }

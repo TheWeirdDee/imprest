@@ -49,3 +49,5 @@ proof/experiments/replay/data/*.zip
 .graduation-small-trip.flag
 .e2e-*.log
 .expo-check.log
+.shots*.log
+.next-*.log

@@ -1,7 +1,7 @@
 "use client";
 
 import { Droplets, ExternalLink } from "lucide-react";
-import { useAccount } from "@/lib/account/AccountProvider";
+import { hasAccount, useAccount } from "@/lib/account/AccountProvider";
 import { useDesk } from "@/lib/desk-context";
 import { faucetAction } from "@/lib/actions";
 import { useAction } from "@/lib/tx";
@@ -15,7 +15,8 @@ export function Portfolio() {
   const a = useAccount();
   const d = useDesk();
   const { state, run, reset } = useAction();
-  if (a.status !== "ready") return <p className="text-sm text-muted">Sign in to see balances.</p>;
+  if (!a.ready) return <Skeleton className="h-16 w-full" />;
+  if (!hasAccount(a)) return <p className="text-sm text-muted">Sign in to see balances.</p>;
   const b = d.balances.data;
   const lowGas = b ? b.native < 10n ** 16n : false;
   return (
@@ -38,9 +39,9 @@ export function Portfolio() {
         <Button
           variant="secondary"
           className="w-full"
-          disabled={!a.account || state.kind === "submitted" || state.kind === "confirming" || lowGas}
+          disabled={!hasAccount(a) || state.kind === "submitted" || state.kind === "confirming" || lowGas}
           onClick={async () => {
-            await run(faucetAction(a.account!));
+            await run(async () => faucetAction(await a.getSigner()));
             d.balances.refresh();
           }}
         >

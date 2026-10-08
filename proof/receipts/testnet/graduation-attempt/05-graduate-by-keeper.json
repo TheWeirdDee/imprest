@@ -1,0 +1,37 @@
+{
+  "id": "TESTNET_CANONICAL_GRADUATION",
+  "environment": "testnet",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "timestamp_utc": "2026-10-08T04:09:11Z",
+  "git_commit": null,
+  "operation": "graduate",
+  "status": "TESTNET_VERIFIED",
+  "tx_hash": "0x4e616c9939a95c0419c32d915dbb964e5074e724fe242a9e963be853f32587ed",
+  "block_number": 69156747,
+  "contract": "0xfc653827479A9D96d197785de22db581FF5dFCC6",
+  "explorer_url": null,
+  "inputs": {
+    "sent_by": "0x9c4f9b38ce13a1552aa6fcb505cffb3e70fafcc0",
+    "sent_by_role": "keeper"
+  },
+  "outputs": {
+    "graduated_event": {
+      "fromTier": 0,
+      "toTier": 1,
+      "credit": "400000000",
+      "newStartEquity": "502289849",
+      "floor": "472152458"
+    },
+    "gas_used": "518571",
+    "gas_limit": "518571"
+  },
+  "verification": {
+    "method": "receipt, Graduated event and desk state read on the independent RPC at the receipt block",
+    "rpc": "https://rpc-testnet.monadinfra.com",
+    "tier": 1,
+    "borrowed": "400000000",
+    "startEquity": "502289849"
+  },
+  "notes": "Desk reached +2% over two closed, relayed round trips on Perpl testnet (receipts 01-04 in this folder). The second round trip was deliberately small (0.5x equity) once the profit target was already met. The Imprest keeper detected eligibility and called graduate(); the contract checked the rules and the pool funded the credit."
+}

@@ -43,7 +43,7 @@ const LEVERAGE = 300n;
 // loss budget 4 AUSD below the HWM.
 const CLAIM = process.env.CLAIM_MODE === "1";
 
-const STATE = resolve(OUT, "state.json");
+const STATE = resolve(ROOT, ".graduation-state.json"); // runtime only, not evidence
 const loadEntry = (): bigint | null => (existsSync(STATE) ? BigInt(JSON.parse(readFileSync(STATE, "utf8")).entryEquity) : null);
 const saveEntry = (v: bigint) => writeFileSync(STATE, JSON.stringify({ entryEquity: v.toString() }));
 const now = () => new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
@@ -198,12 +198,12 @@ async function main() {
       const price = side === 0 ? m.pns + (m.pns * 20n) / 10_000n : m.pns - (m.pns * 20n) / 10_000n;
       entryEquity = r.equity;
       saveEntry(r.equity);
-      if (smallTrip) writeFileSync(resolve(OUT, "small-trip.flag"), now());
+      if (smallTrip) writeFileSync(resolve(ROOT, ".graduation-small-trip.flag"), now());
       log({ step: "open", side: side === 0 ? "long" : "short", drift: dr, lots, equity: r.equity });
       await relay(desk, r.accountId, { perpId: BigInt(BTC.perpId), side, priceLimit: price, lots, leverage: LEVERAGE, reduceOnly: false, fillOrKill: false }, "open");
     } else {
       const pnl = r.equity - (entryEquity ?? r.equity);
-      const small = existsSync(resolve(OUT, "small-trip.flag"));
+      const small = existsSync(resolve(ROOT, ".graduation-small-trip.flag"));
       const tp = CLAIM ? 1_200_000n : TAKE_PROFIT;
       const sl = CLAIM ? 2_000_000n : STOP_LOSS;
       if (small || pnl >= tp || pnl <= -sl || r.equity <= stopEq + 200_000n || !entryEquity) {
@@ -212,7 +212,7 @@ async function main() {
         log({ step: "close", pnl, equity: r.equity });
         await relay(desk, r.accountId, { perpId: BigInt(BTC.perpId), side, priceLimit: price, lots: m.lots, leverage: LEVERAGE, reduceOnly: true, fillOrKill: false }, "close");
         trips++;
-        if (small) rmSync(resolve(OUT, "small-trip.flag"));
+        if (small) rmSync(resolve(ROOT, ".graduation-small-trip.flag"));
       }
     }
     } catch (e) {
@@ -222,7 +222,8 @@ async function main() {
   }
   const r = (await rd<RiskState>(pc, { address: desk, abi: deskAbi, functionName: "riskState" })) as RiskState;
   const summary = { desk, tier: r.tier, equity: r.equity.toString(), startEquity: r.startEquity.toString(), closedTrades: r.closedTradesThisTier.toString(), flat: r.flat, roundTrips: trips, finished_utc: now() };
-  writeFileSync(resolve(OUT, "summary.json"), JSON.stringify(summary, null, 2));
+  mkdirSync(resolve(ROOT, "proof/experiments/graduation-attempt"), { recursive: true });
+  writeFileSync(resolve(ROOT, "proof/experiments/graduation-attempt", CLAIM ? "claim-summary.json" : "graduation-summary.json"), JSON.stringify(summary, null, 2));
   log({ done: summary });
 }
 

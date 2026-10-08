@@ -23,7 +23,6 @@ import {
 import { network, deployed } from "@/lib/env";
 import { buttonClass, cx } from "./ui";
 import { AccountButton } from "./account-button";
-import { ThemeCycleButton, ThemeToggle } from "./theme-toggle";
 
 /** Compact network indicator. A testnet build always says so, without shouting. */
 export function NetworkPill({ className }: { className?: string }) {
@@ -54,8 +53,8 @@ export function Logo({ className }: { className?: string }) {
   return (
     <span className={cx("inline-flex items-center gap-2 text-[15px] font-semibold tracking-tight", className)}>
       <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden>
-        <rect width="24" height="24" rx="5" fill="var(--color-accent)" />
-        <path d="M7 16.5V7.5M12 16.5V10M17 16.5V12.5" stroke="var(--color-on-accent)" strokeWidth="2" strokeLinecap="round" />
+        <rect width="24" height="24" rx="5" fill="var(--color-primary)" />
+        <path d="M7 16.5V7.5M12 16.5V10M17 16.5V12.5" stroke="var(--color-on-primary)" strokeWidth="2" strokeLinecap="round" />
       </svg>
       Imprest
     </span>
@@ -121,8 +120,6 @@ export function SiteHeader() {
           <span className="hidden xl:block">
             <NetworkPill />
           </span>
-          <ThemeToggle className="hidden lg:inline-flex" />
-          <ThemeCycleButton className="lg:hidden" />
           <Link href="/app" className={buttonClass("primary", "sm", "hidden sm:inline-flex")}>
             Open app
           </Link>
@@ -139,7 +136,6 @@ export function SiteHeader() {
           </nav>
           <div className="mt-4 flex flex-col gap-3 border-t border-line pt-4">
             <NetworkPill className="self-start" />
-            <ThemeToggle withLabels className="w-full" />
             <Link href="/app" onClick={close} className={buttonClass("primary", "lg", "w-full")}>
               Open app
             </Link>
@@ -238,8 +234,6 @@ export function AppShell({ children }: { children: ReactNode }) {
               </span>
             </div>
             <div className="flex shrink-0 items-center gap-2">
-              <ThemeToggle className="hidden md:inline-flex" />
-              <ThemeCycleButton className="md:hidden" />
               <AccountButton />
             </div>
           </header>
@@ -273,7 +267,6 @@ export function AppShell({ children }: { children: ReactNode }) {
             </nav>
             <div className="mt-4 flex flex-col gap-3 border-t border-line pt-4">
               <NetworkPill className="self-start" />
-              <ThemeToggle withLabels className="w-full" />
             </div>
           </div>
         </div>

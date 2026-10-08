@@ -3,7 +3,7 @@
 import { createContext, useContext, type ReactNode } from "react";
 import type { Address } from "viem";
 import type { CohortPolicy, RiskState } from "@imprest/core";
-import { useAccount } from "./account/AccountProvider";
+import { hasAccount, useAccount } from "./account/AccountProvider";
 import { useBalances, usePolicy, usePositions, useRiskState, useTraderDesk, type Loadable, type PositionView } from "./desk";
 
 interface DeskCtx {
@@ -22,7 +22,7 @@ const Ctx = createContext<DeskCtx | null>(null);
 
 export function DeskProvider({ children }: { children: ReactNode }) {
   const a = useAccount();
-  const address = a.status === "ready" ? a.address : null;
+  const address = hasAccount(a) ? a.address : null;
   const balances = useBalances(address);
   const deskQ = useTraderDesk(address);
   const desk = deskQ.data?.current ?? null;

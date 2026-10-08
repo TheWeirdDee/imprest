@@ -78,6 +78,12 @@ export default function LpConsole() {
           <div className="mt-6">
             <NotDeployed />
           </div>
+        ) : !p && pool.error ? (
+          <div className="mt-6">
+            <EmptyState title="Pool data unavailable right now">
+              Neither Monad testnet RPC answered ({pool.error.split("\n")[0]?.slice(0, 120)}). Nothing is shown in its place. Retrying every 10 seconds.
+            </EmptyState>
+          </div>
         ) : !p ? (
           <Skeleton className="mt-6 h-40" />
         ) : (

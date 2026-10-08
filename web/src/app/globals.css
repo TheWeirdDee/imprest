@@ -32,6 +32,10 @@
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
 
   --color-on-accent: #ffffff;
+  /* Primary buttons are black (graphite); the indigo accent stays for links, focus and active states. */
+  --color-primary: #16181c;
+  --color-primary-hover: #2c3038;
+  --color-on-primary: #ffffff;
 
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -39,39 +43,9 @@
   --radius-card: 8px;
 }
 
-/* One design system, two themes. Light is the default (:root above). Dark is a deliberate
-   palette, not an inversion: deep neutral background, lifted surfaces, the same indigo
-   brand hue raised in lightness so links and focus rings keep contrast. On dark, primary
-   buttons use dark text on the lighter indigo (--color-on-accent). The theme is set on
-   <html data-theme> before first paint by the script in app/layout.tsx. */
+/* Light theme only. */
 :root {
   color-scheme: light;
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --color-bg: #0d0f12;
-  --color-surface: #14171c;
-  --color-surface-2: #1a1e24;
-  --color-surface-3: #22272f;
-  --color-line: #262b33;
-  --color-line-strong: #363c47;
-  --color-fg: #e9ebef;
-  --color-fg-2: #b9bec7;
-  --color-muted: #8c929d;
-  --color-accent: #8b98f5;
-  --color-accent-strong: #a6b0f8;
-  --color-accent-bg: #1c2142;
-  --color-on-accent: #0d0f12;
-  --color-safe: #52c48c;
-  --color-safe-bg: #11281d;
-  --color-warn: #e2b45c;
-  --color-warn-bg: #2a2214;
-  --color-breach: #f07a70;
-  --color-breach-bg: #2e1715;
-  --color-info: #a6acb6;
-  --color-info-bg: #1d2128;
-  --color-long: #45bd7f;
-  --color-short: #ef6c62;
 }
 
 html,

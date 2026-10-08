@@ -1,6 +1,6 @@
 # Build state and gap matrix
 
-Updated 2026-10-08 after the relayer/keeper/indexer verification and the graduation run. "Done" means
+Updated 2026-10-08 (light-only frontend, session persistence, deploy readiness). "Done" means
 evidenced, not merely coded. Severity: P0 blocks the core claim, P1 blocks a strong
 submission, P2 is polish or optional.
 
@@ -24,10 +24,10 @@ deployment and every receipt remain valid.
 | ACCOUNTING | Solidity, TS and Python agree (26/26); waterfall fuzzed | same | P0 | none | reference model | DONE |
 | CLAIMS | Implemented and tested locally; desk now funded (tier 1); claim needs realized profit above 502.29 AUSD HWM | real claim | P0 | genuine profit on the funded desk | testnet receipt | PENDING (market) |
 | GRADUATION | Desk earned +2% over two closed relayed trades; keeper called graduate(); pool funded 400 AUSD | same | P0 | none | graduation-attempt/05 receipt, second RPC | DONE (TESTNET VERIFIED) |
-| FRONTEND | Rebuilt: light design system, compact hero, live product panel, verification table, network pill | credible fintech UI | P0 | done this pass | screenshots + E2E | DONE |
-| RESPONSIVENESS | Overflow checks 320-1920 px across 10 pages | same | P0 | done | Playwright width matrix | see FINAL_AUDIT |
-| MOBILE | Expo app on shared core; `npm run mobile` serves manifest + Android bundle; Expo Go steps documented | runs on a device with passkeys | P1 | passkey domain + dev build (owner) | typecheck, tests, Metro bundle | PARTIAL |
-| WALLET | Mera passkey web flow tested with a virtual PRF authenticator | same + mobile on device | P1 | device run | Playwright passkey tests | PARTIAL |
+| FRONTEND | One design system, light theme only, black primary buttons; hero simplified; session persists across reload, tabs and direct URLs | same | P0 | none | Playwright suite + screenshots | DONE |
+| RESPONSIVENESS | Overflow sweep 320-1920 px on 12 pages, plus 320-1440 px with a funded desk loaded; phone layouts use cards and a bottom bar | same | P0 | none | Playwright | DONE |
+| MOBILE | Expo app on shared core; `npm run mobile` serves manifest + Android bundle; Expo Go steps documented | runs on a physical phone | P1 | owner scans the QR; passkeys need a domain + dev build | typecheck, tests, Metro bundle | PARTIAL (not opened on a physical phone) |
+| WALLET | Mera passkey: create, sign in, persistence, lock and unlock, cancel, explicit sign-out (virtual authenticator) | same + phone | P1 | phone needs a domain | Playwright passkey suite | DONE (web); PENDING (phone) |
 | BACKEND | Relayer and keeper running against testnet; relayed trades and a keeper graduate() verified | same | P1 | none | receipts 01-05 | DONE (TESTNET VERIFIED) |
 | INDEXER | Envio 3.14 running in WSL with Docker Postgres/Hasura; status page shows LIVE/SYNCING and lag | hosted | P1 | host it (owner) | GraphQL query of canonical events | DONE LOCALLY |
 | TESTING | 120 forge, 44 TS, 3 mobile, Playwright suite | same | P0 | none | runs | see FINAL_AUDIT |
@@ -38,5 +38,28 @@ deployment and every receipt remain valid.
 | SPONSOR INTEGRATIONS | Perpl, AUSD, Mera, Monad used; Envio built not run; Aurora/Kuru not built | per matrix | P2 | see SPONSOR_MATRIX | matrix | PARTIAL |
 | SECURITY | Internal automated review (Slither, lint, dependency audits) with fixes; red-team suite passes | independent audit | P1 | external audit (owner/budget) | SECURITY_REVIEW.md | INTERNAL REVIEW COMPLETE; AUDIT NOT PERFORMED |
 | OBSERVABILITY | Relayer/keeper JSON logs with operation_id; /status live checks | same + dashboards | P2 | none | /status | PARTIAL |
-| HOSTING | Web runs locally | public URL | P1 | owner chooses host/domain | none | PENDING (owner) |
+| HOSTING | Fresh clone builds and serves every page; Vercel settings and env vars in DEPLOY_VERCEL.md | public URL | P1 | owner deploys on Vercel (free tier) | clean-clone build | READY (owner deploys) |
 | MAINNET | Not deployed | optional | P2 | real capital, owner decision | none | NOT STARTED |
+
+## Summary
+
+**Verified:**
+
+- testnet deployment;
+- contract-level risk rejection (6x order reverted `LeverageExceeded`);
+- real Perpl trades;
+- contract settlement;
+- relayed (gasless) trades;
+- keeper action;
+- graduation: a real +2% over two closed trades on desk `0xfc65…FCC6`, executed by the keeper, with 400 AUSD of pool credit funded. Premature graduation was separately shown to revert;
+- web frontend, session persistence, responsive layout and the browser suite.
+
+**Pending:**
+
+- qualifying profit claim (two real attempts lost money; nothing above the 502.29 AUSD high-water mark);
+- independent security audit (an internal automated review only);
+- mainnet;
+- phone passkeys (need a domain);
+- physical-phone test of the Expo app;
+- public hosting (ready, owner deploys);
+- indexer hosting (runs locally in WSL only).

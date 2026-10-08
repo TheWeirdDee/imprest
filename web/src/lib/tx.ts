@@ -112,7 +112,22 @@ async function waitForBlock(client: PublicClient, target: bigint, timeoutMs = 30
 export function useAction() {
   const [state, setState] = useState<ActionState>({ kind: "idle" });
 
-  const run = useCallback(async (spec: ActionSpec) => {
+  /** Accepts a spec, or a factory (e.g. one that first asks for the passkey); a failure in the factory becomes the error state. */
+  const run = useCallback(async (input: ActionSpec | (() => Promise<ActionSpec>)) => {
+    let spec: ActionSpec;
+    try {
+      spec = typeof input === "function" ? await input() : input;
+    } catch (e) {
+      const ae = toAppError(e);
+      const code = (e as { code?: string })?.code;
+      const st = transition(transition({ kind: "idle" }, { type: "request", label: "Passkey" }), {
+        type: "error",
+        reason: code === "PASSKEY_OPERATION_FAILED" ? "The passkey prompt was cancelled. Nothing was sent." : `${ae.title}. ${ae.message}`,
+        code: code ?? ae.code,
+      });
+      setState(st);
+      return st;
+    }
     let s: ActionState = transition({ kind: "idle" }, { type: "request", label: spec.label });
     const set = (n: ActionState) => {
       s = n;

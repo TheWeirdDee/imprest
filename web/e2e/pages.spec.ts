@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { expectNoOverflow, expectNoPlaceholder, watchErrors } from "./helpers";
 
 const ROUTES: [string, RegExp][] = [
-  ["/", /Onchain trading credit/],
+  ["/", /Trading credit with risk enforced/],
   ["/app", /Dashboard/],
   ["/app/trade/btc", /BTC-PERP/],
   ["/app/trade/eth", /ETH-PERP/],

@@ -10,4 +10,13 @@ config.watchFolders = [path.join(repoRoot, "packages/core"), path.join(repoRoot,
 config.resolver.nodeModulesPaths = [path.join(projectRoot, "node_modules")];
 config.resolver.extraNodeModules = { "@imprest/core": path.join(repoRoot, "packages/core/src") };
 config.resolver.unstable_enablePackageExports = true;
+// @noble/hashes 1.x imports "@noble/hashes/crypto", a subpath its own "exports" map does not
+// list. Metro warned and then fell back to the file, which works. Resolve that one import
+// file-based directly so the warning noise is gone; everything else keeps package exports.
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (/^@noble\/hashes\/crypto(\.js)?$/.test(moduleName)) {
+    return context.resolveRequest({ ...context, unstable_enablePackageExports: false }, moduleName, platform);
+  }
+  return context.resolveRequest(context, moduleName, platform);
+};
 module.exports = config;

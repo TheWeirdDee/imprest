@@ -157,7 +157,7 @@ export type ButtonVariant = "primary" | "secondary" | "tertiary" | "ghost" | "lo
  */
 export function buttonClass(variant: ButtonVariant = "primary", size: "sm" | "md" | "lg" = "md", className?: string) {
   const v = {
-    primary: "bg-accent text-on-accent hover:bg-accent-strong",
+    primary: "bg-primary text-on-primary hover:bg-primary-hover",
     secondary: "border border-line-strong bg-surface text-fg hover:bg-surface-2",
     tertiary: "text-accent hover:underline underline-offset-4 px-0!",
     ghost: "text-fg-2 hover:bg-surface-2 hover:text-fg",

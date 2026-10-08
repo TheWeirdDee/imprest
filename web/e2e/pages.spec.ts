@@ -37,10 +37,27 @@ test("unknown market is a 404, not a crash", async ({ page }) => {
 
 for (const width of [320, 375, 390, 414, 430, 768, 1024, 1280, 1440, 1920]) {
   test(`no horizontal overflow at ${width}px`, async ({ page }) => {
+    test.setTimeout(180_000); // 12 pages against live testnet RPCs
     await page.setViewportSize({ width, height: 900 });
-    for (const path of ["/", "/proof", "/app", "/app/trade/btc", "/app/desk", "/app/risk", "/app/claims", "/lp", "/status", "/docs"]) {
+    for (const path of ["/", "/proof", "/app", "/app/trade/btc", "/app/positions", "/app/desk", "/app/risk", "/app/claims", "/app/history", "/lp", "/status", "/docs"]) {
       await page.goto(path, { waitUntil: "networkidle" });
       await expectNoOverflow(page, `${path} @ ${width}px`);
+    }
+  });
+}
+
+// Same sweep with real desk data: the testnet trader's PUBLIC address remembered on the device
+// (the read-only "locked" session after a reload). No key is involved.
+const TRADER = "0xae7848e88635946C233e8A2F431dDAEc37E7B3E3";
+for (const width of [320, 375, 390, 414, 768, 1024, 1280, 1440]) {
+  test(`no horizontal overflow with a funded desk loaded at ${width}px`, async ({ page }) => {
+    test.setTimeout(180_000);
+    await page.addInitScript((addr) => localStorage.setItem("imprest.account.v1.testnet", JSON.stringify({ address: addr, kind: "mera" })), TRADER);
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of ["/app", "/app/trade/btc", "/app/positions", "/app/desk", "/app/risk", "/app/claims", "/app/history", "/app/proof"]) {
+      await page.goto(path, { waitUntil: "networkidle" });
+      await expect(page.getByRole("button", { name: /^Account 0x/ })).toBeVisible();
+      await expectNoOverflow(page, `${path} @ ${width}px with desk`);
     }
   });
 }

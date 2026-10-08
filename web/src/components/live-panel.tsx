@@ -21,9 +21,10 @@ export function LiveDeskPanel() {
   const p = demo?.policy;
   const chg = t.data?.mark && t.data?.prev24h ? (t.data.mark - t.data.prev24h) / t.data.prev24h : null;
   return (
-    <div className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface shadow-[0_1px_2px_rgba(16,24,40,0.04),0_8px_24px_-12px_rgba(16,24,40,0.12)]">
+    <div className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface shadow-[0_1px_2px_rgb(0_0_0/0.04),0_8px_24px_-12px_rgb(0_0_0/0.18)]">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-4 py-2.5">
-        <div className="flex items-baseline gap-3">
+        <div className="flex items-center gap-2.5">
+          <span className="rounded border border-warn/40 bg-warn-bg px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-warn">TESTNET</span>
           <span className="text-sm font-semibold">BTC-PERP</span>
           <span className="num text-sm">{t.data?.mark ? scaled(t.data.mark, m.priceDecimals) : "—"}</span>
           {chg !== null && <span className={chg >= 0 ? "num text-xs text-long" : "num text-xs text-short"}>{(chg * 100).toFixed(2)}%</span>}

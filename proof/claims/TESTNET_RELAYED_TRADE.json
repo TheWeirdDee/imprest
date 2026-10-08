@@ -1,0 +1,21 @@
+{
+  "claim_id": "TESTNET_RELAYED_TRADE",
+  "statement": "A trader-signed EIP-712 trade intent was submitted to Desk.tradeWithSig by the Imprest relayer (relayer paid gas), filled on Perpl testnet, and the resulting position was confirmed on an independent RPC",
+  "value": "0xb2e83f497ed2667296c0c8d9dab07c41557c21d90fc0f1de8558fc9cb344665e",
+  "unit": "transaction",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": "0xfc653827479A9D96d197785de22db581FF5dFCC6",
+  "source": "scripts/src/graduation-attempt.ts",
+  "evidence": [
+    "proof/receipts/testnet/graduation-attempt/01-open.json",
+    "relayer/src/handler.ts"
+  ],
+  "transaction_hash": "0xb2e83f497ed2667296c0c8d9dab07c41557c21d90fc0f1de8558fc9cb344665e",
+  "block_number": 69066545,
+  "timestamp_utc": "2026-10-07T20:33:43Z",
+  "status": "TESTNET_VERIFIED",
+  "methodology": "Relayer simulated, then submitted with gas 698427; position lots read on the verification RPC at the receipt block (359) equal the TradeExecuted lotsAfter",
+  "sample_size": 1,
+  "denominator": "one relayed trade"
+}

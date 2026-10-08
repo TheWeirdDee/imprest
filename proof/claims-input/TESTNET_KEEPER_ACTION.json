@@ -1,0 +1,20 @@
+{
+  "claim_id": "TESTNET_KEEPER_ACTION",
+  "statement": "The Imprest keeper sent a contract-accepted graduate() on Monad testnet after simulating it",
+  "value": "0x4e616c9939a95c0419c32d915dbb964e5074e724fe242a9e963be853f32587ed",
+  "unit": "transaction",
+  "methodology": "sender 0x9c4f9b38ce13a1552aa6fcb505cffb3e70fafcc0 is the keeper wallet; receipt success and tier 1 read on the independent RPC; gas 518571",
+  "network": "Monad Testnet",
+  "chain_id": 10143,
+  "contract": "0xfc653827479A9D96d197785de22db581FF5dFCC6",
+  "source": "scripts/src/verify-graduation.ts",
+  "evidence": [
+    "proof/receipts/testnet/graduation-attempt/05-graduate-by-keeper.json"
+  ],
+  "transaction_hash": "0x4e616c9939a95c0419c32d915dbb964e5074e724fe242a9e963be853f32587ed",
+  "block_number": 69156747,
+  "timestamp_utc": "2026-10-08T04:09:11Z",
+  "status": "TESTNET_VERIFIED",
+  "sample_size": 1,
+  "denominator": "one desk"
+}

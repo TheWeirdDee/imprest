@@ -95,12 +95,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2528,
+                  "duration": 2458,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:21.696Z",
+                  "startTime": "2026-10-08T04:22:02.978Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -129,12 +129,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1106,
+                  "duration": 1026,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:24.464Z",
+                  "startTime": "2026-10-08T04:22:05.633Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -163,12 +163,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2425,
+                  "duration": 2331,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:25.586Z",
+                  "startTime": "2026-10-08T04:22:06.673Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -197,12 +197,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1524,
+                  "duration": 1706,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:28.043Z",
+                  "startTime": "2026-10-08T04:22:09.018Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -231,12 +231,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1982,
+                  "duration": 1806,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:29.578Z",
+                  "startTime": "2026-10-08T04:22:10.739Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -265,12 +265,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2470,
+                  "duration": 1945,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:31.573Z",
+                  "startTime": "2026-10-08T04:22:12.564Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -299,12 +299,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 874,
+                  "duration": 1030,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:34.078Z",
+                  "startTime": "2026-10-08T04:22:14.540Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -333,12 +333,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 964,
+                  "duration": 914,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:34.972Z",
+                  "startTime": "2026-10-08T04:22:15.591Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -367,12 +367,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 878,
+                  "duration": 877,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:35.956Z",
+                  "startTime": "2026-10-08T04:22:16.525Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -401,12 +401,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 947,
+                  "duration": 1007,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:36.848Z",
+                  "startTime": "2026-10-08T04:22:17.424Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -435,12 +435,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2598,
+                  "duration": 4706,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:37.809Z",
+                  "startTime": "2026-10-08T04:22:18.445Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -469,12 +469,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 935,
+                  "duration": 959,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:40.422Z",
+                  "startTime": "2026-10-08T04:22:23.163Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -503,12 +503,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 890,
+                  "duration": 926,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:41.388Z",
+                  "startTime": "2026-10-08T04:22:24.135Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -537,12 +537,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4910,
+                  "duration": 7221,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:42.291Z",
+                  "startTime": "2026-10-08T04:22:25.075Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -571,12 +571,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 205,
+                  "duration": 234,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:47.211Z",
+                  "startTime": "2026-10-08T04:22:32.313Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -605,12 +605,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 16417,
+                  "duration": 23981,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:47.426Z",
+                  "startTime": "2026-10-08T04:22:32.563Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -639,12 +639,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 17421,
+                  "duration": 19021,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:18:03.868Z",
+                  "startTime": "2026-10-08T04:22:56.564Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -673,12 +673,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 16021,
+                  "duration": 18452,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:18:21.305Z",
+                  "startTime": "2026-10-08T04:23:15.601Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -707,12 +707,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 17452,
+                  "duration": 17154,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:18:37.345Z",
+                  "startTime": "2026-10-08T04:23:34.068Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -741,12 +741,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 17728,
+                  "duration": 21565,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:18:54.815Z",
+                  "startTime": "2026-10-08T04:23:51.238Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -775,12 +775,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 18387,
+                  "duration": 18719,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:19:12.560Z",
+                  "startTime": "2026-10-08T04:24:12.823Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -809,12 +809,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 17845,
+                  "duration": 15304,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:19:30.967Z",
+                  "startTime": "2026-10-08T04:24:31.559Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -843,12 +843,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 16239,
+                  "duration": 21352,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:19:48.829Z",
+                  "startTime": "2026-10-08T04:24:46.885Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -877,12 +877,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 17525,
+                  "duration": 19054,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:20:05.083Z",
+                  "startTime": "2026-10-08T04:25:08.250Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -911,12 +911,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 18433,
+                  "duration": 19808,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:20:22.627Z",
+                  "startTime": "2026-10-08T04:25:27.318Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -953,12 +953,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1368,
+                  "duration": 1159,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:21.709Z",
+                  "startTime": "2026-10-08T04:22:02.960Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -987,12 +987,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 510,
+                  "duration": 681,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:23.301Z",
+                  "startTime": "2026-10-08T04:22:04.280Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1021,12 +1021,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 331,
+                  "duration": 403,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:23.833Z",
+                  "startTime": "2026-10-08T04:22:04.986Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1063,12 +1063,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 407,
+                  "duration": 426,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:24.201Z",
+                  "startTime": "2026-10-08T04:22:05.428Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1097,12 +1097,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 510,
+                  "duration": 399,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:24.624Z",
+                  "startTime": "2026-10-08T04:22:05.866Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1131,12 +1131,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 388,
+                  "duration": 338,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:25.152Z",
+                  "startTime": "2026-10-08T04:22:06.279Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1165,12 +1165,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 6834,
+                  "duration": 8021,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:25.555Z",
+                  "startTime": "2026-10-08T04:22:06.633Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1199,12 +1199,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 34,
+                  "duration": 32,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:32.406Z",
+                  "startTime": "2026-10-08T04:22:14.676Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1241,12 +1241,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1977,
+                  "duration": 2490,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:32.480Z",
+                  "startTime": "2026-10-08T04:22:14.747Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1275,12 +1275,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 359,
+                  "duration": 394,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:34.470Z",
+                  "startTime": "2026-10-08T04:22:17.254Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1309,12 +1309,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 404,
+                  "duration": 409,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:34.845Z",
+                  "startTime": "2026-10-08T04:22:17.663Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1343,12 +1343,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 353,
+                  "duration": 307,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-07T19:17:35.266Z",
+                  "startTime": "2026-10-08T04:22:18.088Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1362,14 +1362,895 @@
           "column": 1
         }
       ]
+    },
+    {
+      "title": "visual.spec.ts",
+      "file": "visual.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "visual capture",
+          "file": "visual.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "landing @ desktop",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.410Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-a1086c6bf11f08649c7a",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "dashboard @ desktop",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.410Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-b99bb412ecd20dd0a2d8",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "trade @ desktop",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.410Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-3b39505f4359a9f31f94",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "risk @ desktop",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.410Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-86a6e17fb78bf8649bed",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "claims @ desktop",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.410Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-0b79cb176232c55e7dbb",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "proof @ desktop",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.410Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-2f5fbdd4f47a2355d046",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "status @ desktop",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-a2c79d7d878ad905c368",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "lp @ desktop",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-e1ec5ef1e061388ad5d1",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "landing @ mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-5915575f6f5c0e2366cc",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "dashboard @ mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-8c331dddac57cac14aaf",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "trade @ mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-f20499e647c007fac659",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "risk @ mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-85e7f20b730fec67b1ae",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "claims @ mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-15341a6b16d35f2eaadc",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "proof @ mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-7d35aa42d11a381de405",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "status @ mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-5214d4b8618d23faa3fd",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "lp @ mobile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "set SCREENSHOTS=1 to capture",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                        "line": 21,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-08T04:22:18.411Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "set SCREENSHOTS=1 to capture",
+                          "location": {
+                            "file": "C:\\Users\\DELL\\Desktop\\imprest\\web\\e2e\\visual.spec.ts",
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8324bb52c49185e48ff4-a51651ecf06bb791ae83",
+              "file": "visual.spec.ts",
+              "line": 24,
+              "column": 7
+            }
+          ]
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-07T19:17:18.782Z",
-    "duration": 202554.527,
+    "startTime": "2026-10-08T04:22:00.188Z",
+    "duration": 227273.417,
     "expected": 37,
-    "skipped": 0,
+    "skipped": 16,
     "unexpected": 0,
     "flaky": 0
   }

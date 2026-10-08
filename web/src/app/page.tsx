@@ -63,7 +63,7 @@ export default function Landing() {
           <div className="min-w-0">
             <p className="text-[13px] font-medium text-accent">Funded trading desks on Perpl</p>
             <h1 className="mt-3 text-[2rem] leading-[1.15] font-semibold tracking-[-0.02em] sm:text-[2.6rem]">
-              Onchain trading credit with programmable risk.
+              Trading credit with risk enforced at the order layer.
             </h1>
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-fg-2">
               Imprest turns verified trading history into use-restricted trading credit, with risk rules enforced inside every

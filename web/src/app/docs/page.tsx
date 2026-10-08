@@ -29,10 +29,10 @@ export default function DocsIndex() {
         <p className="mt-1 text-sm text-fg-2">Rendered from the repository&apos;s docs/ folder.</p>
         <ul className="mt-6 grid gap-3 sm:grid-cols-2">
           {docs.map((d) => (
-            <li key={d}>
+            <li key={d} className="min-w-0">
               <Link href={`/docs/${d}`} className="flex h-full gap-3 rounded-xl border border-line bg-surface p-4 hover:border-line-strong">
                 <FileText size={17} aria-hidden className="mt-0.5 shrink-0 text-accent" />
-                <span>
+                <span className="min-w-0 [overflow-wrap:anywhere]">
                   <span className="block text-sm font-semibold">{d.replace(".md", "").replace(/_/g, " ")}</span>
                   <span className="mt-1 block text-xs leading-relaxed text-muted">{firstLine(readDoc(d))}</span>
                 </span>

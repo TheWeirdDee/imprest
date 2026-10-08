@@ -38,7 +38,11 @@ export function LiveDeskPanel() {
           <div className="flex items-center gap-1.5 text-xs font-medium text-fg-2">
             <ShieldCheck size={13} aria-hidden className="text-safe" /> Enforced on every order
           </div>
-          {!deployed || !p ? (
+          {!p && cohorts.error ? (
+            <p role="status" className="mt-3 text-xs leading-relaxed text-warn">
+              Could not read the policy from the chain right now (RPC unavailable). Nothing is shown in its place. Retrying.
+            </p>
+          ) : !deployed || !p ? (
             <Skeleton className="mt-3 h-36" />
           ) : (
             <dl className="mt-2 space-y-1.5 text-[13px]">

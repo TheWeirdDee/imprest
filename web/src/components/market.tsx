@@ -1,4 +1,5 @@
 "use client";
+import { useTheme } from "@/lib/theme";
 
 import { useEffect, useRef, useState } from "react";
 import { CandlestickChart, Clock } from "lucide-react";
@@ -20,7 +21,21 @@ const RES = [
 ];
 
 /** Real Perpl candles. If the API is unreachable the chart says so; it never draws placeholder data. */
+/** Chart colors come from the same CSS tokens as the rest of the UI (light and dark). */
+function chartColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const v = (n: string, f: string) => cs.getPropertyValue(n).trim() || f;
+  return {
+    text: v("--color-muted", "#6b6f78"),
+    grid: v("--color-surface-2", "#f3f2ee"),
+    line: v("--color-line", "#e5e2db"),
+    up: v("--color-long", "#1d8650"),
+    down: v("--color-short", "#c0392f"),
+  };
+}
+
 export function PriceChart({ m, height = 360 }: { m: MarketConfig; height?: number }) {
+  const theme = useTheme();
   const el = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
   const seriesRef = useRef<any>(null);
@@ -32,20 +47,21 @@ export function PriceChart({ m, height = 360 }: { m: MarketConfig; height?: numb
     (async () => {
       const lc = await import("lightweight-charts");
       if (disposed || !el.current) return;
+      const c = chartColors();
       const chart = lc.createChart(el.current, {
         autoSize: true,
-        layout: { background: { color: "transparent" }, textColor: "#6b6f78", fontFamily: "ui-monospace, monospace", fontSize: 11 },
-        grid: { vertLines: { color: "#f0eee9" }, horzLines: { color: "#f0eee9" } },
-        rightPriceScale: { borderColor: "#e5e2db" },
-        timeScale: { borderColor: "#e5e2db", timeVisible: true, secondsVisible: false },
+        layout: { background: { color: "transparent" }, textColor: c.text, fontFamily: "ui-monospace, monospace", fontSize: 11 },
+        grid: { vertLines: { color: c.grid }, horzLines: { color: c.grid } },
+        rightPriceScale: { borderColor: c.line },
+        timeScale: { borderColor: c.line, timeVisible: true, secondsVisible: false },
         crosshair: { mode: 1 },
       });
       const series = chart.addSeries(lc.CandlestickSeries, {
-        upColor: "#1d8650",
-        downColor: "#c0392f",
+        upColor: c.up,
+        downColor: c.down,
         borderVisible: false,
-        wickUpColor: "#1d8650",
-        wickDownColor: "#c0392f",
+        wickUpColor: c.up,
+        wickDownColor: c.down,
         priceFormat: { type: "price", precision: m.priceDecimals, minMove: 1 / 10 ** m.priceDecimals },
       });
       chartRef.current = chart;
@@ -58,6 +74,18 @@ export function PriceChart({ m, height = 360 }: { m: MarketConfig; height?: numb
       seriesRef.current = null;
     };
   }, [m.perpId, m.priceDecimals]);
+
+  // Re-read the design tokens when the theme changes.
+  useEffect(() => {
+    const c = chartColors();
+    chartRef.current?.applyOptions({
+      layout: { textColor: c.text },
+      grid: { vertLines: { color: c.grid }, horzLines: { color: c.grid } },
+      rightPriceScale: { borderColor: c.line },
+      timeScale: { borderColor: c.line },
+    });
+    seriesRef.current?.applyOptions({ upColor: c.up, downColor: c.down, wickUpColor: c.up, wickDownColor: c.down });
+  }, [theme.resolved]);
 
   useEffect(() => {
     const s = seriesRef.current;

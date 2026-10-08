@@ -61,7 +61,8 @@ the development build described below.
 | `npm test` (shared logic) | 3/3 pass |
 | `npm run bundle:check` (Android JS bundle via `expo export`) | exports |
 | `npm run mobile` starts Metro; manifest served (SDK 57, "Imprest"); Android dev bundle served (16 MB, HTTP 200) | LOCAL, 2026-10-07 |
-| Scanned and opened on a physical phone | PENDING (needs a phone; the owner can do it with the steps above) |
+| Opened on a physical phone (owner's iPhone, Expo Go, 2026-10-08) | Home rendered with the network badge, the six-tab bar and the honest `RP_ID_NOT_CONFIGURED` notice. Owner screenshot. |
+| Trade, Positions, Risk, Claims and History tabs on the phone | PENDING owner check: tap each tab; Trade should show live BTC/ETH prices, the others ask to sign in |
 
 ## Passkeys on a phone: what is needed and why
 

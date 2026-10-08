@@ -14,7 +14,9 @@ test("order ticket refuses to submit without a desk and explains why", async ({ 
 });
 
 test("leverage above the cap is shown against the 5.00x maximum", async ({ page }) => {
-  await page.goto("/app/trade/btc");
+  await page.goto("/app/trade/btc", { waitUntil: "networkidle" });
+  // The cap is read from chain; wait for it (and hydration) before moving the slider.
+  await expect(page.getByText(/max 5\.00x/).first()).toBeVisible();
   await page.getByRole("slider").fill("6");
   await expect(page.getByText(/6\.00x \/ max 5\.00x/)).toBeVisible();
 });

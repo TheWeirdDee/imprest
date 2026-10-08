@@ -6,14 +6,14 @@ Honest list of what is not done, not proven, or depends on others.
 
 | Item | Status | Why | What unblocks it |
 | --- | --- | --- | --- |
-| Testnet graduation and profit claim | PENDING | Need a desk that actually makes +2% over two round trips on the live market | Trade from the app; never forced |
-| Relayer and keeper running | PENDING | Need funded keys and the deployment | Same runbook |
-| Indexer running | PENDING | Envio has no Windows binary; needs Linux/macOS/Docker and the deployment | `cd indexer && pnpm codegen && pnpm dev` |
+| Testnet profit claim | PENDING | Graduation is done (TESTNET VERIFIED); a claim needs realized profit above the tier-1 high-water mark on the live market | Trade the funded desk; never forced |
+| Relayer and keeper hosting | LOCAL HOST | Both run on this PC against testnet and are verified on-chain; not on a server | Host them on any Node server with the same .env |
+| Indexer hosting | LOCAL HOST | Runs in WSL (Envio has no Windows binary); not on a server | Docker host or Envio hosted service |
 | Mobile app on a device | PENDING | Built (`app/`), typechecked, tested, Android bundle compiles; passkeys need the app associated with a hosted domain and a native dev build | [MOBILE.md](MOBILE.md) |
 | Aurora (Tron/BSC -> Monad) and Kuru (USDC -> AUSD) funding | NOT BUILT | Not on the critical mechanism path; testnet AUSD comes from Agora's faucet | Separate integration |
 | Contract source verification on Monadscan | PENDING | Needs an explorer API key | `forge verify-contract` |
 | Buffered payout when Perpl rate-limits withdrawals | NOT IN V0 | DECISIONS D-011; claims/closes revert with a named error and can be retried | V1 |
-| Security audit | NONE | Hackathon timeline | External audit before real capital |
+| Security audit | NOT PERFORMED | Internal automated review only (SECURITY_REVIEW.md); 2 Low findings acknowledged for the next deployment; 18 high Expo tooling advisories have no upstream fix | External audit before real capital |
 
 ## Mainnet dependency register (Track B)
 

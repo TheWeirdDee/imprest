@@ -20,8 +20,17 @@ function useDeskBook(total: bigint | undefined) {
           const out: { desk: Address; r: RiskState }[] = [];
           for (let i = 0; i < n; i++) {
             const idx = total - 1n - BigInt(i); // newest first, bounded to 50
-            const desk = (await pc.readContract({ address: network.imprest.factory!, abi: deskFactoryAbi, functionName: "allDesks", args: [idx] })) as Address;
-            const r = (await pc.readContract({ address: desk, abi: deskAbi, functionName: "riskState" })) as unknown as RiskState;
+            const desk = (await pc.readContract({
+              address: network.imprest.factory!,
+              abi: deskFactoryAbi,
+              functionName: "allDesks",
+              args: [idx],
+            })) as Address;
+            const r = (await pc.readContract({
+              address: desk,
+              abi: deskAbi,
+              functionName: "riskState",
+            })) as unknown as RiskState;
             out.push({ desk, r });
           }
           return out;
@@ -55,7 +64,9 @@ export default function LpConsole() {
             <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
               <Landmark size={22} aria-hidden className="text-accent" /> LP risk console
             </h1>
-            <p className="mt-1 text-sm text-fg-2">Pool state read from chain. Money values are confirmed on a second RPC at the same block.</p>
+            <p className="mt-1 text-sm text-fg-2">
+              Pool state read from chain. Money values are confirmed on a second RPC at the same block.
+            </p>
           </div>
           {p && (
             <div className="flex items-center gap-2 text-xs">
@@ -81,31 +92,75 @@ export default function LpConsole() {
         ) : !p && pool.error ? (
           <div className="mt-6">
             <EmptyState title="Pool data unavailable right now">
-              Neither Monad testnet RPC answered ({pool.error.split("\n")[0]?.slice(0, 120)}). Nothing is shown in its place. Retrying every 10 seconds.
+              Neither Monad testnet RPC answered ({pool.error.split("\n")[0]?.slice(0, 120)}). Nothing is
+              shown in its place. Retrying every 10 seconds.
             </EmptyState>
           </div>
         ) : !p ? (
           <Skeleton className="mt-6 h-40" />
         ) : (
           <div className="mt-6 flex flex-col gap-4">
-            <section aria-label="Pool totals" className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line md:grid-cols-4">
+            <section
+              aria-label="Pool totals"
+              className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line md:grid-cols-4"
+            >
               {[
                 <Stat key="ta" label="Total pool assets" value={ausd(p.totalAssets)} unit="AUSD" size="lg" />,
                 <Stat key="dp" label="Deployed principal" value={ausd(p.deployed)} unit="AUSD" />,
-                <Stat key="id" label="Idle capital" value={ausd(p.idle)} unit="AUSD" sub="withdrawable by LPs" />,
-                <Stat key="ad" label="Active desks" value={book.data ? `${active.length}` : null} sub={book.data ? `${funded.length} funded · ${p.deskTotal} opened` : undefined} />,
-                <Stat key="pr" label="Principal at risk" value={book.data ? ausd(atRisk) : null} unit="AUSD" tone={atRisk > 0n ? "breach" : undefined} sub="borrowed minus equity, funded desks" />,
-                <Stat key="ts" label="Trader stakes (first loss)" value={book.data ? ausd(stakes) : null} unit="AUSD" />,
-                <Stat key="fl" label="Fee liabilities outstanding" value={book.data ? ausd(feeLiab, 4) : null} unit="AUSD" sub="not income until collected" />,
+                <Stat
+                  key="id"
+                  label="Idle capital"
+                  value={ausd(p.idle)}
+                  unit="AUSD"
+                  sub="withdrawable by LPs"
+                />,
+                <Stat
+                  key="ad"
+                  label="Active desks"
+                  value={book.data ? `${active.length}` : null}
+                  sub={book.data ? `${funded.length} funded · ${p.deskTotal} opened` : undefined}
+                />,
+                <Stat
+                  key="pr"
+                  label="Principal at risk"
+                  value={book.data ? ausd(atRisk) : null}
+                  unit="AUSD"
+                  tone={atRisk > 0n ? "breach" : undefined}
+                  sub="borrowed minus equity, funded desks"
+                />,
+                <Stat
+                  key="ts"
+                  label="Trader stakes (first loss)"
+                  value={book.data ? ausd(stakes) : null}
+                  unit="AUSD"
+                />,
+                <Stat
+                  key="fl"
+                  label="Fee liabilities outstanding"
+                  value={book.data ? ausd(feeLiab, 4) : null}
+                  unit="AUSD"
+                  sub="not income until collected"
+                />,
                 <Stat key="ps" label="Desk notional cap" value={ausd(p.deskNotionalCap)} unit="AUSD" />,
                 <Stat key="fc" label="Fees collected" value={ausd(p.feesCollected, 4)} unit="AUSD" />,
                 <Stat key="fw" label="Fees written off" value={ausd(p.feesWrittenOff, 4)} unit="AUSD" />,
-                <Stat key="pl" label="Principal losses" value={ausd(p.principalLoss)} unit="AUSD" tone={p.principalLoss > 0n ? "breach" : undefined} />,
+                <Stat
+                  key="pl"
+                  label="Principal losses"
+                  value={ausd(p.principalLoss)}
+                  unit="AUSD"
+                  tone={p.principalLoss > 0n ? "breach" : undefined}
+                />,
                 <Stat key="pi" label="Pool profit share" value={ausd(p.profitShare)} unit="AUSD" />,
                 <Stat key="ld" label="LP deposits" value={ausd(p.lpDeposited)} unit="AUSD" />,
                 <Stat key="lw" label="LP withdrawals" value={ausd(p.lpWithdrawn)} unit="AUSD" />,
                 <Stat key="kp" label="Keeper payouts" value={null} sub="from settlement events (indexer)" />,
-                <Stat key="pp" label="Status" value={p.paused ? "Paused (new credit)" : "Open"} tone={p.paused ? "warn" : "safe"} />,
+                <Stat
+                  key="pp"
+                  label="Status"
+                  value={p.paused ? "Paused (new credit)" : "Open"}
+                  tone={p.paused ? "warn" : "safe"}
+                />,
               ].map((x, i) => (
                 <div key={i} className="bg-surface p-3">
                   {x}
@@ -125,14 +180,33 @@ export default function LpConsole() {
                           {ausd(x.gross)} / {ausd(x.cap)} AUSD
                         </span>
                       </div>
-                      <div className="mt-1.5 h-2 rounded-full bg-surface-3" role="progressbar" aria-valuenow={Math.round(pct * 100)} aria-valuemin={0} aria-valuemax={100} aria-label={`${x.symbol} exposure`}>
-                        <div className={pct >= 1 ? "h-2 rounded-full bg-breach" : pct > 0.75 ? "h-2 rounded-full bg-warn" : "h-2 rounded-full bg-accent"} style={{ width: `${Math.min(100, pct * 100)}%` }} />
+                      <div
+                        className="mt-1.5 h-2 rounded-full bg-surface-3"
+                        role="progressbar"
+                        aria-valuenow={Math.round(pct * 100)}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label={`${x.symbol} exposure`}
+                      >
+                        <div
+                          className={
+                            pct >= 1
+                              ? "h-2 rounded-full bg-breach"
+                              : pct > 0.75
+                                ? "h-2 rounded-full bg-warn"
+                                : "h-2 rounded-full bg-accent"
+                          }
+                          style={{ width: `${Math.min(100, pct * 100)}%` }}
+                        />
                       </div>
                     </div>
                   );
                 })}
               </div>
-              <p className="mt-2 text-[11px] text-muted">Recorded by desks in the same transaction as each trade; increases past a cap revert before reaching Perpl.</p>
+              <p className="mt-2 text-[11px] text-muted">
+                Recorded by desks in the same transaction as each trade; increases past a cap revert before
+                reaching Perpl.
+              </p>
             </Card>
 
             <Card title="Desks (newest 50)" pad={false}>
@@ -141,54 +215,110 @@ export default function LpConsole() {
               ) : desks.length === 0 ? (
                 <EmptyState title="No desks yet" />
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[820px] text-sm">
-                    <caption className="sr-only">Desks</caption>
-                    <thead className="text-left text-[11px] tracking-wide text-muted uppercase">
-                      <tr>
-                        {["Desk", "Status", "Tier", "Equity", "Floor", "Distance", "Borrowed", "Fee liability", "Risk"].map((h) => (
-                          <th key={h} scope="col" className="px-3 py-2 font-medium">
-                            {h}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="num">
-                      {desks.map(({ desk, r }) => {
-                        const lvl = riskLevel(r);
-                        return (
-                          <tr key={desk} className="border-t border-line">
-                            <td className="px-3 py-2"><AddressLink address={desk} /></td>
-                            <td className="px-3 py-2 font-sans">{DESK_STATUS[r.status]}</td>
-                            <td className="px-3 py-2">{r.tier}</td>
-                            <td className="px-3 py-2">{ausd(r.equity)}</td>
-                            <td className="px-3 py-2">{ausd(r.floor)}</td>
-                            <td className="px-3 py-2">{ausd(r.equity - r.floor)}</td>
-                            <td className="px-3 py-2">{ausd(r.borrowed)}</td>
-                            <td className="px-3 py-2">{ausd(r.feeOutstanding, 4)}</td>
-                            <td className="px-3 py-2 font-sans">
-                              {r.status !== 0 ? (
-                                <Pill tone="info">{DESK_STATUS[r.status]}</Pill>
-                              ) : lvl === "breach" ? (
-                                <Pill tone="breach" icon={ShieldAlert}>breach</Pill>
-                              ) : lvl === "warning" ? (
-                                <Pill tone="warn">near floor</Pill>
-                              ) : (
-                                <Pill tone="safe">healthy</Pill>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+                <>
+                  <ul className="divide-y divide-line md:hidden">
+                    {desks.map(({ desk, r }) => {
+                      const lvl = riskLevel(r);
+                      return (
+                        <li key={desk} className="px-4 py-3">
+                          <div className="flex items-center justify-between gap-2">
+                            <AddressLink address={desk} />
+                            {r.status !== 0 ? (
+                              <Pill tone="info">{DESK_STATUS[r.status]}</Pill>
+                            ) : lvl === "breach" ? (
+                              <Pill tone="breach" icon={ShieldAlert}>
+                                breach
+                              </Pill>
+                            ) : lvl === "warning" ? (
+                              <Pill tone="warn">near floor</Pill>
+                            ) : (
+                              <Pill tone="safe">healthy</Pill>
+                            )}
+                          </div>
+                          <dl className="num mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[13px]">
+                            <dt className="font-sans text-muted">Tier · status</dt>
+                            <dd className="text-right">
+                              {r.tier} · {DESK_STATUS[r.status]}
+                            </dd>
+                            <dt className="font-sans text-muted">Equity</dt>
+                            <dd className="text-right">{ausd(r.equity)}</dd>
+                            <dt className="font-sans text-muted">Floor (distance)</dt>
+                            <dd className="text-right">
+                              {ausd(r.floor)} ({ausd(r.equity - r.floor)})
+                            </dd>
+                            <dt className="font-sans text-muted">Borrowed</dt>
+                            <dd className="text-right">{ausd(r.borrowed)}</dd>
+                            <dt className="font-sans text-muted">Fee liability</dt>
+                            <dd className="text-right">{ausd(r.feeOutstanding, 4)}</dd>
+                          </dl>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <div className="hidden overflow-x-auto md:block">
+                    <table className="w-full min-w-[820px] text-sm">
+                      <caption className="sr-only">Desks</caption>
+                      <thead className="text-left text-[11px] tracking-wide text-muted uppercase">
+                        <tr>
+                          {[
+                            "Desk",
+                            "Status",
+                            "Tier",
+                            "Equity",
+                            "Floor",
+                            "Distance",
+                            "Borrowed",
+                            "Fee liability",
+                            "Risk",
+                          ].map((h) => (
+                            <th key={h} scope="col" className="px-3 py-2 font-medium">
+                              {h}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="num">
+                        {desks.map(({ desk, r }) => {
+                          const lvl = riskLevel(r);
+                          return (
+                            <tr key={desk} className="border-t border-line">
+                              <td className="px-3 py-2">
+                                <AddressLink address={desk} />
+                              </td>
+                              <td className="px-3 py-2 font-sans">{DESK_STATUS[r.status]}</td>
+                              <td className="px-3 py-2">{r.tier}</td>
+                              <td className="px-3 py-2">{ausd(r.equity)}</td>
+                              <td className="px-3 py-2">{ausd(r.floor)}</td>
+                              <td className="px-3 py-2">{ausd(r.equity - r.floor)}</td>
+                              <td className="px-3 py-2">{ausd(r.borrowed)}</td>
+                              <td className="px-3 py-2">{ausd(r.feeOutstanding, 4)}</td>
+                              <td className="px-3 py-2 font-sans">
+                                {r.status !== 0 ? (
+                                  <Pill tone="info">{DESK_STATUS[r.status]}</Pill>
+                                ) : lvl === "breach" ? (
+                                  <Pill tone="breach" icon={ShieldAlert}>
+                                    breach
+                                  </Pill>
+                                ) : lvl === "warning" ? (
+                                  <Pill tone="warn">near floor</Pill>
+                                ) : (
+                                  <Pill tone="safe">healthy</Pill>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </Card>
 
             <Card title="Settlement events">
               <div className="flex flex-wrap items-center gap-2 text-sm text-fg-2">
-                Settlement and keeper history is served by the Envio indexer. <Pending label="PENDING: indexer deployment" />
+                Settlement and keeper history is served by the Envio indexer.{" "}
+                <Pending label="PENDING: indexer deployment" />
               </div>
             </Card>
             <p className="text-[11px] text-muted">

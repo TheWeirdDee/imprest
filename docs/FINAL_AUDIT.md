@@ -26,7 +26,7 @@ document. Nothing pending is presented as done.
 
 ## Pending (needs genuine conditions, not more code)
 
-- Profit claim on testnet: needs realized profit above the tier-1 high-water mark (502.29 AUSD). One attempt was made on the funded desk (receipts 06-09): two real relayed round trips during a BTC drop lost 4.50 AUSD and the script stopped at its pre-set loss budget. Equity 497.79 AUSD, desk flat and active, 20 AUSD above its floor. The loss came out of the trader's first-loss stake; pool credit (400 AUSD) is intact. Nothing was forced.
+- Profit claim on testnet: needs realized profit above the tier-1 high-water mark (502.29 AUSD). Two attempts were made on the funded desk, each with a pre-set 4 AUSD loss budget: receipts 06-09 (-4.50 AUSD) and 10-13 (-4.08 AUSD, run with 5 MON the owner sent to the relayer). All 8 trades were real, relayed and verified on the second RPC; every one ended at a loss. Equity 493.71 AUSD, desk flat and active, about 16.5 AUSD above its floor (477.17). All losses came out of the trader's first-loss stake; the pool's 400 AUSD credit is intact. Nothing was forced.
 - Mobile run on a physical phone: steps in MOBILE.md (Expo Go works for viewing; passkey sign-in needs a domain and a development build).
 - Independent third-party security audit: NOT PERFORMED. Internal automated review: docs/SECURITY_REVIEW.md.
 - Public hosting of the web app (owner chooses host and domain).

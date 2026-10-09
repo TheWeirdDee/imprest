@@ -127,7 +127,7 @@ export function Pill({ tone, children, icon }: { tone: Tone; children: ReactNode
   const t = TONE[tone];
   const Icon = icon ?? t.icon;
   return (
-    <span className={cx("inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium whitespace-nowrap", t.cls)}>
+    <span className={cx("inline-flex max-w-full items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium", t.cls)}>
       <Icon size={12} aria-hidden />
       {children}
     </span>
@@ -213,7 +213,7 @@ export function EmptyState({ icon: Icon = CircleDashed, title, children }: { ico
     <div className="flex flex-col items-center justify-center gap-2 px-4 py-8 text-center">
       <Icon size={22} aria-hidden className="text-muted" />
       <div className="text-sm font-medium text-fg-2">{title}</div>
-      {children && <div className="max-w-md text-xs leading-relaxed text-muted">{children}</div>}
+      {children && <div className="max-w-md min-w-0 text-xs leading-relaxed text-muted [overflow-wrap:anywhere]">{children}</div>}
     </div>
   );
 }

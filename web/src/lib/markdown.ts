@@ -30,10 +30,16 @@ export function renderMarkdown(md: string): string {
   let i = 0;
   while (i < lines.length) {
     const line = lines[i]!;
-    if (line.startsWith("```")) {
+    // Fences may be indented (code blocks inside list items); strip that indent from the code.
+    const fence = /^(\s*)```/.exec(line);
+    if (fence) {
+      const indent = fence[1]!.length;
       const buf: string[] = [];
       i++;
-      while (i < lines.length && !lines[i]!.startsWith("```")) buf.push(lines[i++]!);
+      while (i < lines.length && !lines[i]!.trimStart().startsWith("```")) {
+        const l = lines[i++]!;
+        buf.push(l.slice(Math.min(indent, l.length - l.trimStart().length)));
+      }
       i++;
       html.push(`<pre><code>${esc(buf.join("\n"))}</code></pre>`);
       continue;

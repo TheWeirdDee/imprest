@@ -95,6 +95,46 @@ negative-PnL stamp and IOC/FOK order types), and gas cheap enough for a multi-ca
 Measured on Monad testnet: a guarded relayed trade costs about 0.07 MON at 102 gwei. On another
 EVM chain the contracts would compile, but without Perpl the venue layer would have to be rewritten.
 
+## Architecture
+
+```
+ trader (passkey, Mera)                       LPs
+        │ signs orders                         │ deposit AUSD
+        ▼                                      ▼
+ web app / mobile app ──(optional relayer)──► Desk ◄──── ImprestPool
+        │ reads chain                    one per trader  credit, exposure caps,
+        │                                │ checks every     fees, profit share
+        │                                │ order, then
+        ▼                                ▼ re-checks equity
+ Monad RPC  ◄───────────────────────── Perpl exchange (desk owns its own account)
+        ▲                                ▲
+ keeper: enforce / graduate        DeskFactory: opens desks per cohort policy
+ indexer (Envio): display-only history
+```
+
+- **Contracts** (`contracts/src`): `DeskFactory` opens a `Desk` per trader under an immutable cohort
+  policy. The `Desk` owns a Perpl account, validates and stamps every order, re-checks equity after the
+  fill in the same transaction, accrues the credit fee, and settles. `ImprestPool` holds LP capital,
+  funds graduated desks and enforces exposure caps.
+- **Off-chain:** the web app and mobile app read the chain directly. The relayer can only submit what the
+  trader signed (EIP-712). The keeper only calls functions the contract would accept anyway. The
+  indexer is display-only; nothing authorizes money from it.
+- Details: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Technology stack
+
+| Layer | Technology |
+| --- | --- |
+| Chain and venue | Monad testnet (chain 10143); Perpl perpetuals exchange; Agora testnet AUSD |
+| Contracts | Solidity 0.8.28 (via-IR), Foundry 1.5.1, OpenZeppelin Contracts 5.4.0 |
+| Shared logic | TypeScript package `@imprest/core` (ABIs, EIP-712, policy pre-check, accounting, verification) |
+| Web | Next.js 16, React 19, Tailwind CSS 4, viem 2, lightweight-charts, lucide-react |
+| Accounts | Mera passkeys (WebAuthn PRF → derived EVM key; no seed phrase, nothing stored server-side) |
+| Mobile | Expo SDK 57 / React Native, same shared core |
+| Services | Node relayer and keeper (viem); Envio HyperIndex 3 indexer |
+| Testing | Foundry unit, fuzz and invariant tests on Perpl's bytecode; Vitest; Playwright with axe-core; Python reference model |
+| Hosting | Vercel (web) |
+
 ## The rules, in detail
 
 | Rule (every order) | Enforced by |
@@ -133,7 +173,11 @@ docs/        architecture, security, threat model, runbooks, status
 
 ## Quick start
 
+Prerequisites: Git, Node.js 22, pnpm 11.5 (`corepack enable` picks the pinned version), Foundry 1.5
+(`foundryup`) and Python 3.12. No keys or funds are needed to build, test or browse the testnet app.
+
 ```bash
+git clone https://github.com/TheWeirdDee/imprest.git && cd imprest
 pnpm install
 cd contracts && forge build && cd ..
 pnpm proof:local                                   # contract suite on Perpl bytecode + reference model
@@ -181,6 +225,25 @@ Zero fabrication. Every public number is generated from a file in `proof/` and c
 strongest honest label: PENDING, TARGET, SIMULATED, LOCAL_REPRODUCTION, TESTNET_VERIFIED or
 MAINNET_VERIFIED. `pnpm validate-evidence` fails CI on any violation. User actions in the app
 show "verified" only after an independent RPC reads back the expected state.
+
+## Originality and build window
+
+Imprest was written during the Metropolis build window. The repository's first commit is
+2026-10-07, and every commit since is public. No pre-existing Imprest code or product was
+used as a foundation. The only code not written for this project is the third-party software
+listed below, used unmodified.
+
+## Third-party code and attribution
+
+| Component | Where | License | Use |
+| --- | --- | --- | --- |
+| Perpl exchange bytecode and ABIs (perpl-sdk 0.2.9, revision rc_v1.1.7-203) | `contracts/perpl-artifacts/` | MIT | Runs the real exchange in local tests; integration ABIs |
+| OpenZeppelin Contracts 5.4.0 | `contracts/lib/openzeppelin-contracts/` | MIT | ERC4626 pool shares, EIP-712, SignatureChecker, SafeERC20, ReentrancyGuard, Ownable2Step |
+| forge-std | `contracts/lib/forge-std/` | MIT / Apache-2.0 | Test framework |
+| Mera (`@category-labs/mera`) | npm | see package | Passkey (WebAuthn PRF) accounts |
+| viem, Next.js, React, Tailwind CSS, lightweight-charts, lucide-react, Expo, Envio, Playwright, axe-core | npm | see each package | Libraries and tooling, unmodified |
+
+Full dependency list: the `package.json` files and [docs/DEPENDENCY_MATRIX.md](docs/DEPENDENCY_MATRIX.md).
 
 ## AI disclosure
 

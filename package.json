@@ -14,14 +14,14 @@
     "mobile": "cd app && npx expo start",
     "build": "pnpm -r --filter ./packages/* build && pnpm -r --filter !./packages/* --filter !imprest build",
     "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "test:contracts": "cd contracts && forge test",
     "test:reference": "python -I proof/reference_model/run_reference.py",
     "gate0": "pnpm --filter @imprest/scripts gate0",
     "proof:local": "bash scripts/run-local-proof.sh",
     "validate-evidence": "pnpm --filter @imprest/scripts validate-evidence",
-    "format": "prettier --write \"**/*.{ts,tsx,json,md,css}\" --ignore-path .prettierignore"
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,css}\" --ignore-path .prettierignore",
+    "test:e2e": "pnpm --filter @imprest/web e2e"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

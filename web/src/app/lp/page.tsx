@@ -126,7 +126,7 @@ export default function LpConsole() {
                   value={book.data ? ausd(atRisk) : null}
                   unit="AUSD"
                   tone={atRisk > 0n ? "breach" : undefined}
-                  sub="borrowed minus equity, funded desks"
+                  sub="shortfall right now: borrowed minus equity on active funded desks (not a forecast)"
                 />,
                 <Stat
                   key="ts"
@@ -244,7 +244,7 @@ export default function LpConsole() {
                             <dd className="text-right">{ausd(r.equity)}</dd>
                             <dt className="font-sans text-muted">Floor (distance)</dt>
                             <dd className="text-right">
-                              {ausd(r.floor)} ({ausd(r.equity - r.floor)})
+                              {r.status === 0 ? `${ausd(r.floor)} (${ausd(r.equity - r.floor)})` : "— (closed)"}
                             </dd>
                             <dt className="font-sans text-muted">Borrowed</dt>
                             <dd className="text-right">{ausd(r.borrowed)}</dd>
@@ -288,8 +288,8 @@ export default function LpConsole() {
                               <td className="px-3 py-2 font-sans">{DESK_STATUS[r.status]}</td>
                               <td className="px-3 py-2">{r.tier}</td>
                               <td className="px-3 py-2">{ausd(r.equity)}</td>
-                              <td className="px-3 py-2">{ausd(r.floor)}</td>
-                              <td className="px-3 py-2">{ausd(r.equity - r.floor)}</td>
+                              <td className="px-3 py-2">{r.status === 0 ? ausd(r.floor) : "—"}</td>
+                              <td className="px-3 py-2">{r.status === 0 ? ausd(r.equity - r.floor) : "—"}</td>
                               <td className="px-3 py-2">{ausd(r.borrowed)}</td>
                               <td className="px-3 py-2">{ausd(r.feeOutstanding, 4)}</td>
                               <td className="px-3 py-2 font-sans">

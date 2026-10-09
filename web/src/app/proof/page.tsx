@@ -16,7 +16,11 @@ import {
   getStaleness,
 } from "@/lib/proof";
 
-export const metadata: Metadata = { title: "Proof" };
+export const metadata: Metadata = {
+  title: "Proof",
+  description: "Every Imprest claim with its evidence: testnet receipts read back on a second RPC, contract tests on Perpl bytecode, and what is still pending.",
+  alternates: { canonical: "/proof" },
+};
 export const dynamic = "force-static";
 
 function Money({ c, label }: { c: Claim | undefined; label: string }) {

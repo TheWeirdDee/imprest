@@ -15,7 +15,7 @@ physical device.
 | `pnpm -r typecheck` | clean |
 | `pnpm --filter @imprest/web build` | clean |
 | `cd app && npm ci && npm run typecheck && npm test && npm run bundle:check` | clean install (no `--force`), typecheck clean, 3/3, Android export OK; iOS export OK |
-| `pnpm test:e2e` (Playwright, Chromium, live testnet RPCs) | **68 passed, 0 failed** in 8.7 min (2026-10-09). 24 opt-in screenshot tests are skipped by design. An earlier run stalled when the machine slept: workers were force-killed after 56 of 68 tests (55 passed; the interrupted 768 px check later passed 3/3 alone). That run is superseded. |
+| `PW_PORT=3400 pnpm test:e2e` (Playwright, Chromium, fresh production server, no indexer, live testnet RPCs) | **69 passed, 0 failed** in 7.9 min (2026-10-09). 24 opt-in screenshot tests are skipped by design. The 69th test is a regression check that History loads from the chain scan without an indexer. |
 
 Browser suite contents:
 
@@ -32,13 +32,15 @@ Test count history:
 - 37 at first;
 - 56 after the passkey and theme tests were added;
 - 51 after dark mode was removed (6 theme tests out, 1 contrast test restored);
-- 68 now (14 accessibility pages and 3 session edge cases added).
+- 68 after 14 accessibility pages and 3 session edge cases were added;
+- 69 now (plus the no-indexer History regression).
 
 ## Hosted (https://imprest-chi.vercel.app)
 
 - `/` returns 200, served by Vercel. The deployed commit is not exposed; the hosted copy predates this pass.
 - From the earlier pass: a fresh clone of `main`, built as Vercel builds it, served every route with status 200.
 - The hosted relayer, keeper health and indexer are not configured, and /status says so.
+- Without the indexer, History scans only the most recent 5,000 blocks (about half an hour), and says so. Before this fix, that scan failed on every hosted visit.
 
 ## Physical device
 

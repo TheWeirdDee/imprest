@@ -4,7 +4,7 @@ import { BadgeCheck, Landmark, ShieldAlert, TriangleAlert } from "lucide-react";
 import type { Address } from "viem";
 import { DESK_STATUS, deskAbi, deskFactoryAbi, riskLevel, type RiskState } from "@imprest/core";
 import { SiteHeader } from "@/components/shell";
-import { AddressLink, Card, EmptyState, Pending, Pill, Skeleton, Stat } from "@/components/ui";
+import { AddressLink, Card, EmptyState, PageLoading, Pending, Pill, Skeleton, Stat } from "@/components/ui";
 import { NotDeployed } from "@/components/gates";
 import { usePool, usePoll } from "@/lib/desk";
 import { primaryClient } from "@/lib/chain";
@@ -97,7 +97,7 @@ export default function LpConsole() {
             </EmptyState>
           </div>
         ) : !p ? (
-          <Skeleton className="mt-6 h-40" />
+          <PageLoading label="Reading the pool from chain and confirming on a second RPC…" />
         ) : (
           <div className="mt-6 flex flex-col gap-4">
             <section

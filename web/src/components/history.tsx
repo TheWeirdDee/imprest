@@ -47,7 +47,12 @@ function describe(e: DeskEvent): { title: string; detail: string } {
 export function HistoryList({ kinds }: { kinds?: DeskEvent["kind"][] }) {
   const h = useHistory();
   if (h.loading && !h.data) return <Skeleton className="m-3 h-24" />;
-  if (h.error && !h.data) return <EmptyState title="History unavailable">{h.error}</EmptyState>;
+  if (h.error && !h.data)
+    return (
+      <EmptyState title="History unavailable">
+        Indexer unavailable — blockchain data may be delayed, and the direct chain read also failed ({h.error.split("\n")[0]!.slice(0, 140)}). Retrying.
+      </EmptyState>
+    );
   const rows = (h.data?.events ?? []).filter((e) => !kinds || kinds.includes(e.kind));
   return (
     <div>

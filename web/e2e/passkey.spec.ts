@@ -107,6 +107,61 @@ test("a cancelled passkey prompt never signs the user out", async ({ page }) => 
   await expect(signInButton(page)).toHaveCount(0);
 });
 
+test("switching accounts in another tab shows the new account, locked, in this tab", async ({ page, context }) => {
+  await page.goto("/app");
+  await virtualAuthenticator(page, true);
+  await page.getByRole("button", { name: /Create passkey/ }).first().click();
+  await expect(account(page)).not.toHaveAttribute("aria-label", /signing locked/, { timeout: 20_000 });
+  const other = await context.newPage();
+  await other.goto("/");
+  const NEW = "0x000000000000000000000000000000000000bEEF";
+  await other.evaluate((a) => localStorage.setItem("imprest.account.v1.testnet", JSON.stringify({ address: a, kind: "mera" })), NEW);
+  await expect(account(page)).toHaveAttribute("aria-label", new RegExp(`${NEW}.*signing locked`, "i"));
+  await other.close();
+});
+
+test("a corrupted saved credential does not block unlocking", async ({ page }) => {
+  await page.goto("/app");
+  await virtualAuthenticator(page, true);
+  await page.getByRole("button", { name: /Create passkey/ }).first().click();
+  await expect(account(page)).toBeVisible({ timeout: 20_000 });
+  await page.evaluate(() => localStorage.setItem("imprest.passkey.credential.v1", "{not json"));
+  await page.reload();
+  await account(page).click();
+  await page.getByRole("menuitem", { name: /Unlock signing now/ }).click();
+  await expect(account(page)).not.toHaveAttribute("aria-label", /signing locked/, { timeout: 20_000 });
+});
+
+test("signing out while a passkey prompt is open is not undone when the prompt completes", async ({ page, context }) => {
+  // Hold navigator.credentials.get until the test releases it.
+  await page.addInitScript(() => {
+    const orig = navigator.credentials.get.bind(navigator.credentials);
+    (window as any).__hold = new Promise((r) => ((window as any).__release = r));
+    navigator.credentials.get = async (o?: CredentialRequestOptions) => {
+      await (window as any).__hold;
+      return orig(o);
+    };
+  });
+  await page.goto("/app");
+  await virtualAuthenticator(page, true);
+  await page.getByRole("button", { name: /Create passkey/ }).first().click();
+  await expect(account(page)).toBeVisible({ timeout: 20_000 });
+  await page.reload();
+  await virtualAuthenticator(page, true).catch(() => undefined);
+  await account(page).click();
+  await page.getByRole("menuitem", { name: /Unlock signing now/ }).click();
+  // Prompt is open. Sign out from another tab.
+  const other = await context.newPage();
+  await other.goto("/");
+  await other.evaluate(() => localStorage.removeItem("imprest.account.v1.testnet"));
+  await other.close();
+  await expect(signInButton(page)).toBeVisible();
+  await page.evaluate(() => (window as any).__release());
+  await page.waitForTimeout(3000);
+  await expect(signInButton(page)).toBeVisible();
+  await expect(account(page)).toHaveCount(0);
+});
+
 test("authenticator without PRF gets PRF_UNAVAILABLE and no account", async ({ page }) => {
   await page.goto("/app");
   await virtualAuthenticator(page, false);

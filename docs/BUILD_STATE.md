@@ -31,7 +31,7 @@ deployment and every receipt remain valid.
 | BACKEND | Relayer and keeper running against testnet; relayed trades and a keeper graduate() verified | same | P1 | none | receipts 01-05 | DONE (TESTNET VERIFIED) |
 | INDEXER | Envio 3.14 running in WSL with Docker Postgres/Hasura; status page shows LIVE/SYNCING and lag | hosted | P1 | host it (owner) | GraphQL query of canonical events | DONE LOCALLY |
 | TESTING | 120 forge, 44 TS, 3 mobile, Playwright suite | same | P0 | none | runs | see FINAL_AUDIT |
-| ACCESSIBILITY | Semantic HTML, labels, focus rings, status never color-only, reduced motion | audited with a tool | P2 | axe audit | manual + E2E | PARTIAL |
+| ACCESSIBILITY | axe-core WCAG 2.2 A/AA scan: 0 violations on 14 pages; keyboard-focusable scroll regions; contrast tokens raised | manual screen-reader pass | P2 | manual check | `web/e2e/a11y.spec.ts` | DONE (automated) |
 | PERFORMANCE | Chart lazy-loaded; parallel cohort reads; bounded polling | measured budget | P2 | Lighthouse run | none yet | PENDING |
 | DOCUMENTATION | Full set incl. SPONSOR_MATRIX, MOBILE, FINAL_AUDIT | matches reality | P1 | keep updated | review | DONE |
 | EVIDENCE | 33 generated claims, validator passes on-chain | same | P0 | none | validate-evidence --onchain | DONE |

@@ -91,5 +91,5 @@ Then, for either option:
   HTTPS address, and redeploy (it is baked in at build time).
 - Check: `https://imprest-chi.vercel.app/status` should show "Relayer: operational".
 - The relayer wallet holds about 4.83 MON, enough for about 65 relayed trades. Abuse is limited: only
-  registered desks, valid trader signatures, simulation before sending, 3 intents per trader per minute,
+  registered desks, valid trader signatures, simulation before sending, 20 intents per trader per minute (RELAYER_QUOTA_PER_TRADER_PER_MIN; lower it for a public relayer),
   and a gas cap.

@@ -43,16 +43,20 @@ async function fromIndexer(desk: Address): Promise<DeskEvent[]> {
   }));
 }
 
-/** Bounded fallback: scans at most `maxBlocks` recent blocks in small chunks. */
-async function fromRpc(desk: Address, maxBlocks = 6_000n, chunk = 1_000n): Promise<{ events: DeskEvent[]; range: string }> {
+/**
+ * Bounded fallback: scans at most `maxBlocks` recent blocks. Monad's public RPC rejects
+ * eth_getLogs ranges over 100 blocks, so the scan uses 100-block chunks, a few at a time.
+ */
+async function fromRpc(desk: Address, maxBlocks = 5_000n, chunk = 100n, parallel = 5): Promise<{ events: DeskEvent[]; range: string }> {
   const pc = primaryClient();
   const head = await pc.getBlockNumber();
-  const start = head > maxBlocks ? head - maxBlocks : 0n;
+  const start = head > maxBlocks ? head - maxBlocks + 1n : 0n;
+  const ranges: [bigint, bigint][] = [];
+  for (let from = start; from <= head; from += chunk) ranges.push([from, from + chunk - 1n > head ? head : from + chunk - 1n]);
   const out: DeskEvent[] = [];
-  for (let from = start; from <= head; from += chunk) {
-    const to = from + chunk - 1n > head ? head : from + chunk - 1n;
-    const logs = await pc.getLogs({ address: desk, fromBlock: from, toBlock: to });
-    for (const l of logs) {
+  for (let i = 0; i < ranges.length; i += parallel) {
+    const batch = await Promise.all(ranges.slice(i, i + parallel).map(([fromBlock, toBlock]) => pc.getLogs({ address: desk, fromBlock, toBlock })));
+    for (const l of batch.flat()) {
       try {
         const ev = decodeEventLog({ abi: deskAbi, data: l.data, topics: l.topics });
         if (!KINDS.has(ev.eventName)) continue;

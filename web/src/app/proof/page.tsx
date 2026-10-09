@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle2, FileJson, XCircle } from "lucide-react";
 import type { Claim } from "@imprest/core";
+import { getNetwork } from "@imprest/core";
 import { SiteHeader } from "@/components/shell";
 import { AddressLink, Card, EvidenceBadge, Pending, TxLink } from "@/components/ui";
 import {
@@ -15,10 +16,13 @@ import {
   getReplay,
   getStaleness,
 } from "@/lib/proof";
+import { repoUrl } from "@/lib/proof";
+import { network } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Proof",
-  description: "Every Imprest claim with its evidence: testnet receipts read back on a second RPC, contract tests on Perpl bytecode, and what is still pending.",
+  description:
+    "Every Imprest claim with its evidence: testnet receipts read back on a second RPC, contract tests on Perpl bytecode, and what is still pending.",
   alternates: { canonical: "/proof" },
 };
 export const dynamic = "force-static";
@@ -27,12 +31,13 @@ function Money({ c, label }: { c: Claim | undefined; label: string }) {
   return (
     <div className="flex flex-col gap-2 rounded-xl border border-line bg-surface p-5">
       <div className="text-xs font-semibold tracking-[0.12em] text-muted uppercase">{label}</div>
-      <div className="num text-3xl font-semibold">
+      <div className="num text-xl font-semibold [overflow-wrap:anywhere]">
         {c && c.value !== null ? String(c.value) : <Pending />}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {c && c.value !== null && <EvidenceBadge status={c.status} />}
         <span className="text-xs text-muted">{c?.network}</span>
+        {c?.transaction_hash && <TxLink hash={c.transaction_hash} net={netFor(c.chain_id)} />}
       </div>
       <p className="text-xs leading-relaxed text-fg-2">{c?.statement}</p>
     </div>
@@ -45,10 +50,10 @@ function ClaimLine({ c }: { c: Claim | undefined }) {
     <div className="border-b border-line py-3 last:border-b-0">
       <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-4">
         <div className="min-w-0 text-sm [overflow-wrap:anywhere] text-fg">{c.statement}</div>
-        <div className="flex flex-wrap items-start gap-2 sm:max-w-[18rem] sm:flex-col sm:items-end">
+        <div className="flex min-w-0 flex-wrap items-start gap-2 sm:max-w-[18rem] sm:flex-col sm:items-end">
           {c.value !== null ? (
             <>
-              <span className="num text-sm break-words sm:text-right">{String(c.value)}</span>
+              <span className="num min-w-0 text-sm [overflow-wrap:anywhere] sm:text-right">{String(c.value)}</span>
               <EvidenceBadge status={c.status} />
             </>
           ) : (
@@ -59,8 +64,8 @@ function ClaimLine({ c }: { c: Claim | undefined }) {
       <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
         <span>{c.network}</span>
         {c.block_number !== null && <span className="num">block {c.block_number}</span>}
-        {c.transaction_hash && <TxLink hash={c.transaction_hash} />}
-        {c.contract && c.chain_id && <AddressLink address={c.contract} />}
+        {c.transaction_hash && <TxLink hash={c.transaction_hash} net={netFor(c.chain_id)} />}
+        {c.contract && c.chain_id && <AddressLink address={c.contract} net={netFor(c.chain_id)} />}
         {c.sample_size !== null && (
           <span className="num">
             n = {c.sample_size}
@@ -68,10 +73,17 @@ function ClaimLine({ c }: { c: Claim | undefined }) {
           </span>
         )}
         {c.evidence.map((e) => (
-          <span key={e} className="inline-flex min-w-0 items-center gap-1">
+          <a
+            key={e}
+            href={`${REPO}/blob/main/${e.replace(/^\.?\//, "")}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-6 min-w-0 items-center gap-1 py-0.5 underline underline-offset-2 hover:text-fg"
+          >
             <FileJson size={11} aria-hidden className="shrink-0" />
             <span className="num min-w-0 break-all">{e}</span>
-          </span>
+            <span className="sr-only">(opens the evidence file on GitHub)</span>
+          </a>
         ))}
       </div>
       <details className="mt-1 text-xs text-muted">
@@ -84,6 +96,10 @@ function ClaimLine({ c }: { c: Claim | undefined }) {
 }
 
 const AUSD = (v: number) => (v / 1e6).toFixed(2);
+const REPO = repoUrl ?? "https://github.com/TheWeirdDee/imprest";
+/** Explorer links follow the claim's own chain: a mainnet claim must never link to the testnet explorer. */
+const NETS = [getNetwork("testnet"), getNetwork("mainnet")];
+const netFor = (chainId: number | null) => NETS.find((n) => n.chainId === chainId) ?? network;
 
 export default function ProofPage() {
   const C = getClaims();
@@ -115,13 +131,16 @@ export default function ProofPage() {
             Headline results
           </h2>
           <div className="grid gap-4 md:grid-cols-3">
-            <Money c={C.MAINNET_AUSD_PAID_BY_CONTRACT} label="AUSD paid by contract" />
-            <Money c={C.MAINNET_CLAIM_TO_VERIFIED_SECONDS} label="Claim to verified balance" />
-            <Money c={C.MAINNET_PRINCIPAL_LOSS_BEYOND_STAKES} label="Pool principal loss beyond stakes" />
+            <Money
+              c={C.TESTNET_CANONICAL_GUARDED_REJECTION}
+              label="Over-limit order rejected by the contract (testnet)"
+            />
+            <Money c={C.TESTNET_CANONICAL_GRADUATION} label="Earned graduation, keeper-executed (testnet)" />
+            <Money c={C.TESTNET_CANONICAL_CLOSE_PAYOUT} label="Settlement paid by contract (testnet)" />
           </div>
           <p className="mt-3 text-xs text-muted">
-            The headline frame is reserved for the mainnet canonical run, which needs real AUSD seed credit
-            (an owner action). Fee write-offs are reported separately from principal loss.
+            Completed Monad testnet results, each with its transaction. Mainnet results are not claimed; they
+            are listed under &ldquo;Not yet proven&rdquo; and in the mainnet section below.
           </p>
         </section>
 
@@ -129,7 +148,8 @@ export default function ProofPage() {
           <Card title="1. Testnet mechanism proof">
             <ClaimLine c={C.TESTNET_CANONICAL_GUARDED_REJECTION} />
             <ClaimLine c={C.TESTNET_CANONICAL_GRADUATION} />
-            <ClaimLine c={C.TESTNET_CANONICAL_CLAIM_PAID} />
+            <ClaimLine c={C.TESTNET_KEEPER_ACTION} />
+            <ClaimLine c={C.TESTNET_RELAYED_TRADE} />
             <ClaimLine c={C.TESTNET_CANONICAL_CLOSE_PAYOUT} />
             <ClaimLine c={C.GATE0_WHITELIST_TESTNET} />
             <ClaimLine c={C.GATE0_COLLATERAL_TESTNET} />
@@ -142,6 +162,17 @@ export default function ProofPage() {
                 60 s.
               </p>
             )}
+          </Card>
+
+          <Card title="Not yet proven">
+            <p className="mb-2 text-sm text-fg-2">
+              Pending items are shown as pending, never as zero. Nothing here is forced: a profit claim needs
+              genuine realized profit above the high-water mark.
+            </p>
+            <ClaimLine c={C.TESTNET_CANONICAL_CLAIM_PAID} />
+            <ClaimLine c={C.MAINNET_AUSD_PAID_BY_CONTRACT} />
+            <ClaimLine c={C.MAINNET_CLAIM_TO_VERIFIED_SECONDS} />
+            <ClaimLine c={C.MAINNET_PRINCIPAL_LOSS_BEYOND_STAKES} />
           </Card>
 
           <Card title="2. Contract deployments">

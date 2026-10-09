@@ -13,6 +13,7 @@ import { NotDeployed, SignInPrompt, RequireDesk } from "@/components/gates";
 import { RiskMeter } from "@/components/risk-meter";
 import { PositionsTable } from "@/components/positions-table";
 import { HistoryList } from "@/components/history";
+import { ClosedDeskCard } from "@/components/closed-desk";
 import { Portfolio } from "@/components/portfolio";
 
 export default function Dashboard() {
@@ -43,7 +44,8 @@ export default function Dashboard() {
       {deployed && !a.ready && <Skeleton className="h-28 w-full" />}
       {deployed && a.ready && !hasAccount(a) && <SignInPrompt reason="Sign in to see your desk." />}
 
-      {r && s && (
+      {d.closed && <ClosedDeskCard />}
+      {r && s && !d.closed && (
         <section
           aria-label="Account summary"
           className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line sm:grid-cols-3 lg:grid-cols-6"
@@ -165,7 +167,11 @@ export default function Dashboard() {
                       </div>
                     </div>
                     <div>
-                      <RiskMeter r={r} compact />
+                      {d.closed ? (
+                        <p className="text-sm text-fg-2">Closed and settled. Risk limits no longer apply.</p>
+                      ) : (
+                        <RiskMeter r={r} compact />
+                      )}
                     </div>
                   </div>
                 )}
@@ -173,41 +179,43 @@ export default function Dashboard() {
             </Card>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-3">
-            <Card title="Position" icon={Activity} className="lg:col-span-2" pad={false}>
-              <RequireDesk what="positions">
-                <PositionsTable compact />
-              </RequireDesk>
-            </Card>
-            <Card title="Payout eligibility" icon={Gauge}>
-              <RequireDesk what="payout eligibility">
-                {r && s && (
-                  <div className="space-y-2 text-sm">
-                    {!r.flat ? (
-                      <Pill tone="warn">Claim blocked: close all positions first</Pill>
-                    ) : s.claimable && s.claimable.gross > 0n ? (
-                      <Pill tone="safe">Eligible now</Pill>
-                    ) : (
-                      <Pill tone="info">Nothing above the high-water mark</Pill>
-                    )}
-                    <div className="flex justify-between">
-                      <span className="text-muted">High-water mark</span>
-                      <span className="num">{ausd(r.hwm)}</span>
+          {!d.closed && (
+            <div className="grid gap-4 lg:grid-cols-3">
+              <Card title="Position" icon={Activity} className="lg:col-span-2" pad={false}>
+                <RequireDesk what="positions">
+                  <PositionsTable compact />
+                </RequireDesk>
+              </Card>
+              <Card title="Payout eligibility" icon={Gauge}>
+                <RequireDesk what="payout eligibility">
+                  {r && s && (
+                    <div className="space-y-2 text-sm">
+                      {!r.flat ? (
+                        <Pill tone="warn">Claim blocked: close all positions first</Pill>
+                      ) : s.claimable && s.claimable.gross > 0n ? (
+                        <Pill tone="safe">Eligible now</Pill>
+                      ) : (
+                        <Pill tone="info">Nothing above the high-water mark</Pill>
+                      )}
+                      <div className="flex justify-between">
+                        <span className="text-muted">High-water mark</span>
+                        <span className="num">{ausd(r.hwm)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted">Your share if claimed now</span>
+                        <span className="num">
+                          {s.claimable ? ausd(s.claimable.traderShare) : "requires flat desk"}
+                        </span>
+                      </div>
+                      <Link href="/app/claims" className="inline-block text-accent hover:underline">
+                        Claims
+                      </Link>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted">Your share if claimed now</span>
-                      <span className="num">
-                        {s.claimable ? ausd(s.claimable.traderShare) : "requires flat desk"}
-                      </span>
-                    </div>
-                    <Link href="/app/claims" className="inline-block text-accent hover:underline">
-                      Claims
-                    </Link>
-                  </div>
-                )}
-              </RequireDesk>
-            </Card>
-          </div>
+                  )}
+                </RequireDesk>
+              </Card>
+            </div>
+          )}
 
           <Card title="Recent activity" pad={false}>
             <RequireDesk what="activity">
@@ -216,7 +224,7 @@ export default function Dashboard() {
           </Card>
         </>
       )}
-      {r && (
+      {r && !d.closed && (
         <p className="text-[11px] text-muted">
           Leverage cap {p ? formatUnitsFixed(BigInt(p.maxLeverageHdths), 2, 2) : "—"}x, price band{" "}
           {p?.priceBandBps} bps and loss limits are enforced by the desk contract on every order.

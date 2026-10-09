@@ -156,7 +156,19 @@ export function createRelayer(chain: ChainPort, cfg: RelayerConfig) {
 
   return async function handle(req: Request): Promise<Response> {
     const url = new URL(req.url);
-    if (req.method === "OPTIONS") return json(204, {});
+    // CORS preflight: 204 must have no body (a body makes the Response constructor throw,
+    // which broke every browser-originated intent).
+    if (req.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          "access-control-allow-origin": "*",
+          "access-control-allow-methods": "GET,POST,OPTIONS",
+          "access-control-allow-headers": "content-type",
+          "access-control-max-age": "600",
+        },
+      });
+    }
     if (req.method === "GET" && url.pathname === "/health") {
       try {
         const bal = await chain.relayerBalance();

@@ -8,8 +8,6 @@
     "build": "next build",
     "start": "next start -p 3000",
     "typecheck": "tsc --noEmit",
-    "lint": "next lint",
-    "test": "vitest run",
     "e2e": "playwright test"
   },
   "dependencies": {
@@ -26,6 +24,7 @@
     "viem": "^2.57.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.10.0",

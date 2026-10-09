@@ -14,6 +14,7 @@ import { ausd } from "@/lib/format";
 import { Button, Card, Notice, Pending, Pill, Skeleton, cx, inputClass } from "@/components/ui";
 import { NotDeployed, SignInPrompt } from "@/components/gates";
 import { TxStatus } from "@/components/tx-status";
+import { ClosedDeskCard } from "@/components/closed-desk";
 
 function tierRequirement(p: CohortPolicy, i: number) {
   const t = p.tiers[i]!;
@@ -327,7 +328,8 @@ export default function DeskPage() {
 
       {r && p && (
         <>
-          <Card title="Lifecycle" icon={Layers}>
+          {d.closed && <ClosedDeskCard compact />}
+          <Card title={d.closed ? "Lifecycle (closed desk, historical)" : "Lifecycle"} icon={Layers}>
             <ol className="flex flex-wrap items-center gap-2 text-sm" aria-label="Desk lifecycle">
               {p.tiers.map((_, i) => (
                 <li key={i} className="flex items-center gap-2">
@@ -337,22 +339,24 @@ export default function DeskPage() {
                       i < r.tier
                         ? "border-safe/40 text-safe"
                         : i === r.tier
-                          ? "border-accent bg-surface-3 text-fg"
+                          ? d.closed
+                            ? "border-line-strong text-fg-2"
+                            : "border-accent bg-surface-3 text-fg"
                           : "border-line text-muted",
                     )}
                   >
                     {TIER_NAMES[i]}
+                    {d.closed && i === r.tier ? " (closed at this tier)" : ""}
                   </span>
                   {i < p.tiers.length - 1 && <ArrowRight size={14} aria-hidden className="text-muted" />}
                 </li>
               ))}
-              {r.status !== 0 && (
-                <Pill tone="breach">{r.status === 1 ? "Enforcing (reduce-only)" : "Closed"}</Pill>
-              )}
+              {r.status === 1 && <Pill tone="breach">Enforcing (reduce-only)</Pill>}
+              {r.status === 2 && <Pill tone="info">Closed and settled</Pill>}
             </ol>
           </Card>
 
-          {next ? (
+          {d.closed ? null : next ? (
             <Card title={`Progress to ${TIER_NAMES[r.tier + 1]}`} icon={GraduationCap}>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-3">
@@ -408,7 +412,7 @@ export default function DeskPage() {
                     desk.
                   </p>
                   <Button
-                    disabled={!hasAccount(a) || state.kind === "submitted" || state.kind === "confirming"}
+                    disabled={!hasAccount(a) || r.status !== 0 || state.kind === "submitted" || state.kind === "confirming"}
                     onClick={async () => {
                       await run(async () => graduateAction(await a.getSigner(), d.desk!, r, p));
                       d.refreshAll();
@@ -427,7 +431,7 @@ export default function DeskPage() {
           )}
 
           <Card title={`Tiers configured for ${p.name}${p.demo ? " (labeled demo cohort)" : ""}`}>
-            <TierTable p={p} current={r.tier} />
+            <TierTable p={p} current={d.closed ? undefined : r.tier} />
           </Card>
         </>
       )}

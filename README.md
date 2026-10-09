@@ -1,23 +1,98 @@
 # Imprest
 
-**Real capital. Programmable risk. Paid by contract.**
+**Trade with more than your own stake, under rules a contract enforces.**
 
-Imprest turns onchain trading history into use-restricted trading credit, with risk enforced
-inside every order. A trader stakes AUSD, proves themselves on that stake, and graduates to a
-real Perpl desk several times larger, funded by an LP pool. The desk contract owns the
-Perpl account, checks and stamps every order, re-checks equity after the fill in the same
-transaction, and pays realized profit above the high-water mark by contract.
+Imprest is a funded-trading desk for perpetual futures on Perpl (Monad). You put up a small
+stake, trade it under fixed risk rules, and if you hit the profit target you graduate to a desk
+several times larger. The extra capital is credit from a liquidity pool: you can trade it
+through your desk but never withdraw it. Every order is checked by the desk contract before it
+reaches Perpl, and realized profit above your previous high is paid out by the contract.
 
-> Built for Monad Metropolis, Track 1 (Onchain Finance & Trading). Status: **live on Monad testnet**
-> (ImprestPool `0x85fFff6B1e8e62d2cE8ACA45B69AE530C6FbF457`, DeskFactory `0x1569EE4A7210e226db932B5B7633E63d3AC8c544`).
-> Nothing on mainnet is claimed. See [docs/FINAL_STATUS.md](docs/FINAL_STATUS.md).
+> **Status: Monad testnet only. Test tokens, no real money.** Built for Monad Metropolis,
+> Track 1 (Onchain Finance & Trading). No independent security audit. Mainnet is not deployed.
+>
+> Live app: **https://imprest-chi.vercel.app** · Proof: [/proof](https://imprest-chi.vercel.app/proof) ·
+> Live checks: [/status](https://imprest-chi.vercel.app/status)
 
-## The mechanism
+![Imprest landing page](proof/screenshots/1440-landing.png)
 
-```
-onchain trading history -> use-restricted credit -> risk constraints in every order
-                        -> contract-enforced trading -> automatic settlement
-```
+## Who it is for and why
+
+Traders who can trade but lack capital usually go through prop-firm evaluations, where the
+rules are written in a policy document and payouts depend on the firm. Imprest puts the rules
+and the payout in contracts instead:
+
+- **Qualifying is mechanical.** The profit target, number of closed trades and time in tier are
+  checked by the desk contract. No reviewer decides.
+- **The limits are enforced inside every order.** Leverage, price band, risk floor and daily
+  loss are checked in the same transaction as the trade. An order that breaks a rule reverts.
+- **Payout is by contract.** Realized profit above the high-water mark is split by fixed
+  shares (80% trader on the funded tier) and paid in the same transaction as the claim.
+- **Credit cannot leave.** Pool credit sits in the desk's own Perpl account. Apart from margin
+  in that account, the desk can only send AUSD to the pool (principal, fees, profit share), the
+  trader (claimed profit or final residual), the protocol treasury, or a keeper (a capped bounty, once).
+
+## How it works
+
+1. **Sign in** with a passkey (Mera). No seed phrase or browser extension.
+2. **Get test tokens.** Testnet MON for gas (Monad faucet) and testnet AUSD (button on the dashboard).
+3. **Open a desk** with a stake of at least 100 AUSD. The desk opens its own Perpl account.
+4. **Evaluation.** Trade BTC/ETH perps on your stake. Demo cohort target: **+2% equity over at
+   least 2 closed trades** (standard cohort: +8%, 5 trades, 24 h).
+5. **Graduation.** Anyone (usually the keeper) calls `graduate()`; the contract re-checks the
+   rules and the pool adds credit: a 100 AUSD stake becomes a 500 AUSD desk.
+6. **Funded trading** under the same per-order rules plus pool exposure caps. A credit fee
+   accrues only while a position is open, capped at 25% of stake.
+7. **Claim.** With all positions closed, claim realized profit above the high-water mark.
+   Fees are netted first; the trader gets 80% of the remainder.
+
+If equity falls below the floor (6% under the tier start) or the daily limit (3%), new risk is
+refused and anyone can call `enforce()` to close the desk. Your stake absorbs losses first.
+
+## What you can do on the hosted app today
+
+| Works now | Notes |
+| --- | --- |
+| Browse the live BTC/ETH market, risk rules, proof and status | No wallet needed |
+| Create a passkey account, get test AUSD, open a desk, trade, close, claim | Needs testnet MON for gas: the hosted site has no public relayer, so you submit transactions yourself |
+| Watch risk, positions, history and receipts | History reads the chain directly; the indexer runs only on the developer's machine |
+
+Not available on the hosted site: gasless trading (the relayer is not publicly hosted), the
+Envio indexer, and passkey sign-in inside the native mobile app (it needs a linked domain).
+
+## For judges: inspect without a wallet
+
+- [/proof](https://imprest-chi.vercel.app/proof): each claim with its receipt, transaction and explorer link.
+- [/status](https://imprest-chi.vercel.app/status): live RPC, Perpl and contract checks, plus protocol status from receipts.
+- [docs/CLAIM_LEDGER.md](docs/CLAIM_LEDGER.md): every claim and its evidence label.
+- [proof/receipts/testnet/](proof/receipts/testnet/): raw receipts, each read back on a second RPC.
+- Reproduce locally: `pnpm proof:local` (contract suite on Perpl's own bytecode plus a reference model).
+
+## What is proven, and how strongly
+
+| Result | Label |
+| --- | --- |
+| ImprestPool and DeskFactory deployed; runtime bytecode matches the build on two RPCs | **TESTNET_VERIFIED** |
+| A 6x order sent straight to the desk reverted `LeverageExceeded`; a premature `graduate()` reverted `GraduationNotEligible` | **TESTNET_VERIFIED** |
+| Real Perpl trades opened and closed; a flat desk closed with 99.95 AUSD paid by contract | **TESTNET_VERIFIED** |
+| Trader-signed intents submitted by the relayer filled on Perpl (submitted from a script, not via the hosted site) | **TESTNET_VERIFIED** |
+| Desk `0xfc65…FCC6` earned +2% over two closed trades; the keeper called `graduate()`; the pool funded 400 AUSD | **TESTNET_VERIFIED** |
+| After graduation, two real attempts to reach profit above the high-water mark lost money; the stake absorbed it and pool credit stayed intact | **TESTNET_VERIFIED** (receipts 06–13) |
+| 120 contract tests (unit, fuzz, invariant, security, paired-desk) against **Perpl's own exchange bytecode**; reference model 26/26 | LOCAL_REPRODUCTION |
+| Pre-registered replay: in-transaction enforcement vs a 1 s keeper, median gap **0.0 bps** (n = 51): **null result, headline dropped** | SIMULATED |
+| Qualifying profit claim, mainnet, real outside traders, independent audit | **PENDING** |
+
+Full list: [docs/CLAIM_LEDGER.md](docs/CLAIM_LEDGER.md). Current state: [docs/BUILD_STATE.md](docs/BUILD_STATE.md).
+
+## Why Monad and Perpl
+
+Every order runs the full rule set and a post-fill equity re-check inside one transaction.
+That needs an onchain order book with a programmable account interface (Perpl's `execOrder`,
+negative-PnL stamp and IOC/FOK order types), and gas cheap enough for a multi-call trade.
+Measured on Monad testnet: a guarded relayed trade costs about 0.07 MON at 102 gwei. On another
+EVM chain the contracts would compile, but without Perpl the venue layer would have to be rewritten.
+
+## The rules, in detail
 
 | Rule (every order) | Enforced by |
 | --- | --- |
@@ -33,21 +108,9 @@ onchain trading history -> use-restricted credit -> risk constraints in every or
 | Claims flat-only, realized profit above the HWM, fees netted first | Desk |
 | Breach / fee-cap settlement: principal, keeper (once), fees, trader | Desk + Pool |
 
-## What is proven, and how strongly
-
-Generated from evidence; full list in [docs/CLAIM_LEDGER.md](docs/CLAIM_LEDGER.md).
-
-| Result | Label |
-| --- | --- |
-| 120 contract tests (unit, fuzz, invariant, security, paired-desk, reference vectors) pass against **Perpl's own exchange bytecode** | LOCAL_REPRODUCTION |
-| An order one unit over 5x is rejected by the Desk contract, no position remains | LOCAL_REPRODUCTION |
-| On a fork of **live Monad testnet**, a desk opened its own Perpl account and filled against the real order book | SIMULATED |
-| Independent Python reference model agrees with contract outputs: 26/26 | LOCAL_REPRODUCTION |
-| Perpl whitelisting is off; testnet margins in Agora AUSD; account minimums | TESTNET_VERIFIED / MAINNET_VERIFIED (read-only, two RPCs) |
-| Paired long/short self-attack: 15% gap costs the pool 206.40 AUSD without an effective desk cap, ~0 with a 2x-desk cap | LOCAL_REPRODUCTION |
-| Pre-registered replay: in-transaction enforcement vs a 1 s keeper, median overshoot gap **0.0 bps** (n = 51): **null threshold hit, headline dropped** | SIMULATED |
-| Deployed on Monad testnet; a 6x order sent straight to the desk was mined and reverted `LeverageExceeded`; a real Perpl trade opened and closed; desk closed with a 99.95 AUSD payout verified on a second RPC | **TESTNET_VERIFIED** |
-| Testnet graduation and profit claim (market-dependent), mainnet payouts, real traders | **PENDING** |
+Known risks: a price gap larger than the stake can cost the pool principal (see the
+paired-desk results on /proof); Perpl and Agora admins can freeze or force-close; the code has
+had an internal automated review only ([docs/SECURITY_REVIEW.md](docs/SECURITY_REVIEW.md)).
 
 ## Repository
 

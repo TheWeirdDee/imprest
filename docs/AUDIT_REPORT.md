@@ -4,7 +4,7 @@
 
 - Date: 2026-10-08, about 15:30–16:30 UTC (16:30–17:30 Lagos).
 - Source: `main` at the commit that adds this file (based on `55832a1`).
-- Hosted app: https://imprest-chi.vercel.app returned 200 at 15:56 UTC. It serves the copy from before this pass. Vercel does not expose the deployed commit in its response headers, so the hosted build cannot be tied to a commit from outside. It updates when Vercel redeploys `main`.
+- Hosted app (historical, 2026-10-08 15:56 UTC): returned 200 but served the copy from before this pass, and no deployed commit was exposed. **Resolved 2026-10-09:** every build now embeds its commit, served at `/api/version`, in the landing footer and on /status.
 
 Findings marked "reported elsewhere" came from a separate review session whose patch was not available here. Each was reproduced in this repository before it was fixed.
 
@@ -38,3 +38,40 @@ Findings marked "reported elsewhere" came from a separate review session whose p
 - Economic: a price gap larger than the stake can cost the pool principal (paired-desk results). Perpl and Agora admin powers are outside Imprest's control.
 - Passkeys were tested with Chrome's virtual authenticator, not physical biometrics. Native passkeys need a linked domain.
 - No independent audit.
+
+## Browser walkthrough audit, 2026-10-09
+
+The owner ran the full direct evaluation flow in a browser: faucet, approve, open desk, open and
+close a 0.001 BTC long, then close the desk with 99.943818 AUSD returned. Desk `0x4802…bFaD`,
+trader `0x976C…25fE`. A separate review of that session raised the findings below. Each was
+checked against the code before it was fixed. Regression tests: `web/e2e/audit-fixes.spec.ts`.
+
+| ID | Sev | Finding | Cause (confirmed) | Fix |
+| --- | --- | --- | --- | --- |
+| B-01 | Medium | A closed desk showed −100 AUSD realized PnL, a −94 risk buffer and "anyone can call enforce()" | Pages rendered active-desk metrics for any desk, including a settled one | A closed desk now shows a settlement card: stake, total returned (`totalPaidToTrader` read from the contract) and net change (−0.056182 AUSD here). Risk, eligibility and enforcement text are hidden on the dashboard, Claims, Risk and Trade. |
+| B-02 | Medium | After sign-out, the previous account's numbers stayed until a refresh | The polling hook kept its last data when its key changed, and a late response could land after the switch | Data is cleared on every key change, and stale responses are ignored. The test fails on the old hook. |
+| B-03 | Medium | Claims said "Needs 0.00 AUSD more" while equity (99.94) was below the high-water mark (100) | The shortfall ignored fees owed and was rounded to 2 decimals | Shortfall = HWM + fees owed − realized equity + 1 unit, shown to 6 decimals when small, with the full condition explained |
+| B-04 | Medium | The order preview showed distance to the desk floor while the daily limit was nearer | The preview always used `floor` | Uses the stricter of the desk floor and the active daily floor, and names it |
+| B-05 | Medium | Fills showed "@ 82,639.6" as if it were the execution price | `TradeExecuted` records the limit and the mark, not an average fill | Shows "limit X · mark Y"; no fill price is claimed |
+| B-06 | Medium | "Send to contract anyway" sat in the normal close flow and cost 0.153 MON | Prominent button | Collapsed "Developer" section with a gas warning and a confirmation dialog; never shown for a closed desk |
+| B-07 | Medium | The GitHub About link pointed to a dead Vercel deployment | Stale repository setting | Homepage set to https://imprest-chi.vercel.app; description and topics added |
+| B-08 | Medium | /proof linked a mainnet address to the testnet explorer | Address and transaction links always used the app's network | Links follow each claim's `chain_id` |
+| B-09 | Medium | "Gasless" was claimed more strongly than the browser evidence supports | Copy | Landing, FAQ, README and /status now say relayed intents were verified from a script and gasless trading is not available on the website |
+| B-10 | Low | Copy: "flat desks can claim"; "No activity yet" in a bounded scan; implementation-speak on the slider; raw parser errors; zero estimates for invalid input; "% of drawdown buffer"; "keeper not running"; "principal at risk" ambiguous; closed desks with negative distances on LP | Copy and state | All rewritten: claim conditions, "nothing found in the scanned block range", allowed leverage, field-specific errors and "—" estimates, buffer in AUSD, "not configured here" versus "unreachable", current shortfall, "—" for closed desks |
+| B-11 | Low | /proof led with three PENDING mainnet items; evidence paths were plain text | Layout | Leads with three completed testnet results with transaction links; pending items are in their own card; every evidence path links to the file on GitHub |
+| B-12 | Low | The runbook's `cast wallet new` rendered as broken text on /docs | The Markdown renderer ignored indented code fences | Indented fences are supported |
+| B-13 | Low | The deployed commit could not be determined | Not exposed | Each build embeds its commit: `/api/version`, landing footer, /status |
+| B-14 | Low | Stale docs: dark-only UI, "real AUSD" on testnet, mobile status, advice to keep trading for a claim, runbook says "not deployed" | Docs drift | KNOWN_LIMITATIONS, TESTNET_DEPLOYMENT, README, AUDIT_REPORT and TEST_RESULTS updated and dated |
+
+Confirmed as *not* a bug: the `ReduceOnlyInvalid` revert at block 69518585 came after the
+successful close at block 69518531. The position was already flat, so the contract correctly
+refused a reduce-only order. That order only reached the chain through the rejection-test button,
+which B-06 now moves out of the normal flow.
+
+Still blocked, and not fixable in code:
+
+- gasless trading from the browser needs a publicly hosted relayer;
+- a funded-desk browser journey and a profit claim need a genuinely qualifying desk;
+- the physical-phone checklist needs the owner's device;
+- the hackathon rules need the signed-in dashboard;
+- an independent audit.

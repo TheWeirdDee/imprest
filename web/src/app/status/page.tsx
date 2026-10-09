@@ -8,7 +8,11 @@ import { deployed, indexerUrl, network, relayerUrl } from "@/lib/env";
 import { PasskeyCapability } from "./passkey-capability";
 import { getClaims } from "@/lib/proof";
 
-export const metadata: Metadata = { title: "Status" };
+export const metadata: Metadata = {
+  title: "Status",
+  description: "Live checks of the Monad testnet RPCs, Perpl, the Imprest contracts and services, plus protocol status from receipts.",
+  alternates: { canonical: "/status" },
+};
 export const dynamic = "force-dynamic";
 
 type Row = { name: string; state: "up" | "down" | "not-configured"; detail: string };

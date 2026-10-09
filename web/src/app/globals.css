@@ -3,7 +3,8 @@
 /* Imprest design tokens. Restrained, dense, financial. Semantic colors are never the
    only signal: every status is paired with an icon and a text label. */
 @theme {
-  /* Light-first, warm neutral system. One restrained accent (deep indigo).
+  /* Light-only, warm neutral system. Monochrome: the accent is the same graphite black as
+     primary buttons (owner decision 2026-10-09: no blue anywhere).
      Semantic colors are muted and always paired with an icon and text. */
   --color-bg: #f6f5f1;
   --color-surface: #ffffff;
@@ -14,9 +15,9 @@
   --color-fg: #16181c;
   --color-fg-2: #3f444c;
   --color-muted: #5b5f68; /* >= 4.5:1 on every surface, including surface-3, at 11px */
-  --color-accent: #3346c4;
-  --color-accent-strong: #283a9f;
-  --color-accent-bg: #eceefb;
+  --color-accent: #16181c;
+  --color-accent-strong: #000000;
+  --color-accent-bg: #ebe9e3;
   --color-safe: #1e7a4b;
   --color-safe-bg: #e8f2ec;
   --color-warn: #8a5f0d;
@@ -32,7 +33,7 @@
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
 
   --color-on-accent: #ffffff;
-  /* Primary buttons are black (graphite); the indigo accent stays for links, focus and active states. */
+  /* Primary buttons, links, focus rings and active states are all graphite black. */
   --color-primary: #16181c;
   --color-primary-hover: #2c3038;
   --color-on-primary: #ffffff;

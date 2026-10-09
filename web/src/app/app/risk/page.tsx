@@ -11,6 +11,7 @@ import { useAction } from "@/lib/tx";
 import { ausd } from "@/lib/format";
 import { Button, Card, KV, Notice, Pill, Stat } from "@/components/ui";
 import { RequireDesk } from "@/components/gates";
+import { ClosedDeskCard } from "@/components/closed-desk";
 import { RiskMeter } from "@/components/risk-meter";
 import { TxStatus } from "@/components/tx-status";
 
@@ -45,7 +46,8 @@ export default function RiskCenter() {
         <Gauge size={20} aria-hidden className="text-accent" /> Risk center
       </h1>
       <RequireDesk what="your risk">
-        {r && p && (
+        {d.closed && <ClosedDeskCard />}
+        {r && p && !d.closed && (
           <>
             <Card title="How close am I to losing my desk?">
               <RiskMeter r={r} />
@@ -70,6 +72,10 @@ export default function RiskCenter() {
                   <KV k="Per-desk notional cap" v={pool.data ? ausd(pool.data.deskNotionalCap) : "—"} />
                   {pool.data && <Bar value={gross} max={pool.data.deskNotionalCap} tone="safe" />}
                 </div>
+                <p className="mt-2 text-[11px] leading-relaxed text-muted">
+                  Both limits apply to every order: leverage is capped per order, and the desk&apos;s total open notional is capped
+                  by the pool. Whichever is reached first stops the order.
+                </p>
               </Card>
               <Card title="Credit">
                 <KV k="Restricted credit" v={ausd(r.borrowed)} />

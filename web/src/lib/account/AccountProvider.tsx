@@ -81,6 +81,7 @@ function meraMessage(e: unknown): { code: string; message: string } {
       "This browser or authenticator does not support the WebAuthn PRF extension, which Mera needs to derive your account. Try Chrome or Edge with Google Password Manager, or Safari with iCloud Keychain (iOS 18+ / macOS 15+).",
     PASSKEY_OPERATION_FAILED: "The passkey request was cancelled or WebAuthn is unavailable in this browser.",
     CRYPTO_UNAVAILABLE: "This browser lacks the Web Crypto features Mera needs.",
+    SESSION_SUPERSEDED: "That passkey prompt finished after you signed out or switched accounts, so it was ignored.",
     ACCOUNT_MISMATCH: "That passkey belongs to a different Imprest account than the one remembered on this device. Sign out first to switch accounts.",
   };
   return { code, message: map[code] ?? String((e as Error)?.message ?? e) };
@@ -98,6 +99,9 @@ export function AccountProvider({ children }: { children: ReactNode }) {
   const sessionRef = useRef<{ end: () => void } | null>(null);
   const idleRef = useRef<number | null>(null);
   const pending = useRef<Promise<LocalAccount> | null>(null);
+  // Bumped by sign-out, lock and cross-tab account changes: a passkey prompt that completes
+  // after any of those is discarded instead of silently signing the user back in.
+  const generation = useRef(0);
 
   // Restore the remembered account once, on the client. Until then status stays "initializing".
   useEffect(() => {
@@ -108,6 +112,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
       if (e.key !== ACCOUNT_KEY) return;
       const n = readRemembered();
       if (!n) {
+        generation.current++;
         try {
           sessionRef.current?.end();
         } catch {
@@ -116,7 +121,18 @@ export function AccountProvider({ children }: { children: ReactNode }) {
         sessionRef.current = null;
         setS((p) => ({ ...p, status: "signed-out", kind: null, address: null, account: null }));
       } else {
-        setS((p) => (p.address?.toLowerCase() === n.address.toLowerCase() ? p : { ...p, status: "locked", kind: "mera", address: n.address, account: null }));
+        setS((p) => {
+          if (p.address?.toLowerCase() === n.address.toLowerCase()) return p;
+          // A different account in another tab: drop this tab's signing key for the old one.
+          generation.current++;
+          try {
+            sessionRef.current?.end();
+          } catch {
+            /* ended */
+          }
+          sessionRef.current = null;
+          return { ...p, status: "locked", kind: "mera", address: n.address, account: null };
+        });
       }
     };
     window.addEventListener("storage", onStorage);
@@ -133,11 +149,13 @@ export function AccountProvider({ children }: { children: ReactNode }) {
   };
 
   const lock = useCallback(() => {
+    generation.current++;
     endSession();
     setS((p) => (p.kind === "dev-mock" ? { ...p, status: "signed-out", kind: null, address: null, account: null } : p.address ? { ...p, status: "locked", account: null } : p));
   }, []);
 
   const signOut = useCallback(() => {
+    generation.current++;
     endSession();
     try {
       localStorage.removeItem(ACCOUNT_KEY);
@@ -177,7 +195,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     })();
   }, []);
 
-  const startSession = useCallback(async (prfOutput: Uint8Array, expected: `0x${string}` | null): Promise<LocalAccount> => {
+  const startSession = useCallback(async (prfOutput: Uint8Array, expected: `0x${string}` | null, gen: number): Promise<LocalAccount> => {
     const mera = await import("@category-labs/mera");
     const { toViemAccount } = await import("@category-labs/mera/viem");
     const privateKey = deriveEvmKey(prfOutput);
@@ -189,6 +207,11 @@ export function AccountProvider({ children }: { children: ReactNode }) {
       session.end();
       throw Object.assign(new Error("account mismatch"), { code: "ACCOUNT_MISMATCH" });
     }
+    if (gen !== generation.current) {
+      // Signed out, locked or switched while the prompt was open: discard this session.
+      session.end();
+      throw Object.assign(new Error("superseded"), { code: "SESSION_SUPERSEDED" });
+    }
     endSession();
     sessionRef.current = session;
     remember(account.address);
@@ -198,6 +221,10 @@ export function AccountProvider({ children }: { children: ReactNode }) {
 
   const fail = (e: unknown) => {
     const err = meraMessage(e);
+    if (err.code === "SESSION_SUPERSEDED") {
+      setS((p) => ({ ...p, status: p.address ? "locked" : "signed-out" }));
+      return err;
+    }
     // A failed or cancelled prompt never forgets a remembered account.
     setS((p) => ({ ...p, status: p.address ? "locked" : "error", error: err, prfSupport: err.code === "PRF_UNAVAILABLE" ? "unsupported" : p.prfSupport }));
     return err;
@@ -205,6 +232,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
 
   const createAccount = useCallback(async () => {
     setS((p) => ({ ...p, status: "connecting", error: null }));
+    const gen = generation.current;
     try {
       const mera = await import("@category-labs/mera");
       const r = await mera.createPasskeyWithPrfOutput({
@@ -212,7 +240,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
         user: { name: `imprest-${network.environment}`, displayName: `Imprest (${network.label})` },
       });
       localStorage.setItem(CRED_KEY, JSON.stringify({ credentialId: r.credentialId, transports: (r as any).transports ?? [] }));
-      await startSession(new Uint8Array(r.prfOutput), null);
+      await startSession(new Uint8Array(r.prfOutput), null, gen);
     } catch (e) {
       fail(e);
     }
@@ -221,12 +249,19 @@ export function AccountProvider({ children }: { children: ReactNode }) {
   const unlock = useCallback(
     async (expected: `0x${string}` | null): Promise<LocalAccount> => {
       setS((p) => ({ ...p, status: "connecting", error: null }));
+      const gen = generation.current;
       const mera = await import("@category-labs/mera");
-      const saved = localStorage.getItem(CRED_KEY);
-      const credential = saved ? (JSON.parse(saved) as { credentialId: string; transports?: string[] }) : undefined;
+      // A corrupted saved credential must not block sign-in: fall back to discoverable credentials.
+      let credential: { credentialId: string; transports?: string[] } | undefined;
+      try {
+        const v = JSON.parse(localStorage.getItem(CRED_KEY) ?? "null");
+        credential = v && typeof v.credentialId === "string" ? v : undefined;
+      } catch {
+        localStorage.removeItem(CRED_KEY);
+      }
       const r = await mera.getPasskeyPrfOutput({ rpId: rpId(), credential: credential as any });
       localStorage.setItem(CRED_KEY, JSON.stringify({ credentialId: r.credentialId, transports: credential?.transports ?? [] }));
-      return startSession(new Uint8Array(r.prfOutput), expected);
+      return startSession(new Uint8Array(r.prfOutput), expected, gen);
     },
     [startSession],
   );

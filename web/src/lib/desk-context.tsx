@@ -4,7 +4,7 @@ import { createContext, useContext, type ReactNode } from "react";
 import type { Address } from "viem";
 import type { CohortPolicy, RiskState } from "@imprest/core";
 import { hasAccount, useAccount } from "./account/AccountProvider";
-import { useBalances, usePolicy, usePositions, useRiskState, useTraderDesk, type Loadable, type PositionView } from "./desk";
+import { useBalances, useDeskOutcome, usePolicy, usePositions, useRiskState, useTraderDesk, type Loadable, type PositionView } from "./desk";
 
 interface DeskCtx {
   address: Address | null;
@@ -15,6 +15,9 @@ interface DeskCtx {
   risk: Loadable<RiskState>;
   policy: Loadable<CohortPolicy>;
   positions: Loadable<PositionView[]>;
+  /** The current desk is settled (status Closed): no trading, claims or risk limits apply. */
+  closed: boolean;
+  outcome: Loadable<{ paidToTrader: bigint; reason: number; feeCollected: bigint }>;
   refreshAll: () => void;
 }
 
@@ -29,6 +32,8 @@ export function DeskProvider({ children }: { children: ReactNode }) {
   const risk = useRiskState(desk);
   const policy = usePolicy(desk);
   const positions = usePositions(risk.data?.accountId ?? null, desk ?? "");
+  const closed = risk.data?.status === 2;
+  const outcome = useDeskOutcome(desk, closed);
   const refreshAll = () => {
     balances.refresh();
     deskQ.refresh();
@@ -46,6 +51,8 @@ export function DeskProvider({ children }: { children: ReactNode }) {
         risk,
         policy,
         positions,
+        closed,
+        outcome,
         refreshAll,
       }}
     >

@@ -1,0 +1,33 @@
+commit: 9f7aeff4c59ffdca65590c421616e67d094d252c
+date_utc: 2026-10-09T12:59:23Z
+tool: forge Version: 1.5.1-stable
+command: cd contracts && forge test --match-test 'graduat|claim|Lifecycle' -vv
+
+Ran 2 tests for test/accounting/SettlementMath.t.sol:SettlementMathTest
+[PASS] testFuzz_claimSplit_conservesGross(uint256,uint256,uint256,uint16,uint16) (runs: 512, μ: 1949, ~: 2045)
+[PASS] test_claimSplit_prdIllustrativeMonth() (gas: 1177)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 39.81ms (39.02ms CPU time)
+Ran 1 test for test/unit/DeskLifecycle.t.sol:DeskLifecycleTest
+[PASS] test_fullLifecycle_demoCohort_graduateTradeClaimClose() (gas: 13446932)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 177.42ms (146.06ms CPU time)
+Ran 2 tests for test/security/Reentrancy.t.sol:ReentrancyTest
+[PASS] test_reentry_claimDuringTrade() (gas: 414238)
+[PASS] test_reentry_graduateDuringTrade() (gas: 414860)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 216.88ms (5.60ms CPU time)
+Ran 11 tests for test/unit/DeskSettlement.t.sol:DeskSettlementTest
+[PASS] test_claim_feesNettedFirstAndBookedOnce() (gas: 14429000)
+[PASS] test_claim_hwmPreventsReclaimAfterLossAndRecovery() (gas: 16971884)
+[PASS] test_claim_onlyTrader() (gas: 4775898)
+[PASS] test_claim_payoutSplitIsExactAfterFeesAndCannotRepeat() (gas: 13805231)
+[PASS] test_claim_unrealizedProfitCannotBeWithdrawn() (gas: 12712188)
+[PASS] test_graduation_insufficientPoolLiquidityRevertsAndLeavesDeskUnchanged() (gas: 8755361)
+[PASS] test_graduation_pausedPoolBlocksButCloseStillWorks() (gas: 9001968)
+[PASS] test_graduation_prematureRejectsOnchain() (gas: 110357)
+[PASS] test_graduation_requiresFlat() (gas: 8940422)
+[PASS] test_graduation_requiresTradeCount() (gas: 4836029)
+[PASS] test_graduation_standardCohortRequires24h() (gas: 26066794)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 217.09ms (837.14ms CPU time)
+Ran 1 test for test/accounting/ReferenceVectors.t.sol:ReferenceVectorsTest
+[PASS] test_vectors_claims() (gas: 144531289)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 516.90ms (487.41ms CPU time)
+Ran 5 test suites in 521.38ms (1.17s CPU time): 17 tests passed, 0 failed, 0 skipped (17 total tests)

@@ -204,8 +204,34 @@ export function Button({
   );
 }
 
-export function Skeleton({ className }: { className?: string }) {
-  return <div aria-hidden className={cx("animate-pulse rounded bg-surface-3", className)} />;
+/** Circular loading indicator. Decorative; pair it with text or a status role. */
+export function Spinner({ size = 18, className }: { size?: number; className?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden className={cx("animate-spin text-fg", className)}>
+      <circle cx="12" cy="12" r="9.5" stroke="currentColor" strokeOpacity="0.18" strokeWidth="3" />
+      <path d="M21.5 12a9.5 9.5 0 0 0-9.5-9.5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Placeholder while data loads: a soft block with a spinner, announced as "Loading". */
+export function Skeleton({ className, label = "Loading" }: { className?: string; label?: string }) {
+  return (
+    <div role="status" className={cx("flex items-center justify-center rounded bg-surface-2", className)}>
+      <Spinner size={16} className="text-muted" />
+      <span className="sr-only">{label}</span>
+    </div>
+  );
+}
+
+/** Full-area loading state for pages whose content takes seconds (chain reads). */
+export function PageLoading({ label = "Loading from chain…" }: { label?: string }) {
+  return (
+    <div role="status" className="flex min-h-[40vh] flex-col items-center justify-center gap-3 text-sm text-fg-2">
+      <Spinner size={28} />
+      <span>{label}</span>
+    </div>
+  );
 }
 
 export function EmptyState({ icon: Icon = CircleDashed, title, children }: { icon?: LucideIcon; title: string; children?: ReactNode }) {

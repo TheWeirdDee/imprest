@@ -1,6 +1,6 @@
 "use client";
 
-import { formatUnitsFixed, ENFORCE_REASON } from "@imprest/core";
+import { formatUnitsFixed, ENFORCE_REASON, explorerAddress } from "@imprest/core";
 import { useDesk } from "@/lib/desk-context";
 import { usePoll } from "@/lib/desk";
 import { deskHistory, type DeskEvent } from "@/lib/history";
@@ -70,6 +70,7 @@ function describe(e: DeskEvent): { title: string; detail: string } {
 }
 
 export function HistoryList({ kinds }: { kinds?: DeskEvent["kind"][] }) {
+  const d = useDesk();
   const h = useHistory();
   if (h.loading && !h.data) return <Skeleton className="m-3 h-24" />;
   if (h.error && !h.data)
@@ -85,7 +86,16 @@ export function HistoryList({ kinds }: { kinds?: DeskEvent["kind"][] }) {
       {h.data?.source === "rpc-scan" && (
         <p role="status" className="border-b border-line bg-warn-bg px-3 py-2 text-xs text-warn">
           Indexer unavailable — blockchain data may be delayed. Showing a direct RPC scan of recent blocks
-          only.
+          only
+          {h.data.scannedSince
+            ? ` (since ${new Date(h.data.scannedSince * 1000).toLocaleString()}, about ${Math.max(1, Math.round((Date.now() / 1000 - h.data.scannedSince) / 60))} minutes)`
+            : ""}
+          .{" "}
+          {d.desk && explorerAddress(network, d.desk) && (
+            <a href={explorerAddress(network, d.desk)!} target="_blank" rel="noreferrer" className="underline">
+              See all of this desk&apos;s activity on Monadscan
+            </a>
+          )}
         </p>
       )}
       {rows.length === 0 ? (

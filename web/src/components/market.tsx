@@ -101,7 +101,7 @@ export function PriceChart({ m, height = 360 }: { m: MarketConfig; height?: numb
         </div>
         <span className="text-[10px] text-muted">Perpl market data</span>
       </div>
-      <div ref={el} style={{ height }} className="w-full" aria-label={`${m.symbol} price chart`} role="img" />
+      <div ref={el} style={{ height }} className="w-full" role="figure" aria-label={`${m.symbol} price chart (Perpl testnet candles)`} />
       {candles.error && !candles.data && (
         <div className="absolute inset-0 top-8 flex items-center justify-center bg-surface/80">
           <EmptyState icon={CandlestickChart} title="Chart data unavailable">

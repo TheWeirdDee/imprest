@@ -55,10 +55,11 @@ refused and anyone can call `enforce()` to close the desk. Your stake absorbs lo
 | --- | --- |
 | Browse the live BTC/ETH market, risk rules, proof and status | No wallet needed |
 | Create a passkey account, get test AUSD, open a desk, trade, close, claim | Needs testnet MON for gas: the hosted site has no public relayer, so you submit transactions yourself |
-| Watch risk, positions, history and receipts | History reads the chain directly; the indexer runs only on the developer's machine |
+| Watch risk, positions, history and receipts | Without the indexer (it runs only on the developer's machine), History reads the chain directly and covers only the most recent ~5,000 blocks (about half an hour) |
 
-Not available on the hosted site: gasless trading (the relayer is not publicly hosted), the
-Envio indexer, and passkey sign-in inside the native mobile app (it needs a linked domain).
+Not available on the hosted site: gasless trading (relayed intents were verified from a script;
+no relayer is publicly reachable from the browser), the Envio indexer, and passkey sign-in inside
+the native mobile app (it needs a linked domain).
 
 ## For judges: inspect without a wallet
 
@@ -66,6 +67,8 @@ Envio indexer, and passkey sign-in inside the native mobile app (it needs a link
 - [/status](https://imprest-chi.vercel.app/status): live RPC, Perpl and contract checks, plus protocol status from receipts.
 - [docs/CLAIM_LEDGER.md](docs/CLAIM_LEDGER.md): every claim and its evidence label.
 - [proof/receipts/testnet/](proof/receipts/testnet/): raw receipts, each read back on a second RPC.
+- [/api/version](https://imprest-chi.vercel.app/api/version): the commit the live site was built from.
+- Demo video: not recorded yet.
 - Reproduce locally: `pnpm proof:local` (contract suite on Perpl's own bytecode plus a reference model).
 
 ## What is proven, and how strongly

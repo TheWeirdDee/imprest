@@ -15,6 +15,8 @@ export interface DeskEvent {
 export interface HistoryResult {
   source: "indexer" | "rpc-scan";
   scannedBlocks?: string;
+  /** Block chunks that could not be read even after a retry (results are partial). */
+  missedChunks?: number;
   events: DeskEvent[];
 }
 
@@ -47,15 +49,29 @@ async function fromIndexer(desk: Address): Promise<DeskEvent[]> {
  * Bounded fallback: scans at most `maxBlocks` recent blocks. Monad's public RPC rejects
  * eth_getLogs ranges over 100 blocks, so the scan uses 100-block chunks, a few at a time.
  */
-async function fromRpc(desk: Address, maxBlocks = 5_000n, chunk = 100n, parallel = 5): Promise<{ events: DeskEvent[]; range: string }> {
+async function fromRpc(desk: Address, maxBlocks = 5_000n, chunk = 100n, parallel = 5): Promise<{ events: DeskEvent[]; range: string; missed: number }> {
   const pc = primaryClient();
   const head = await pc.getBlockNumber();
   const start = head > maxBlocks ? head - maxBlocks + 1n : 0n;
   const ranges: [bigint, bigint][] = [];
   for (let from = start; from <= head; from += chunk) ranges.push([from, from + chunk - 1n > head ? head : from + chunk - 1n]);
   const out: DeskEvent[] = [];
+  let missed = 0;
+  // One retry per chunk; a chunk that still fails is counted, not fatal (public RPCs rate-limit).
+  const read = async (fromBlock: bigint, toBlock: bigint) => {
+    try {
+      return await pc.getLogs({ address: desk, fromBlock, toBlock });
+    } catch {
+      try {
+        return await pc.getLogs({ address: desk, fromBlock, toBlock });
+      } catch {
+        missed++;
+        return [];
+      }
+    }
+  };
   for (let i = 0; i < ranges.length; i += parallel) {
-    const batch = await Promise.all(ranges.slice(i, i + parallel).map(([fromBlock, toBlock]) => pc.getLogs({ address: desk, fromBlock, toBlock })));
+    const batch = await Promise.all(ranges.slice(i, i + parallel).map(([fromBlock, toBlock]) => read(fromBlock, toBlock)));
     for (const l of batch.flat()) {
       try {
         const ev = decodeEventLog({ abi: deskAbi, data: l.data, topics: l.topics });
@@ -71,7 +87,8 @@ async function fromRpc(desk: Address, maxBlocks = 5_000n, chunk = 100n, parallel
       }
     }
   }
-  return { events: out.sort((a, b) => Number(b.blockNumber - a.blockNumber)), range: `${start}-${head}` };
+  if (missed === ranges.length) throw new Error("the RPC did not return any block range");
+  return { events: out.sort((a, b) => Number(b.blockNumber - a.blockNumber)), range: `${start}-${head}`, missed };
 }
 
 export async function deskHistory(desk: Address): Promise<HistoryResult> {
@@ -83,5 +100,5 @@ export async function deskHistory(desk: Address): Promise<HistoryResult> {
     }
   }
   const r = await fromRpc(desk);
-  return { source: "rpc-scan", scannedBlocks: r.range, events: r.events };
+  return { source: "rpc-scan", scannedBlocks: r.range, missedChunks: r.missed, events: r.events };
 }

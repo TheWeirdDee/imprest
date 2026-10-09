@@ -17,7 +17,7 @@ export function PositionsTable({ compact = false }: { compact?: boolean }) {
   if (rows.length === 0)
     return (
       <EmptyState title="No open positions">
-        The desk is flat. Flat desks accrue no new credit fees and can claim.
+        The desk is flat: no credit fee accrues. Claims need a flat desk and realized profit above the high-water mark, after fees.
       </EmptyState>
     );
   return (

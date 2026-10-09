@@ -90,7 +90,7 @@ async function checks(): Promise<{ rows: Row[]; at: string }> {
     ["Keeper", process.env.KEEPER_HEALTH_URL || null, ""],
   ] as const) {
     if (!url) {
-      rows.push({ name, state: "not-configured", detail: "not configured for this deployment" });
+      rows.push({ name, state: "not-configured", detail: "This website has no health endpoint configured for it, so its state is unknown here. That alone does not mean it is down; it is simply not reachable from this site." });
       continue;
     }
     const r = await timed(async () => {
@@ -126,6 +126,12 @@ async function checks(): Promise<{ rows: Row[]; at: string }> {
         : `${indexerUrl} · ${r.err} · Indexer unavailable — blockchain data may be delayed`,
     });
   }
+  const sha = process.env.NEXT_PUBLIC_BUILD_SHA ?? "unknown";
+  rows.unshift({
+    name: "This deployment",
+    state: sha === "unknown" ? "not-configured" : "up",
+    detail: `commit ${sha} · built ${process.env.NEXT_PUBLIC_BUILD_TIME ?? "unknown"} · ${process.env.NEXT_PUBLIC_BUILD_ENV ?? "unknown"} (also at /api/version)`,
+  });
   return { rows, at: new Date().toISOString() };
 }
 
@@ -137,7 +143,7 @@ function ProtocolStatus() {
     ["Perpl trading", "Perpl integration", v("TESTNET_CANONICAL_CLOSE_PAYOUT"), "a desk-owned Perpl account traded BTC and closed"],
     ["Risk enforcement", "Direct contract rejection", v("TESTNET_CANONICAL_GUARDED_REJECTION"), "6x order reverted LeverageExceeded with no app involved"],
     ["Settlement", "Payout by contract", v("TESTNET_CANONICAL_CLOSE_PAYOUT"), "verified on an independent RPC"],
-    ["Relayer", "Gasless trader-signed trades", v("TESTNET_RELAYED_TRADE"), v("TESTNET_RELAYED_TRADE") ? "a signed intent was submitted by the relayer and filled on Perpl" : "pending a relayed testnet trade"],
+    ["Relayer", "Gasless trader-signed trades", v("TESTNET_RELAYED_TRADE"), v("TESTNET_RELAYED_TRADE") ? "trader-signed intents submitted by the relayer filled on Perpl (sent from a script); gasless trading from this website is not available because no public relayer is configured" : "pending a relayed testnet trade"],
     ["Keeper", "Automated graduate / enforce", v("TESTNET_KEEPER_ACTION"), v("TESTNET_KEEPER_ACTION") ? "the keeper sent a contract-accepted action" : "running; no desk has needed an action yet"],
     ["Graduation", "Genuine +2% performance on testnet", v("TESTNET_CANONICAL_GRADUATION"), v("TESTNET_CANONICAL_GRADUATION") ? "a desk earned it and the pool funded the credit" : "pending a desk that actually earns it"],
     ["Profit claim", "Qualifying realized profit", v("TESTNET_CANONICAL_CLAIM_PAID"), v("TESTNET_CANONICAL_CLAIM_PAID") ? "paid by contract" : "pending genuine profit"],
@@ -192,7 +198,7 @@ export default async function StatusPage() {
                 )}
                 <div className="min-w-0">
                   <div className="text-sm font-medium">
-                    {r.name} <span className="ml-1 text-xs font-normal text-muted">{r.state === "up" ? "operational" : r.state === "down" ? "unavailable" : "not running"}</span>
+                    {r.name} <span className="ml-1 text-xs font-normal text-muted">{r.state === "up" ? "operational" : r.state === "down" ? "unreachable (health check failed)" : "not configured here"}</span>
                   </div>
                   <div className="num mt-0.5 text-xs break-all text-muted">{r.detail}</div>
                 </div>

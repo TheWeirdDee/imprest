@@ -1,15 +1,15 @@
 # Known limitations
 
-Honest list of what is not done, not proven, or depends on others.
+Honest list of what is not done, not proven, or depends on others. Updated 2026-10-09.
 
 ## Not yet done
 
 | Item | Status | Why | What unblocks it |
 | --- | --- | --- | --- |
-| Testnet profit claim | PENDING | Graduation is done (TESTNET VERIFIED); a claim needs realized profit above the tier-1 high-water mark on the live market | Trade the funded desk; never forced |
-| Relayer and keeper hosting | LOCAL HOST | Both run on this PC against testnet and are verified on-chain; not on a server | Host them on any Node server with the same .env |
-| Indexer hosting | LOCAL HOST | Runs in WSL (Envio has no Windows binary); not on a server | Docker host or Envio hosted service |
-| Mobile app on a device | PENDING | Built (`app/`), typechecked, tested, Android bundle compiles; passkeys need the app associated with a hosted domain and a native dev build | [MOBILE.md](MOBILE.md) |
+| Testnet profit claim | PENDING | Graduation is done (TESTNET VERIFIED). A claim needs genuine realized profit above the high-water mark after fees. Two real attempts on the funded desk lost money and were stopped. | Genuine profitable trading by a real user; no trading is done just to produce this evidence |
+| Relayer and keeper hosting | LOCAL HOST | Both run on the developer's PC against testnet and are verified on-chain (relayed intents were sent from a script). The hosted website has no public relayer, so **gasless trading from the browser is not available**; browser users submit and pay gas themselves. | Host them on a server with HTTPS and set `NEXT_PUBLIC_RELAYER_URL` |
+| Indexer hosting | LOCAL HOST | Runs in WSL (Envio has no Windows binary); not on a server. Without it the hosted History reads only the most recent 5,000 blocks (about half an hour) and says so. | Docker host or Envio hosted service |
+| Native mobile app | PARTIAL | The owner opened Home on an iPhone in Expo Go. The other tabs are not yet confirmed on a device. Passkey sign-in inside the native app needs a domain-linked development build. On a phone, the website in Safari or Chrome is the working path. | [MOBILE.md](MOBILE.md) |
 | Aurora (Tron/BSC -> Monad) and Kuru (USDC -> AUSD) funding | NOT BUILT | Not on the critical mechanism path; testnet AUSD comes from Agora's faucet | Separate integration |
 | Contract source verification on Monadscan | PENDING | Needs an explorer API key | `forge verify-contract` |
 | Buffered payout when Perpl rate-limits withdrawals | NOT IN V0 | DECISIONS D-011; claims/closes revert with a named error and can be retried | V1 |
@@ -26,8 +26,9 @@ Honest list of what is not done, not proven, or depends on others.
 | Keeper bounty covers Monad gas | needs real gas prices and enforce gas on Monad | a few MON | yes | testnet measures gas units; MON/AUSD price needed | yes |
 | Perpl builder ID revenue | Perpl assigns IDs offchain | none | yes (request) | n/a | yes |
 
-The testnet track proves the mechanism with real AUSD, since Perpl's testnet margins in
-Agora's testnet AUSD (DECISIONS D-001). Nothing on mainnet is claimed.
+The testnet track proves the mechanism with **testnet** AUSD (Agora's testnet token, which is
+what Perpl's testnet margins in; DECISIONS D-001). It has no monetary value. Nothing on mainnet
+is claimed.
 
 ## Results that went against the thesis
 
@@ -55,6 +56,6 @@ Agora's testnet AUSD (DECISIONS D-001). Nothing on mainnet is claimed.
 
 - DeskFactory (35 KB runtime) relies on Monad's 128 KiB contract limit, like Perpl itself;
   it is not deployable on EIP-170 chains as is.
-- The web app is dark-theme only.
+- The web app is light theme only, with black primary actions (owner decision 2026-10-09; an earlier dark theme was removed).
 - Mera is preview software; PRF support varies by browser and authenticator. Unsupported
   browsers get the exact `PRF_UNAVAILABLE` message.

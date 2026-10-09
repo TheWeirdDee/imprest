@@ -29,7 +29,7 @@ export default function Landing() {
     ["Real Perpl trades", v("TESTNET_CANONICAL_CLOSE_PAYOUT")],
     ["Contract settlement", v("TESTNET_CANONICAL_CLOSE_PAYOUT")],
     ["Independent RPC verification", v("TESTNET_CANONICAL_CLOSE_PAYOUT")],
-    ["Gasless relayed trades", v("TESTNET_RELAYED_TRADE")],
+    ["Relayed trades (script-submitted)", v("TESTNET_RELAYED_TRADE")],
     ["Earned graduation, keeper-executed", v("TESTNET_CANONICAL_GRADUATION") && v("TESTNET_KEEPER_ACTION")],
   ];
   const pending = [
@@ -76,7 +76,9 @@ export default function Landing() {
           <div className="mx-auto max-w-6xl px-4 py-12">
             <h2 className="text-xl font-semibold tracking-tight">How it works</h2>
             <p className="mt-1 text-sm text-fg-2">
-              Testnet demo cohort shown. Every step is a contract call you can verify.
+              Testnet demo cohort: a 2% equity-gain target over at least two completed trades, with no minimum
+              duration. These are the configured qualification rules, not anyone&apos;s results. Every step is
+              a contract call you can verify.
             </p>
             <ol className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
               {[
@@ -115,8 +117,38 @@ export default function Landing() {
             </ol>
             <p className="mt-6 text-sm text-fg-2">
               If equity falls 6% below where the tier started, or 3% in a day, new risk is refused and anyone
-              can close the desk. Your stake absorbs losses first.
+              can close the desk. Your stake absorbs losses first. The checks run when an order is placed:
+              prices can still move against an open position between orders, and a fast price gap can lose
+              more than your stake. The limits bound the risk; they do not prevent every loss.
             </p>
+          </div>
+        </section>
+
+        <section aria-labelledby="why" className="border-t border-line">
+          <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 md:grid-cols-2">
+            <div>
+              <h2 id="why" className="text-xl font-semibold tracking-tight">
+                Why Monad and Perpl
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-fg-2">
+                Each order runs the desk&apos;s rule checks, the Perpl fill and a post-fill equity check in
+                one transaction, so a rule can&apos;t be skipped by trading somewhere else. That needs an
+                onchain order book with a programmable account interface (Perpl), on a chain where a
+                multi-call trade is cheap (measured on Monad testnet: about 0.07 MON for a guarded relayed
+                trade).
+              </p>
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold tracking-tight">
+                How it differs from a prop-firm evaluation
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-fg-2">
+                The qualification rules, the trading limits and the payout split are contract code, not a
+                policy a company applies. The credit sits in the desk&apos;s own Perpl account and can only
+                flow back to the pool, so it can be lent without trusting the trader&apos;s custody. What it
+                does not have yet: real users, mainnet, or an independent audit.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -241,7 +273,7 @@ export default function Landing() {
                 ],
                 [
                   "Do I need gas?",
-                  "Yes, on this site. Transactions are signed by your passkey and paid with testnet MON from the Monad faucet. Gasless trading through the relayer works, but the relayer is not publicly hosted.",
+                  "Yes, on this site. Transactions are signed by your passkey and paid with testnet MON from the Monad faucet. Relayed (gasless) trades have been demonstrated from a script, but gasless trading is not available from this website because no public relayer is configured.",
                 ],
                 [
                   "Is there a mobile app?",
@@ -312,7 +344,12 @@ export default function Landing() {
       </main>
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-6 text-xs text-muted">
-          <span>Imprest · MIT · Monad, Perpl, Agora AUSD, Mera</span>
+          <span>
+            Imprest · MIT · Monad, Perpl, Agora AUSD, Mera · build{" "}
+            <a href={`https://github.com/TheWeirdDee/imprest/commit/${process.env.NEXT_PUBLIC_BUILD_SHA}`} className="num underline underline-offset-2 hover:text-fg">
+              {(process.env.NEXT_PUBLIC_BUILD_SHA ?? "unknown").slice(0, 7)}
+            </a>
+          </span>
           <nav aria-label="Footer" className="flex flex-wrap gap-4">
             <Link href="/docs/SECURITY.md" className="hover:text-fg">
               Security

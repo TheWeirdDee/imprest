@@ -68,6 +68,20 @@ const post = (body: unknown) =>
   handle(new Request("http://relayer/v1/intents", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }));
 
 describe("relayer", () => {
+  it("answers a browser CORS preflight with an empty 204 (regression: a body made it throw)", async () => {
+    const r = await handle(
+      new Request("http://relayer/v1/intents", {
+        method: "OPTIONS",
+        headers: { origin: "https://imprest-chi.vercel.app", "access-control-request-method": "POST", "access-control-request-headers": "content-type" },
+      }),
+    );
+    expect(r.status).toBe(204);
+    expect(await r.text()).toBe("");
+    expect(r.headers.get("access-control-allow-origin")).toBe("*");
+    expect(r.headers.get("access-control-allow-headers")).toContain("content-type");
+    expect(r.headers.get("access-control-allow-methods")).toContain("POST");
+  });
+
   it("submits a valid intent with exactly the signed fields", async () => {
     const dl = BigInt(NOW + 60);
     const sig = await sign(order, 1n, dl);

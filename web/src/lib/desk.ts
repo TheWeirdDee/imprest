@@ -31,21 +31,32 @@ export function usePoll<T>(fn: (() => Promise<T>) | null, ms: number, key: strin
   const [updatedAt, setUpdatedAt] = useState<number | null>(null);
   const fnRef = useRef(fn);
   fnRef.current = fn;
+  // Bumped whenever the key changes, so a response for a previous key (for example the account
+  // that just signed out) can never land in the new state.
+  const gen = useRef(0);
   const tick = useCallback(async () => {
     const f = fnRef.current;
     if (!f) return;
+    const g = gen.current;
     try {
       const v = await f();
+      if (g !== gen.current) return;
       setData(v);
       setError(null);
       setUpdatedAt(Date.now());
     } catch (e) {
+      if (g !== gen.current) return;
       setError((e as Error).message ?? String(e));
     } finally {
-      setLoading(false);
+      if (g === gen.current) setLoading(false);
     }
   }, []);
   useEffect(() => {
+    gen.current++;
+    // A new key means different data (another account, desk or market): never show the old one.
+    setData(null);
+    setError(null);
+    setUpdatedAt(null);
     if (!fn) {
       setLoading(false);
       return;
@@ -272,5 +283,27 @@ export function usePool() {
       : null,
     10_000,
     "pool",
+  );
+}
+
+/**
+ * Outcome of a closed desk, read from the contract's own totals (no event scan needed):
+ * everything paid to the trader (claims plus the final settlement remainder) and why it closed.
+ */
+export function useDeskOutcome(desk: Address | null, closed: boolean) {
+  return usePoll(
+    desk && closed
+      ? async () => {
+          const pc = primaryClient();
+          const [paidToTrader, reason, feeCollected] = await Promise.all([
+            pc.readContract({ address: desk, abi: deskAbi, functionName: "totalPaidToTrader" }) as Promise<bigint>,
+            pc.readContract({ address: desk, abi: deskAbi, functionName: "enforceReason" }) as Promise<number>,
+            pc.readContract({ address: desk, abi: deskAbi, functionName: "feeCollected" }) as Promise<bigint>,
+          ]);
+          return { paidToTrader, reason: Number(reason), feeCollected };
+        }
+      : null,
+    60_000,
+    `outcome:${desk}:${closed}`,
   );
 }

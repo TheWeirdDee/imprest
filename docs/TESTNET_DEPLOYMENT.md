@@ -1,8 +1,12 @@
 # Testnet deployment runbook
 
-Everything up to broadcasting is built, tested and rehearsed against a fork of live Monad
-testnet (deploy, receipt sync, canonical run). The remaining steps need a funded key, which
-only the owner can provide.
+> **Status (2026-10-09): already deployed** on Monad testnet on 2026-10-07: ImprestPool
+> `0x85fFff6B1e8e62d2cE8ACA45B69AE530C6FbF457`, DeskFactory
+> `0x1569EE4A7210e226db932B5B7633E63d3AC8c544`, with a separate operator and treasury. Receipts:
+> `proof/receipts/deployments/`. Use this runbook only to redeploy (a redeploy changes every
+> address and invalidates the existing testnet evidence).
+
+The steps below were built, rehearsed against a fork of live Monad testnet, and then run for real.
 
 ## Why this step is manual
 
@@ -19,8 +23,8 @@ Agora's faucet contract `requestFunds(address)` is called by the scripts.
    Put the private key in `.env` (gitignored) as `DEPLOYER_PRIVATE_KEY=0x...`.
 2. **Fund the address with testnet MON** at https://faucet.monad.xyz (2 MON is enough for
    the deployment, pool seed and one canonical run; Monad charges the gas limit).
-3. Optional: set `IMPREST_OPERATOR` / `IMPREST_TREASURY` to other addresses. By default the
-   deployer is both.
+3. Set `IMPREST_OPERATOR` and `IMPREST_TREASURY` to separate addresses (the live deployment
+   does). If unset, the deployer is both.
 
 **Evidence to keep:** the faucet transaction or a screenshot of the funded balance is not
 needed; every deployment fact is captured by the scripts below.

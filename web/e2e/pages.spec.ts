@@ -61,3 +61,14 @@ for (const width of [320, 375, 390, 414, 768, 1024, 1280, 1440]) {
     }
   });
 }
+
+// Regression: without an indexer, History falls back to a chain scan. Monad's RPC rejects
+// eth_getLogs ranges over 100 blocks; the scan must not fail (it once used 1,000-block chunks).
+test("history loads from the chain scan when no indexer is configured", async ({ page }) => {
+  test.skip(Boolean(process.env.NEXT_PUBLIC_INDEXER_URL), "an indexer is configured for this run");
+  test.setTimeout(120_000);
+  await page.addInitScript((addr) => localStorage.setItem("imprest.account.v1.testnet", JSON.stringify({ address: addr, kind: "mera" })), TRADER);
+  await page.goto("/app/history", { waitUntil: "networkidle" });
+  await expect(page.getByText(/Source: bounded RPC scan of blocks \d+-\d+/)).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByText("History unavailable")).toHaveCount(0);
+});

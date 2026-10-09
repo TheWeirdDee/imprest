@@ -12,6 +12,7 @@ import { Button, Card, KV, Notice } from "@/components/ui";
 import { RequireDesk } from "@/components/gates";
 import { TxStatus } from "@/components/tx-status";
 import { HistoryList } from "@/components/history";
+import { ClosedDeskCard } from "@/components/closed-desk";
 
 export default function ClaimsPage() {
   const a = useAccount();
@@ -41,7 +42,8 @@ export default function ClaimsPage() {
         <Wallet size={20} aria-hidden className="text-accent" /> Claims and payout
       </h1>
       <RequireDesk what="claims">
-        {r && p && s && t && split && (
+        {d.closed && <ClosedDeskCard />}
+        {r && p && s && t && split && !d.closed && (
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
             <div className="flex min-w-0 flex-col gap-4">
               {!r.flat && (
@@ -167,9 +169,12 @@ export default function ClaimsPage() {
                   ))}
                 </ul>
                 <p className="mt-3 text-xs leading-relaxed text-muted">
-                  {split.gross > 0n
-                    ? "Eligible: the contract will pay the split shown."
-                    : `Needs ${ausd(r.hwm - (r.equity - s.unrealized))} AUSD more realized equity before anything is claimable.`}
+                  {(() => {
+                    if (split.gross > 0n) return "Eligible: the contract will pay the split shown.";
+                    // Realized equity must exceed the high-water mark plus fees still owed (fees are netted first).
+                    const short = r.hwm + r.feeOutstanding - (r.equity - s.unrealized) + 1n;
+                    return `Realized equity must rise ${ausd(short, short < 10_000n ? 6 : 2)} AUSD to exceed the high-water mark (${ausd(r.hwm)} AUSD) after fees owed${r.flat ? "" : ", with all positions closed"}.`;
+                  })()}
                 </p>
               </Card>
               <Card title="Performance">

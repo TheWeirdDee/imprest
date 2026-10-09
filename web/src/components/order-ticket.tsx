@@ -222,6 +222,18 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
     });
   };
 
+  // A settled desk has no live limits: estimates and policy messages would only read as a breach.
+  if (d.closed) {
+    return (
+      <Notice tone="info" title="This desk is closed and settled">
+        Open a new desk to trade.{" "}
+        <Link href="/app/desk" className="underline">
+          Open a desk
+        </Link>
+      </Notice>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-3">
       <div role="group" aria-label="Side" className="grid grid-cols-2 gap-1 rounded-lg bg-surface-2 p-1">

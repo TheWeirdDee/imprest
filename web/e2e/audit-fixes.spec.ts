@@ -31,10 +31,23 @@ test.describe("closed desk", () => {
     await expect(page.getByText("How close am I to losing my desk?")).toHaveCount(0);
   });
 
-  test("the trade ticket says the desk is closed and cannot submit", async ({ page }) => {
+  test("trade shows one settled-desk message: no risk meter, estimates, breach messages or submit", async ({ page }) => {
     await page.goto("/app/trade/btc", { waitUntil: "networkidle" });
-    await expect(page.getByText("This desk is closed")).toBeVisible({ timeout: 30_000 });
-    await expect(page.getByRole("button", { name: /Buy \/ Long BTC/ })).toBeDisabled();
+    await expect(page.getByText("This desk is closed and settled")).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByRole("button", { name: /Buy \/ Long BTC|Sell \/ Short BTC/ })).toHaveCount(0);
+    await expect(page.getByText(/Distance to (desk floor|daily loss limit)/)).toHaveCount(0);
+    await expect(page.getByText(/above the nearest limit|Below a loss limit|daily loss limit reached|below floor/i)).toHaveCount(0);
+    await expect(page.getByRole("region", { name: "Policy check" })).toHaveCount(0);
+  });
+
+  test("desk page shows the settlement, no graduation progress or Graduate action", async ({ page }) => {
+    await page.goto("/app/desk", { waitUntil: "networkidle" });
+    await expect(page.getByRole("heading", { name: "Desk closed" })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText(/closed at this tier/)).toBeVisible();
+    await expect(page.getByText(/^Progress to /)).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /Graduate/ })).toHaveCount(0);
+    await expect(page.getByText(/-100\.00%/)).toHaveCount(0);
+    await expect(page.getByText("current", { exact: true })).toHaveCount(0);
   });
 });
 

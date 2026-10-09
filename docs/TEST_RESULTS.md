@@ -15,7 +15,7 @@ physical device.
 | `pnpm -r typecheck` | clean |
 | `pnpm --filter @imprest/web build` | clean |
 | `cd app && npm ci && npm run typecheck && npm test && npm run bundle:check` | clean install (no `--force`), typecheck clean, 3/3, Android export OK; iOS export OK |
-| `PW_PORT=3400 pnpm test:e2e` (Playwright, Chromium, fresh production server, no indexer, live testnet RPCs) | **69 passed, 0 failed** in 7.9 min (2026-10-09). 24 opt-in screenshot tests are skipped by design. The 69th test is a regression check that History loads from the chain scan without an indexer. |
+| `PW_PORT=3400 pnpm test:e2e` (Playwright, Chromium, fresh production server, live testnet RPCs) | **80 passed, 0 failed** (2026-10-09, after the walkthrough-audit fixes). 25 skipped by design: 24 opt-in screenshots, plus the no-indexer History test, which skips itself when the build has an indexer (CI builds without one and runs it). |
 
 Browser suite contents:
 
@@ -33,11 +33,13 @@ Test count history:
 - 56 after the passkey and theme tests were added;
 - 51 after dark mode was removed (6 theme tests out, 1 contrast test restored);
 - 68 after 14 accessibility pages and 3 session edge cases were added;
-- 69 now (plus the no-indexer History regression).
+- 69 after the no-indexer History regression;
+- 70 after the no-blue check (`monochrome.spec.ts`);
+- 81 now: 11 walkthrough-audit regressions (`audit-fixes.spec.ts`). Closed-desk view, sign-out clearing (fails on the old polling hook), claim shortfall, rejection-test gating, stricter-limit preview, input validation, `/api/version`, proof explorer links, status wording.
 
 ## Hosted (https://imprest-chi.vercel.app)
 
-- `/` returns 200, served by Vercel. The deployed commit is not exposed; the hosted copy predates this pass.
+- Historical (2026-10-08): `/` returned 200 but the deployed commit was not exposed. Since 2026-10-09 it is: `GET /api/version` returns `{ commit, builtAt, deployment }`.
 - From the earlier pass: a fresh clone of `main`, built as Vercel builds it, served every route with status 200.
 - The hosted relayer, keeper health and indexer are not configured, and /status says so.
 - Without the indexer, History scans only the most recent 5,000 blocks (about half an hour), and says so. Before this fix, that scan failed on every hosted visit.

@@ -84,7 +84,8 @@ export function HistoryList({ kinds }: { kinds?: DeskEvent["kind"][] }) {
       )}
       <p className="border-t border-line px-3 py-2 text-[11px] text-muted">
         Source: {h.data?.source === "indexer" ? "Envio indexer (display only)" : `bounded RPC scan of blocks ${h.data?.scannedBlocks ?? ""} (indexer unavailable)`}.
-        History never authorizes money movement.
+        {h.data?.missedChunks ? ` ${h.data.missedChunks} of 50 block ranges could not be read this time; refreshing.` : ""}
+        {" "}History never authorizes money movement.
       </p>
     </div>
   );

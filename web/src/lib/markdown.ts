@@ -54,9 +54,9 @@ export function renderMarkdown(md: string): string {
       const body: string[][] = [];
       while (i < lines.length && /^\|.*\|\s*$/.test(lines[i]!)) body.push(cells(lines[i++]!));
       html.push(
-        `<table><thead><tr>${head.map((c) => `<th>${inline(c)}</th>`).join("")}</tr></thead><tbody>${body
+        `<div class="table-scroll" role="region" aria-label="Table" tabindex="0"><table><thead><tr>${head.map((c) => `<th>${inline(c)}</th>`).join("")}</tr></thead><tbody>${body
           .map((r) => `<tr>${r.map((c) => `<td>${inline(c)}</td>`).join("")}</tr>`)
-          .join("")}</tbody></table>`,
+          .join("")}</tbody></table></div>`,
       );
       continue;
     }

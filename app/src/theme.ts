@@ -10,17 +10,17 @@ export const c = {
   lineStrong: "#d3cfc5",
   fg: "#16181c",
   fg2: "#3f444c",
-  muted: "#6b6f78",
-  accent: "#3346c4",
-  accentBg: "#eceefb",
+  muted: "#5b5f68",
+  accent: "#16181c",
+  accentBg: "#ebe9e3",
   safe: "#1e7a4b",
   safeBg: "#e8f2ec",
   warn: "#8a5f0d",
   warnBg: "#f8f0de",
   breach: "#b3322a",
   breachBg: "#faeceb",
-  long: "#1d8650",
-  short: "#c0392f",
+  long: "#17744a",
+  short: "#b02f26",
 };
 
 export const mono = "monospace";

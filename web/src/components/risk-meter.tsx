@@ -31,8 +31,12 @@ export function RiskMeter({ r, compact = false }: { r: RiskState; compact?: bool
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div className={cx("flex items-center gap-2 font-semibold", tone, compact ? "text-sm" : "text-base")}>
           <Icon size={compact ? 15 : 18} aria-hidden />
-          {level === "breach" ? (
-            <span>Below a loss limit. New orders are refused; anyone can call enforce().</span>
+          {r.status === 2 ? (
+            <span>Desk closed and settled. Risk limits no longer apply.</span>
+          ) : r.status === 1 ? (
+            <span>Enforcement in progress: positions are being closed and the desk will settle.</span>
+          ) : level === "breach" ? (
+            <span>Below a loss limit. New orders are refused, and anyone can now close the desk (enforce).</span>
           ) : (
             <span>
               <span className="num">{ausd(tightest)}</span> AUSD above the nearest limit
@@ -41,7 +45,8 @@ export function RiskMeter({ r, compact = false }: { r: RiskState; compact?: bool
         </div>
         {!compact && (
           <div className="text-xs text-muted">
-            <span className="num">{Math.round(bufferLeft * 100)}%</span> of the drawdown buffer left
+            <span className="num">{ausd(distance > 0n ? distance : 0n)}</span> of{" "}
+            <span className="num">{ausd(r.startEquity - r.floor)}</span> AUSD drawdown buffer left ({Math.round(bufferLeft * 100)}%)
           </div>
         )}
       </div>

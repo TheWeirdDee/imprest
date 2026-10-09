@@ -17,6 +17,8 @@ export interface HistoryResult {
   scannedBlocks?: string;
   /** Block chunks that could not be read even after a retry (results are partial). */
   missedChunks?: number;
+  /** Unix time (s) of the first scanned block, so the UI can say how far back the scan reaches. */
+  scannedSince?: number;
   events: DeskEvent[];
 }
 
@@ -49,7 +51,7 @@ async function fromIndexer(desk: Address): Promise<DeskEvent[]> {
  * Bounded fallback: scans at most `maxBlocks` recent blocks. Monad's public RPC rejects
  * eth_getLogs ranges over 100 blocks, so the scan uses 100-block chunks, a few at a time.
  */
-async function fromRpc(desk: Address, maxBlocks = 5_000n, chunk = 100n, parallel = 5): Promise<{ events: DeskEvent[]; range: string; missed: number }> {
+async function fromRpc(desk: Address, maxBlocks = 5_000n, chunk = 100n, parallel = 5): Promise<{ events: DeskEvent[]; range: string; missed: number; since?: number }> {
   const pc = primaryClient();
   const head = await pc.getBlockNumber();
   const start = head > maxBlocks ? head - maxBlocks + 1n : 0n;
@@ -88,7 +90,11 @@ async function fromRpc(desk: Address, maxBlocks = 5_000n, chunk = 100n, parallel
     }
   }
   if (missed === ranges.length) throw new Error("the RPC did not return any block range");
-  return { events: out.sort((a, b) => Number(b.blockNumber - a.blockNumber)), range: `${start}-${head}`, missed };
+  const since = await pc
+    .getBlock({ blockNumber: start })
+    .then((b) => Number(b.timestamp))
+    .catch(() => undefined);
+  return { events: out.sort((a, b) => Number(b.blockNumber - a.blockNumber)), range: `${start}-${head}`, missed, since };
 }
 
 export async function deskHistory(desk: Address): Promise<HistoryResult> {
@@ -100,5 +106,5 @@ export async function deskHistory(desk: Address): Promise<HistoryResult> {
     }
   }
   const r = await fromRpc(desk);
-  return { source: "rpc-scan", scannedBlocks: r.range, missedChunks: r.missed, events: r.events };
+  return { source: "rpc-scan", scannedBlocks: r.range, missedChunks: r.missed, scannedSince: r.since, events: r.events };
 }

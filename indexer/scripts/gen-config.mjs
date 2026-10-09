@@ -1,6 +1,6 @@
 // Builds config.yaml from config/networks.json (the single source of addresses) and
 // copies compiled ABIs. Refuses to emit a config for an environment with no deployment.
-import { readFileSync, writeFileSync, copyFileSync } from "node:fs";
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -9,7 +9,12 @@ const root = resolve(here, "../..");
 const env = process.env.IMPREST_ENV ?? "testnet";
 const net = JSON.parse(readFileSync(resolve(root, "config/networks.json"), "utf8"))[env];
 const out = (n) => JSON.parse(readFileSync(resolve(root, `contracts/out/${n}.sol/${n}.json`), "utf8")).abi;
-for (const n of ["Desk", "DeskFactory", "ImprestPool"]) writeFileSync(resolve(here, `../abis/${n}.json`), JSON.stringify(out(n), null, 1));
+// Refresh ABIs from a local forge build when present; otherwise (fresh clone, CI) keep the
+// committed indexer/abis/*.json, which are generated from the same contracts.
+for (const n of ["Desk", "DeskFactory", "ImprestPool"]) {
+  if (existsSync(resolve(root, `contracts/out/${n}.sol/${n}.json`))) writeFileSync(resolve(here, `../abis/${n}.json`), JSON.stringify(out(n), null, 1));
+  else if (!existsSync(resolve(here, `../abis/${n}.json`))) throw new Error(`missing ABI for ${n}: run forge build in contracts/`);
+}
 copyFileSync(resolve(root, "contracts/perpl-artifacts/Exchange.abi.json"), resolve(here, "../abis/PerplExchange.json"));
 
 const dry = process.argv.includes("--example");

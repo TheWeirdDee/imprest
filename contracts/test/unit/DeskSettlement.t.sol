@@ -432,4 +432,65 @@ contract DeskSettlementTest is ImprestFixture {
         desk.close();
         vm.stopPrank();
     }
+
+    // ================= audit additions (2026-10-09) =================
+
+    /// Graduation needs idle pool capital for the credit. If LPs have withdrawn it, graduate()
+    /// reverts with InsufficientIdle and the desk is left exactly as it was (still tier 0, no credit).
+    function test_graduation_insufficientPoolLiquidityRevertsAndLeavesDeskUnchanged() public {
+        _profitableRoundTrip(desk, 400, 100);
+        _profitableRoundTrip(desk, 400, 100);
+        uint256 out = pool.maxWithdraw(lp);
+        vm.prank(lp);
+        pool.withdraw(out, lp, lp);
+        uint256 credit = STAKE * 4; // demo tier 1: 5x desk, so 4x stake of credit
+        uint256 idle = pool.idleAssets();
+        assertLt(idle, credit);
+        vm.prank(keeper);
+        vm.expectRevert(abi.encodeWithSelector(E.InsufficientIdle.selector, credit, idle));
+        desk.graduate();
+        assertEq(desk.tier(), 0);
+        assertEq(desk.borrowed(), 0);
+        assertEq(pool.principalOf(address(desk)), 0);
+    }
+
+    /// A profitable claim on a funded desk: fees are paid first, then the net profit is split
+    /// exactly 80% trader / 5% protocol / remainder pool, nothing is created or lost, equity
+    /// returns to the high-water mark, and a second claim reverts.
+    function test_claim_payoutSplitIsExactAfterFeesAndCannotRepeat() public {
+        _graduate(desk);
+        _trade(desk, _buy(BTC, 1_000, 500));
+        _advance(2 days);
+        _moveBtc(btcMark * 10_080 / 10_000);
+        _trade(desk, _closeLong(BTC, 1_000));
+
+        uint256 eq = uint256(_eq(desk));
+        uint256 hwm = desk.hwm();
+        uint256 fees = desk.feeOutstanding();
+        assertGt(fees, 0, "funded desk accrued a fee while exposed");
+        assertGt(eq, hwm + fees, "genuine profit above HWM after fees");
+        uint256 net = eq - hwm - fees;
+
+        uint256 traderBefore = usd.balanceOf(traderA);
+        uint256 treasuryBefore = usd.balanceOf(treasury);
+        uint256 poolShareBefore = pool.totalProfitShare();
+        uint256 poolFeesBefore = pool.totalFeesCollected();
+
+        vm.prank(traderA);
+        desk.claim();
+
+        uint256 traderGot = usd.balanceOf(traderA) - traderBefore;
+        uint256 protocolGot = usd.balanceOf(treasury) - treasuryBefore;
+        uint256 poolGot = pool.totalProfitShare() - poolShareBefore;
+        assertEq(pool.totalFeesCollected() - poolFeesBefore, fees, "fees paid first, in full");
+        assertEq(traderGot, (net * 8_000) / 10_000, "trader 80% of net");
+        assertEq(protocolGot, (net * 500) / 10_000, "protocol 5% of net");
+        assertEq(traderGot + protocolGot + poolGot, net, "split conserves the net profit");
+        assertEq(desk.feeOutstanding(), 0);
+        assertEq(uint256(_eq(desk)), hwm, "equity back at the high-water mark");
+
+        vm.prank(traderA);
+        vm.expectRevert(E.NothingToClaim.selector);
+        desk.claim();
+    }
 }

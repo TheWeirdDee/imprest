@@ -12,7 +12,7 @@ All colors, radii and type come from tokens in `web/src/app/globals.css`. The pr
 | `--color-fg` / `-fg-2` / `-muted` | graphite → grey | primary, secondary, muted text |
 | `--color-line` / `-line-strong` | subtle / strong border | borders |
 | `--color-primary` / `-primary-hover` / `--color-on-primary` | black `#16181c` / `#2c3038` / white | primary buttons, logo |
-| `--color-accent` / `-accent-bg` | indigo `#3346c4` | links, focus rings, active navigation, selected tabs, progress |
+| `--color-accent` / `-accent-bg` | graphite `#16181c` / warm grey `#ebe9e3` | links, focus rings, active navigation, selected tabs, progress (monochrome: no blue anywhere, owner decision 2026-10-09; tested by `e2e/monochrome.spec.ts`) |
 | `--color-safe` / `warn` / `breach` / `info` (+ `-bg`) | muted semantic | status, always paired with an icon and a word |
 | `--color-long` / `--color-short` | green / red | trading direction only |
 | `--radius-sm` / `-md` / `-lg` | 6 / 8 / 12 px | controls / cards / sheets |
@@ -117,3 +117,9 @@ summary, submit). Everything is in one vertical column.
   - overflow again at 320–1440 px with a funded desk loaded (the testnet trader's public address remembered, no key).
 - `web/e2e/contrast.spec.ts`: WCAG contrast of at least 3:1 for every text element on 12 pages.
 - `web/e2e/visual.spec.ts` (opt-in, `SCREENSHOTS=1`): full-page screenshots per width and page into `proof/screenshots/`. Filters: `SHOT_WIDTHS`, `SHOT_PAGES`, `SHOT_ACCOUNT`.
+
+## Loading, metadata and icons
+
+- **Loading:** every data placeholder (`Skeleton`) shows a spinner and announces "Loading". Pages that read the chain for several seconds use `PageLoading`: a spinner plus what is being read, as on the LP console. `/status` runs its checks on the server and has a route-level loading screen. There is no root-level loading screen, because one makes unknown URLs return 200 instead of 404.
+- **Metadata:** the root layout sets the title template, description, keywords, canonical URL, Open Graph and Twitter `summary_large_image` tags. `opengraph-image.tsx` and `twitter-image.tsx` render a 1200×630 card. Every route has its own title and description; client pages get theirs from a small `layout.tsx`. Set `NEXT_PUBLIC_SITE_URL` if the site moves off `imprest-chi.vercel.app`.
+- **Icons:** `app/icon.svg`, `app/favicon.ico` (16–64 px) and `app/apple-icon.png` (180 px), all the Imprest logo. Regenerate the raster icons with `python -I scripts/make-icons.py`.

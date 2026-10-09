@@ -103,7 +103,7 @@ export default function TradePage({ params }: { params: Promise<{ market: string
             </div>
           </section>
 
-          {d.risk.data && (
+          {d.risk.data && !d.closed && (
             <Card title="Risk" pad>
               <RiskMeter r={d.risk.data} compact />
             </Card>

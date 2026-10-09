@@ -1,16 +1,17 @@
 import { expect, test } from "@playwright/test";
 
-test("money shot shows PENDING, never zero, for unmeasured mainnet results", async ({ page }) => {
+test("unmeasured mainnet results show PENDING, never zero", async ({ page }) => {
   await page.goto("/proof");
-  const money = page.locator("main section").first();
-  await expect(money.getByText("PENDING").first()).toBeVisible();
-  await expect(money).not.toContainText(/\b0(\.00)? AUSD\b/);
+  const pending = page.locator("section").filter({ has: page.getByRole("heading", { name: "Not yet proven" }) }).first();
+  await expect(pending.getByText("PENDING").first()).toBeVisible();
+  await expect(pending).not.toContainText(/\b0(\.00)? AUSD\b/);
 });
 
 test("proof page labels local and simulated results as such", async ({ page }) => {
   await page.goto("/proof");
-  await expect(page.getByText("Local reproduction").first()).toBeVisible();
-  await expect(page.getByText("Simulated").first()).toBeVisible();
+  // Match the evidence badges exactly (methodology text inside collapsed details also says "simulated").
+  await expect(page.getByText("Local reproduction", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Simulated", { exact: true }).first()).toBeVisible();
   await expect(page.getByText(/null threshold/i).first()).toBeVisible();
 });
 

@@ -10,7 +10,15 @@ const remember = (page: Page, address: string) =>
   page.addInitScript((a) => localStorage.setItem("imprest.account.v1.testnet", JSON.stringify({ address: a, kind: "mera" })), address);
 
 test.describe("closed desk", () => {
-  test.beforeEach(async ({ page }) => remember(page, CLOSED_TRADER));
+  // The owner opened a newer desk on 2026-10-12, so the closed desk 0x4802…bFaD is selected explicitly
+  // with the desk picker's remembered choice (the same thing choosing it in the picker does).
+  test.beforeEach(async ({ page }) => {
+    await remember(page, CLOSED_TRADER);
+    await page.addInitScript(
+      ([a, d]) => localStorage.setItem(`imprest.desk.selected.${a.toLowerCase()}`, d),
+      [CLOSED_TRADER, "0x480227b5a9c4ef965dc61ee60A5A666A336bbFaD"],
+    );
+  });
 
   test("dashboard shows the settlement, not withdrawal as a trading loss", async ({ page }) => {
     await page.goto("/app", { waitUntil: "networkidle" });
@@ -120,4 +128,18 @@ test("status distinguishes 'not configured' from 'down' and shows the build", as
   await page.goto("/status", { waitUntil: "networkidle" });
   await expect(page.getByText("This deployment")).toBeVisible();
   await expect(page.getByText(/not running/)).toHaveCount(0);
+});
+
+test("the desk picker lists every desk of the account and switches the view", async ({ page }) => {
+  await remember(page, CLOSED_TRADER);
+  await page.goto("/app", { waitUntil: "networkidle" });
+  const picker = page.getByRole("combobox", { name: "Choose desk" });
+  await expect(picker).toBeVisible({ timeout: 30_000 });
+  await expect(picker.locator("option")).toHaveCount(2);
+  await picker.selectOption({ index: 1 }); // the older, closed desk
+  await expect(page.getByRole("heading", { name: "Desk closed" })).toBeVisible({ timeout: 30_000 });
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Desk closed" })).toBeVisible({ timeout: 30_000 });
+  await picker.selectOption({ index: 0 }); // back to the latest, active desk
+  await expect(page.getByRole("heading", { name: "Desk closed" })).toHaveCount(0);
 });

@@ -95,10 +95,24 @@ export function tradeAction(
   via: "self" | "relayer",
   label: string,
 ): ActionSpec {
-  let primaryLotsAfter: string | null = null;
   return {
     label,
-    expect: async () => ({ tradeExecuted: "true", positionLots: "from-primary-receipt" }),
+    expect: async () => ({ tradeExecuted: "true" }),
+    // From the PRIMARY RPC's receipt: the desk's TradeExecuted event says what the venue position was
+    // before and after. These numbers are then checked against Perpl state read on the SECOND RPC.
+    expectAfterReceipt: (receipt): Record<string, string> => {
+      const ev = tradeEventFrom(receipt.logs as any, desk);
+      if (!ev) return { tradeExecuted: "true", positionLots: "no TradeExecuted event in the primary receipt" };
+      const before = BigInt(ev.lotsBefore);
+      const after = BigInt(ev.lotsAfter);
+      const changed = after > before ? after - before : before - after;
+      return {
+        tradeExecuted: "true",
+        positionLots: s(after),
+        filledLots: s(changed),
+        fill: changed === 0n ? "none" : changed >= o.lots ? "full" : "partial",
+      };
+    },
     send: async () => {
       let hash: Hex;
       if (via === "self") {
@@ -128,19 +142,20 @@ export function tradeAction(
         if (!r.ok) throw Object.assign(new Error(j.error ?? `relayer ${r.status}`), { data: j.revertData });
         hash = j.txHash as Hex;
       }
-      const rc = await primaryClient().waitForTransactionReceipt({ hash, timeout: 60_000 });
-      const ev = tradeEventFrom(rc.logs as any, desk);
-      primaryLotsAfter = ev ? s(ev.lotsAfter) : null;
       return hash;
     },
     observe: async (c, bn, receipt) => {
+      // `receipt` here is the SECOND RPC's copy; the position is read from Perpl on that RPC at the block.
       const ev = tradeEventFrom(receipt.logs as any, desk);
       const pos = await readAt<any>(c, { address: network.perpl.exchange!, abi: perplExchangeAbi as any, functionName: "getPosition", args: [o.perpId, accountId] }, bn);
-      const lotsOnVerifyRpc = s(pos[0].lotLNS);
+      const lots = BigInt(pos[0].lotLNS);
+      const before = ev ? BigInt(ev.lotsBefore) : null;
+      const changed = before === null ? null : lots > before ? lots - before : before - lots;
       return {
         tradeExecuted: ev ? "true" : "false",
-        // equal only when the primary receipt's reported fill matches independent venue state
-        positionLots: primaryLotsAfter !== null && primaryLotsAfter === lotsOnVerifyRpc ? "from-primary-receipt" : `primary ${primaryLotsAfter} vs verify ${lotsOnVerifyRpc}`,
+        positionLots: s(lots),
+        filledLots: changed === null ? "unknown" : s(changed),
+        fill: changed === null ? "unknown" : changed === 0n ? "none" : changed >= o.lots ? "full" : "partial",
       };
     },
   };

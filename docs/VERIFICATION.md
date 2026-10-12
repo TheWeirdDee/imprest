@@ -93,3 +93,45 @@ Then, for either option:
 - The relayer wallet holds about 4.83 MON, enough for about 65 relayed trades. Abuse is limited: only
   registered desks, valid trader signatures, simulation before sending, 20 intents per trader per minute (RELAYER_QUOTA_PER_TRADER_PER_MIN; lower it for a public relayer),
   and a gas cap.
+
+## 4. Update 2026-10-12: owner walkthrough on desk `0x640a…5DBf`
+
+What the owner did in the live site (OBSERVED by the owner; transactions checked on Monadscan):
+
+| Step | Transaction | Result |
+| --- | --- | --- |
+| Approve 100 AUSD | `0x53ca5b57…26e093` | Allowance 100 AUSD, read back on the second RPC at block 70360557 |
+| Open desk | `0x16172296…483a15` | Desk `0x640ac0F4a2191Ae5A9522291fE4bca786d515DBf`, Perpl account 1127, demo cohort |
+| Open 0.001 BTC long | `0x24324645…d8bc50` | Entry 83,448.6 |
+| Close (manual short, reduce-only) | `0x84f6914a…dfc175` | Flat; gas 0.058 MON |
+| Profit claim | **none** | Equity 99.911529 vs HWM 100: no profit, so the button was correctly disabled |
+
+**Claimable desks for wallet `0x976C…25fE`** (READ, second RPC `rpc-testnet.monadinfra.com`, block 70376530):
+
+| Desk | Status | Flat | Equity | HWM | Fees | Eligible profit |
+| --- | --- | --- | --- | --- | --- | --- |
+| `0x480227b5a9c4ef965dc61ee60A5A666A336bbFaD` | Closed | yes | 0 | 100.000000 | 0 | — (closed) |
+| `0x640ac0F4a2191Ae5A9522291fE4bca786d515DBf` | Active, Evaluation | yes | 99.911529 | 100.000000 | 0 | **0**: not claimable |
+
+There is no genuinely profitable desk this wallet owns, so a browser profit claim **cannot be performed today**
+without new profitable trading. Nothing was traded or changed to manufacture one. Contract tests cover
+the claim instead (section 1, plus `test_claim_zeroProfitRejected`).
+
+Fixes from this walkthrough (agent-executed tests at the commit that adds this section):
+
+| Item | Fix | Test |
+| --- | --- | --- |
+| "Close" did nothing | It was a link to the page you were already on, with no pre-fill. Now a **Close position** button (sticky in the table, full-width on phones) pre-fills opposite side, current size, reduce-only and IOC, scrolls to the ticket and says what was prepared. Never auto-submits. The position is re-read before signing (already flat: nothing sent; size changed: updated and asks again). | `close-position.spec.ts` (BTC long/short, ETH long, keyboard, 390 px, flat desk, desktop reach without horizontal scroll). The position read is intercepted; nothing is sent. |
+| Receipt showed `from-primary-receipt` | Expected values are now filled from the primary receipt's `TradeExecuted` event (numeric position size, filled lots, full/partial/none) and compared with Perpl `getPosition` on the second RPC at the same block | typecheck; next real trade shows numbers |
+| "Policy check BLOCKED" after a successful close | After a verified full close: "Position closed", reduce-only reset, no stale block. Partial and no-fill outcomes are explained. | code; next real close |
+| Several desks per account | A desk picker appears when an account has more than one desk, remembered per account | `audit-fixes.spec.ts` picker test |
+| Graduation called twice; zero-profit claim | `MaxTierReached`, credit unchanged; `NothingToClaim` | `forge test` 125/125 |
+
+Still open:
+
+- browser profit claim (needs genuine profit);
+- browser graduation (needs +2% over 2 closed trades);
+- browser gasless trading (needs a publicly hosted relayer);
+- full hosted history (needs a hosted indexer);
+- a real partial IOC fill observed in the browser;
+- the five remaining phone tabs.

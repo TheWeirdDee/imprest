@@ -92,6 +92,12 @@ export interface ActionSpec {
   expect: () => Promise<Record<string, string>>;
   /** Submits and returns the tx hash (self-submitted or via the relayer). */
   send: () => Promise<Hex>;
+  /**
+   * Optional: expected values that are only known once the PRIMARY receipt exists (for example the
+   * position size the venue reported after a fill). Merged over `expect()` before the comparison, so
+   * the readback shows real numbers instead of placeholders.
+   */
+  expectAfterReceipt?: (receipt: TransactionReceipt) => Record<string, string>;
   /** Reads the post-state from the given (independent) client at the receipt block. */
   observe: (client: PublicClient, blockNumber: bigint, receipt: TransactionReceipt) => Promise<Record<string, string>>;
 }
@@ -180,6 +186,7 @@ export function useAction() {
       if (vReceipt.status !== "success" || vReceipt.blockNumber !== receipt.blockNumber) {
         throw new Error("independent RPC reports a different receipt");
       }
+      if (spec.expectAfterReceipt) expected = { ...expected, ...spec.expectAfterReceipt(receipt) };
       const observed = await spec.observe(vc, receipt.blockNumber, vReceipt);
       const cmp = compareReadback(expected, observed);
       const evidence: Readback = { rpc: verifyRpc ?? "", blockNumber: receipt.blockNumber.toString(), expected, observed };

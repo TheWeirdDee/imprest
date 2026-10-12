@@ -493,4 +493,23 @@ contract DeskSettlementTest is ImprestFixture {
         vm.expectRevert(E.NothingToClaim.selector);
         desk.claim();
     }
+
+    /// Graduating again once at the cohort's top tier reverts; credit is not added twice.
+    function test_graduation_repeatCallRevertsAndDoesNotAddCredit() public {
+        _graduate(desk);
+        uint256 borrowed = desk.borrowed();
+        vm.prank(keeper);
+        vm.expectRevert(E.MaxTierReached.selector);
+        desk.graduate();
+        assertEq(desk.tier(), 1);
+        assertEq(desk.borrowed(), borrowed);
+    }
+
+    /// A flat desk with no realized profit above its high-water mark cannot claim anything.
+    function test_claim_zeroProfitRejected() public {
+        assertEq(uint256(_eq(desk)), desk.hwm()); // fresh flat desk: equity equals the high-water mark
+        vm.prank(traderA);
+        vm.expectRevert(E.NothingToClaim.selector);
+        desk.claim();
+    }
 }

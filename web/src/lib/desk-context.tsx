@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Address } from "viem";
 import type { CohortPolicy, RiskState } from "@imprest/core";
 import { hasAccount, useAccount } from "./account/AccountProvider";
@@ -11,6 +11,8 @@ interface DeskCtx {
   balances: Loadable<{ ausd: bigint; native: bigint }>;
   desk: Address | null;
   allDesks: readonly Address[];
+  /** Choose which of the account's desks the app shows (remembered per account on this device). */
+  selectDesk: (desk: Address | null) => void;
   deskLoading: boolean;
   risk: Loadable<RiskState>;
   policy: Loadable<CohortPolicy>;
@@ -28,7 +30,29 @@ export function DeskProvider({ children }: { children: ReactNode }) {
   const address = hasAccount(a) ? a.address : null;
   const balances = useBalances(address);
   const deskQ = useTraderDesk(address);
-  const desk = deskQ.data?.current ?? null;
+  // Which desk to show: the one chosen for this account (if it is still one of its desks), else the latest.
+  const key = address ? `imprest.desk.selected.${address.toLowerCase()}` : null;
+  const [chosen, setChosen] = useState<string | null>(null);
+  useEffect(() => {
+    try {
+      setChosen(key ? localStorage.getItem(key) : null);
+    } catch {
+      setChosen(null);
+    }
+  }, [key]);
+  const selectDesk = useCallback(
+    (d: Address | null) => {
+      setChosen(d);
+      try {
+        if (key) d ? localStorage.setItem(key, d) : localStorage.removeItem(key);
+      } catch {
+        /* storage blocked: selection lasts for this page */
+      }
+    },
+    [key],
+  );
+  const all = deskQ.data?.all ?? [];
+  const desk = (chosen && all.find((x) => x.toLowerCase() === chosen.toLowerCase())) || (deskQ.data?.current ?? null);
   const risk = useRiskState(desk);
   const policy = usePolicy(desk);
   const positions = usePositions(risk.data?.accountId ?? null, desk ?? "");
@@ -46,7 +70,8 @@ export function DeskProvider({ children }: { children: ReactNode }) {
         address,
         balances,
         desk,
-        allDesks: deskQ.data?.all ?? [],
+        allDesks: all,
+        selectDesk,
         deskLoading: deskQ.loading,
         risk,
         policy,

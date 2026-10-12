@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Ban, CheckCircle2, CircleHelp, FlaskConical, ShieldAlert, ShieldCheck, Send } from "lucide-react";
 import {
   checkPolicy,
@@ -23,7 +24,7 @@ import { primaryClient } from "@/lib/chain";
 import { tradeAction } from "@/lib/actions";
 import { sendWriteUnchecked, useAction } from "@/lib/tx";
 import { ausd } from "@/lib/format";
-import { Button, Notice, cx, inputClass } from "./ui";
+import { Button, Notice, cx, inputClass, type Tone } from "./ui";
 import { TxStatus } from "./tx-status";
 
 const BPS = 10_000n;
@@ -56,6 +57,13 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
   const [lev, setLev] = useState(3);
   const [priceStr, setPriceStr] = useState<string | null>(null);
   const [via, setVia] = useState<"self" | "relayer">(relayerUrl ? "relayer" : "self");
+  // One message about the order form itself (prepared close, position closed, partial fill).
+  const [notice, setNotice] = useState<{ tone: Tone; title: string; body: string } | null>(null);
+  const ticketRef = useRef<HTMLDivElement>(null);
+  const search = useSearchParams();
+  const router = useRouter();
+  const closeParam = search.get("close");
+  const closeKey = closeParam ? `${closeParam}:${search.get("n") ?? ""}` : null;
 
   const risk = d.risk.data;
   const policy = d.policy.data;
@@ -79,6 +87,34 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
     (defaultPrice !== null
       ? formatUnitsFixed(defaultPrice, m.priceDecimals, m.priceDecimals).replace(/,/g, "")
       : "");
+
+  // "Close position" (from the positions list) arrives as ?close=<perpId>&n=<nonce>. Prepare the
+  // closing order from the CURRENT position, show what was prepared, scroll to it. Never auto-submit.
+  useEffect(() => {
+    if (!closeKey || !closeParam) return;
+    if (BigInt(closeParam) !== BigInt(m.perpId)) return;
+    if (!d.positions.data) return; // wait until positions are loaded
+    const p = d.positions.data.find((x) => BigInt(x.perpId) === BigInt(m.perpId) && x.lots > 0n);
+    if (!p) {
+      setNotice({ tone: "info", title: "Nothing to close", body: `The desk has no open ${m.symbol} position.` });
+    } else {
+      const lotsText = formatUnitsFixed(p.lots, m.lotDecimals, m.lotDecimals).replace(/,/g, "");
+      setSide(p.isLong ? 1 : 0);
+      setReduceOnly(true);
+      setFok(false);
+      setSize(lotsText);
+      setPriceStr(null);
+      setNotice({
+        tone: "info",
+        title: `Ready to close your ${m.symbol} ${p.isLong ? "long" : "short"}`,
+        body: `Prepared: ${p.isLong ? "Sell" : "Buy"} ${lotsText} ${m.symbol}, reduce-only, immediate-or-cancel, at a marketable limit. Reduce-only can only shrink this position; it cannot open or flip one. Review below, then press the button to sign. Nothing has been sent.`,
+      });
+    }
+    ticketRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    ticketRef.current?.focus({ preventScroll: true });
+    router.replace(`/app/trade/${m.symbol.toLowerCase()}`, { scroll: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [closeKey, d.positions.data]);
 
   const parsed = useMemo(() => {
     let priceLimit = 0n;
@@ -190,7 +226,34 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
   const submit = async () => {
     if (!hasAccount(a) || !d.desk || !risk) return;
     const desk = d.desk;
-    await run(async () =>
+    if (reduceOnly) {
+      // Re-read the position right before signing: it may have changed or already be closed.
+      const fresh = (await primaryClient().readContract({
+        address: network.perpl.exchange!,
+        abi: perplExchangeAbi as any,
+        functionName: "getPosition",
+        args: [BigInt(m.perpId), risk.accountId],
+      })) as any;
+      const lotsNow = BigInt(fresh[0].lotLNS);
+      const longNow = Number(fresh[0].positionType) === 0;
+      if (lotsNow === 0n) {
+        setReduceOnly(false);
+        setNotice({ tone: "info", title: "Nothing to close", body: `The ${m.symbol} position is already closed. Nothing was sent.` });
+        return;
+      }
+      if (longNow !== (side === 1)) {
+        setNotice({ tone: "warn", title: "Wrong side for a close", body: `Your position is ${longNow ? "long" : "short"}, so closing it is a ${longNow ? "sell" : "buy"}. Nothing was sent.` });
+        return;
+      }
+      if (parsed.lots > lotsNow) {
+        const t = formatUnitsFixed(lotsNow, m.lotDecimals, m.lotDecimals).replace(/,/g, "");
+        setSize(t);
+        setNotice({ tone: "warn", title: "Size updated to your current position", body: `Your position is now ${t} ${m.symbol}. Review and press again. Nothing was sent.` });
+        return;
+      }
+    }
+    const wasClose = reduceOnly;
+    const result = await run(async () =>
       tradeAction(
         await a.getSigner(),
         desk,
@@ -201,6 +264,20 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
       ),
     );
     d.refreshAll();
+    if (result.kind === "verified") {
+      const o = result.evidence.observed;
+      if (o.fill === "none") {
+        setNotice({ tone: "warn", title: "Not filled", body: "The immediate-or-cancel order found no liquidity at your limit, so nothing traded. Your position is unchanged." });
+      } else if (wasClose && o.positionLots === "0") {
+        setReduceOnly(false);
+        setNotice({ tone: "safe", title: "Position closed", body: `Your ${m.symbol} position is closed and the desk is flat. The form has been reset; nothing else needs to be sent.` });
+      } else if (o.fill === "partial") {
+        const left = formatUnitsFixed(BigInt(o.positionLots ?? "0"), m.lotDecimals, m.lotDecimals);
+        setNotice({ tone: "warn", title: "Partially filled", body: `Only part of the order filled. Position now ${left} ${m.symbol}.${wasClose ? " Use Close position again for the rest." : ""}` });
+      } else {
+        setNotice(null);
+      }
+    }
   };
 
   /** Direct contract call, deliberately skipping frontend validation and simulation. */
@@ -235,7 +312,15 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div ref={ticketRef} tabIndex={-1} className="flex scroll-mt-20 flex-col gap-3 outline-none" aria-label="Order ticket">
+      {notice && (
+        <Notice tone={notice.tone} title={notice.title}>
+          {notice.body}{" "}
+          <button className="underline" onClick={() => setNotice(null)}>
+            Dismiss
+          </button>
+        </Notice>
+      )}
       <div role="group" aria-label="Side" className="grid grid-cols-2 gap-1 rounded-lg bg-surface-2 p-1">
         <button
           onClick={() => setSide(0)}

@@ -23,6 +23,7 @@ import {
 import { network, deployed } from "@/lib/env";
 import { buttonClass, cx } from "./ui";
 import { AccountButton } from "./account-button";
+import { DeskPicker } from "./desk-picker";
 
 /** Compact network indicator. A testnet build always says so, without shouting. */
 export function NetworkPill({ className }: { className?: string }) {
@@ -238,6 +239,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
           </header>
           <main id="main" className="min-w-0 flex-1 px-3 pt-4 pb-24 sm:px-5 lg:pb-8">
+            <div className="mx-auto mb-3 flex max-w-6xl justify-end empty:hidden">
+              <DeskPicker />
+            </div>
             {children}
           </main>
         </div>

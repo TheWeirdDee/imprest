@@ -1,0 +1,93 @@
+[
+ {
+  "type": "function",
+  "name": "getPosition",
+  "inputs": [
+   {
+    "name": "perpId",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "accountId",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "positionInfo",
+    "type": "tuple",
+    "internalType": "struct PositionInfo",
+    "components": [
+     {
+      "name": "accountId",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "nextNodeId",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "prevNodeId",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "positionType",
+      "type": "uint8",
+      "internalType": "enum PositionEnum"
+     },
+     {
+      "name": "depositCNS",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "pricePNS",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "lotLNS",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "entryBlock",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "pnlCNS",
+      "type": "int256",
+      "internalType": "int256"
+     },
+     {
+      "name": "deltaPnlCNS",
+      "type": "int256",
+      "internalType": "int256"
+     },
+     {
+      "name": "premiumPnlCNS",
+      "type": "int256",
+      "internalType": "int256"
+     }
+    ]
+   },
+   {
+    "name": "markPricePNS",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "markPriceValid",
+    "type": "bool",
+    "internalType": "bool"
+   }
+  ],
+  "stateMutability": "view"
+ }
+]

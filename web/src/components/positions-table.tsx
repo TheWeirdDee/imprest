@@ -1,23 +1,62 @@
 "use client";
 
-import Link from "next/link";
 import { formatUnitsFixed, notional, type MarketConfig } from "@imprest/core";
 import { useDesk } from "@/lib/desk-context";
 import { network } from "@/lib/env";
 import { ausd, signedAusd } from "@/lib/format";
-import { EmptyState, Pill, Skeleton, cx } from "./ui";
+import { EmptyState, Pill, Skeleton, buttonClass, cx } from "./ui";
+import { useRouter } from "next/navigation";
 
 /** Open Perpl positions of the desk, read from chain (getPosition). */
+/**
+ * Prepares (never sends) a closing order in the trade ticket: opposite side, current size,
+ * reduce-only. Works from any page; the nonce makes repeated clicks on the same page re-prepare.
+ */
+function ClosePositionButton({
+  symbol,
+  perpId,
+  isLong,
+  className,
+}: {
+  symbol: string;
+  perpId: number | bigint | string;
+  isLong: boolean;
+  className?: string;
+}) {
+  const router = useRouter();
+  return (
+    <button
+      type="button"
+      onClick={() =>
+        router.push(`/app/trade/${symbol.toLowerCase()}?close=${String(perpId)}&n=${Date.now()}`, {
+          scroll: false,
+        })
+      }
+      className={buttonClass("secondary", "sm", className)}
+      aria-label={`Close ${symbol} ${isLong ? "long" : "short"} position (prepares a reduce-only order to review)`}
+    >
+      Close position
+    </button>
+  );
+}
+
 export function PositionsTable({ compact = false }: { compact?: boolean }) {
   const d = useDesk();
   const rows = (d.positions.data ?? []).filter((p) => p.lots > 0n);
   if (d.positions.loading && !d.positions.data) return <Skeleton className="m-3 h-16" />;
   if (d.positions.error && !d.positions.data)
     return <EmptyState title="Positions unavailable">{d.positions.error}</EmptyState>;
+  if (d.closed)
+    return (
+      <EmptyState title="Desk closed">
+        This desk has been settled, so it holds no positions and can no longer trade. Open a new desk to trade again.
+      </EmptyState>
+    );
   if (rows.length === 0)
     return (
       <EmptyState title="No open positions">
-        The desk is flat: no credit fee accrues. Claims need a flat desk and realized profit above the high-water mark, after fees.
+        The desk is flat: no credit fee accrues. Claims need a flat desk and realized profit above the
+        high-water mark, after fees.
       </EmptyState>
     );
   return (
@@ -61,14 +100,12 @@ export function PositionsTable({ compact = false }: { compact?: boolean }) {
                   <dd className="text-right">{signedAusd(p.premiumPnlCNS)}</dd>
                 </dl>
               </details>
-              {!compact && (
-                <Link
-                  href={`/app/trade/${p.symbol.toLowerCase()}`}
-                  className="mt-2 inline-block text-xs text-accent hover:underline"
-                >
-                  Close in the terminal
-                </Link>
-              )}
+              <ClosePositionButton
+                symbol={p.symbol}
+                perpId={p.perpId}
+                isLong={p.isLong}
+                className="mt-2.5 w-full"
+              />
             </li>
           );
         })}
@@ -119,15 +156,8 @@ export function PositionsTable({ compact = false }: { compact?: boolean }) {
                     {signedAusd(p.deltaPnlCNS)}
                   </td>
                   <td className="px-3 py-2 text-fg-2">{signedAusd(p.premiumPnlCNS)}</td>
-                  <td className="px-3 py-2 font-sans">
-                    {!compact && (
-                      <Link
-                        href={`/app/trade/${p.symbol.toLowerCase()}`}
-                        className="text-xs text-accent hover:underline"
-                      >
-                        Close
-                      </Link>
-                    )}
+                  <td className="sticky right-0 bg-surface px-3 py-2 font-sans">
+                    <ClosePositionButton symbol={p.symbol} perpId={p.perpId} isLong={p.isLong} />
                   </td>
                 </tr>
               );

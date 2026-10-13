@@ -1,5 +1,7 @@
 # Sponsor and hackathon requirement matrix
 
+> **Historical snapshot (2026-10-08).** Statuses (for example the indexer and keeper) were recorded on that date. Current hosting status: [ENVIRONMENT_MATRIX.md](ENVIRONMENT_MATRIX.md) and [HOSTING.md](HOSTING.md).
+
 A dependency is not an integration. "Implemented" requires code that uses it on the
 product's path; "Evidence" points at a test, receipt or run. Status uses the evidence labels.
 

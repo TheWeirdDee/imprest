@@ -24,8 +24,10 @@ const handle = createRelayer(viemChain(net, key, process.env.MONAD_TESTNET_RPC_U
   log: (o) => console.log(JSON.stringify({ ts: new Date().toISOString(), service: "relayer", env, ...o })),
 });
 
-// Hosts such as Render set PORT; locally RELAYER_PORT or 8787.
+// Hosts such as Railway set PORT; locally RELAYER_PORT or 8787. Bind all IPv4 interfaces so the
+// host's proxy can reach the container (override with HOST, e.g. "::" for IPv6).
 const port = Number(process.env.PORT ?? process.env.RELAYER_PORT ?? 8787);
+const host = process.env.HOST ?? "0.0.0.0";
 createServer(async (req, res) => {
   const chunks: Buffer[] = [];
   for await (const c of req) chunks.push(c as Buffer);
@@ -37,4 +39,14 @@ createServer(async (req, res) => {
   r.headers.forEach((v, k) => (headers[k] = v));
   res.writeHead(r.status, headers);
   res.end(Buffer.from(await r.arrayBuffer()));
-}).listen(port, () => console.log(JSON.stringify({ service: "relayer", msg: `listening on :${port}`, chainId: net.chainId })));
+}).listen(port, host, () =>
+  console.log(
+    JSON.stringify({
+      service: "relayer",
+      msg: `listening on ${host}:${port}`,
+      chainId: net.chainId,
+      // Public origins only; never the key. An empty list means any origin (local use only).
+      allowedOrigins: (process.env.RELAYER_ALLOWED_ORIGINS ?? "").split(",").map((x) => x.trim()).filter(Boolean),
+    }),
+  ),
+);

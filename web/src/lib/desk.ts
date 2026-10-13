@@ -12,7 +12,7 @@ import {
   type CohortPolicy,
   type RiskState,
 } from "@imprest/core";
-import { primaryClient, verifyClient } from "./chain";
+import { primaryClient, strictPrimaryClient, verifyClient } from "./chain";
 import { deployed, network } from "./env";
 
 export interface Loadable<T> {
@@ -261,13 +261,26 @@ export function usePool() {
   return usePoll<PoolView>(
     deployed
       ? async () => {
-          const pc = primaryClient();
-          const blockNumber = (await pc.getBlockNumber()) - 2n;
-          const a = await readPool(pc, blockNumber);
+          // The primary provider alone first, so a "confirmed" badge always means two distinct
+          // providers agreed. If it is down, read from the second one and show "single RPC only".
+          const vc = verifyClient();
+          let pc = strictPrimaryClient();
+          let single = false;
+          let blockNumber: bigint;
+          let a: Awaited<ReturnType<typeof readPool>>;
+          try {
+            blockNumber = (await pc.getBlockNumber()) - 2n;
+            a = await readPool(pc, blockNumber);
+          } catch (e) {
+            if (!vc) throw e;
+            pc = vc;
+            single = true;
+            blockNumber = (await pc.getBlockNumber()) - 2n;
+            a = await readPool(pc, blockNumber);
+          }
           const deskTotal = (await pc.readContract({ address: network.imprest.factory!, abi: deskFactoryAbi, functionName: "deskTotal", blockNumber })) as bigint;
           let confirmed: boolean | null = null;
-          const vc = verifyClient();
-          if (vc) {
+          if (vc && !single) {
             try {
               const b = await Promise.race([
                 readPool(vc as any, blockNumber),

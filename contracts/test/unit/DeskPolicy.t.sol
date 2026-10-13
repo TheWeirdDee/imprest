@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
+import {Vm} from "forge-std/Vm.sol";
 import {ImprestFixture} from "../ImprestFixture.sol";
 import {Desk} from "../../src/Desk.sol";
 import {IPerplExchange} from "../../src/interfaces/IPerplExchange.sol";
@@ -329,5 +330,56 @@ contract DeskPolicyTest is ImprestFixture {
         vm.prank(keeper);
         vm.expectRevert(E.DeskHealthy.selector);
         desk.enforce();
+    }
+
+    // ================= partial fills (2026-10-12) =================
+
+    /// An IOC buy for 100 lots against a book holding only 40 fills 40 and cancels the rest:
+    /// the desk records the actual size, not the requested one, and stays within the rules.
+    function test_orderType_iocPartialFillOpensOnlyWhatFilled() public {
+        _cancelAll();
+        uint256 step = btcMark / 20_000;
+        _quote(BTC, 1, btcMark + step, 40); // only 40 lots offered
+        vm.recordLogs();
+        _trade(desk, _buy(BTC, 100, 300));
+        assertEq(_lots(desk, BTC), 40, "position is the filled size");
+        assertTrue(desk.exposed());
+        (uint256 before, uint256 afterLots) = _lastTradeLots();
+        assertEq(before, 0);
+        assertEq(afterLots, 40, "TradeExecuted reports the filled size");
+    }
+
+    /// A reduce-only close for the full 40 lots against a book holding 25 closes 25 and leaves 15
+    /// open; it never flips or increases the position.
+    function test_orderType_iocPartialCloseLeavesTheRemainder() public {
+        _trade(desk, _buy(BTC, 40, 300));
+        assertEq(_lots(desk, BTC), 40);
+        _cancelAll();
+        uint256 step = btcMark / 20_000;
+        _quote(BTC, 0, btcMark - step, 25); // only 25 lots bid
+        _trade(desk, _closeLong(BTC, 40));
+        (IPerplExchange.PositionInfo memory p,,) = ex.getPosition(BTC, desk.accountId());
+        assertEq(p.lotLNS, 15, "remainder stays open");
+        assertEq(p.positionType, 0, "still long, never flipped");
+        // closing the remainder later with fresh liquidity works
+        _requote();
+        _trade(desk, _closeLong(BTC, 15));
+        assertEq(_lots(desk, BTC), 0);
+    }
+
+    function _lastTradeLots() internal returns (uint256 before, uint256 afterLots) {
+        Vm.Log[] memory logs = vm.getRecordedLogs();
+        bytes32 sig = keccak256(
+            "TradeExecuted(uint256,uint8,uint8,uint256,uint256,uint256,bool,uint256,uint256,uint256,int256,int256,uint256)"
+        );
+        for (uint256 j = logs.length; j > 0; j--) {
+            Vm.Log memory l = logs[j - 1];
+            if (l.emitter == address(desk) && l.topics[0] == sig) {
+                (,,,,,, uint256 b, uint256 a,,,,) =
+                    abi.decode(l.data, (uint8, uint8, uint256, uint256, uint256, bool, uint256, uint256, uint256, int256, int256, uint256));
+                return (b, a);
+            }
+        }
+        revert("no TradeExecuted");
     }
 }

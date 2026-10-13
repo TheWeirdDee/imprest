@@ -12,7 +12,7 @@ import {
   type TransactionReceipt,
 } from "viem";
 import { compareReadback, toAppError, transition, type ActionState, type Readback } from "@imprest/core";
-import { chain, primaryClient, verifyClient } from "./chain";
+import { chain, primaryClient, strictPrimaryClient, verifyClient } from "./chain";
 import { primaryRpc, verifyRpc, network } from "./env";
 
 export interface LocalReceipt {
@@ -22,8 +22,11 @@ export interface LocalReceipt {
   chainId: number;
   txHash: Hex;
   blockNumber: string;
-  state: ActionState["kind"];
+  /** "mined": receipt found later (after a reload) and matched on both RPCs; post-state not re-checked. */
+  state: ActionState["kind"] | "mined";
   reason?: string;
+  /** Not seen by the RPC for 10 minutes: no longer blocks new transactions. */
+  dropped?: boolean;
   readback?: Readback;
   at: string;
 }
@@ -46,6 +49,51 @@ function saveLocalReceipt(r: LocalReceipt) {
   } catch {
     /* storage unavailable: receipts still shown in-session */
   }
+}
+
+const UNRESOLVED: LocalReceipt["state"][] = ["submitted", "unknown"];
+/** After this long without the RPC knowing the transaction at all, it is treated as dropped. */
+const DROPPED_AFTER_MS = 10 * 60_000;
+
+/**
+ * Looks up every saved transaction whose outcome is still unknown (for example after a receipt
+ * timeout or a page reload) and records what the chain now says. Returns those still unresolved.
+ * A transaction found later is "mined" (receipt matched on both RPCs), not "verified": the expected
+ * post-state from the original page is not available any more, so it is not re-checked.
+ */
+export async function reconcilePending(): Promise<LocalReceipt[]> {
+  const open = loadLocalReceipts().filter((r) => r.chainId === network.chainId && UNRESOLVED.includes(r.state));
+  const still: LocalReceipt[] = [];
+  for (const r of open) {
+    const hash = r.txHash;
+    const receipt = await primaryClient().getTransactionReceipt({ hash }).catch(() => null);
+    if (receipt) {
+      if (receipt.status === "reverted") {
+        saveLocalReceipt({ ...r, state: "failed", blockNumber: receipt.blockNumber.toString(), reason: `Reverted onchain in block ${receipt.blockNumber} (found after the page lost track of it).` });
+        continue;
+      }
+      const vr = await verifyClient()?.getTransactionReceipt({ hash }).catch(() => null);
+      const agree = vr && vr.status === "success" && vr.blockNumber === receipt.blockNumber;
+      saveLocalReceipt({
+        ...r,
+        state: agree ? "mined" : "unknown",
+        blockNumber: receipt.blockNumber.toString(),
+        reason: agree
+          ? `Mined in block ${receipt.blockNumber}; the receipt matches on both RPCs. Found after the page lost track of it, so the expected result was not re-checked: look at your desk and positions.`
+          : `Mined in block ${receipt.blockNumber} on the primary RPC; the second RPC has not confirmed it yet.`,
+      });
+      if (!agree) still.push(r);
+      continue;
+    }
+    const known = await primaryClient().getTransaction({ hash }).catch(() => null);
+    const age = Date.now() - new Date(r.at).getTime();
+    if (!known && age > DROPPED_AFTER_MS) {
+      saveLocalReceipt({ ...r, state: "unknown", reason: "The RPC has not seen this transaction for over 10 minutes; it was most likely dropped and did not execute. Check the explorer link before relying on that." , dropped: true });
+      continue;
+    }
+    if (!r.dropped) still.push(r);
+  }
+  return still;
 }
 
 export interface WriteSpec {
@@ -94,10 +142,10 @@ export interface ActionSpec {
   send: () => Promise<Hex>;
   /**
    * Optional: expected values that are only known once the PRIMARY receipt exists (for example the
-   * position size the venue reported after a fill). Merged over `expect()` before the comparison, so
+   * position size the venue reported after a fill), read on the PRIMARY provider. Merged over `expect()` before the comparison, so
    * the readback shows real numbers instead of placeholders.
    */
-  expectAfterReceipt?: (receipt: TransactionReceipt) => Record<string, string>;
+  expectAfterReceipt?: (receipt: TransactionReceipt, primary: PublicClient) => Promise<Record<string, string>>;
   /** Reads the post-state from the given (independent) client at the receipt block. */
   observe: (client: PublicClient, blockNumber: bigint, receipt: TransactionReceipt) => Promise<Record<string, string>>;
 }
@@ -120,6 +168,19 @@ export function useAction() {
 
   /** Accepts a spec, or a factory (e.g. one that first asks for the passkey); a failure in the factory becomes the error state. */
   const run = useCallback(async (input: ActionSpec | (() => Promise<ActionSpec>)) => {
+    // Never send while an earlier transaction from this browser may still settle: a retry could
+    // duplicate an order or open a second desk.
+    const unresolved = await reconcilePending().catch(() => [] as LocalReceipt[]);
+    if (unresolved.length > 0) {
+      const h = unresolved[0]!.txHash;
+      const st = transition(transition({ kind: "idle" }, { type: "request", label: "New transaction" }), {
+        type: "error",
+        reason: `An earlier transaction (${h.slice(0, 10)}…${h.slice(-6)}, "${unresolved[0]!.label}") has not been confirmed yet. Nothing was sent, so it cannot be duplicated. Check it in My receipts and try again once it settles.`,
+        code: "PENDING_TRANSACTION",
+      });
+      setState(st);
+      return st;
+    }
     let spec: ActionSpec;
     try {
       spec = typeof input === "function" ? await input() : input;
@@ -156,11 +217,18 @@ export function useAction() {
       return s;
     }
     set(transition(s, { type: "submitted", txHash: hash }));
+    // Recorded before waiting, so a reload or a lost connection cannot lose the hash.
+    const base = { id: hash, label: spec.label, network: network.label, chainId: network.chainId, txHash: hash, at: new Date().toISOString() };
+    saveLocalReceipt({ ...base, blockNumber: "", state: "submitted" });
+    // The primary provider only (no fallback), so the second RPC below stays independent.
+    const pc = strictPrimaryClient();
     let receipt: TransactionReceipt;
     try {
-      receipt = await primaryClient().waitForTransactionReceipt({ hash, timeout: 60_000 });
+      receipt = await pc.waitForTransactionReceipt({ hash, timeout: 60_000 });
     } catch (e) {
-      set(transition(s, { type: "error", reason: `No receipt: ${(e as Error).message}` }));
+      const reason = `No receipt yet (${(e as Error).message.split("\n")[0]}). The transaction may still settle: do not send it again. My receipts checks it again automatically.`;
+      set(transition(s, { type: "receipt_unavailable", reason }));
+      saveLocalReceipt({ ...base, blockNumber: "", state: "unknown", reason });
       return s;
     }
     let revertReason: string | undefined;
@@ -186,7 +254,7 @@ export function useAction() {
       if (vReceipt.status !== "success" || vReceipt.blockNumber !== receipt.blockNumber) {
         throw new Error("independent RPC reports a different receipt");
       }
-      if (spec.expectAfterReceipt) expected = { ...expected, ...spec.expectAfterReceipt(receipt) };
+      if (spec.expectAfterReceipt) expected = { ...expected, ...(await spec.expectAfterReceipt(receipt, pc)) };
       const observed = await spec.observe(vc, receipt.blockNumber, vReceipt);
       const cmp = compareReadback(expected, observed);
       const evidence: Readback = { rpc: verifyRpc ?? "", blockNumber: receipt.blockNumber.toString(), expected, observed };

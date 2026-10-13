@@ -5,6 +5,7 @@ import { LiveDeskPanel } from "@/components/live-panel";
 import { AddressLink, buttonClass } from "@/components/ui";
 import { getClaims } from "@/lib/proof";
 import { network } from "@/lib/env";
+import { SITE_URL } from "@/lib/meta";
 
 const RULES = [
   ["Market", "BTC and ETH perps only (allowlisted per cohort)", "Desk contract"],
@@ -38,8 +39,27 @@ export default function Landing() {
     "independent security audit",
   ].filter(Boolean) as string[];
 
+  // Structured data for search engines: what the site is. Plain facts only (no ratings or prices).
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebSite", name: "Imprest", url: SITE_URL },
+      {
+        "@type": "SoftwareApplication",
+        name: "Imprest",
+        url: SITE_URL,
+        applicationCategory: "FinanceApplication",
+        operatingSystem: "Web",
+        image: `${SITE_URL}/logo.png`,
+        description:
+          "Funded trading desks for perpetual futures on Perpl (Monad). Stake, trade under rules a contract enforces, graduate to pool credit, and claim realized profit by contract. Monad testnet, test tokens only.",
+      },
+    ],
+  };
+
   return (
     <div className="min-h-dvh">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <SiteHeader />
       <main id="main">
         {/* Hero: what Imprest is, why it matters, what you can do. The product sits next to it. */}

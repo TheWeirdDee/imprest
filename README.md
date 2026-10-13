@@ -144,7 +144,7 @@ EVM chain the contracts would compile, but without Perpl the venue layer would h
 | Leverage at most 5x | Desk (Perpl clamps rather than rejects, so this is load-bearing) |
 | Limit price within 50 bps of mark, closes included | Desk |
 | 50 bps negative-PnL cap, 2-block execution window | Desk stamp, enforced by Perpl |
-| Valid mark for new risk; reduce-only always allowed | Desk |
+| Valid mark for new risk. Reduce-only orders are exempt from new-risk and fee-cap limits and may close at a stale mark, but a desk below a loss limit at a fresh mark cannot use a normal close: it is closed by `enforce()` (open to anyone), which depends on venue liquidity. Price band and active status always apply | Desk |
 | Equity above the 6% floor and 3% daily floor before and after the fill | Desk (whole transaction reverts) |
 | Gross funded exposure per market and per desk under caps | Pool, same transaction |
 | Credit fee only while exposed, capped at 25% of stake | Desk |

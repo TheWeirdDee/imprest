@@ -1,7 +1,8 @@
 /**
  * Evidence validator (directive Phase 23). Fails (exit 1) when any claim or receipt
  * breaks the evidence standard. With --onchain it also re-fetches every claimed
- * transaction from the network's RPC and checks block number and success status.
+ * transaction, and every receipt's transaction on both providers, and checks block number,
+ * expected status (reverted for recorded rejections) and key decoded outcomes.
  *
  *   pnpm validate-evidence            # structural rules
  *   pnpm validate-evidence --onchain  # + live receipt checks
@@ -9,8 +10,8 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { resolve, dirname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createPublicClient, http, type Hex } from "viem";
-import { allNetworks, crossCheck, validateClaim, validateReceipt, type Claim, type Finding, type Receipt } from "@imprest/core";
+import { createPublicClient, decodeEventLog, http, type Hex } from "viem";
+import { allNetworks, crossCheck, deskAbi, validateClaim, validateReceipt, type Claim, type Finding, type Receipt } from "@imprest/core";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const rel = (p: string) => relative(ROOT, p).replace(/\\/g, "/");
@@ -39,8 +40,10 @@ async function main() {
     ...walk(resolve(ROOT, "proof/receipts/mainnet")),
     ...walk(resolve(ROOT, "proof/receipts/deployments")),
   ];
+  const receipts: { file: string; r: Receipt }[] = [];
   for (const f of receiptFiles) {
     const r = JSON.parse(readFileSync(f, "utf8")) as Receipt;
+    receipts.push({ file: rel(f), r });
     findings.push(...validateReceipt(r, rel(f)));
   }
 
@@ -68,6 +71,57 @@ async function main() {
         findings.push({ file, id: claim.claim_id, rule: "onchain", message: `transaction not found: ${(e as Error).message}` });
       }
     }
+  }
+
+  // Every receipt that names a transaction is reconciled on BOTH providers: it must exist, be in the
+  // recorded block, have the expected status (reverted when the receipt records a revert), and key
+  // decoded outcomes must match what the receipt says.
+  let reconciled = 0;
+  if (process.argv.includes("--onchain")) {
+    const nets = allNetworks();
+    for (const { file, r } of receipts) {
+      if (!r.tx_hash) continue;
+      const net = r.chain_id === 143 ? nets.mainnet : r.chain_id === 10143 ? nets.testnet : null;
+      if (!net) {
+        findings.push({ file, id: r.id, rule: "onchain", message: "receipt transaction on an unknown chain" });
+        continue;
+      }
+      const wantStatus = r.outputs && "revert" in r.outputs ? "reverted" : "success";
+      const blocks = new Set<string>();
+      for (const url of net.rpcUrls.slice(0, 2)) {
+        let rc: Awaited<ReturnType<ReturnType<typeof createPublicClient>["getTransactionReceipt"]>> | null = null;
+        for (let attempt = 0; attempt < 3 && !rc; attempt++) {
+          rc = await createPublicClient({ transport: http(url, { timeout: 20_000 }) })
+            .getTransactionReceipt({ hash: r.tx_hash as Hex })
+            .catch(() => null);
+        }
+        if (!rc) {
+          findings.push({ file, id: r.id, rule: "onchain", message: `receipt not retrievable from ${new URL(url).host} after 3 attempts` });
+          continue;
+        }
+        blocks.add(rc.blockNumber.toString());
+        if (rc.status !== wantStatus) findings.push({ file, id: r.id, rule: "onchain", message: `status ${rc.status} on ${new URL(url).host}, receipt implies ${wantStatus}` });
+        if (r.block_number !== null && Number(rc.blockNumber) !== r.block_number) findings.push({ file, id: r.id, rule: "onchain", message: `block ${r.block_number} != ${rc.blockNumber} on ${new URL(url).host}` });
+        // Decoded outcomes the receipt records.
+        for (const l of rc.logs) {
+          try {
+            const ev = decodeEventLog({ abi: deskAbi, data: l.data, topics: l.topics as any }) as any;
+            if (ev.eventName === "TradeExecuted" && r.outputs?.lotsAfterPrimary !== undefined && String(ev.args.lotsAfter) !== String(r.outputs.lotsAfterPrimary)) {
+              findings.push({ file, id: r.id, rule: "onchain", message: `TradeExecuted lotsAfter ${ev.args.lotsAfter} != recorded ${r.outputs.lotsAfterPrimary}` });
+            }
+            const g = r.outputs?.graduated_event as Record<string, unknown> | undefined;
+            if (ev.eventName === "Graduated" && g && String(ev.args.credit) !== String(g.credit)) {
+              findings.push({ file, id: r.id, rule: "onchain", message: `Graduated credit ${ev.args.credit} != recorded ${g.credit}` });
+            }
+          } catch {
+            /* not a desk event */
+          }
+        }
+      }
+      if (blocks.size > 1) findings.push({ file, id: r.id, rule: "onchain", message: `providers disagree on the block: ${[...blocks].join(" vs ")}` });
+      reconciled++;
+    }
+    console.log(`receipts reconciled on chain (both providers): ${reconciled}`);
   }
 
   const byStatus: Record<string, number> = {};

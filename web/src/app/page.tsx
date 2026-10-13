@@ -293,7 +293,7 @@ export default function Landing() {
                 ],
                 [
                   "Do I need gas?",
-                  "Yes, on this site. Transactions are signed by your passkey and paid with testnet MON from the Monad faucet. Relayed (gasless) trades have been demonstrated from a script, but gasless trading is not available from this website because no public relayer is configured.",
+                  "Yes, on this site. Transactions are signed by your passkey. Trades go through the hosted relayer, which pays the gas (gasless; you can switch to paying it yourself). Opening a desk, approvals, claims and closing a desk are paid by you with testnet MON from the Monad faucet.",
                 ],
                 [
                   "Is there a mobile app?",

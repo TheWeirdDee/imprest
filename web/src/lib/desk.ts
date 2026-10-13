@@ -257,9 +257,10 @@ async function readPool(client: ReturnType<typeof primaryClient>, blockNumber: b
   return { totalAssets, idle, deployed: dep, principalLoss: loss, feesCollected: fees, feesWrittenOff: wo, profitShare: share, lpDeposited: lpIn, lpWithdrawn: lpOut, deskNotionalCap: deskCap, paused, exposure };
 }
 
-export function usePool() {
+/** `enabled: false` skips the reads entirely (the order ticket only needs pool caps for a funded desk). */
+export function usePool(enabled = true) {
   return usePoll<PoolView>(
-    deployed
+    deployed && enabled
       ? async () => {
           // The primary provider alone first, so a "confirmed" badge always means two distinct
           // providers agreed. If it is down, read from the second one and show "single RPC only".
@@ -295,7 +296,7 @@ export function usePool() {
         }
       : null,
     10_000,
-    "pool",
+    `pool:${enabled}`,
   );
 }
 

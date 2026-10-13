@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { gotoReady } from "./helpers";
 
 // Regression tests for the 2026-10-09 audit. Public addresses only (no keys):
 // - CLOSED_TRADER: the owner's walkthrough account; its only desk 0x4802…bFaD is closed and paid 99.943818 AUSD.
@@ -21,7 +22,7 @@ test.describe("closed desk", () => {
   });
 
   test("dashboard shows the settlement, not withdrawal as a trading loss", async ({ page }) => {
-    await page.goto("/app", { waitUntil: "networkidle" });
+    await gotoReady(page, "/app");
     await expect(page.getByRole("heading", { name: "Desk closed" })).toBeVisible({ timeout: 30_000 });
     await expect(page.getByText("99.943818 AUSD")).toBeVisible();
     await expect(page.getByText("-0.056182 AUSD")).toBeVisible();
@@ -30,17 +31,17 @@ test.describe("closed desk", () => {
   });
 
   test("claims and risk show the closed state, with no eligibility or limits", async ({ page }) => {
-    await page.goto("/app/claims", { waitUntil: "networkidle" });
+    await gotoReady(page, "/app/claims");
     await expect(page.getByRole("heading", { name: "Desk closed" })).toBeVisible({ timeout: 30_000 });
     await expect(page.getByText(/must rise|Needs .* more/)).toHaveCount(0);
     await expect(page.getByRole("button", { name: /Claim realized profit/ })).toHaveCount(0);
-    await page.goto("/app/risk", { waitUntil: "networkidle" });
+    await gotoReady(page, "/app/risk");
     await expect(page.getByRole("heading", { name: "Desk closed" })).toBeVisible({ timeout: 30_000 });
     await expect(page.getByText("How close am I to losing my desk?")).toHaveCount(0);
   });
 
   test("trade shows one settled-desk message: no risk meter, estimates, breach messages or submit", async ({ page }) => {
-    await page.goto("/app/trade/btc", { waitUntil: "networkidle" });
+    await gotoReady(page, "/app/trade/btc");
     await expect(page.getByText("This desk is closed and settled")).toBeVisible({ timeout: 30_000 });
     await expect(page.getByRole("button", { name: /Buy \/ Long BTC|Sell \/ Short BTC/ })).toHaveCount(0);
     await expect(page.getByText(/Distance to (desk floor|daily loss limit)/)).toHaveCount(0);
@@ -49,7 +50,7 @@ test.describe("closed desk", () => {
   });
 
   test("desk page shows the settlement, no graduation progress or Graduate action", async ({ page }) => {
-    await page.goto("/app/desk", { waitUntil: "networkidle" });
+    await gotoReady(page, "/app/desk");
     await expect(page.getByRole("heading", { name: "Desk closed" })).toBeVisible({ timeout: 30_000 });
     await expect(page.getByText(/closed at this tier/)).toBeVisible();
     await expect(page.getByText(/^Progress to /)).toHaveCount(0);
@@ -61,7 +62,7 @@ test.describe("closed desk", () => {
 
 test("signing out clears the previous account's numbers immediately, without a refresh", async ({ page }) => {
   await remember(page, FUNDED_TRADER);
-  await page.goto("/app", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app");
   await expect(page.getByText("Restricted credit", { exact: true })).toBeVisible({ timeout: 30_000 });
   await page.getByRole("button", { name: /^Account 0x/ }).click();
   await page.getByRole("menuitem", { name: /Sign out on this device/ }).click();
@@ -72,7 +73,7 @@ test("signing out clears the previous account's numbers immediately, without a r
 
 test("claims shortfall is the real amount, never 0.00", async ({ page }) => {
   await remember(page, FUNDED_TRADER);
-  await page.goto("/app/claims", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app/claims");
   const msg = page.getByText(/Realized equity must rise [\d.,]+ AUSD to exceed the high-water mark/);
   await expect(msg).toBeVisible({ timeout: 30_000 });
   await expect(msg).not.toContainText("rise 0.00 ");
@@ -80,7 +81,7 @@ test("claims shortfall is the real amount, never 0.00", async ({ page }) => {
 
 test("the contract-rejection test is a collapsed developer action with a gas warning", async ({ page }) => {
   await remember(page, FUNDED_TRADER);
-  await page.goto("/app/trade/btc", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app/trade/btc");
   await expect(page.getByText(/max 5\.00x/).first()).toBeVisible({ timeout: 30_000 });
   await page.getByRole("slider").fill("6");
   const dev = page.getByText(/Developer: prove the contract rejects this order/);
@@ -93,13 +94,13 @@ test("the contract-rejection test is a collapsed developer action with a gas war
 
 test("order preview names the limit it measures against", async ({ page }) => {
   await remember(page, FUNDED_TRADER);
-  await page.goto("/app/trade/btc", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app/trade/btc");
   await expect(page.getByText(/^Distance to (desk floor|daily loss limit)$/)).toBeVisible({ timeout: 30_000 });
 });
 
 test("invalid size shows a field message and no misleading estimates", async ({ page }) => {
   await remember(page, FUNDED_TRADER);
-  await page.goto("/app/trade/btc", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app/trade/btc");
   await page.getByLabel(/Size/).fill("abc");
   await expect(page.getByText(/^Size: enter a positive amount of BTC/)).toBeVisible();
   const notional = page.locator("dt", { hasText: /^Notional$/ }).locator("xpath=following-sibling::dd[1]");
@@ -115,7 +116,7 @@ test("/api/version reports the commit this build came from", async ({ request })
 });
 
 test("proof page leads with completed testnet results and links mainnet claims to the mainnet explorer", async ({ page }) => {
-  await page.goto("/proof", { waitUntil: "networkidle" });
+  await gotoReady(page, "/proof");
   await expect(page.getByText("Over-limit order rejected by the contract (testnet)")).toBeVisible();
   const mainnetCard = page.locator("section,div").filter({ has: page.getByText("10. Mainnet dependency status") }).last();
   const hrefs = await mainnetCard.locator("a[href*='monadscan'], a[href*='monadexplorer'], a[href*='socialscan']").evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
@@ -125,14 +126,14 @@ test("proof page leads with completed testnet results and links mainnet claims t
 });
 
 test("status distinguishes 'not configured' from 'down' and shows the build", async ({ page }) => {
-  await page.goto("/status", { waitUntil: "networkidle" });
+  await gotoReady(page, "/status");
   await expect(page.getByText("This deployment")).toBeVisible();
   await expect(page.getByText(/not running/)).toHaveCount(0);
 });
 
 test("the desk picker lists every desk of the account and switches the view", async ({ page }) => {
   await remember(page, CLOSED_TRADER);
-  await page.goto("/app", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app");
   const picker = page.getByRole("combobox", { name: "Choose desk" });
   await expect(picker).toBeVisible({ timeout: 30_000 });
   await expect(picker.locator("option")).toHaveCount(2);

@@ -40,9 +40,17 @@ contracts:
 chains:
   - id: 10143
     start_block: 69010507
+    # Envio's HyperSync serves Monad testnet and is what the hosted service uses; the public RPCs
+    # are fallbacks only (they refused Envio's cloud: block height stayed 0 with RPC-only sync).
+    # For a local run without an Envio API token, set ENVIO_RPC_SYNC=true to sync over RPC instead.
     rpc:
       - url: https://testnet-rpc.monad.xyz
-        for: sync
+        for: fallback
+        # Monad public RPCs cap eth_getLogs at 100 blocks per call.
+        initial_block_interval: 100
+        interval_ceiling: 100
+      - url: https://rpc-testnet.monadinfra.com
+        for: fallback
         # Monad public RPCs cap eth_getLogs at 100 blocks per call.
         initial_block_interval: 100
         interval_ceiling: 100

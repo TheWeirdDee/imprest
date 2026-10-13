@@ -23,16 +23,19 @@ export default function ClaimsPage() {
   const p = d.policy.data;
   const s = r ? summarize(r, p, d.positions.data) : null;
   const t = r && p ? p.tiers[r.tier] : null;
+  // Realized equity only: unrealized profit on an open position is never claimable, so it never
+  // enters the preview (the contract also refuses any claim while a position is open).
   const split =
-    r && t
+    r && t && s
       ? accounting.claimSplit(
-          r.equity,
+          r.equity - s.unrealized,
           r.hwm,
           r.feeOutstanding,
           BigInt(t.traderSplitBps),
           BigInt(t.protocolSplitBps),
         )
       : null;
+  const claimable = Boolean(r && split && r.flat && r.status === 0 && split.gross > 0n);
   const busy = (x: { state: { kind: string } }) =>
     ["requested", "submitted", "confirming"].includes(x.state.kind);
 
@@ -58,7 +61,7 @@ export default function ClaimsPage() {
                 </Notice>
               )}
 
-              <Card title="If you claim now">
+              <Card title={claimable ? "If you claim now" : "Claim preview (not claimable now)"}>
                 <div className="grid gap-6 md:grid-cols-2">
                   <div>
                     <KV k="Realized equity" v={ausd(r.equity - s.unrealized)} />
@@ -68,7 +71,7 @@ export default function ClaimsPage() {
                       k="Accrued credit fees, netted first"
                       v={split.feesPaid > 0n ? `-${ausd(split.feesPaid, 4)}` : ausd(0n, 4)}
                     />
-                    <KV k="Eligible profit" v={ausd(split.gross - split.feesPaid)} />
+                    <KV k={claimable ? "Eligible profit" : "Profit after fees (estimate)"} v={ausd(split.gross - split.feesPaid)} />
                     {s.unrealized !== 0n && (
                       <KV k="Unrealized (not claimable)" v={signedAusd(s.unrealized)} />
                     )}
@@ -93,7 +96,7 @@ export default function ClaimsPage() {
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <Button
                     disabled={
-                      !hasAccount(a) || !r.flat || split.gross === 0n || r.status !== 0 || busy(claim)
+                      !hasAccount(a) || !claimable || busy(claim)
                     }
                     onClick={async () => {
                       await claim.run(async () => claimAction(await a.getSigner(), d.desk!, r, p));
@@ -170,7 +173,11 @@ export default function ClaimsPage() {
                 </ul>
                 <p className="mt-3 text-xs leading-relaxed text-muted">
                   {(() => {
-                    if (split.gross > 0n) return "Eligible: the contract will pay the split shown.";
+                    if (claimable) return "Eligible: the desk is active and flat, so the contract will pay the split shown.";
+                    if (split.gross > 0n)
+                      return r.status !== 0
+                        ? "Realized profit is above the high-water mark, but the desk is not active, so it cannot be claimed."
+                        : "Realized profit is above the high-water mark, but positions are open: close all positions first. The figures are an estimate until then.";
                     // Realized equity must exceed the high-water mark plus fees still owed (fees are netted first).
                     const short = r.hwm + r.feeOutstanding - (r.equity - s.unrealized) + 1n;
                     return `Realized equity must rise ${ausd(short, short < 10_000n ? 6 : 2)} AUSD to exceed the high-water mark (${ausd(r.hwm)} AUSD) after fees owed${r.flat ? "" : ", with all positions closed"}.`;

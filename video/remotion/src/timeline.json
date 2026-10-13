@@ -1,0 +1,1047 @@
+{
+ "main": {
+  "fps": 30,
+  "frames": 4598,
+  "seconds": 153.25,
+  "scenes": [
+   {
+    "id": "m01_hook",
+    "clip": "hook",
+    "from": 8,
+    "pad": 2.4,
+    "label": "Imprest · Monad Testnet",
+    "fx": [],
+    "text": "What if access to a larger trading account came with rules you could actually inspect?",
+    "start": 0,
+    "frames": 219,
+    "audioAt": 11,
+    "audio": "voice/m01_hook.mp3"
+   },
+   {
+    "id": "m02_problem",
+    "clip": "dashboard",
+    "from": 9,
+    "pad": 2,
+    "label": "A trader's account",
+    "fx": [],
+    "text": "Traders want access to more capital. The people providing it want clear limits on how that capital is used. And both need to understand the rules, and what happens when a trade goes wrong.",
+    "start": 219,
+    "frames": 397,
+    "audioAt": 11,
+    "audio": "voice/m02_problem.mp3"
+   },
+   {
+    "id": "m03_solution",
+    "clip": "hook",
+    "from": 15.5,
+    "pad": 2,
+    "label": "Test tokens only",
+    "fx": [
+     {
+      "at": 5.5,
+      "kind": "circle",
+      "box": {
+       "x": 1372,
+       "y": 24,
+       "w": 292,
+       "h": 42
+      }
+     }
+    ],
+    "text": "Imprest brings those two sides together. This prototype runs on Monad Testnet and trades on Perpl's testnet exchange. Everything you see here uses test tokens.",
+    "start": 616,
+    "frames": 393,
+    "audioAt": 11,
+    "audio": "voice/m03_solution.mp3"
+   },
+   {
+    "id": "m04_desk",
+    "clip": "desk",
+    "from": 10,
+    "pad": 3.1,
+    "label": "Path to more capital",
+    "fx": [
+     {
+      "at": 4,
+      "kind": "spot",
+      "zoom": true,
+      "box": {
+       "x": 366,
+       "y": 422,
+       "w": 1524,
+       "h": 292
+      }
+     },
+     {
+      "at": 12.5,
+      "kind": "circle",
+      "box": {
+       "x": 960,
+       "y": 505,
+       "w": 165,
+       "h": 34
+      }
+     }
+    ],
+    "text": "A trader starts by staking their own funds into a trading account. This page shows exactly what it takes to qualify for more trading capital: a two percent gain, over at least two completed trades. This account has finished its two trades, but it's slightly down, so it doesn't qualify yet.",
+    "start": 1009,
+    "frames": 646,
+    "audioAt": 11,
+    "audio": "voice/m04_desk.mp3"
+   },
+   {
+    "id": "m05_risk",
+    "clip": "risk",
+    "from": 8.5,
+    "pad": 2.4,
+    "label": "My account · risk",
+    "fx": [
+     {
+      "at": 1,
+      "kind": "spot",
+      "zoom": true,
+      "box": {
+       "x": 366,
+       "y": 243,
+       "w": 1524,
+       "h": 314
+      }
+     },
+     {
+      "at": 7,
+      "kind": "underline",
+      "box": {
+       "x": 390,
+       "y": 505,
+       "w": 520,
+       "h": 30
+      }
+     }
+    ],
+    "text": "The risk page shows the account's balance, its loss limits, and how much room is left. Here, the balance is about ninety-nine point eight test A.U.S.D., with the loss limit at ninety-four. It also shows leverage, borrowed capital, and fees.",
+    "start": 1655,
+    "frames": 556,
+    "audioAt": 11,
+    "audio": "voice/m05_risk.mp3"
+   },
+   {
+    "id": "m06_trade",
+    "clip": "trade",
+    "from": 8,
+    "pad": 4.9,
+    "label": "Order checks",
+    "fx": [
+     {
+      "at": 1.5,
+      "kind": "spot",
+      "box": {
+       "x": 655,
+       "y": 90,
+       "w": 1220,
+       "h": 800
+      }
+     },
+     {
+      "at": 18.2,
+      "kind": "circle",
+      "box": {
+       "x": 1400,
+       "y": 866,
+       "w": 472,
+       "h": 166
+      }
+     }
+    ],
+    "text": "The terminal puts Perpl's live market beside the order form. Before anything is signed, the page checks the order against the account's rules. If I push leverage past the five-times limit, it explains exactly what's blocking the order, and nothing is sent. The account's own contract enforces the same rules when an order executes.",
+    "start": 2211,
+    "frames": 770,
+    "audioAt": 11,
+    "audio": "voice/m06_trade.mp3"
+   },
+   {
+    "id": "m07_receipt",
+    "clip": "receipt",
+    "from": 10,
+    "pad": 2.6,
+    "label": "Blockchain transaction",
+    "fx": [
+     {
+      "at": 0.5,
+      "kind": "spot",
+      "zoom": true,
+      "box": {
+       "x": 30,
+       "y": 340,
+       "w": 1860,
+       "h": 600
+      }
+     },
+     {
+      "at": 7.5,
+      "kind": "circle",
+      "box": {
+       "x": 512,
+       "y": 840,
+       "w": 560,
+       "h": 100
+      }
+     }
+    ],
+    "text": "Earlier today, an order signed in this browser was submitted by a relayer that paid the network fee. Here is that blockchain transaction: successful, sent by the relayer, to this trading account.",
+    "start": 2981,
+    "frames": 459,
+    "audioAt": 11,
+    "audio": "voice/m07_receipt.mp3"
+   },
+   {
+    "id": "m08_claims",
+    "clip": "claims",
+    "from": 7.5,
+    "pad": 2.4,
+    "label": "Claims",
+    "fx": [
+     {
+      "at": 6.5,
+      "kind": "spot",
+      "zoom": true,
+      "box": {
+       "x": 366,
+       "y": 243,
+       "w": 1020,
+       "h": 104
+      }
+     }
+    ],
+    "text": "Profit can only be withdrawn once it's realized, after fees, with every position closed. This account has nothing to claim, and the page says exactly why: its balance is still below its highest recorded balance.",
+    "start": 3440,
+    "frames": 503,
+    "audioAt": 11,
+    "audio": "voice/m08_claims.mp3"
+   },
+   {
+    "id": "m09_lp",
+    "clip": "lp",
+    "from": 15,
+    "pad": 3.6,
+    "label": "Pool overview",
+    "fx": [
+     {
+      "at": 1,
+      "kind": "spot",
+      "box": {
+       "x": 120,
+       "y": 303,
+       "w": 1680,
+       "h": 483
+      }
+     },
+     {
+      "at": 5,
+      "kind": "circle",
+      "box": {
+       "x": 120,
+       "y": 235,
+       "w": 470,
+       "h": 32
+      }
+     }
+    ],
+    "text": "Capital providers can inspect the pool, and every account using it, with the totals checked through a second, independent connection to the blockchain.",
+    "start": 3943,
+    "frames": 377,
+    "audioAt": 11,
+    "audio": "voice/m09_lp.mp3"
+   },
+   {
+    "id": "m10_close",
+    "clip": "hook",
+    "from": 72,
+    "pad": 3.2,
+    "label": "imprest-chi.vercel.app",
+    "fx": [],
+    "text": "Clear trading rules. Visible risk. A transparent path to more trading capital.",
+    "start": 4320,
+    "frames": 278,
+    "audioAt": 11,
+    "audio": "voice/m10_close.mp3"
+   }
+  ],
+  "captions": [
+   {
+    "text": "What if access to a larger trading",
+    "from": 14,
+    "to": 65
+   },
+   {
+    "text": "account came with rules you could actually",
+    "from": 65,
+    "to": 119
+   },
+   {
+    "text": "inspect?",
+    "from": 119,
+    "to": 154
+   },
+   {
+    "text": "Traders want access to more capital.",
+    "from": 233,
+    "to": 305
+   },
+   {
+    "text": "The people providing it want clear limits",
+    "from": 305,
+    "to": 366
+   },
+   {
+    "text": "on how that capital is used.",
+    "from": 366,
+    "to": 428
+   },
+   {
+    "text": "And both need to understand the rules,",
+    "from": 428,
+    "to": 490
+   },
+   {
+    "text": "and what happens when a trade goes",
+    "from": 490,
+    "to": 534
+   },
+   {
+    "text": "wrong.",
+    "from": 534,
+    "to": 562
+   },
+   {
+    "text": "Imprest brings those two sides together.",
+    "from": 630,
+    "to": 710
+   },
+   {
+    "text": "This prototype runs on Monad Testnet and",
+    "from": 710,
+    "to": 793
+   },
+   {
+    "text": "trades on Perpl's testnet exchange.",
+    "from": 793,
+    "to": 868
+   },
+   {
+    "text": "Everything you see here uses test tokens.",
+    "from": 868,
+    "to": 955
+   },
+   {
+    "text": "A trader starts by staking their own",
+    "from": 1023,
+    "to": 1076
+   },
+   {
+    "text": "funds into a trading account.",
+    "from": 1076,
+    "to": 1143
+   },
+   {
+    "text": "This page shows exactly what it takes",
+    "from": 1143,
+    "to": 1202
+   },
+   {
+    "text": "to qualify for more trading capital:",
+    "from": 1202,
+    "to": 1277
+   },
+   {
+    "text": "a two percent gain, over at least",
+    "from": 1277,
+    "to": 1335
+   },
+   {
+    "text": "two completed trades.",
+    "from": 1335,
+    "to": 1389
+   },
+   {
+    "text": "This account has finished its two trades,",
+    "from": 1389,
+    "to": 1461
+   },
+   {
+    "text": "but it's slightly down, so it doesn't",
+    "from": 1461,
+    "to": 1525
+   },
+   {
+    "text": "qualify yet.",
+    "from": 1525,
+    "to": 1569
+   },
+   {
+    "text": "The risk page shows the account's balance,",
+    "from": 1669,
+    "to": 1741
+   },
+   {
+    "text": "its loss limits, and how much room",
+    "from": 1741,
+    "to": 1801
+   },
+   {
+    "text": "is left. Here, the balance is about",
+    "from": 1801,
+    "to": 1880
+   },
+   {
+    "text": "ninety-nine point eight test A.U.S.D., with",
+    "from": 1880,
+    "to": 1969
+   },
+   {
+    "text": "the loss limit at ninety-four.",
+    "from": 1969,
+    "to": 2030
+   },
+   {
+    "text": "It also shows leverage, borrowed capital,",
+    "from": 2030,
+    "to": 2109
+   },
+   {
+    "text": "and fees.",
+    "from": 2109,
+    "to": 2145
+   },
+   {
+    "text": "The terminal puts Perpl's live market beside",
+    "from": 2225,
+    "to": 2303
+   },
+   {
+    "text": "the order form.",
+    "from": 2303,
+    "to": 2339
+   },
+   {
+    "text": "Before anything is signed, the page checks",
+    "from": 2339,
+    "to": 2412
+   },
+   {
+    "text": "the order against the account's rules.",
+    "from": 2412,
+    "to": 2481
+   },
+   {
+    "text": "If I push leverage past the five-times",
+    "from": 2481,
+    "to": 2544
+   },
+   {
+    "text": "limit, it explains exactly what's blocking",
+    "from": 2544,
+    "to": 2622
+   },
+   {
+    "text": "the order, and nothing is sent.",
+    "from": 2622,
+    "to": 2690
+   },
+   {
+    "text": "The account's own contract enforces the same",
+    "from": 2690,
+    "to": 2770
+   },
+   {
+    "text": "rules when an order executes.",
+    "from": 2770,
+    "to": 2840
+   },
+   {
+    "text": "Earlier today, an order signed in this",
+    "from": 2995,
+    "to": 3057
+   },
+   {
+    "text": "browser was submitted by a relayer that",
+    "from": 3057,
+    "to": 3123
+   },
+   {
+    "text": "paid the network fee.",
+    "from": 3123,
+    "to": 3173
+   },
+   {
+    "text": "Here is that blockchain transaction:",
+    "from": 3173,
+    "to": 3242
+   },
+   {
+    "text": "successful, sent by the relayer, to this",
+    "from": 3242,
+    "to": 3325
+   },
+   {
+    "text": "trading account.",
+    "from": 3325,
+    "to": 3368
+   },
+   {
+    "text": "Profit can only be withdrawn once it's",
+    "from": 3454,
+    "to": 3518
+   },
+   {
+    "text": "realized, after fees, with every position",
+    "from": 3518,
+    "to": 3606
+   },
+   {
+    "text": "closed. This account has nothing to claim,",
+    "from": 3606,
+    "to": 3698
+   },
+   {
+    "text": "and the page says exactly why:",
+    "from": 3698,
+    "to": 3764
+   },
+   {
+    "text": "its balance is still below its highest",
+    "from": 3764,
+    "to": 3828
+   },
+   {
+    "text": "recorded balance.",
+    "from": 3828,
+    "to": 3877
+   },
+   {
+    "text": "Capital providers can inspect the pool, and",
+    "from": 3956,
+    "to": 4036
+   },
+   {
+    "text": "every account using it, with the totals",
+    "from": 4036,
+    "to": 4099
+   },
+   {
+    "text": "checked through a second, independent connection",
+    "from": 4099,
+    "to": 4177
+   },
+   {
+    "text": "to the blockchain.",
+    "from": 4177,
+    "to": 4218
+   },
+   {
+    "text": "Clear trading rules.",
+    "from": 4333,
+    "to": 4379
+   },
+   {
+    "text": "Visible risk. A transparent path to more",
+    "from": 4379,
+    "to": 4465
+   },
+   {
+    "text": "trading capital.",
+    "from": 4465,
+    "to": 4508
+   }
+  ]
+ },
+ "perpl": {
+  "fps": 30,
+  "frames": 3350,
+  "seconds": 111.67,
+  "scenes": [
+   {
+    "id": "p01_open",
+    "clip": "lp",
+    "from": 14,
+    "pad": 1,
+    "label": "Pool overview",
+    "fx": [],
+    "text": "How do you see the risk across a trading pool, and inside your own account? This is Imprest's risk dashboard for trading on Perpl.",
+    "start": 0,
+    "frames": 277,
+    "audioAt": 11,
+    "audio": "voice/p01_open.mp3"
+   },
+   {
+    "id": "p02_tiles",
+    "clip": "lp",
+    "from": 22,
+    "pad": 1,
+    "label": "Pool overview",
+    "fx": [
+     {
+      "at": 0.5,
+      "kind": "spot",
+      "box": {
+       "x": 120,
+       "y": 303,
+       "w": 1680,
+       "h": 483
+      }
+     },
+     {
+      "at": 7,
+      "kind": "circle",
+      "box": {
+       "x": 120,
+       "y": 235,
+       "w": 470,
+       "h": 32
+      }
+     }
+    ],
+    "text": "The public view shows the pool's assets, the capital still available, and how much is lent out. This badge confirms the totals were checked through a second, independent connection to the blockchain, at the same block.",
+    "start": 277,
+    "frames": 421,
+    "audioAt": 11,
+    "audio": "voice/p02_tiles.mp3"
+   },
+   {
+    "id": "p03_atrisk",
+    "clip": "lp",
+    "from": 35,
+    "pad": 1,
+    "label": "Principal at risk",
+    "fx": [
+     {
+      "at": 0.3,
+      "kind": "spot",
+      "zoom": true,
+      "box": {
+       "x": 120,
+       "y": 424,
+       "w": 420,
+       "h": 121
+      }
+     }
+    ],
+    "text": "Principal at risk shows any shortfall right now: borrowed capital minus the balance of funded accounts. Today, that's zero.",
+    "start": 698,
+    "frames": 280,
+    "audioAt": 11,
+    "audio": "voice/p03_atrisk.mp3"
+   },
+   {
+    "id": "p04_exposure",
+    "clip": "lp",
+    "from": 57,
+    "pad": 1,
+    "label": "Market exposure",
+    "fx": [
+     {
+      "at": 0.4,
+      "kind": "spot",
+      "zoom": true,
+      "box": {
+       "x": 120,
+       "y": 240,
+       "w": 1680,
+       "h": 197
+      }
+     }
+    ],
+    "text": "Market exposure shows how much funded trading sits in Bitcoin and Ethereum on Perpl, against each market's limit.",
+    "start": 978,
+    "frames": 262,
+    "audioAt": 11,
+    "audio": "voice/p04_exposure.mp3"
+   },
+   {
+    "id": "p05_desks",
+    "clip": "lp",
+    "from": 64.5,
+    "pad": 0.8,
+    "label": "Every trading account",
+    "fx": [
+     {
+      "at": 0.4,
+      "kind": "spot",
+      "box": {
+       "x": 120,
+       "y": 462,
+       "w": 1680,
+       "h": 354
+      }
+     }
+    ],
+    "text": "Each row is a trading account: its balance, its loss limit, the buffer that remains, and its status. So you can see at a glance which accounts need attention.",
+    "start": 1241,
+    "frames": 334,
+    "audioAt": 11,
+    "audio": "voice/p05_desks.mp3"
+   },
+   {
+    "id": "p06_funded",
+    "clip": "lp",
+    "from": 75.5,
+    "pad": 1,
+    "label": "A funded account",
+    "fx": [
+     {
+      "at": 0.4,
+      "kind": "spot",
+      "zoom": true,
+      "box": {
+       "x": 120,
+       "y": 694,
+       "w": 1680,
+       "h": 60
+      }
+     }
+    ],
+    "text": "This funded account borrowed four hundred test A.U.S.D. from the pool. Its balance is about four hundred and ninety-four, with its loss limit near four hundred and seventy-two.",
+    "start": 1575,
+    "frames": 354,
+    "audioAt": 11,
+    "audio": "voice/p06_funded.mp3"
+   },
+   {
+    "id": "p07_risk",
+    "clip": "risk",
+    "from": 10,
+    "pad": 1,
+    "label": "My account",
+    "fx": [
+     {
+      "at": 0.4,
+      "kind": "spot",
+      "box": {
+       "x": 366,
+       "y": 243,
+       "w": 1524,
+       "h": 314
+      }
+     }
+    ],
+    "text": "Inside my own account, the risk center shows my balance, and how far I am from each loss limit: the trading floor, and today's daily loss limit, measured from where the day started.",
+    "start": 1929,
+    "frames": 373,
+    "audioAt": 11,
+    "audio": "voice/p07_risk.mp3"
+   },
+   {
+    "id": "p08_bar",
+    "clip": "risk",
+    "from": 28.5,
+    "pad": 1.2,
+    "label": "Leverage, credit and fees",
+    "fx": [
+     {
+      "at": 0.4,
+      "kind": "spot",
+      "box": {
+       "x": 753,
+       "y": 374,
+       "w": 750,
+       "h": 448
+      }
+     }
+    ],
+    "text": "Below that, it shows my leverage, the borrowed capital on the account, and the fees it owes.",
+    "start": 2302,
+    "frames": 220,
+    "audioAt": 11,
+    "audio": "voice/p08_bar.mp3"
+   },
+   {
+    "id": "p09_trade",
+    "clip": "trade",
+    "from": 8,
+    "pad": 0.6,
+    "label": "Order checks",
+    "fx": [
+     {
+      "at": 0.4,
+      "kind": "spot",
+      "box": {
+       "x": 1018,
+       "y": 320,
+       "w": 345,
+       "h": 560
+      }
+     },
+     {
+      "at": 5,
+      "kind": "spot",
+      "zoom": true,
+      "box": {
+       "x": 1400,
+       "y": 760,
+       "w": 470,
+       "h": 320
+      }
+     }
+    ],
+    "text": "On the trading screen, Perpl's live order book sits beside the order checks. The preview estimates margin, fees, and the largest new order the account's limits allow.",
+    "start": 2522,
+    "frames": 351,
+    "audioAt": 11,
+    "audio": "voice/p09_trade.mp3"
+   },
+   {
+    "id": "p10_block",
+    "clip": "trade",
+    "from": 19,
+    "pad": 2.6,
+    "label": "Order checks",
+    "fx": [
+     {
+      "at": 6.8,
+      "kind": "circle",
+      "box": {
+       "x": 1400,
+       "y": 866,
+       "w": 472,
+       "h": 166
+      }
+     }
+    ],
+    "text": "Push leverage past the limit, and the check explains why the order is blocked, before anything is sent.",
+    "start": 2873,
+    "frames": 279,
+    "audioAt": 11,
+    "audio": "voice/p10_block.mp3"
+   },
+   {
+    "id": "p11_close",
+    "clip": "hook",
+    "from": 74,
+    "pad": 1.6,
+    "label": "Monad Testnet · test tokens",
+    "fx": [],
+    "text": "This demonstration runs on Monad Testnet, using test tokens.",
+    "start": 3153,
+    "frames": 197,
+    "audioAt": 11,
+    "audio": "voice/p11_close.mp3"
+   }
+  ],
+  "captions": [
+   {
+    "text": "How do you see the risk across",
+    "from": 14,
+    "to": 54
+   },
+   {
+    "text": "a trading pool, and inside your own",
+    "from": 54,
+    "to": 113
+   },
+   {
+    "text": "account? This is Imprest's risk dashboard",
+    "from": 113,
+    "to": 201
+   },
+   {
+    "text": "for trading on Perpl.",
+    "from": 201,
+    "to": 253
+   },
+   {
+    "text": "The public view shows the pool's assets,",
+    "from": 291,
+    "to": 365
+   },
+   {
+    "text": "the capital still available, and how much",
+    "from": 365,
+    "to": 431
+   },
+   {
+    "text": "is lent out.",
+    "from": 431,
+    "to": 463
+   },
+   {
+    "text": "This badge confirms the totals were checked",
+    "from": 463,
+    "to": 532
+   },
+   {
+    "text": "through a second, independent connection",
+    "from": 532,
+    "to": 598
+   },
+   {
+    "text": "to the blockchain, at the same block.",
+    "from": 598,
+    "to": 675
+   },
+   {
+    "text": "Principal at risk shows any shortfall right",
+    "from": 712,
+    "to": 785
+   },
+   {
+    "text": "now: borrowed capital minus the balance of",
+    "from": 785,
+    "to": 867
+   },
+   {
+    "text": "funded accounts. Today, that's zero.",
+    "from": 867,
+    "to": 955
+   },
+   {
+    "text": "Market exposure shows how much funded trading",
+    "from": 992,
+    "to": 1069
+   },
+   {
+    "text": "sits in Bitcoin and Ethereum on Perpl,",
+    "from": 1069,
+    "to": 1155
+   },
+   {
+    "text": "against each market's limit.",
+    "from": 1155,
+    "to": 1217
+   },
+   {
+    "text": "Each row is a trading account:",
+    "from": 1254,
+    "to": 1317
+   },
+   {
+    "text": "its balance, its loss limit, the buffer",
+    "from": 1317,
+    "to": 1394
+   },
+   {
+    "text": "that remains, and its status.",
+    "from": 1394,
+    "to": 1465
+   },
+   {
+    "text": "So you can see at a glance",
+    "from": 1465,
+    "to": 1502
+   },
+   {
+    "text": "which accounts need attention.",
+    "from": 1502,
+    "to": 1557
+   },
+   {
+    "text": "This funded account borrowed four hundred",
+    "from": 1589,
+    "to": 1652
+   },
+   {
+    "text": "test A.U.S.D. from the pool.",
+    "from": 1652,
+    "to": 1715
+   },
+   {
+    "text": "Its balance is about four hundred and",
+    "from": 1715,
+    "to": 1774
+   },
+   {
+    "text": "ninety-four, with its loss limit near four",
+    "from": 1774,
+    "to": 1854
+   },
+   {
+    "text": "hundred and seventy-two.",
+    "from": 1854,
+    "to": 1905
+   },
+   {
+    "text": "Inside my own account, the risk center",
+    "from": 1943,
+    "to": 2010
+   },
+   {
+    "text": "shows my balance, and how far I",
+    "from": 2010,
+    "to": 2076
+   },
+   {
+    "text": "am from each loss limit:",
+    "from": 2076,
+    "to": 2129
+   },
+   {
+    "text": "the trading floor, and today's daily loss",
+    "from": 2129,
+    "to": 2197
+   },
+   {
+    "text": "limit, measured from where the day started.",
+    "from": 2197,
+    "to": 2279
+   },
+   {
+    "text": "Below that, it shows my leverage, the",
+    "from": 2316,
+    "to": 2384
+   },
+   {
+    "text": "borrowed capital on the account, and the",
+    "from": 2384,
+    "to": 2448
+   },
+   {
+    "text": "fees it owes.",
+    "from": 2448,
+    "to": 2492
+   },
+   {
+    "text": "On the trading screen, Perpl's live order",
+    "from": 2536,
+    "to": 2601
+   },
+   {
+    "text": "book sits beside the order checks.",
+    "from": 2601,
+    "to": 2678
+   },
+   {
+    "text": "The preview estimates margin, fees, and the",
+    "from": 2678,
+    "to": 2766
+   },
+   {
+    "text": "largest new order the account's limits allow.",
+    "from": 2766,
+    "to": 2862
+   },
+   {
+    "text": "Push leverage past the limit, and the",
+    "from": 2887,
+    "to": 2948
+   },
+   {
+    "text": "check explains why the order is blocked,",
+    "from": 2948,
+    "to": 3020
+   },
+   {
+    "text": "before anything is sent.",
+    "from": 3020,
+    "to": 3081
+   },
+   {
+    "text": "This demonstration runs on Monad Testnet,",
+    "from": 3166,
+    "to": 3251
+   },
+   {
+    "text": "using test tokens.",
+    "from": 3251,
+    "to": 3309
+   }
+  ]
+ }
+}

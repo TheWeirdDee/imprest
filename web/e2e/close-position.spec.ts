@@ -18,8 +18,12 @@ async function fakePosition(page: Page, perpId: bigint, lots: bigint, positionTy
     if (body?.method !== "eth_call" || call?.to?.toLowerCase() !== EXCHANGE || !call.data?.startsWith("0x751de421")) return route.fallback();
     const { args } = decodeFunctionData({ abi, data: call.data });
     if (args?.[0] !== perpId || args?.[1] !== ACCOUNT_ID) return route.fallback();
-    const real = await route.fetch();
-    const json = await real.json();
+    let json: { result: Hex };
+    try {
+      json = await (await route.fetch()).json();
+    } catch {
+      return; // the test (and page) ended while this read was in flight
+    }
     const [info, mark, valid] = decodeFunctionResult({ abi, functionName: "getPosition", data: json.result }) as unknown as [Record<string, unknown>, bigint, boolean];
     const result = encodeFunctionResult({
       abi,
@@ -29,6 +33,11 @@ async function fakePosition(page: Page, perpId: bigint, lots: bigint, positionTy
     await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ...json, result }) });
   });
 }
+
+// Remove the read interceptor after each test so an in-flight read cannot outlive its test.
+test.afterEach(async ({ page }) => {
+  await page.unrouteAll({ behavior: "ignoreErrors" });
+});
 
 const remember = (page: Page) =>
   page.addInitScript((a) => localStorage.setItem("imprest.account.v1.testnet", JSON.stringify({ address: a, kind: "mera" })), OWNER);

@@ -11,7 +11,7 @@ import {
   type PublicClient,
   type TransactionReceipt,
 } from "viem";
-import { compareReadback, toAppError, transition, type ActionState, type Readback } from "@imprest/core";
+import { SendGate, compareReadback, decideFromReceipts, releasable, toAppError, transition, type ActionState, type LookupResult, type Readback } from "@imprest/core";
 import { chain, primaryClient, strictPrimaryClient, verifyClient } from "./chain";
 import { primaryRpc, verifyRpc, network } from "./env";
 
@@ -25,8 +25,10 @@ export interface LocalReceipt {
   /** "mined": receipt found later (after a reload) and matched on both RPCs; post-state not re-checked. */
   state: ActionState["kind"] | "mined";
   reason?: string;
-  /** Not seen by the RPC for 10 minutes: no longer blocks new transactions. */
+  /** Released by the user (after both RPCs answered "not found" for 10 minutes): no longer blocks. */
   dropped?: boolean;
+  /** Both RPCs have answered "not found" for 10 minutes: the user may release it. */
+  releasable?: boolean;
   readback?: Readback;
   at: string;
 }
@@ -52,50 +54,121 @@ function saveLocalReceipt(r: LocalReceipt) {
 }
 
 const UNRESOLVED: LocalReceipt["state"][] = ["submitted", "unknown"];
-/** After this long without the RPC knowing the transaction at all, it is treated as dropped. */
-const DROPPED_AFTER_MS = 10 * 60_000;
+/** Only after this long, with BOTH providers answering "not found", may the user release a hash. */
+const RELEASABLE_AFTER_MS = 10 * 60_000;
+
+/** A lookup either answered (found, or an explicit not-found) or failed. A failure proves nothing. */
+type Lookup<T> = LookupResult<T>;
+async function lookup<T>(f: () => Promise<T>): Promise<Lookup<T>> {
+  try {
+    return { ok: true, value: await f() };
+  } catch (e) {
+    // viem raises TransactionReceiptNotFoundError / TransactionNotFoundError for a definite "no".
+    if (/NotFound/.test((e as Error)?.name ?? "")) return { ok: true, value: null };
+    return { ok: false, error: ((e as Error)?.message ?? String(e)).split("\n")[0]! };
+  }
+}
 
 /**
- * Looks up every saved transaction whose outcome is still unknown (for example after a receipt
- * timeout or a page reload) and records what the chain now says. Returns those still unresolved.
- * A transaction found later is "mined" (receipt matched on both RPCs), not "verified": the expected
- * post-state from the original page is not available any more, so it is not re-checked.
+ * Looks up every saved transaction whose outcome is still unknown (after a receipt timeout or a
+ * reload) and records what the chain now says. Returns the ones that must still block new sends.
+ * - Found on BOTH distinct providers at the same block: "mined" (post-state not re-checked, since
+ *   the original page's expectations are gone). The primary is read without fallback, so a primary
+ *   outage can never make one provider count twice.
+ * - A failed lookup is never treated as "not found": the hash stays unresolved and keeps blocking.
+ * - Nothing is released automatically. After 10 minutes in which both providers answer "not found",
+ *   the user may release it from My receipts (releasePending), after checking the explorer.
  */
 export async function reconcilePending(): Promise<LocalReceipt[]> {
   const open = loadLocalReceipts().filter((r) => r.chainId === network.chainId && UNRESOLVED.includes(r.state));
   const still: LocalReceipt[] = [];
+  const vc = verifyClient();
   for (const r of open) {
+    if (r.dropped) continue; // released by the user
     const hash = r.txHash;
-    const receipt = await primaryClient().getTransactionReceipt({ hash }).catch(() => null);
-    if (receipt) {
-      if (receipt.status === "reverted") {
-        saveLocalReceipt({ ...r, state: "failed", blockNumber: receipt.blockNumber.toString(), reason: `Reverted onchain in block ${receipt.blockNumber} (found after the page lost track of it).` });
-        continue;
-      }
-      const vr = await verifyClient()?.getTransactionReceipt({ hash }).catch(() => null);
-      const agree = vr && vr.status === "success" && vr.blockNumber === receipt.blockNumber;
+    const [p, v] = await Promise.all([
+      lookup(() => strictPrimaryClient().getTransactionReceipt({ hash })),
+      vc ? lookup(() => vc.getTransactionReceipt({ hash })) : Promise.resolve<Lookup<TransactionReceipt>>({ ok: false, error: "no second RPC configured" }),
+    ]);
+    const d = decideFromReceipts(p, v);
+    if (d.kind === "failed") {
+      saveLocalReceipt({ ...r, state: "failed", blockNumber: d.blockNumber.toString(), reason: `Reverted onchain in block ${d.blockNumber} (found after the page lost track of it).` });
+      continue;
+    }
+    if (d.kind === "mined") {
       saveLocalReceipt({
         ...r,
-        state: agree ? "mined" : "unknown",
-        blockNumber: receipt.blockNumber.toString(),
-        reason: agree
-          ? `Mined in block ${receipt.blockNumber}; the receipt matches on both RPCs. Found after the page lost track of it, so the expected result was not re-checked: look at your desk and positions.`
-          : `Mined in block ${receipt.blockNumber} on the primary RPC; the second RPC has not confirmed it yet.`,
+        state: "mined",
+        blockNumber: d.blockNumber.toString(),
+        reason: `Mined in block ${d.blockNumber}; the receipt matches on two distinct RPCs. Found after the page lost track of it, so the expected result was not re-checked: look at your desk and positions.`,
       });
-      if (!agree) still.push(r);
       continue;
     }
-    const known = await primaryClient().getTransaction({ hash }).catch(() => null);
-    const age = Date.now() - new Date(r.at).getTime();
-    if (!known && age > DROPPED_AFTER_MS) {
-      saveLocalReceipt({ ...r, state: "unknown", reason: "The RPC has not seen this transaction for over 10 minutes; it was most likely dropped and did not execute. Check the explorer link before relying on that." , dropped: true });
-      continue;
+    let updated: LocalReceipt;
+    if (d.kind === "single-provider") {
+      updated = { ...r, state: "unknown", blockNumber: d.blockNumber.toString(), reason: `Mined in block ${d.blockNumber} according to the ${d.which} RPC only; the other provider has not confirmed it. Do not resend.` };
+    } else if (d.kind === "lookup-failed") {
+      updated = { ...r, state: "unknown", reason: `Outcome unknown: an RPC lookup failed (${d.error}). The hash is kept; do not resend until it is reconciled.` };
+    } else {
+      // Neither provider has a receipt. Is the transaction at least known (pending)?
+      const [pt, vt] = await Promise.all([
+        lookup(() => strictPrimaryClient().getTransaction({ hash })),
+        vc ? lookup(() => vc.getTransaction({ hash })) : Promise.resolve<Lookup<unknown>>({ ok: false, error: "no second RPC configured" }),
+      ]);
+      const age = Date.now() - new Date(r.at).getTime();
+      const canRelease = releasable(pt, vt, age, RELEASABLE_AFTER_MS);
+      const bothAnswered = pt.ok && vt.ok;
+      const anyKnows = (pt.ok && pt.value) || (vt.ok && vt.value);
+      updated = {
+        ...r,
+        state: "unknown",
+        releasable: canRelease,
+        reason: canRelease
+          ? "Neither RPC has known this transaction for over 10 minutes; it was probably dropped, but that is not proof. Check the explorer, then you may release it below."
+          : !bothAnswered
+            ? "Outcome unknown: an RPC lookup failed. The hash is kept; do not resend until it is reconciled."
+            : anyKnows
+              ? "Submitted and still pending: a provider knows the transaction but it is not mined yet. Do not resend."
+              : "Not seen by either RPC yet. Waiting before it can be released; do not resend.",
+      };
     }
-    if (!r.dropped) still.push(r);
-  }
-  return still;
+    saveLocalReceipt(updated);
+    still.push(updated);
+  }  return still;
 }
 
+/**
+ * The user's explicit release of an unresolved hash, allowed only after reconcilePending found it
+ * unknown to both providers for 10 minutes. New transactions are then no longer blocked by it.
+ */
+export function releasePending(id: string): boolean {
+  const r = loadLocalReceipts().find((x) => x.id === id);
+  if (!r || !r.releasable) return false;
+  saveLocalReceipt({ ...r, dropped: true, reason: `${r.reason ?? ""} Released by you at ${new Date().toISOString()}.`.trim() });
+  return true;
+}
+
+/** One action at a time per tab, taken synchronously before the first await (no double send). */
+const gate = new SendGate();
+/** Cross-tab: a short-lived marker so another tab of this site does not send at the same moment. */
+const LOCK_KEY = `imprest.tx.inflight.${network.environment}`;
+const LOCK_MS = 3 * 60_000;
+function otherTabBusy(): boolean {
+  try {
+    const at = Number(localStorage.getItem(LOCK_KEY) ?? "0");
+    return Date.now() - at < LOCK_MS;
+  } catch {
+    return false;
+  }
+}
+function setTabLock(on: boolean) {
+  try {
+    if (on) localStorage.setItem(LOCK_KEY, String(Date.now()));
+    else localStorage.removeItem(LOCK_KEY);
+  } catch {
+    /* storage unavailable: the in-tab lock still applies */
+  }
+}
 export interface WriteSpec {
   address: Address;
   abi: Abi | readonly unknown[];
@@ -167,10 +240,40 @@ export function useAction() {
   const [state, setState] = useState<ActionState>({ kind: "idle" });
 
   /** Accepts a spec, or a factory (e.g. one that first asks for the passkey); a failure in the factory becomes the error state. */
-  const run = useCallback(async (input: ActionSpec | (() => Promise<ActionSpec>)) => {
+  const refuse = (reason: string, code: string) => {
+    const st = transition(transition({ kind: "idle" }, { type: "request", label: "New transaction" }), { type: "error", reason, code });
+    setState(st);
+    return st;
+  };
+
+  /**
+   * One send at a time: the in-tab lock is taken synchronously, before any await, so two quick
+   * calls (double click, two components) cannot both reach send; a short-lived marker does the
+   * same across tabs of this site.
+   */
+  const run = useCallback(async (input: ActionSpec | (() => Promise<ActionSpec>)): Promise<ActionState> => {
+    if (gate.held) return refuse("Another transaction is already being prepared or sent from this page. Nothing else was sent.", "IN_FLIGHT");
+    if (otherTabBusy()) return refuse("Another tab of this site is sending a transaction right now. Wait for it to finish; nothing was sent.", "IN_FLIGHT_OTHER_TAB");
+    if (!gate.tryAcquire()) return refuse("Another transaction is already being prepared or sent from this page. Nothing else was sent.", "IN_FLIGHT");
+    setTabLock(true);
+    try {
+      return await runOnce(input);
+    } finally {
+      gate.release();
+      setTabLock(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const runOnce = useCallback(async (input: ActionSpec | (() => Promise<ActionSpec>)) => {
     // Never send while an earlier transaction from this browser may still settle: a retry could
-    // duplicate an order or open a second desk.
-    const unresolved = await reconcilePending().catch(() => [] as LocalReceipt[]);
+    // duplicate an order or open a second desk. If the check itself fails, nothing is sent either.
+    let unresolved: LocalReceipt[];
+    try {
+      unresolved = await reconcilePending();
+    } catch (e) {
+      return refuse(`Could not check earlier transactions (${(e as Error).message.split("\n")[0]}). Nothing was sent; try again shortly.`, "PENDING_CHECK_FAILED");
+    }
     if (unresolved.length > 0) {
       const h = unresolved[0]!.txHash;
       const st = transition(transition({ kind: "idle" }, { type: "request", label: "New transaction" }), {

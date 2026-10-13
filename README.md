@@ -14,7 +14,7 @@ reaches Perpl, and realized profit above your previous high is paid out by the c
 > Live app: **https://imprest-chi.vercel.app** · Proof: [/proof](https://imprest-chi.vercel.app/proof) ·
 > Live checks: [/status](https://imprest-chi.vercel.app/status)
 
-![Imprest landing page](proof/screenshots/1440-landing.png)
+![Imprest: trading credit with risk enforced at the order layer](proof/screenshots/1440-hero.png)
 
 ## Who it is for and why
 

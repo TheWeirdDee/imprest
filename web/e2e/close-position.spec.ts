@@ -111,3 +111,18 @@ test("the Close position button is visible without horizontal scrolling on deskt
     expect(box.x + box.width, "inside the table's visible area").toBeLessThanOrEqual(scroller.right + 1);
   }
 });
+
+// A malformed or edited close link must never crash the terminal (it is ignored and removed).
+for (const bad of ["abc", "", "-16", "1e3", "9".repeat(400), "99", "16.0"]) {
+  test(`a malformed close link (${bad.slice(0, 12) || "empty"}) is ignored and the terminal stays usable`, async ({ page }) => {
+    await remember(page);
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.goto(`/app/trade/btc?close=${encodeURIComponent(bad)}&n=1`, { waitUntil: "domcontentloaded" });
+    await expect(page.getByLabel(/^Size/)).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText("Something failed to load")).toHaveCount(0);
+    await expect(page.getByText(/Ready to close/)).toHaveCount(0);
+    await expect(page.getByLabel(/Reduce-only/)).not.toBeChecked();
+    expect(errors.filter((m) => /BigInt/i.test(m))).toEqual([]);
+  });
+}

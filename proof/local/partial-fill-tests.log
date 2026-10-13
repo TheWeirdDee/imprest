@@ -1,0 +1,8 @@
+commit (tests added on top of): 2663572b1ee19b7220c89c89048df8f92db53623
+date_utc: 2026-10-12T11:27:56Z
+tool: forge Version: 1.5.1-stable
+command: cd contracts && forge test --match-test 'iocPartial|iocWithoutLiquidity' -vv
+[PASS] test_orderType_iocPartialCloseLeavesTheRemainder() (gas: 4333978)
+[PASS] test_orderType_iocPartialFillOpensOnlyWhatFilled() (gas: 2295554)
+[PASS] test_orderType_iocWithoutLiquidityLeavesNoPosition() (gas: 2059182)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 40.09ms (34.16ms CPU time)

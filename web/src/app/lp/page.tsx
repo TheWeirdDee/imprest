@@ -2,7 +2,7 @@
 
 import { BadgeCheck, Landmark, ShieldAlert, TriangleAlert } from "lucide-react";
 import type { Address } from "viem";
-import { DESK_STATUS, deskAbi, deskFactoryAbi, riskLevel, type RiskState } from "@imprest/core";
+import { DESK_STATUS, deskAbi, deskFactoryAbi, lpExposure, riskLevel, type RiskState } from "@imprest/core";
 import { SiteHeader } from "@/components/shell";
 import { AddressLink, Card, EmptyState, PageLoading, Pending, Pill, Skeleton, Stat } from "@/components/ui";
 import { NotDeployed } from "@/components/gates";
@@ -49,21 +49,13 @@ export default function LpConsole() {
   const p = pool.data;
   const book = useDeskBook(p?.deskTotal);
   const desks = book.data ?? [];
-  const active = desks.filter((x) => x.r.status === 0);
-  // Unsettled = Active or Enforcing. An enforcing desk still owes the pool until it settles, so its
-  // shortfall, stake and fees stay in every exposure total.
-  const unsettled = desks.filter((x) => x.r.status === 0 || x.r.status === 1);
-  const enforcing = unsettled.length - active.length;
-  const funded = unsettled.filter((x) => x.r.borrowed > 0n);
-  const stakes = unsettled.reduce((a, x) => a + x.r.originalStake, 0n);
-  const feeLiab = unsettled.reduce((a, x) => a + x.r.feeOutstanding, 0n);
+  // Active and Enforcing desks both count until settled (lpExposure, unit-tested in @imprest/core).
+  const x = lpExposure(desks.map((d) => d.r));
+  const { stakes, feeLiabilities: feeLiab, principalAtRisk: atRisk, enforcing } = x;
+  const activeCount = x.active;
+  const fundedCount = x.funded;
   const scanned = BigInt(desks.length);
   const partial = book.data !== null && book.data !== undefined && p !== null && p !== undefined && scanned < p.deskTotal;
-  const atRisk = funded.reduce((a, x) => {
-    const shortfall = x.r.borrowed - (x.r.equity > 0n ? x.r.equity : 0n);
-    return a + (shortfall > 0n ? shortfall : 0n);
-  }, 0n);
-
   return (
     <div className="min-h-dvh">
       <SiteHeader />
@@ -127,8 +119,8 @@ export default function LpConsole() {
                 <Stat
                   key="ad"
                   label="Active desks"
-                  value={book.data ? `${active.length}` : null}
-                  sub={book.data ? `${funded.length} funded${enforcing ? ` · ${enforcing} enforcing` : ""} · ${p.deskTotal} opened${partial ? ` · newest ${scanned} counted` : ""}` : undefined}
+                  value={book.data ? `${activeCount}` : null}
+                  sub={book.data ? `${fundedCount} funded${enforcing ? ` · ${enforcing} enforcing` : ""} · ${p.deskTotal} opened${partial ? ` · newest ${scanned} counted` : ""}` : undefined}
                 />,
                 <Stat
                   key="pr"

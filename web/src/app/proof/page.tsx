@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
 import { CheckCircle2, FileJson, XCircle } from "lucide-react";
 import type { Claim } from "@imprest/core";
@@ -19,12 +20,7 @@ import {
 import { repoUrl } from "@/lib/proof";
 import { network } from "@/lib/env";
 
-export const metadata: Metadata = {
-  title: "Proof",
-  description:
-    "Every Imprest claim with its evidence: testnet receipts read back on a second RPC, contract tests on Perpl bytecode, and what is still pending.",
-  alternates: { canonical: "/proof" },
-};
+export const metadata: Metadata = pageMeta("Proof", "Every Imprest claim with its evidence: testnet receipts read back on a second RPC, contract tests on Perpl bytecode, and what is still pending.", "/proof");
 export const dynamic = "force-static";
 
 function Money({ c, label }: { c: Claim | undefined; label: string }) {

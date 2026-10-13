@@ -2,6 +2,10 @@ import { describe, expect, it } from "vitest";
 import { encodeErrorResult as encErr, recoverTypedDataAddress } from "viem";
 import { privateKeyToAccount as pk } from "viem/accounts";
 import {
+  SendGate,
+  decideFromReceipts,
+  releasable,
+  eventMatchesOrder,
   claimPreview,
   closedMarketMessage,
   lpExposure,
@@ -254,6 +258,16 @@ describe("frontend policy check (validation only)", () => {
       policy, risk, markPns: 1_000_000n, markValid: true, positionLots: 0n, positionIsLong: null,
     });
     expect(r.ok).toBe(true);
+    expect(r.unknown).toEqual([]);
+  });
+  it("an unknown mark is not a PASS: the price band check is unknown and ok is false", () => {
+    const r = checkPolicy({
+      order: { perpId: 16n, side: 0, priceLimit: 1_002_000n, lots: 10n, leverage: 500n, reduceOnly: false, fillOrKill: false },
+      policy, risk, markPns: null, markValid: true, positionLots: 0n, positionIsLong: null,
+    });
+    expect(r.ok).toBe(false);
+    expect(r.unknown.length).toBeGreaterThan(0);
+    expect(r.checks.some((c) => c.status === "blocked")).toBe(false);
   });
   it("risk level reads breach below floor", () => {
     expect(riskLevel({ ...risk, equity: 93_000_000n })).toBe("breach");
@@ -387,5 +401,67 @@ describe("money previews (LP, claim, max order, close message)", () => {
     expect(closedMarketMessage("BTC", ["ETH long"])).toMatch(/Still open: ETH long\. The desk is not flat/);
     expect(closedMarketMessage("BTC", [])).toMatch(/the desk is flat/);
     expect(closedMarketMessage("BTC", null)).not.toMatch(/desk is flat/);
+  });
+});
+
+describe("a receipt is bound to the exact requested order", () => {
+  const order = { perpId: 16n, side: 0, priceLimit: 834000n, lots: 10n, leverage: 300n, reduceOnly: false, fillOrKill: false };
+  const ev = { perpId: 16n, side: 0, orderType: 0, priceLimit: 834000n, lots: 10n, leverage: 300n, fillOrKill: false, nonce: 7n };
+  it("accepts the matching event", () => expect(eventMatchesOrder(ev, order, 7n)).toBe("yes"));
+  it("rejects another valid same-direction trade (size, price, leverage, nonce)", () => {
+    expect(eventMatchesOrder({ ...ev, lots: 100n }, order, 7n)).toMatch(/^lots/);
+    expect(eventMatchesOrder({ ...ev, priceLimit: 900000n }, order, 7n)).toMatch(/^priceLimit/);
+    expect(eventMatchesOrder({ ...ev, leverage: 500n }, order, 7n)).toMatch(/^leverage/);
+    expect(eventMatchesOrder({ ...ev, nonce: 6n }, order, 7n)).toMatch(/^nonce/);
+    expect(eventMatchesOrder({ ...ev, perpId: 32n }, order, 7n)).toMatch(/^perpId/);
+  });
+  it("checks reduce-only through the Perpl order type", () => {
+    const close = { ...order, side: 1, reduceOnly: true };
+    expect(eventMatchesOrder({ ...ev, side: 1, orderType: 2 }, close, 7n)).toBe("yes");
+    expect(eventMatchesOrder({ ...ev, side: 1, orderType: 1 }, close, 7n)).toMatch(/^orderType/);
+    expect(compareReadback({ orderMatches: "yes" }, { orderMatches: eventMatchesOrder({ ...ev, lots: 100n }, order, 7n) }).ok).toBe(false);
+  });
+});
+
+describe("lost transactions: lookups, release and the send gate", () => {
+  const ok = <T,>(value: T | null) => ({ ok: true as const, value });
+  const fail = (error = "HTTP 503") => ({ ok: false as const, error });
+  const rc = (blockNumber: bigint, status: "success" | "reverted" = "success") => ({ status, blockNumber });
+  it("an RPC failure is never read as 'not found' or 'dropped'", () => {
+    expect(decideFromReceipts(fail(), fail())).toEqual({ kind: "lookup-failed", error: "HTTP 503" });
+    expect(decideFromReceipts(ok(null), fail("timeout"))).toEqual({ kind: "lookup-failed", error: "timeout" });
+    // Both failing for any duration never enables a release.
+    expect(releasable(fail(), fail(), 60 * 60_000)).toBe(false);
+    expect(releasable(ok(null), fail(), 60 * 60_000)).toBe(false);
+  });
+  it("mined requires two providers at the same block; one provider stays unresolved", () => {
+    expect(decideFromReceipts(ok(rc(10n)), ok(rc(10n)))).toEqual({ kind: "mined", blockNumber: 10n });
+    expect(decideFromReceipts(ok(rc(10n)), fail())).toEqual({ kind: "single-provider", blockNumber: 10n, which: "primary" });
+    expect(decideFromReceipts(fail(), ok(rc(10n)))).toEqual({ kind: "single-provider", blockNumber: 10n, which: "second" });
+    expect(decideFromReceipts(ok(rc(10n)), ok(rc(11n))).kind).toBe("single-provider");
+    expect(decideFromReceipts(ok(rc(10n, "reverted")), fail())).toEqual({ kind: "failed", blockNumber: 10n });
+  });
+  it("release is possible only after 10 minutes of definite not-found on both providers", () => {
+    expect(decideFromReceipts(ok(null), ok(null))).toEqual({ kind: "check-pending" });
+    expect(releasable(ok(null), ok(null), 11 * 60_000)).toBe(true);
+    expect(releasable(ok(null), ok(null), 9 * 60_000)).toBe(false);
+    expect(releasable(ok({ hash: "0x" }), ok(null), 11 * 60_000)).toBe(false); // still pending somewhere
+  });
+  it("two concurrent sends: only the first passes the gate until it is released", async () => {
+    const gate = new SendGate();
+    let sends = 0;
+    const run = async () => {
+      if (!gate.tryAcquire()) return "refused";
+      try {
+        await new Promise((r) => setTimeout(r, 20)); // slow expectations, signer and relay
+        sends++;
+        return "sent";
+      } finally {
+        gate.release();
+      }
+    };
+    expect(await Promise.all([run(), run()])).toEqual(["sent", "refused"]);
+    expect(sends).toBe(1);
+    expect(await run()).toBe("sent"); // released afterwards
   });
 });

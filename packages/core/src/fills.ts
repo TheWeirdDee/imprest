@@ -28,3 +28,33 @@ export function describeFill(order: { side: number; lots: bigint }, before: bigi
     direction: matches ? "matches order" : "opposite to order",
   };
 }
+
+/** Perpl order type the Desk contract derives from an order (see Desk._trade). */
+export function expectedOrderType(order: { side: number; reduceOnly: boolean }): number {
+  return order.reduceOnly ? (order.side === 0 ? 3 : 2) : order.side === 0 ? 0 : 1;
+}
+
+/**
+ * Binds a TradeExecuted event to the order that was actually requested. Two RPCs can agree about
+ * the wrong transaction (for example a relayer returning the hash of an older trade on the same
+ * desk), so every field of the request, the desk and the nonce must match. Returns "yes" or the
+ * first mismatch.
+ */
+export function eventMatchesOrder(
+  ev: { perpId: bigint; side: number | bigint; orderType: number | bigint; priceLimit: bigint; lots: bigint; leverage: bigint; fillOrKill: boolean; nonce: bigint },
+  order: { perpId: bigint; side: number; priceLimit: bigint; lots: bigint; leverage: bigint; reduceOnly: boolean; fillOrKill: boolean },
+  nonce: bigint,
+): string {
+  const checks: [string, unknown, unknown][] = [
+    ["perpId", BigInt(ev.perpId), order.perpId],
+    ["side", Number(ev.side), order.side],
+    ["orderType", Number(ev.orderType), expectedOrderType(order)],
+    ["priceLimit", BigInt(ev.priceLimit), order.priceLimit],
+    ["lots", BigInt(ev.lots), order.lots],
+    ["leverage", BigInt(ev.leverage), order.leverage],
+    ["fillOrKill", Boolean(ev.fillOrKill), order.fillOrKill],
+    ["nonce", BigInt(ev.nonce), nonce],
+  ];
+  for (const [k, got, want] of checks) if (got !== want) return `${k}: event ${String(got)}, requested ${String(want)}`;
+  return "yes";
+}

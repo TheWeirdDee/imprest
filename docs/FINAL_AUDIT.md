@@ -1,5 +1,7 @@
 # Final audit
 
+> **Historical snapshot (2026-10-08).** This internal review is kept as recorded. It is not an external security audit. Later fixes and verification are in [VERIFICATION.md](VERIFICATION.md); hosting status is in [ENVIRONMENT_MATRIX.md](ENVIRONMENT_MATRIX.md) and [HOSTING.md](HOSTING.md).
+
 2026-10-08. Every line below is backed by a file in the repository or a run recorded in this
 document. Nothing pending is presented as done.
 

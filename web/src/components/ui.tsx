@@ -342,7 +342,7 @@ export function TxLink({
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="num inline-flex items-center gap-1 text-accent hover:underline"
+      className="num inline-flex min-h-6 items-center gap-1 text-accent hover:underline"
     >
       {text}
       <ExternalLink size={11} aria-hidden />
@@ -368,7 +368,7 @@ export function AddressLink({
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="num inline-flex items-center gap-1 text-accent hover:underline"
+      className="num inline-flex min-h-6 items-center gap-1 text-accent hover:underline"
     >
       {text}
       <ExternalLink size={11} aria-hidden />

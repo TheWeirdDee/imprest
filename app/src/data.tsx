@@ -19,18 +19,28 @@ export function usePoll<T>(fn: (() => Promise<T>) | null, ms: number, key: strin
   const [loading, setLoading] = useState(Boolean(fn));
   const ref = useRef(fn);
   ref.current = fn;
+  // The key a request was started under; a response for an older key (account or desk switched
+  // meanwhile) is dropped, so one account's data never appears under another.
+  const current = useRef(key);
+  current.current = key;
   const tick = useCallback(async () => {
     if (!ref.current) return;
+    const k = current.current;
     try {
-      setData(await ref.current());
+      const v = await ref.current();
+      if (k !== current.current) return;
+      setData(v);
       setError(null);
     } catch (e) {
+      if (k !== current.current) return;
       setError((e as Error).message);
     } finally {
-      setLoading(false);
+      if (k === current.current) setLoading(false);
     }
   }, []);
   useEffect(() => {
+    setData(null); // never show the previous key's data while the new one loads
+    setError(null);
     if (!fn) {
       setData(null);
       setLoading(false);

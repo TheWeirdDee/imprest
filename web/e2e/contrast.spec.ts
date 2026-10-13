@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { gotoReady } from "./helpers";
 
 test("text is readable on every page (WCAG contrast at least 3:1)", async ({ page }) => {
   const mode = "light" as string;
@@ -17,7 +18,7 @@ test("text is readable on every page (WCAG contrast at least 3:1)", async ({ pag
     "/docs",
     "/status",
   ]) {
-    await page.goto(path, { waitUntil: "networkidle" });
+    await gotoReady(page, path);
     const bad = await page.evaluate((mode) => {
       const out: string[] = [];
       // rgb()/rgba() report 0-255; color(srgb ...) reports 0-1. Other spaces are skipped.

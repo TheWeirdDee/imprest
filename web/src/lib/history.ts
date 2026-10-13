@@ -30,9 +30,15 @@ export interface HistoryResult {
 
 const KINDS = new Set(["TradeExecuted", "Graduated", "Claimed", "Settled", "EnforcementStarted", "FeesAccrued", "PartialClose", "DeskActivated"]);
 
+/** Blocks behind the chain head beyond which indexed history is not treated as current. */
+const INDEXER_MAX_LAG = 50;
+
 async function fromIndexer(desk: Address): Promise<DeskEvent[]> {
+  // The indexer must prove it has caught up before an empty or short answer is trusted: a stalled
+  // indexer (for example stuck at block 0) would otherwise turn "not indexed" into "no activity".
   const q = `query($desk: String!) {
-    DeskEvent(where: {desk_id: {_eq: $desk}}, order_by: {blockNumber: desc}, limit: 100) {
+    chain_metadata { block_height latest_processed_block }
+    DeskEvent(where: {desk_id: {_eq: $desk}}, order_by: {blockNumber: desc}, limit: 101) {
       kind txHash blockNumber argsJson
     }
   }`;
@@ -45,7 +51,17 @@ async function fromIndexer(desk: Address): Promise<DeskEvent[]> {
   if (!r.ok) throw new Error(`indexer ${r.status}`);
   const j = await r.json();
   if (j.errors) throw new Error(j.errors[0]?.message ?? "indexer error");
-  return (j.data?.DeskEvent ?? []).map((e: any) => ({
+  const meta = j.data?.chain_metadata?.[0];
+  const height = Number(meta?.block_height ?? 0);
+  const processed = Number(meta?.latest_processed_block ?? -1);
+  if (!meta || height <= 0 || processed < 0 || height - processed > INDEXER_MAX_LAG) {
+    throw new Error(`indexer not synced (processed ${processed} of ${height}); using the chain scan`);
+  }
+  const rows = j.data?.DeskEvent ?? [];
+  // More than 100 rows: the indexer list would be truncated, so the bounded chain scan (which says
+  // what it covers) is used instead of silently showing a partial history as complete.
+  if (rows.length > 100) throw new Error("indexer history exceeds 100 rows; using the chain scan");
+  return rows.map((e: any) => ({
     kind: e.kind,
     txHash: e.txHash,
     blockNumber: BigInt(e.blockNumber),

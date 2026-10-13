@@ -65,13 +65,15 @@ contracts:
 chains:
   - id: ${net.chainId}
     start_block: ${net.imprest.deployBlock ?? 0}
-    # Envio's HyperSync serves Monad testnet and is what the hosted service uses; the public RPCs
-    # are fallbacks only (they refused Envio's cloud: block height stayed 0 with RPC-only sync).
-    # For a local run without an Envio API token, set ENVIO_RPC_SYNC=true to sync over RPC instead.
+    # Envio v3 needs ENVIO_API_TOKEN for HyperSync, and setting it on Envio's hosted service is a
+    # paid feature, so the hosted indexer syncs over free public RPCs. Envio's cloud got no answer
+    # from the Monad-run endpoints alone (block height stayed 0), so independent providers come
+    # first; Envio fails over between "sync" sources. With a token (local runs), HyperSync is used
+    # and these become fallbacks.
     rpc:
-${net.rpcUrls.slice(0, 2).map((u) => `      - url: ${u}
-        for: ${process.env.ENVIO_RPC_SYNC === "true" ? "sync" : "fallback"}
-        # Monad public RPCs cap eth_getLogs at 100 blocks per call.
+${["https://monad-testnet.drpc.org", "https://rpc.ankr.com/monad_testnet", ...net.rpcUrls.slice(0, 2)].map((u) => `      - url: ${u}
+        for: ${process.env.ENVIO_API_TOKEN ? "fallback" : "sync"}
+        # Monad RPCs cap eth_getLogs at 100 blocks per call.
         initial_block_interval: 100
         interval_ceiling: 100`).join("\n")}
     contracts:

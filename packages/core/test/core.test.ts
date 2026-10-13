@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { encodeErrorResult as encErr, recoverTypedDataAddress } from "viem";
 import { privateKeyToAccount as pk } from "viem/accounts";
 import {
+  validateReceipt,
   describeFill,
   signedLots,
   accounting,
@@ -314,5 +315,18 @@ describe("fill from signed positions (reversals are fills)", () => {
   it("signedLots maps Perpl position types", () => {
     expect(signedLots(5n, 0)).toBe(5n);
     expect(signedLots(5n, 1)).toBe(-5n);
+  });
+});
+
+describe("receipt validation is not satisfied by a note", () => {
+  const base = { id: "x", environment: "testnet", network: "Monad Testnet", chain_id: 10143, timestamp_utc: "2026-10-12T10:00:00Z", git_commit: null, operation: "trade", status: "TESTNET_VERIFIED", tx_hash: "0x" + "ab".repeat(32), block_number: 1, contract: null, explorer_url: null, inputs: {}, outputs: {}, notes: "" };
+  it("rejects a VERIFIED receipt whose verification is only a note", () => {
+    expect(validateReceipt({ ...base, verification: { note: "not a readback" } }, "proof/receipts/testnet/x.json").map((f) => f.rule)).toContain("verification");
+  });
+  it("rejects a VERIFIED transaction receipt without its block number", () => {
+    expect(validateReceipt({ ...base, block_number: null, verification: { method: "second RPC", observed: "1" } }, "proof/receipts/testnet/x.json").length).toBeGreaterThan(0);
+  });
+  it("accepts a method plus a recorded reading", () => {
+    expect(validateReceipt({ ...base, verification: { method: "second RPC at the receipt block", lotsOnVerifyRpc: "359" } }, "proof/receipts/testnet/x.json")).toEqual([]);
   });
 });

@@ -95,13 +95,17 @@ Prepared: `indexer/`. Its config is generated from `config/networks.json` and va
 Envio's schema; the schema and handlers are included. Backfill starts at the deployment block,
 69010507.
 
-1. Sign in at https://envio.dev with GitHub and check the current plans.
-2. Create a hosted indexer from the repository, root directory `indexer`, network Monad testnet
-   (chain 10143). Without an `ENVIO_API_TOKEN`, the generated config syncs over the public RPC in
-   100-block windows.
-3. Wait for the sync to reach the chain head. Envio shows progress.
-4. Copy the GraphQL endpoint into Vercel as `NEXT_PUBLIC_INDEXER_URL` and redeploy.
-5. Check that /status shows "Indexer LIVE" with the processed block, and that History shows the
+`indexer/pnpm-lock.yaml` lets the folder install on its own, outside the pnpm workspace.
+
+1. Sign in at https://envio.dev with GitHub and check the current plans (Development tier is used).
+2. Connect Repository: authorize the Envio GitHub app for `TheWeirdDee/imprest`.
+3. Cloud → Projects → on the `theweirddee/imprest` row, **+ Add indexer**: name `imprest-indexer`,
+   root directory `indexer`, config `config.yaml`, branch `main`, no environment variables. The
+   config syncs Monad testnet (chain 10143) over the public RPC in 100-block windows.
+4. Envio deploys on every push to `main`. Wait for the sync to reach the chain head; Envio shows
+   progress.
+5. Copy the GraphQL endpoint into Vercel as `NEXT_PUBLIC_INDEXER_URL` and redeploy.
+6. Check that /status shows "Indexer LIVE" with the processed block, and that History shows the
    transactions from 2026-10-09 and 2026-10-12.
 
 ## 3. Keeper

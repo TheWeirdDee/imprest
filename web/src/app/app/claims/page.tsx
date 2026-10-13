@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle2, Lock, Wallet, XCircle } from "lucide-react";
-import { accounting } from "@imprest/core";
+import { accounting, claimPreview } from "@imprest/core";
 import { hasAccount, useAccount } from "@/lib/account/AccountProvider";
 import { useDesk } from "@/lib/desk-context";
 import { claimAction, closeAction } from "@/lib/actions";
@@ -23,19 +23,10 @@ export default function ClaimsPage() {
   const p = d.policy.data;
   const s = r ? summarize(r, p, d.positions.data) : null;
   const t = r && p ? p.tiers[r.tier] : null;
-  // Realized equity only: unrealized profit on an open position is never claimable, so it never
-  // enters the preview (the contract also refuses any claim while a position is open).
-  const split =
-    r && t && s
-      ? accounting.claimSplit(
-          r.equity - s.unrealized,
-          r.hwm,
-          r.feeOutstanding,
-          BigInt(t.traderSplitBps),
-          BigInt(t.protocolSplitBps),
-        )
-      : null;
-  const claimable = Boolean(r && split && r.flat && r.status === 0 && split.gross > 0n);
+  // Realized equity only, claimable only when active and flat (claimPreview, unit-tested in core).
+  const preview = r && t && s ? claimPreview(r, s.unrealized, t.traderSplitBps, t.protocolSplitBps) : null;
+  const split = preview?.split ?? null;
+  const claimable = preview?.claimable ?? false;
   const busy = (x: { state: { kind: string } }) =>
     ["requested", "submitted", "confirming"].includes(x.state.kind);
 
@@ -173,11 +164,7 @@ export default function ClaimsPage() {
                 </ul>
                 <p className="mt-3 text-xs leading-relaxed text-muted">
                   {(() => {
-                    if (claimable) return "Eligible: the desk is active and flat, so the contract will pay the split shown.";
-                    if (split.gross > 0n)
-                      return r.status !== 0
-                        ? "Realized profit is above the high-water mark, but the desk is not active, so it cannot be claimed."
-                        : "Realized profit is above the high-water mark, but positions are open: close all positions first. The figures are an estimate until then.";
+                    if (split.gross > 0n) return preview!.message;
                     // Realized equity must exceed the high-water mark plus fees still owed (fees are netted first).
                     const short = r.hwm + r.feeOutstanding - (r.equity - s.unrealized) + 1n;
                     return `Realized equity must rise ${ausd(short, short < 10_000n ? 6 : 2)} AUSD to exceed the high-water mark (${ausd(r.hwm)} AUSD) after fees owed${r.flat ? "" : ", with all positions closed"}.`;

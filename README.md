@@ -57,9 +57,9 @@ refused and anyone can call `enforce()` to close the desk. Your stake absorbs lo
 | Create a passkey account, get test AUSD, open a desk, trade, close, claim | Needs a little testnet MON for approve, open desk, claim and close. Trades are gasless through the hosted relayer (Railway) |
 | Watch risk, positions, history and receipts | Without the indexer (it runs only on the developer's machine), History reads the chain directly and covers only the most recent ~5,000 blocks (about half an hour) |
 
-Not available on the hosted site: gasless trading (relayed intents were verified from a script;
-no relayer is publicly reachable from the browser), the Envio indexer, and passkey sign-in inside
-the native mobile app (it needs a linked domain).
+Not available on the hosted site: the Envio indexer (History reads the chain directly instead) and
+passkey sign-in inside the native mobile app (it needs a linked domain and a development build).
+Gasless trading is available: trades are relayed by the hosted relayer, which pays the gas.
 
 ## For judges: inspect without a wallet
 

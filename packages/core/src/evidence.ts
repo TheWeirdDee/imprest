@@ -132,8 +132,16 @@ export function validateReceipt(r: Receipt, file: string): Finding[] {
   if (r.tx_hash !== null && r.tx_hash !== undefined && !TX.test(r.tx_hash)) add("tx", "tx_hash is malformed");
   if (r.contract && !ADDR.test(r.contract)) add("address", "contract is malformed");
   const verified = /VERIFIED/.test(r.status);
-  if (verified && (!r.verification || Object.keys(r.verification).length === 0)) {
-    add("verification", "a VERIFIED receipt must include its verification readback");
+  if (verified) {
+    const v = r.verification && typeof r.verification === "object" ? r.verification : {};
+    // A note is not a readback: VERIFIED needs a named method and at least one recorded reading.
+    const readings = Object.keys(v).filter((k) => !["method", "note", "notes"].includes(k));
+    if (typeof v.method !== "string" || v.method.trim() === "") add("verification", "a VERIFIED receipt must name its verification method");
+    if (readings.length === 0) add("verification", "a VERIFIED receipt must include at least one recorded readback value, not only a note");
+    if (r.tx_hash) {
+      if (typeof r.block_number !== "number") add("verification", "a VERIFIED transaction receipt must record its block number");
+      if (typeof r.chain_id !== "number") add("verification", "a VERIFIED transaction receipt must record its chain id");
+    }
   }
   if (file.includes("/mainnet/") && r.environment !== "mainnet") add("network", "mainnet folder holds a non-mainnet receipt");
   if (file.includes("/testnet/") && r.environment !== "testnet") add("network", "testnet folder holds a non-testnet receipt");

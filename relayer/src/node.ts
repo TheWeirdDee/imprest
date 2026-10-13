@@ -17,12 +17,15 @@ const handle = createRelayer(viemChain(net, key, process.env.MONAD_TESTNET_RPC_U
   gasHeadroomPct: 115n,
   quotaPerTraderPerMin: Number(process.env.RELAYER_QUOTA_PER_TRADER_PER_MIN ?? "20"),
   maxDeadlineAheadSec: 600,
+  // Comma-separated, e.g. "https://imprest-chi.vercel.app". Unset: any origin (local use only).
+  allowedOrigins: (process.env.RELAYER_ALLOWED_ORIGINS ?? "").split(",").map((x) => x.trim()).filter(Boolean),
   now: () => Math.floor(Date.now() / 1000),
   // Structured logs; signatures and keys are never logged.
   log: (o) => console.log(JSON.stringify({ ts: new Date().toISOString(), service: "relayer", env, ...o })),
 });
 
-const port = Number(process.env.RELAYER_PORT ?? 8787);
+// Hosts such as Render set PORT; locally RELAYER_PORT or 8787.
+const port = Number(process.env.PORT ?? process.env.RELAYER_PORT ?? 8787);
 createServer(async (req, res) => {
   const chunks: Buffer[] = [];
   for await (const c of req) chunks.push(c as Buffer);

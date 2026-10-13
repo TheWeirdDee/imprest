@@ -8,3 +8,9 @@ remotion/public/
 remotion/out/
 voice/out/
 voice/samples/
+
+# Pitch: the owner's recording and derived transcript stay local.
+pitch/words.json
+pitch/review/
+pitch/imprest-pitch.*
+pitch/captions.json

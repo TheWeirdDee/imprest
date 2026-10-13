@@ -164,3 +164,39 @@ nothing was redeployed onchain.
 Still open, and only genuine market conditions or the owner can close them: a qualifying profit claim
 in the browser, a new graduation, a real partial fill, a public relayer and indexer, native passkeys,
 and the demo video.
+
+## 6. 2026-10-13: Railway relayer preparation and remaining gaps
+
+Commit range `509fa84`…`d660c0f`. Executors: **agent-local**, meaning tests or scripts on the
+agent's machine, with no transactions; and **owner-browser**, meaning the owner signs on the live
+site. No transaction was sent in this section.
+
+| # | Item | Executor / env | Procedure | Expected | Actual | Evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| R1 | Relayer image builds from a clean clone | agent-local, WSL Docker | fresh clone at `509fa84`, `docker build -f relayer/Dockerfile .` | image builds | built | build output in session log |
+| R2 | Listens on 0.0.0.0 using `PORT` | agent-local container | `PORT=9911`, start log, in-container request to 0.0.0.0 | `listening on 0.0.0.0:9911` | as expected | container log |
+| R3 | Health and chain | agent-local container (throwaway unfunded key) | `GET /health` | 200, chainId 10143 | 200, chainId 10143, balance 0 | curl output |
+| R4 | CORS from the live site | agent-local container | OPTIONS with `Origin: https://imprest-chi.vercel.app` | 204, origin echoed | 204, origin echoed, `Vary: Origin` | curl headers |
+| R5 | Other origins refused | agent-local container | OPTIONS and POST from another origin | 403 | 403 | curl |
+| R6 | Signature validation | agent-local container | forged 65-byte signature for desk `0x640a…5DBf` | 401 `INVALID_SIGNATURE` | 401 | curl, relayer log |
+| R7 | Wrong chain refused | agent-local container | chainId 143 | 400 | 400 | curl |
+| R8 | Replay, deadline, quota, gas cap | agent-local unit tests | `pnpm --filter @imprest/relayer test` | pass | 14/14 | vitest |
+| R9 | No secrets in the image | agent-local container | search the image for `.env*` and `*.key` | none | none | find output |
+| R10 | Hosted on Railway | owner | docs/HOSTING.md steps 1–5 | `/health` ok on the public domain | **OPEN** | — |
+| R11 | Gasless trade from the browser | owner-browser | sign on the live site, relayer submits, second-RPC verification | Verified state, tx sent by `0x017F…b728` | **OPEN** | — |
+| E1 | Desk inventory | agent-local script, read-only | `desk-inventory` at block 70643979, both RPCs | every claim and graduation condition listed | no desk can claim or graduate; both RPCs agree | proof/local/desk-inventory.md |
+| E2 | Browser profit claim | owner-browser | — | — | **OPEN: no eligible desk** | E1 |
+| E3 | Browser graduation | owner-browser | — | — | **OPEN: no eligible desk** | E1 |
+| P1 | Partial fills, deterministic | agent-local, Perpl bytecode | IOC 100 vs 40 offered; reduce-only 40 vs 25 bid | 40 open; 15 remain, not flipped | pass | contract tests |
+| P2 | Live partial fill | owner-browser | — | — | **OPEN.** Top of book at block ~70646120 was 2.29 BTC and 38.2 ETH; this desk's whole capacity fills fully | Perpl book API |
+| G1 | Enforcing desk in LP totals | agent-local unit | `lpExposure` with 400 borrowed and 350 equity | 50 shortfall | pass | core tests |
+| G2 | Primary RPC down | agent-local browser | block `/api/rpc/primary`, open /lp | "single RPC only", never "confirmed on 2 RPCs" | pass | e2e/rpc-failover.spec.ts |
+| G3 | Claim preview uses realized equity | agent-local unit | open-profitable, enforcing, flat, fees-only cases | consistent label and claimability | pass | core tests |
+| G4 | Closing one market of two | agent-local unit | `closedMarketMessage` with ETH still open | "not flat" | pass | core tests |
+| G5 | Maximum order, three limits | agent-local unit | leverage, desk cap, market cap; funded desk 493.71 | ≤ 1000 (desk cap); limit named | pass | core tests |
+| G6 | Mobile pending record across restart | — | — | — | **Documented limitation** (memory only) | docs/MOBILE.md |
+| G7 | Stale documents | agent-local | banners on BUILD_STATE, FINAL_AUDIT, SPONSOR_MATRIX, TESTNET | marked as dated snapshots | done | commits `00feb90`…`6bce83f` |
+| C1 | CI | GitHub Actions | push | all jobs green | see the latest run on main | GitHub Actions |
+
+Green CI does not establish a browser claim, graduation, gasless trade or phone behavior. Those rows
+stay open until the owner performs them and the transactions are recorded.

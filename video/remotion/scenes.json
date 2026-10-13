@@ -1,0 +1,439 @@
+{
+    "_note":  "Edit plan. Each scene = one narration line over genuine footage. \u0027from\u0027 is seconds into the clip; boxes are 1920x1080 frame coordinates measured from the captured frames; \u0027at\u0027 is seconds into the scene.",
+    "main":  [
+                 {
+                     "id":  "m01_hook",
+                     "clip":  "hook",
+                     "from":  8,
+                     "pad":  2.4,
+                     "label":  "Imprest · Monad Testnet",
+                     "fx":  [
+
+                            ]
+                 },
+                 {
+                     "id":  "m02_problem",
+                     "clip":  "dashboard",
+                     "from":  9,
+                     "pad":  2,
+                     "label":  "A trader\u0027s account",
+                     "fx":  [
+
+                            ]
+                 },
+                 {
+                     "id":  "m03_solution",
+                     "clip":  "hook",
+                     "from":  15.5,
+                     "pad":  2,
+                     "label":  "Test tokens only",
+                     "fx":  [
+                                {
+                                    "at":  5.5,
+                                    "kind":  "circle",
+                                    "box":  {
+                                                "x":  1372,
+                                                "y":  24,
+                                                "w":  292,
+                                                "h":  42
+                                            }
+                                }
+                            ]
+                 },
+                 {
+                     "id":  "m04_desk",
+                     "clip":  "desk",
+                     "from":  10,
+                     "pad":  3.1,
+                     "label":  "Path to more capital",
+                     "fx":  [
+                                {
+                                    "at":  4.0,
+                                    "kind":  "spot",
+                                    "zoom":  true,
+                                    "box":  {
+                                                "x":  366,
+                                                "y":  422,
+                                                "w":  1524,
+                                                "h":  292
+                                            }
+                                },
+                                {
+                                    "at":  12.5,
+                                    "kind":  "circle",
+                                    "box":  {
+                                                "x":  960,
+                                                "y":  505,
+                                                "w":  165,
+                                                "h":  34
+                                            }
+                                }
+                            ]
+                 },
+                 {
+                     "id":  "m05_risk",
+                     "clip":  "risk",
+                     "from":  8.5,
+                     "pad":  2.4,
+                     "label":  "My account · risk",
+                     "fx":  [
+                                {
+                                    "at":  1.0,
+                                    "kind":  "spot",
+                                    "zoom":  true,
+                                    "box":  {
+                                                "x":  366,
+                                                "y":  243,
+                                                "w":  1524,
+                                                "h":  314
+                                            }
+                                },
+                                {
+                                    "at":  7.0,
+                                    "kind":  "underline",
+                                    "box":  {
+                                                "x":  390,
+                                                "y":  505,
+                                                "w":  520,
+                                                "h":  30
+                                            }
+                                }
+                            ]
+                 },
+                 {
+                     "id":  "m06_trade",
+                     "clip":  "trade",
+                     "from":  8,
+                     "pad":  4.9,
+                     "label":  "Order checks",
+                     "fx":  [
+                                {
+                                    "at":  1.5,
+                                    "kind":  "spot",
+                                    "box":  {
+                                                "x":  655,
+                                                "y":  90,
+                                                "w":  1220,
+                                                "h":  800
+                                            }
+                                },
+                                {
+                                    "at":  18.2,
+                                    "kind":  "circle",
+                                    "box":  {
+                                                "x":  1400,
+                                                "y":  866,
+                                                "w":  472,
+                                                "h":  166
+                                            }
+                                }
+                            ]
+                 },
+                 {
+                     "id":  "m07_receipt",
+                     "clip":  "receipt",
+                     "from":  10,
+                     "pad":  2.6,
+                     "label":  "Blockchain transaction",
+                     "fx":  [
+                                {
+                                    "at":  0.5,
+                                    "kind":  "spot",
+                                    "zoom":  true,
+                                    "box":  {
+                                                "x":  30,
+                                                "y":  340,
+                                                "w":  1860,
+                                                "h":  600
+                                            }
+                                },
+                                {
+                                    "at":  7.5,
+                                    "kind":  "circle",
+                                    "box":  {
+                                                "x":  512,
+                                                "y":  840,
+                                                "w":  560,
+                                                "h":  100
+                                            }
+                                }
+                            ]
+                 },
+                 {
+                     "id":  "m08_claims",
+                     "clip":  "claims",
+                     "from":  7.5,
+                     "pad":  2.4,
+                     "label":  "Claims",
+                     "fx":  [
+                                {
+                                    "at":  6.5,
+                                    "kind":  "spot",
+                                    "zoom":  true,
+                                    "box":  {
+                                                "x":  366,
+                                                "y":  243,
+                                                "w":  1020,
+                                                "h":  104
+                                            }
+                                }
+                            ]
+                 },
+                 {
+                     "id":  "m09_lp",
+                     "clip":  "lp",
+                     "from":  15,
+                     "pad":  3.6,
+                     "label":  "Pool overview",
+                     "fx":  [
+                                {
+                                    "at":  1.0,
+                                    "kind":  "spot",
+                                    "box":  {
+                                                "x":  120,
+                                                "y":  303,
+                                                "w":  1680,
+                                                "h":  483
+                                            }
+                                },
+                                {
+                                    "at":  5.0,
+                                    "kind":  "circle",
+                                    "box":  {
+                                                "x":  120,
+                                                "y":  235,
+                                                "w":  470,
+                                                "h":  32
+                                            }
+                                }
+                            ]
+                 },
+                 {
+                     "id":  "m10_close",
+                     "clip":  "hook",
+                     "from":  72,
+                     "pad":  3.2,
+                     "label":  "imprest-chi.vercel.app",
+                     "fx":  [
+
+                            ]
+                 }
+             ],
+    "perpl":  [
+                  {
+                      "id":  "p01_open",
+                      "clip":  "lp",
+                      "from":  14.0,
+                      "pad":  1.0,
+                      "label":  "Pool overview",
+                      "fx":  [
+
+                             ]
+                  },
+                  {
+                      "id":  "p02_tiles",
+                      "clip":  "lp",
+                      "from":  22.0,
+                      "pad":  1.0,
+                      "label":  "Pool overview",
+                      "fx":  [
+                                 {
+                                     "at":  0.5,
+                                     "kind":  "spot",
+                                     "box":  {
+                                                 "x":  120,
+                                                 "y":  303,
+                                                 "w":  1680,
+                                                 "h":  483
+                                             }
+                                 },
+                                 {
+                                     "at":  7.0,
+                                     "kind":  "circle",
+                                     "box":  {
+                                                 "x":  120,
+                                                 "y":  235,
+                                                 "w":  470,
+                                                 "h":  32
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p03_atrisk",
+                      "clip":  "lp",
+                      "from":  35.0,
+                      "pad":  1.0,
+                      "label":  "Principal at risk",
+                      "fx":  [
+                                 {
+                                     "at":  0.3,
+                                     "kind":  "spot",
+                                     "zoom":  true,
+                                     "box":  {
+                                                 "x":  120,
+                                                 "y":  424,
+                                                 "w":  420,
+                                                 "h":  121
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p04_exposure",
+                      "clip":  "lp",
+                      "from":  57.0,
+                      "pad":  1.0,
+                      "label":  "Market exposure",
+                      "fx":  [
+                                 {
+                                     "at":  0.4,
+                                     "kind":  "spot",
+                                     "zoom":  true,
+                                     "box":  {
+                                                 "x":  120,
+                                                 "y":  240,
+                                                 "w":  1680,
+                                                 "h":  197
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p05_desks",
+                      "clip":  "lp",
+                      "from":  64.5,
+                      "pad":  0.8,
+                      "label":  "Every trading account",
+                      "fx":  [
+                                 {
+                                     "at":  0.4,
+                                     "kind":  "spot",
+                                     "box":  {
+                                                 "x":  120,
+                                                 "y":  462,
+                                                 "w":  1680,
+                                                 "h":  354
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p06_funded",
+                      "clip":  "lp",
+                      "from":  75.5,
+                      "pad":  1.0,
+                      "label":  "A funded account",
+                      "fx":  [
+                                 {
+                                     "at":  0.4,
+                                     "kind":  "spot",
+                                     "zoom":  true,
+                                     "box":  {
+                                                 "x":  120,
+                                                 "y":  694,
+                                                 "w":  1680,
+                                                 "h":  60
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p07_risk",
+                      "clip":  "risk",
+                      "from":  10.0,
+                      "pad":  1.0,
+                      "label":  "My account",
+                      "fx":  [
+                                 {
+                                     "at":  0.4,
+                                     "kind":  "spot",
+                                     "box":  {
+                                                 "x":  366,
+                                                 "y":  243,
+                                                 "w":  1524,
+                                                 "h":  314
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p08_bar",
+                      "clip":  "risk",
+                      "from":  28.5,
+                      "pad":  1.2,
+                      "label":  "Leverage, credit and fees",
+                      "fx":  [
+                                 {
+                                     "at":  0.4,
+                                     "kind":  "spot",
+                                     "box":  {
+                                                 "x":  753,
+                                                 "y":  374,
+                                                 "w":  750,
+                                                 "h":  448
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p09_trade",
+                      "clip":  "trade",
+                      "from":  8.0,
+                      "pad":  0.6,
+                      "label":  "Order checks",
+                      "fx":  [
+                                 {
+                                     "at":  0.4,
+                                     "kind":  "spot",
+                                     "box":  {
+                                                 "x":  1018,
+                                                 "y":  320,
+                                                 "w":  345,
+                                                 "h":  560
+                                             }
+                                 },
+                                 {
+                                     "at":  5.0,
+                                     "kind":  "spot",
+                                     "zoom":  true,
+                                     "box":  {
+                                                 "x":  1400,
+                                                 "y":  760,
+                                                 "w":  470,
+                                                 "h":  320
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p10_block",
+                      "clip":  "trade",
+                      "from":  19.0,
+                      "pad":  2.6,
+                      "label":  "Order checks",
+                      "fx":  [
+                                 {
+                                     "at":  6.8,
+                                     "kind":  "circle",
+                                     "box":  {
+                                                 "x":  1400,
+                                                 "y":  866,
+                                                 "w":  472,
+                                                 "h":  166
+                                             }
+                                 }
+                             ]
+                  },
+                  {
+                      "id":  "p11_close",
+                      "clip":  "hook",
+                      "from":  74.0,
+                      "pad":  1.6,
+                      "label":  "Monad Testnet · test tokens",
+                      "fx":  [
+
+                             ]
+                  }
+              ]
+}

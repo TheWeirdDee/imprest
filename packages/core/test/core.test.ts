@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { encodeErrorResult as encErr, recoverTypedDataAddress } from "viem";
 import { privateKeyToAccount as pk } from "viem/accounts";
 import {
+  describeFill,
+  signedLots,
   accounting,
   checkPolicy,
   compareReadback,
@@ -94,6 +96,25 @@ describe("verification state machine", () => {
       { type: "receipt", status: "success", blockNumber: 10n },
     ]);
     expect(s.kind).toBe("confirming");
+  });
+
+  it("a receipt timeout after broadcast is unknown, not failed, and can still be confirmed later", () => {
+    const pending = run([
+      { type: "request", label: "trade" },
+      { type: "submitted", txHash: tx },
+      { type: "receipt_unavailable", reason: "no receipt after 60 s" },
+    ]);
+    expect(pending.kind).toBe("unknown");
+    expect("txHash" in pending && pending.txHash).toBe(tx);
+    const errored = run([
+      { type: "request", label: "trade" },
+      { type: "submitted", txHash: tx },
+      { type: "error", reason: "RPC unavailable" },
+    ]);
+    expect(errored.kind).toBe("unknown");
+    expect(transition(pending, { type: "receipt", status: "success", blockNumber: 12n }).kind).toBe("confirming");
+    expect(transition(pending, { type: "receipt", status: "reverted", blockNumber: 12n }).kind).toBe("failed");
+    expect(transition(pending, { type: "receipt_unavailable", reason: "still waiting" }).kind).toBe("unknown");
   });
 
   it("forced mismatch fixture ends in verification_failed", () => {
@@ -266,5 +287,32 @@ describe("evidence rules", () => {
       { file: "b", claim: { ...base, status: "TARGET", value: 5 } },
     ]);
     expect(f).toHaveLength(1);
+  });
+});
+
+describe("fill from signed positions (reversals are fills)", () => {
+  const buy = (lots: bigint) => ({ side: 0, lots });
+  const sell = (lots: bigint) => ({ side: 1, lots });
+  it("long 100 selling 200 is a 200-lot fill ending short 100, not 'no fill'", () => {
+    const f = describeFill(sell(200n), 100n, -100n);
+    expect(f).toMatchObject({ filledLots: "200", fill: "full", positionSide: "short", positionLots: "100", direction: "matches order" });
+  });
+  it("short 100 buying 200 flips to long 100", () => {
+    expect(describeFill(buy(200n), -100n, 100n)).toMatchObject({ filledLots: "200", positionSide: "long", direction: "matches order" });
+  });
+  it("smaller opposite reduction, exact flat close, partial flip and no-fill IOC", () => {
+    expect(describeFill(sell(40n), 100n, 60n)).toMatchObject({ filledLots: "40", fill: "full", positionSide: "long" });
+    expect(describeFill(sell(100n), 100n, 0n)).toMatchObject({ filledLots: "100", fill: "full", positionSide: "flat", positionLots: "0" });
+    expect(describeFill(sell(200n), 100n, -50n)).toMatchObject({ filledLots: "150", fill: "partial", positionSide: "short" });
+    expect(describeFill(buy(100n), 0n, 0n)).toMatchObject({ filledLots: "0", fill: "none", positionSide: "flat" });
+    expect(describeFill(buy(100n), 0n, 40n)).toMatchObject({ filledLots: "40", fill: "partial" });
+  });
+  it("a position that moved against the order side is flagged, so verification fails", () => {
+    expect(describeFill(buy(10n), 100n, 90n).direction).toBe("opposite to order");
+    expect(compareReadback({ direction: "matches order" }, describeFill(buy(10n), 100n, 90n)).ok).toBe(false);
+  });
+  it("signedLots maps Perpl position types", () => {
+    expect(signedLots(5n, 0)).toBe(5n);
+    expect(signedLots(5n, 1)).toBe(-5n);
   });
 });

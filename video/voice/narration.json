@@ -1,0 +1,134 @@
+{
+    "voice":  "en-US-AndrewNeural",
+    "rate":  "-3%",
+    "main":  [
+                 {
+                     "id":  "m01_hook",
+                     "clip":  "hook",
+                     "from":  8.0,
+                     "text":  "What if access to a larger trading account came with rules you could actually inspect?"
+                 },
+                 {
+                     "id":  "m02_problem",
+                     "clip":  "dashboard",
+                     "from":  9.0,
+                     "text":  "Traders want access to more capital. The people providing it want clear limits on how that capital is used. And both need to understand the rules, and what happens when a trade goes wrong."
+                 },
+                 {
+                     "id":  "m03_solution",
+                     "clip":  "hook",
+                     "from":  2.0,
+                     "text":  "Imprest brings those two sides together. This prototype runs on Monad Testnet and trades on Perpl\u0027s testnet exchange. Everything you see here uses test tokens."
+                 },
+                 {
+                     "id":  "m04_desk",
+                     "clip":  "desk",
+                     "from":  9.0,
+                     "text":  "A trader starts by staking their own funds into a trading account. This page shows exactly what it takes to qualify for more trading capital: a two percent gain, over at least two completed trades. This account has finished its two trades, but it\u0027s slightly down, so it doesn\u0027t qualify yet."
+                 },
+                 {
+                     "id":  "m05_risk",
+                     "clip":  "risk",
+                     "from":  9.0,
+                     "text":  "The risk page shows the account\u0027s balance, its loss limits, and how much room is left. Here, the balance is about ninety-nine point eight test A.U.S.D., with the loss limit at ninety-four. It also shows leverage, borrowed capital, and fees."
+                 },
+                 {
+                     "id":  "m06_trade",
+                     "clip":  "trade",
+                     "from":  8.0,
+                     "text":  "The terminal puts Perpl\u0027s live market beside the order form. Before anything is signed, the page checks the order against the account\u0027s rules. If I push leverage past the five-times limit, it explains exactly what\u0027s blocking the order, and nothing is sent. The account\u0027s own contract enforces the same rules when an order executes."
+                 },
+                 {
+                     "id":  "m07_receipt",
+                     "clip":  "receipt",
+                     "from":  10.0,
+                     "text":  "Earlier today, an order signed in this browser was submitted by a relayer that paid the network fee. Here is that blockchain transaction: successful, sent by the relayer, to this trading account."
+                 },
+                 {
+                     "id":  "m08_claims",
+                     "clip":  "claims",
+                     "from":  9.0,
+                     "text":  "Profit can only be withdrawn once it\u0027s realized, after fees, with every position closed. This account has nothing to claim, and the page says exactly why: its balance is still below its highest recorded balance."
+                 },
+                 {
+                     "id":  "m09_lp",
+                     "clip":  "lp",
+                     "from":  14.0,
+                     "text":  "Capital providers can inspect the pool, and every account using it, with the totals checked through a second, independent connection to the blockchain."
+                 },
+                 {
+                     "id":  "m10_close",
+                     "clip":  "hook",
+                     "from":  4.0,
+                     "text":  "Clear trading rules. Visible risk. A transparent path to more trading capital."
+                 }
+             ],
+    "perpl":  [
+                  {
+                      "from":  14,
+                      "clip":  "lp",
+                      "id":  "p01_open",
+                      "text":  "How do you see the risk across a trading pool, and inside your own account? This is Imprest\u0027s risk dashboard for trading on Perpl."
+                  },
+                  {
+                      "from":  21,
+                      "clip":  "lp",
+                      "id":  "p02_tiles",
+                      "text":  "The public view shows the pool\u0027s assets, the capital still available, and how much is lent out. This badge confirms the totals were checked through a second, independent connection to the blockchain, at the same block."
+                  },
+                  {
+                      "from":  27,
+                      "clip":  "lp",
+                      "id":  "p03_atrisk",
+                      "text":  "Principal at risk shows any shortfall right now: borrowed capital minus the balance of funded accounts. Today, that\u0027s zero."
+                  },
+                  {
+                      "from":  34,
+                      "clip":  "lp",
+                      "id":  "p04_exposure",
+                      "text":  "Market exposure shows how much funded trading sits in Bitcoin and Ethereum on Perpl, against each market\u0027s limit."
+                  },
+                  {
+                      "from":  44,
+                      "clip":  "lp",
+                      "id":  "p05_desks",
+                      "text":  "Each row is a trading account: its balance, its loss limit, the buffer that remains, and its status. So you can see at a glance which accounts need attention."
+                  },
+                  {
+                      "from":  56,
+                      "clip":  "lp",
+                      "id":  "p06_funded",
+                      "text":  "This funded account borrowed four hundred test A.U.S.D. from the pool. Its balance is about four hundred and ninety-four, with its loss limit near four hundred and seventy-two."
+                  },
+                  {
+                      "from":  9,
+                      "clip":  "risk",
+                      "id":  "p07_risk",
+                      "text":  "Inside my own account, the risk center shows my balance, and how far I am from each loss limit: the trading floor, and today\u0027s daily loss limit, measured from where the day started."
+                  },
+                  {
+                      "from":  14,
+                      "clip":  "risk",
+                      "id":  "p08_bar",
+                      "text":  "Below that, it shows my leverage, the borrowed capital on the account, and the fees it owes."
+                  },
+                  {
+                      "from":  8,
+                      "clip":  "trade",
+                      "id":  "p09_trade",
+                      "text":  "On the trading screen, Perpl\u0027s live order book sits beside the order checks. The preview estimates margin, fees, and the largest new order the account\u0027s limits allow."
+                  },
+                  {
+                      "from":  19,
+                      "clip":  "trade",
+                      "id":  "p10_block",
+                      "text":  "Push leverage past the limit, and the check explains why the order is blocked, before anything is sent."
+                  },
+                  {
+                      "from":  4,
+                      "clip":  "hook",
+                      "id":  "p11_close",
+                      "text":  "This demonstration runs on Monad Testnet, using test tokens."
+                  }
+              ]
+}

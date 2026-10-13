@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/shell";
 import { listDocs, readDoc } from "@/lib/proof";
 import { renderMarkdown } from "@/lib/markdown";
 import { DocArticle } from "@/components/doc-article";
+import { pageMeta } from "@/lib/meta";
 
 export function generateStaticParams() {
   return listDocs().map((name) => ({ name }));
@@ -13,7 +14,20 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
   const { name } = await params;
-  return { title: name.replace(".md", "").replace(/_/g, " ") };
+  const md = readDoc(name) ?? "";
+  // Description: the document's first prose paragraph, without Markdown, cut to a snippet length.
+  const para =
+    md
+      .split(/\r?\n\r?\n/)
+      .map((b) => b.trim())
+      .find((b) => b && !/^(#|\||>|```|-|\*|\d+\.|<)/.test(b)) ?? "";
+  const plain = para.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[`*_]/g, "").replace(/\s+/g, " ").trim();
+  const description = plain
+    ? plain.length > 155
+      ? `${plain.slice(0, 152).replace(/\s+\S*$/, "")}…`
+      : plain
+    : "Imprest documentation, rendered from the repository.";
+  return pageMeta(name.replace(".md", "").replace(/_/g, " "), description, `/docs/${name}`);
 }
 
 export default async function DocPage({ params }: { params: Promise<{ name: string }> }) {

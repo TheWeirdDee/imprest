@@ -2,6 +2,10 @@ import { describe, expect, it } from "vitest";
 import { encodeErrorResult as encErr, recoverTypedDataAddress } from "viem";
 import { privateKeyToAccount as pk } from "viem/accounts";
 import {
+  claimPreview,
+  closedMarketMessage,
+  lpExposure,
+  maxNewOrder,
   validateReceipt,
   describeFill,
   signedLots,
@@ -328,5 +332,60 @@ describe("receipt validation is not satisfied by a note", () => {
   });
   it("accepts a method plus a recorded reading", () => {
     expect(validateReceipt({ ...base, verification: { method: "second RPC at the receipt block", lotsOnVerifyRpc: "359" } }, "proof/receipts/testnet/x.json")).toEqual([]);
+  });
+});
+
+describe("money previews (LP, claim, max order, close message)", () => {
+  const desk = (status: number, borrowed: bigint, equity: bigint, stake = 100_000_000n, fee = 0n) => ({ status, borrowed, equity, originalStake: stake, feeOutstanding: fee });
+  it("LP totals include an enforcing funded desk: 400 borrowed, 350 equity is a 50 AUSD shortfall", () => {
+    const x = lpExposure([desk(1, 400_000_000n, 350_000_000n, 100_000_000n, 1_000n)]);
+    expect(x.principalAtRisk).toBe(50_000_000n);
+    expect(x.enforcing).toBe(1);
+    expect(x.funded).toBe(1);
+    expect(x.stakes).toBe(100_000_000n);
+    expect(x.feeLiabilities).toBe(1_000n);
+  });
+  it("LP totals exclude closed desks and count no shortfall when equity covers the loan", () => {
+    const x = lpExposure([desk(2, 400_000_000n, 0n), desk(0, 400_000_000n, 493_000_000n), desk(0, 0n, 99_000_000n)]);
+    expect(x.principalAtRisk).toBe(0n);
+    expect(x.active).toBe(2);
+    expect(x.funded).toBe(1);
+    expect(x.stakes).toBe(200_000_000n);
+  });
+  const r = (o: Partial<{ status: number; flat: boolean; equity: bigint; hwm: bigint; feeOutstanding: bigint }>) => ({ status: 0, flat: true, equity: 100_000_000n, hwm: 100_000_000n, feeOutstanding: 0n, ...o });
+  it("claim preview never counts unrealized profit, and an open position is never claimable", () => {
+    const open = claimPreview(r({ flat: false, equity: 110_000_000n }), 10_000_000n, 8000, 500);
+    expect(open.split.gross).toBe(0n);
+    expect(open.claimable).toBe(false);
+    expect(open.message).not.toMatch(/^Eligible/);
+    const openRealized = claimPreview(r({ flat: false, equity: 115_000_000n }), 10_000_000n, 8000, 500);
+    expect(openRealized.split.gross).toBe(5_000_000n);
+    expect(openRealized.claimable).toBe(false);
+    expect(openRealized.message).toMatch(/close all positions first/);
+  });
+  it("claim preview: flat profit is claimable with the exact split; enforcing, zero-profit and fees-only cases are consistent", () => {
+    const ok = claimPreview(r({ equity: 105_000_000n, feeOutstanding: 1_000_000n }), 0n, 8000, 500);
+    expect(ok.claimable).toBe(true);
+    expect(ok.split).toMatchObject({ gross: 5_000_000n, feesPaid: 1_000_000n, traderShare: 3_200_000n, protocolShare: 200_000n, poolShare: 600_000n });
+    expect(claimPreview(r({ status: 1, equity: 105_000_000n }), 0n, 8000, 500).claimable).toBe(false);
+    expect(claimPreview(r({ equity: 99_911_529n }), 0n, 0, 0)).toMatchObject({ claimable: false, message: "Realized equity is not above the high-water mark." });
+    const feesOnly = claimPreview(r({ equity: 100_010_000n, feeOutstanding: 50_000n }), 0n, 8000, 500);
+    expect(feesOnly.claimable).toBe(true); // the contract accepts it; the trader share is zero
+    expect(feesOnly.split.traderShare).toBe(0n);
+  });
+  it("max new order takes the tightest of leverage, desk cap and market pool cap, and names it", () => {
+    // Audited funded desk: equity 493.713365, 5x, flat; desk cap 1000.
+    const funded = { equity: 493_713_365n, maxLeverageHdths: 500, usedNotional: 0n, borrowed: 400_000_000n };
+    expect(maxNewOrder({ ...funded, pool: { deskNotionalCap: 1_000_000_000n, marketCap: 5_000_000_000n, marketGross: 0n, symbol: "BTC" } })).toEqual({ value: 1_000_000_000n, limit: "desk cap" });
+    expect(maxNewOrder({ ...funded, pool: { deskNotionalCap: 1_000_000_000n, marketCap: 5_000_000_000n, marketGross: 4_700_000_000n, symbol: "BTC" } })).toEqual({ value: 300_000_000n, limit: "BTC pool cap" });
+    expect(maxNewOrder({ ...funded, equity: 150_000_000n, pool: { deskNotionalCap: 1_000_000_000n, marketCap: 5_000_000_000n, marketGross: 0n, symbol: "BTC" } })).toEqual({ value: 750_000_000n, limit: "leverage" });
+    expect(maxNewOrder(funded)).toBeNull(); // pool limits not loaded: unknown, not unlimited
+    expect(maxNewOrder({ equity: 99_911_529n, maxLeverageHdths: 500, usedNotional: 0n, borrowed: 0n })).toEqual({ value: 499_557_645n, limit: "leverage" });
+    expect(maxNewOrder({ ...funded, usedNotional: 1_200_000_000n, pool: { deskNotionalCap: 1_000_000_000n, marketCap: 5_000_000_000n, marketGross: 0n, symbol: "BTC" } })!.value).toBe(0n);
+  });
+  it("closing one market while another is open does not call the desk flat", () => {
+    expect(closedMarketMessage("BTC", ["ETH long"])).toMatch(/Still open: ETH long\. The desk is not flat/);
+    expect(closedMarketMessage("BTC", [])).toMatch(/the desk is flat/);
+    expect(closedMarketMessage("BTC", null)).not.toMatch(/desk is flat/);
   });
 });

@@ -36,6 +36,8 @@ export interface RelayerConfig {
   maxGas: bigint;
   gasHeadroomPct: bigint; // e.g. 115n
   quotaPerTraderPerMin: number;
+  /** Browser origins allowed to call the relayer. Empty or unset: any origin (local use). */
+  allowedOrigins?: string[];
   maxDeadlineAheadSec: number;
   now: () => number; // unix seconds
   log: (o: Record<string, unknown>) => void;
@@ -154,7 +156,22 @@ export function createRelayer(chain: ChainPort, cfg: RelayerConfig) {
     }
   }
 
+  const allowed = cfg.allowedOrigins?.filter(Boolean) ?? [];
   return async function handle(req: Request): Promise<Response> {
+    const origin = req.headers.get("origin");
+    // A public relayer pays gas, so it answers only the configured website(s) when a list is set.
+    if (allowed.length && origin && !allowed.includes(origin)) {
+      return new Response(JSON.stringify({ error: "origin not allowed" }), { status: 403, headers: { "content-type": "application/json", vary: "Origin" } });
+    }
+    const res = await route(req);
+    if (allowed.length && origin) {
+      res.headers.set("access-control-allow-origin", origin);
+      res.headers.set("vary", "Origin");
+    }
+    return res;
+  };
+
+  async function route(req: Request): Promise<Response> {
     const url = new URL(req.url);
     // CORS preflight: 204 must have no body (a body makes the Response constructor throw,
     // which broke every browser-originated intent).

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { gotoReady } from "./helpers";
 import { decodeFunctionData, decodeFunctionResult, encodeFunctionResult, type Abi, type Hex } from "viem";
 import getPositionAbi from "./fixtures-getposition-abi.json" with { type: "json" };
 
@@ -54,7 +55,7 @@ for (const [market, perpId, lots, sizeText, type, sideToPress] of [
     page.on("request", (r) => {
       if (r.method() === "POST" && /eth_sendRawTransaction|v1\/intents/.test(r.postData() ?? r.url())) sent = true;
     });
-    await page.goto(`/app/trade/${market}`, { waitUntil: "networkidle" });
+    await gotoReady(page, `/app/trade/${market}`);
     const btn = page.getByRole("button", { name: new RegExp(`Close ${market.toUpperCase()} (long|short) position`) }).first();
     await expect(btn).toBeVisible({ timeout: 30_000 });
     await btn.click();
@@ -70,7 +71,7 @@ test("Close position is reachable by keyboard and at phone width", async ({ page
   await remember(page);
   await fakePosition(page, 16n, 100n, 0);
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/app/trade/btc", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app/trade/btc");
   const btn = page.getByRole("button", { name: /Close BTC long position/ }).first();
   await expect(btn).toBeInViewport({ ratio: 0.5 }).catch(async () => btn.scrollIntoViewIfNeeded());
   await btn.focus();
@@ -81,7 +82,7 @@ test("Close position is reachable by keyboard and at phone width", async ({ page
 
 test("closing from a flat desk says there is nothing to close", async ({ page }) => {
   await remember(page);
-  await page.goto("/app/trade/btc?close=16&n=1", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app/trade/btc?close=16&n=1");
   await expect(page.getByText("Nothing to close")).toBeVisible({ timeout: 30_000 });
   await expect(page.getByLabel(/Reduce-only/)).not.toBeChecked();
 });
@@ -90,7 +91,7 @@ test("the Close position button is visible without horizontal scrolling on deskt
   await remember(page);
   await fakePosition(page, 16n, 100n, 0);
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto("/app/trade/btc", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app/trade/btc");
   const btn = page.getByRole("button", { name: /Close BTC long position/ }).first();
   await expect(btn).toBeVisible({ timeout: 30_000 });
   // Scroll the PAGE vertically only; scrolling the table sideways would hide the original bug

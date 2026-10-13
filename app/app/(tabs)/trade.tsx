@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { decodeEventLog, type PublicClient, type TransactionReceipt } from "viem";
-import { checkPolicy, describeFill, deskAbi, formatUnitsFixed, notional, parseUnitsStrict, perplExchangeAbi, signedLots, type OrderIntent } from "@imprest/core";
+import { checkPolicy, describeFill, deskAbi, eventMatchesOrder, formatUnitsFixed, notional, parseUnitsStrict, perplExchangeAbi, signedLots, type OrderIntent } from "@imprest/core";
 import { useAccount } from "../../src/account";
 import { useDesk, usePoll } from "../../src/data";
 import { useAction } from "../../src/action";
@@ -32,7 +32,7 @@ export default function Trade() {
     }
   }, [size, m.lotDecimals]);
   const order: OrderIntent = { perpId: BigInt(m.perpId), side, priceLimit: price, lots, leverage: BigInt(lev * 100), reduceOnly: false, fillOrKill: false };
-  const check = r && p ? checkPolicy({ order, policy: p, risk: r, markPns, markValid: pos ? pos.markValid : true, positionLots: pos?.lots ?? 0n, positionIsLong: pos && pos.lots > 0n ? pos.isLong : null }) : null;
+  const check = r && p ? checkPolicy({ order, policy: p, risk: r, markPns: d.positions.data ? markPns : null, markValid: pos ? pos.markValid : true, positionLots: pos?.lots ?? 0n, positionIsLong: pos && pos.lots > 0n ? pos.isLong : null }) : null;
   const n = notional(m, lots, price);
   const busy = ["requested", "submitted", "confirming"].includes(act.state.kind);
 
@@ -48,6 +48,10 @@ export default function Trade() {
       }
     }
     if (!ev) return { tradeExecuted: "false" };
+    // Bound to THIS request: sent to the desk, and the event carries exactly this order. trade() is
+    // self-submitted, so the contract emits nonce 0.
+    if (rc.to && rc.to.toLowerCase() !== d.desk!.toLowerCase()) return { tradeExecuted: "false", orderMatches: "sent elsewhere" };
+    const orderMatches = eventMatchesOrder(ev, order, 0n);
     const at = async (bn: bigint) => {
       const res = (await cl.readContract({ address: network.perpl.exchange!, abi: perplExchangeAbi as any, functionName: "getPosition", args: [BigInt(m.perpId), r!.accountId], blockNumber: bn })) as any;
       return signedLots(BigInt(res[0].lotLNS), Number(res[0].positionType));
@@ -56,7 +60,7 @@ export default function Trade() {
     const after = await at(b);
     const abs = (v: bigint) => (v < 0n ? -v : v);
     const consistent = abs(before) === BigInt(ev.lotsBefore) && abs(after) === BigInt(ev.lotsAfter);
-    return { tradeExecuted: "true", ...describeFill(order, before, after), eventMatchesState: consistent ? "yes" : "no" };
+    return { tradeExecuted: "true", orderMatches, ...describeFill(order, before, after), eventMatchesState: consistent ? "yes" : "no" };
   };
 
   const submit = () =>
@@ -65,10 +69,10 @@ export default function Trade() {
       // Same verification as the web app: the desk's TradeExecuted event must be in the receipt, and
       // the signed position before/after the block (so fill, direction and no-fill are explicit) is
       // measured on the primary RPC and must be read identically on the independent one.
-      expect: async () => ({ tradeExecuted: "true", direction: "matches order", eventMatchesState: "yes" }),
+      expect: async () => ({ tradeExecuted: "true", orderMatches: "yes", direction: "matches order", eventMatchesState: "yes" }),
       send: () => sendWrite(a.account!, { address: d.desk!, abi: deskAbi, functionName: "trade", args: [order] }),
       expectAfterReceipt: async (rc, cl) => {
-        const { direction: _d, eventMatchesState: _e, ...measured } = await fillFrom(cl, rc.blockNumber, rc);
+        const { direction: _d, eventMatchesState: _e, orderMatches: _m, ...measured } = await fillFrom(cl, rc.blockNumber, rc);
         return measured;
       },
       observe: (cl, b, rc) => fillFrom(cl, b, rc),
@@ -111,7 +115,10 @@ export default function Trade() {
         <Card title="Before you sign">
           <Row k="Your capital (stake)" v={ausd(r.originalStake)} />
           <Row k="+ Restricted credit" v={ausd(r.borrowed)} />
-          <Row k="Maximum position" v={ausd((r.equity * BigInt(p?.maxLeverageHdths ?? 500)) / 100n)} />
+          <Row
+            k={r.borrowed > 0n ? "Leverage ceiling (pool caps also apply; may be lower)" : "Leverage ceiling"}
+            v={ausd((r.equity * BigInt(p?.maxLeverageHdths ?? 500)) / 100n)}
+          />
           <Row k="This order notional" v={ausd(n)} />
           <Row k="Risk floor" v={ausd(r.floor)} />
           <Row k="Distance to floor" v={ausd(r.equity - r.floor)} />
@@ -121,6 +128,8 @@ export default function Trade() {
       {check ? (
         check.ok ? (
           <Notice tone="safe" title="Policy check: PASS" body="Frontend validation. The desk contract re-checks every rule when you sign." />
+        ) : check.unknown.length > 0 && !check.checks.some((x) => x.status === "blocked") ? (
+          <Notice tone="warn" title="Policy check: incomplete" body={`Waiting for: ${check.unknown.join(", ")}. Not a pass yet.`} />
         ) : (
           <Notice
             tone="breach"

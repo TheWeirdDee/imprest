@@ -81,7 +81,7 @@ the native mobile app (it needs a linked domain).
 | Trader-signed intents submitted by the relayer filled on Perpl (submitted from a script, not via the hosted site) | **TESTNET_VERIFIED** |
 | Desk `0xfc65…FCC6` earned +2% over two closed trades; the keeper called `graduate()`; the pool funded 400 AUSD | **TESTNET_VERIFIED** |
 | After graduation, two real attempts to reach profit above the high-water mark lost money; the stake absorbed it and pool credit stayed intact | **TESTNET_VERIFIED** (receipts 06–13) |
-| 120 contract tests (unit, fuzz, invariant, security, paired-desk) against **Perpl's own exchange bytecode**; reference model 26/26 | LOCAL_REPRODUCTION |
+| 128 contract tests as of 2026-10-13 (unit, fuzz, invariant, security, paired-desk, partial fills, reversals) against **Perpl's own exchange bytecode**; reference model 26/26. The original 2026-10-07 run of 120 is kept as a dated snapshot. | LOCAL_REPRODUCTION |
 | Pre-registered replay: in-transaction enforcement vs a 1 s keeper, median gap **0.0 bps** (n = 51): **null result, headline dropped** | SIMULATED |
 | Qualifying profit claim, mainnet, real outside traders, independent audit | **PENDING** |
 

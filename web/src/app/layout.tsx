@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     title: `${NAME}: trading credit with risk enforced at the order layer`,
     description: DESCRIPTION,
     locale: "en_US",
+    url: "/",
   },
   twitter: {
     card: "summary_large_image",

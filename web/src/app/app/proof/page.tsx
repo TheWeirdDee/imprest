@@ -4,13 +4,30 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Receipt } from "lucide-react";
 import { STATE_LABEL } from "@imprest/core";
-import { loadLocalReceipts, type LocalReceipt } from "@/lib/tx";
-import { Card, EmptyState, Pill, TxLink } from "@/components/ui";
+import { loadLocalReceipts, reconcilePending, type LocalReceipt } from "@/lib/tx";
+import { Button, Card, EmptyState, Pill, TxLink } from "@/components/ui";
+
+const label = (st: LocalReceipt["state"]) => (st === "mined" ? "Mined (found later)" : STATE_LABEL[st]);
 
 /** The trader's own action receipts from this browser, each with its independent readback. */
 export default function MyReceipts() {
   const [rows, setRows] = useState<LocalReceipt[]>([]);
-  useEffect(() => setRows(loadLocalReceipts()), []);
+  const [checking, setChecking] = useState(false);
+  // Transactions whose outcome the page lost (timeout, reload) are looked up again on the chain.
+  const check = async () => {
+    setChecking(true);
+    try {
+      await reconcilePending();
+    } finally {
+      setRows(loadLocalReceipts());
+      setChecking(false);
+    }
+  };
+  useEffect(() => {
+    setRows(loadLocalReceipts());
+    void check();
+  }, []);
+  const open = rows.filter((r) => (r.state === "submitted" || r.state === "unknown") && !r.dropped).length;
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-4">
       <h1 className="flex items-center gap-2 text-xl font-semibold">
@@ -21,6 +38,17 @@ export default function MyReceipts() {
         expected result at the same block. These receipts live in this browser only; the canonical evidence is on the{" "}
         <Link href="/proof" className="text-accent underline">proof page</Link>.
       </p>
+      {open > 0 && (
+        <div className="flex flex-wrap items-center gap-3 rounded-lg border border-warn/40 bg-warn-bg p-3 text-sm">
+          <span>
+            {open} transaction{open === 1 ? " is" : "s are"} submitted but not yet confirmed. Do not send {open === 1 ? "it" : "them"} again; new
+            transactions are held until this resolves.
+          </span>
+          <Button variant="secondary" onClick={check} disabled={checking}>
+            {checking ? "Checking…" : "Check again"}
+          </Button>
+        </div>
+      )}
       <Card pad={false}>
         {rows.length === 0 ? (
           <EmptyState title="No receipts yet" />
@@ -30,13 +58,13 @@ export default function MyReceipts() {
               <li key={r.id} className="border-t border-line px-4 py-3 first:border-t-0">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="text-sm font-medium">{r.label}</div>
-                  <Pill tone={r.state === "verified" ? "safe" : r.state === "verification_failed" || r.state === "failed" ? "breach" : "info"}>
-                    {STATE_LABEL[r.state]}
+                  <Pill tone={r.state === "verified" ? "safe" : r.state === "verification_failed" || r.state === "failed" ? "breach" : r.state === "unknown" || r.state === "submitted" ? "warn" : "info"}>
+                    {label(r.state)}
                   </Pill>
                 </div>
                 <div className="mt-1 flex flex-wrap gap-x-4 text-xs text-muted">
                   <span>{r.network}</span>
-                  <span className="num">block {r.blockNumber}</span>
+                  <span className="num">{r.blockNumber ? `block ${r.blockNumber}` : "no block yet"}</span>
                   <TxLink hash={r.txHash} />
                   <span>{new Date(r.at).toLocaleString()}</span>
                 </div>

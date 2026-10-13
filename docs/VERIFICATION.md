@@ -182,13 +182,14 @@ site. No transaction was sent in this section.
 | R7 | Wrong chain refused | agent-local container | chainId 143 | 400 | 400 | curl |
 | R8 | Replay, deadline, quota, gas cap | agent-local unit tests | `pnpm --filter @imprest/relayer test` | pass | 14/14 | vitest |
 | R9 | No secrets in the image | agent-local container | search the image for `.env*` and `*.key` | none | none | find output |
-| R10 | Hosted on Railway | owner | docs/HOSTING.md steps 1–5 | `/health` ok on the public domain | **OPEN** | — |
-| R11 | Gasless trade from the browser | owner-browser | sign on the live site, relayer submits, second-RPC verification | Verified state, tx sent by `0x017F…b728` | **OPEN** | — |
+| R10 | Hosted on Railway | owner + agent-local probes | Railway deploy; agent probed the public domain | `/health` ok; live-origin preflight 204; other origin 403; forged signature 401 | as expected; wallet `0x017F…b728`, chain 10143 | https://imprest-relayer-production-74f6.up.railway.app/health |
+| R11 | Gasless trade from the browser | owner-browser, testnet | owner signed a BTC buy of 100 lots (IOC, 3x) on the live site; the hosted relayer submitted it | Verified; tx from the relayer; owner MON unchanged | **PASS**: full fill 0 → +100; relayer paid 0.06570024 MON; owner MON 3.16088747 before and after; identical on both RPCs | `0xc29c4b1f…635cec`, block 70662751; proof/receipts/testnet/browser-gasless/01-open.json |
+| R12 | Close button on a real position | owner-browser, testnet | Close position prefilled a reduce-only IOC sell of 100 lots; owner signed; relayed | flat, "desk is flat" message | **PASS**: +100 → 0, full fill, BTC and ETH flat; relayer paid 0.056251776 MON; equity 99.809207; 2 closed round trips | `0x76b48df8…fd4514`, block 70663809; 02-close.json; proof/local/desk-inventory.md at block 70664122 |
 | E1 | Desk inventory | agent-local script, read-only | `desk-inventory` at block 70643979, both RPCs | every claim and graduation condition listed | no desk can claim or graduate; both RPCs agree | proof/local/desk-inventory.md |
 | E2 | Browser profit claim | owner-browser | — | — | **OPEN: no eligible desk** | E1 |
 | E3 | Browser graduation | owner-browser | — | — | **OPEN: no eligible desk** | E1 |
 | P1 | Partial fills, deterministic | agent-local, Perpl bytecode | IOC 100 vs 40 offered; reduce-only 40 vs 25 bid | 40 open; 15 remain, not flipped | pass | contract tests |
-| P2 | Live partial fill | owner-browser | — | — | **OPEN.** Top of book at block ~70646120 was 2.29 BTC and 38.2 ETH; this desk's whole capacity fills fully | Perpl book API |
+| P2 | Live partial fill | owner-browser | — | — | **OPEN** (both live trades filled fully). Top of book at block ~70646120 was 2.29 BTC and 38.2 ETH; this desk's whole capacity fills fully | Perpl book API |
 | G1 | Enforcing desk in LP totals | agent-local unit | `lpExposure` with 400 borrowed and 350 equity | 50 shortfall | pass | core tests |
 | G2 | Primary RPC down | agent-local browser | block `/api/rpc/primary`, open /lp | "single RPC only", never "confirmed on 2 RPCs" | pass | e2e/rpc-failover.spec.ts |
 | G3 | Claim preview uses realized equity | agent-local unit | open-profitable, enforcing, flat, fees-only cases | consistent label and claimability | pass | core tests |

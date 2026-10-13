@@ -3,6 +3,7 @@
  * headings, paragraphs, lists, tables, code, blockquotes, emphasis and http(s)/relative
  * links are produced. No raw HTML passes through.
  */
+const REPO = "https://github.com/TheWeirdDee/imprest";
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 function inline(s: string): string {
@@ -15,6 +16,14 @@ function inline(s: string): string {
   out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   out = out.replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
   out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, text, href) => {
+    // A repository file outside docs/ (for example ../proof/local/desk-inventory.md) opens on GitHub
+    // at the commit this site was built from. Only plain path characters, one leading "../" and no
+    // further ".." are accepted; anything else still becomes "#".
+    const repoPath = /^\.\.\/([A-Za-z0-9_\-./]+)$/.exec(href);
+    if (repoPath && !repoPath[1]!.includes("..")) {
+      const url = `${REPO}/blob/${process.env.NEXT_PUBLIC_BUILD_SHA || "main"}/${repoPath[1]}`;
+      return `<a href="${url}" target="_blank" rel="noreferrer">${text}</a>`;
+    }
     const safe = /^(https?:\/\/|\/|\.\/|#|[A-Z_]+\.md)/.test(href) ? href : "#";
     const resolved = /^[A-Z_]+\.md/.test(safe) ? `/docs/${safe}` : safe;
     const ext = /^https?:/.test(resolved);

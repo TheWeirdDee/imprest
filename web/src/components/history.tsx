@@ -22,7 +22,22 @@ function describe(e: DeskEvent): { title: string; detail: string } {
       const m = network.perpl.markets.find((x) => BigInt(x.perpId) === BigInt(a.perpId));
       const fmtLots = (v: bigint) =>
         m ? formatUnitsFixed(BigInt(v), m.lotDecimals, m.lotDecimals) : String(v);
-      const filled = BigInt(a.lotsAfter) !== BigInt(a.lotsBefore);
+      // Fill from the SIGNED position change when known: unsigned sizes alone call an equal-size
+      // reversal (long 100 -> short 100) "no fill" although 200 lots traded.
+      const sideOf = (v: bigint) => (v === 0n ? "flat" : v > 0n ? "long" : "short");
+      const abs = (v: bigint) => (v < 0n ? -v : v);
+      const position = e.signed
+        ? (() => {
+            const traded = abs(e.signed.after - e.signed.before);
+            return traded === 0n
+              ? "no fill"
+              : `filled ${fmtLots(traded)} · ${sideOf(e.signed.before)} ${fmtLots(abs(e.signed.before))} → ${sideOf(e.signed.after)} ${fmtLots(abs(e.signed.after))}`;
+          })()
+        : BigInt(a.lotsAfter) !== BigInt(a.lotsBefore)
+          ? `position ${fmtLots(a.lotsBefore)} → ${fmtLots(a.lotsAfter)}`
+          : BigInt(a.lotsBefore) === 0n
+            ? "no fill"
+            : `size unchanged at ${fmtLots(a.lotsBefore)}: no fill or a reversal (direction not readable)`;
       return {
         title: `${ORDER_TYPE[Number(a.orderType)] ?? "Order"} ${m?.symbol ?? a.perpId}`,
         // The event records the submitted limit and the venue mark at execution; it does not carry an
@@ -31,7 +46,7 @@ function describe(e: DeskEvent): { title: string; detail: string } {
           a.markPrice !== undefined && m
             ? ` · mark ${formatUnitsFixed(BigInt(a.markPrice), m.priceDecimals, m.priceDecimals)}`
             : ""
-        } · ${filled ? `position ${fmtLots(a.lotsBefore)} → ${fmtLots(a.lotsAfter)}` : "no fill"}`,
+        } · ${position}`,
       };
     }
     case "Graduated":

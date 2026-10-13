@@ -8,7 +8,7 @@ What runs where, and how each environment is labeled. Current as of 2026-10-13; 
 | Perpl | real exchange bytecode, scripted maker | live exchange state at the fork block | live | live |
 | AUSD | test token | live testnet AUSD + faucet | live + faucet | live (real value) |
 | Web app | `NEXT_PUBLIC_IMPREST_ENV=development` | n/a | public at https://imprest-chi.vercel.app (`/api/version` reports the deployed commit); desk actions live | not configured |
-| Relayer | unit tests (mock chain port) | n/a | runs locally with a funded key (relayed trades recorded in proof/receipts); public hosting prepared (`render.yaml`), not yet deployed | not configured |
+| Relayer | unit tests (mock chain port) | n/a | runs locally with a funded key (relayed trades recorded in proof/receipts); public hosting prepared for Railway (`railway.json`, `relayer/Dockerfile`; see HOSTING.md), not yet deployed | not configured |
 | Keeper | unit tests | n/a | runs locally with a funded key (graduation tx 0x4e61…87ed sent by it); not hosted | not configured |
 | Indexer | n/a | n/a | config validated; runs under WSL/Docker only; not hosted (the web app falls back to a bounded RPC scan) | not configured |
 | Reference model / replay | Python, local | n/a | n/a | n/a |

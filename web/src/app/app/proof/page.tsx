@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Receipt } from "lucide-react";
 import { STATE_LABEL } from "@imprest/core";
-import { loadLocalReceipts, reconcilePending, type LocalReceipt } from "@/lib/tx";
+import { loadLocalReceipts, reconcilePending, releasePending, type LocalReceipt } from "@/lib/tx";
 import { Button, Card, EmptyState, Pill, TxLink } from "@/components/ui";
 
 const label = (st: LocalReceipt["state"]) => (st === "mined" ? "Mined (found later)" : STATE_LABEL[st]);
@@ -69,6 +69,23 @@ export default function MyReceipts() {
                   <span>{new Date(r.at).toLocaleString()}</span>
                 </div>
                 {r.reason && <div className="mt-1 text-xs text-fg-2">{r.reason}</div>}
+                {r.releasable && !r.dropped && (
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-fg-2">
+                    <span>Only if the explorer shows no such transaction:</span>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => {
+                        if (window.confirm("Release this transaction? Do this only after checking the explorer link shows it does not exist. New transactions will no longer wait for it.")) {
+                          releasePending(r.id);
+                          setRows(loadLocalReceipts());
+                        }
+                      }}
+                    >
+                      Release it
+                    </Button>
+                  </div>
+                )}
                 {r.readback && (
                   <details className="mt-1 text-xs text-muted">
                     <summary className="cursor-pointer">Readback on {r.readback.rpc}</summary>

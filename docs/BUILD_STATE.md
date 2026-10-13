@@ -1,5 +1,7 @@
 # Build state and gap matrix
 
+> **Historical snapshot (2026-10-08).** Kept as a dated record. For the current state see [VERIFICATION.md](VERIFICATION.md), [ENVIRONMENT_MATRIX.md](ENVIRONMENT_MATRIX.md) and the live [/status](https://imprest-chi.vercel.app/status) page; items marked pending here may have changed since.
+
 Updated 2026-10-08 (light-only frontend, session persistence, deploy readiness). "Done" means
 evidenced, not merely coded. Severity: P0 blocks the core claim, P1 blocks a strong
 submission, P2 is polish or optional.

@@ -7,6 +7,7 @@ import {
   deskDomain,
   deskFactoryAbi,
   describeFill,
+  eventMatchesOrder,
   signedLots,
   erc20Abi,
   perplExchangeAbi,
@@ -104,9 +105,15 @@ export function tradeAction(
   via: "self" | "relayer",
   label: string,
 ): ActionSpec {
-  const fillFrom = async (c: PublicClient, bn: bigint, receipt: { logs: readonly any[] }) => {
+  // The nonce this action signed (relayed) or 0 (self-submitted trade() emits nonce 0).
+  let sentNonce = 0n;
+  const fillFrom = async (c: PublicClient, bn: bigint, receipt: { logs: readonly any[]; to?: Address | null }): Promise<Record<string, string>> => {
+    // Bind the receipt to THIS request: sent to this desk, and its event carries exactly the
+    // requested order and nonce. Two RPCs agreeing about another trade must not pass.
+    if (receipt.to && receipt.to.toLowerCase() !== desk.toLowerCase()) return { tradeExecuted: "false", orderMatches: `sent to ${receipt.to}, not the desk` };
     const ev = tradeEventFrom(receipt.logs as any, desk);
     if (!ev) return { tradeExecuted: "false" };
+    const orderMatches = eventMatchesOrder(ev, o, sentNonce);
     const before = await signedPosition(c, o.perpId, accountId, bn - 1n);
     const after = await signedPosition(c, o.perpId, accountId, bn);
     const abs = (v: bigint) => (v < 0n ? -v : v);
@@ -114,17 +121,18 @@ export function tradeAction(
     const consistent = abs(before) === BigInt(ev.lotsBefore) && abs(after) === BigInt(ev.lotsAfter);
     return {
       tradeExecuted: "true",
+      orderMatches,
       ...describeFill(o, before, after),
       eventMatchesState: consistent ? "yes" : `event ${ev.lotsBefore}->${ev.lotsAfter}, state ${abs(before)}->${abs(after)}`,
     };
   };
   return {
     label,
-    expect: async () => ({ tradeExecuted: "true", direction: "matches order", eventMatchesState: "yes" }),
+    expect: async () => ({ tradeExecuted: "true", orderMatches: "yes", direction: "matches order", eventMatchesState: "yes" }),
     expectAfterReceipt: async (receipt, primary) => {
       const f = await fillFrom(primary, receipt.blockNumber, receipt);
       // Only the measured numbers are taken from the primary; the fixed expectations stay fixed.
-      const { direction: _d, eventMatchesState: _e, ...measured } = f as Record<string, string>;
+      const { direction: _d, eventMatchesState: _e, orderMatches: _m, ...measured } = f as Record<string, string>;
       return measured;
     },
     send: async () => {
@@ -140,6 +148,7 @@ export function tradeAction(
         if (!relayerUrl) throw new Error("No relayer configured for this environment; self-submit instead.");
         const last = await readAt<bigint>(primaryClient(), { address: desk, abi: deskAbi, functionName: "lastNonce" });
         const nonce = last + 1n;
+        sentNonce = nonce;
         const deadline = BigInt(Math.floor(Date.now() / 1000) + 120);
         const signature = await account.signTypedData!({
           domain: deskDomain(network.chainId, desk),

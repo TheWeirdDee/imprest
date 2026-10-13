@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { expectNoOverflow, expectNoPlaceholder, watchErrors } from "./helpers";
+import { expectNoOverflow, expectNoPlaceholder, watchErrors, gotoReady } from "./helpers";
 
 const ROUTES: [string, RegExp][] = [
   ["/", /Trading credit with risk enforced/],
@@ -21,7 +21,7 @@ const ROUTES: [string, RegExp][] = [
 for (const [path, heading] of ROUTES) {
   test(`renders ${path} with the testnet banner, no errors, no placeholder copy`, async ({ page }) => {
     const errors = watchErrors(page);
-    const res = await page.goto(path, { waitUntil: "networkidle" });
+    const res = await gotoReady(page, path);
     expect(res?.status()).toBe(200);
     await expect(page.getByRole("heading", { level: 1 }).first()).toContainText(heading);
     await expect(page.getByRole("note", { name: /TESTNET environment/ })).toBeVisible();
@@ -40,7 +40,7 @@ for (const width of [320, 375, 390, 414, 430, 768, 1024, 1280, 1440, 1920]) {
     test.setTimeout(180_000); // 12 pages against live testnet RPCs
     await page.setViewportSize({ width, height: 900 });
     for (const path of ["/", "/proof", "/app", "/app/trade/btc", "/app/positions", "/app/desk", "/app/risk", "/app/claims", "/app/history", "/lp", "/status", "/docs"]) {
-      await page.goto(path, { waitUntil: "networkidle" });
+      await gotoReady(page, path);
       await expectNoOverflow(page, `${path} @ ${width}px`);
     }
   });
@@ -55,7 +55,7 @@ for (const width of [320, 375, 390, 414, 768, 1024, 1280, 1440]) {
     await page.addInitScript((addr) => localStorage.setItem("imprest.account.v1.testnet", JSON.stringify({ address: addr, kind: "mera" })), TRADER);
     await page.setViewportSize({ width, height: 900 });
     for (const path of ["/app", "/app/trade/btc", "/app/positions", "/app/desk", "/app/risk", "/app/claims", "/app/history", "/app/proof"]) {
-      await page.goto(path, { waitUntil: "networkidle" });
+      await gotoReady(page, path);
       await expect(page.getByRole("button", { name: /^Account 0x/ })).toBeVisible();
       await expectNoOverflow(page, `${path} @ ${width}px with desk`);
     }
@@ -67,7 +67,7 @@ for (const width of [320, 375, 390, 414, 768, 1024, 1280, 1440]) {
 test("history loads from the chain scan when no indexer is configured", async ({ page }) => {
   test.setTimeout(120_000);
   await page.addInitScript((addr) => localStorage.setItem("imprest.account.v1.testnet", JSON.stringify({ address: addr, kind: "mera" })), TRADER);
-  await page.goto("/app/history", { waitUntil: "networkidle" });
+  await gotoReady(page, "/app/history");
   // The build decides the source (NEXT_PUBLIC_INDEXER_URL is baked in), so read it from the page.
   const source = page.getByText(/^Source: /);
   await expect(source).toBeVisible({ timeout: 60_000 });

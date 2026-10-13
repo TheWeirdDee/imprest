@@ -8,9 +8,9 @@ What runs where, and how each environment is labeled. Current as of 2026-10-13; 
 | Perpl | real exchange bytecode, scripted maker | live exchange state at the fork block | live | live |
 | AUSD | test token | live testnet AUSD + faucet | live + faucet | live (real value) |
 | Web app | `NEXT_PUBLIC_IMPREST_ENV=development` | n/a | public at https://imprest-chi.vercel.app (`/api/version` reports the deployed commit); desk actions live | not configured |
-| Relayer | unit tests (mock chain port) | n/a | runs locally with a funded key (relayed trades recorded in proof/receipts); public hosting prepared for Railway (`railway.json`, `relayer/Dockerfile`; see HOSTING.md), not yet deployed | not configured |
+| Relayer | unit tests (mock chain port) | n/a | hosted on Railway since 2026-10-13 (https://imprest-relayer-production-74f6.up.railway.app, health on /status); a trade signed in the browser was relayed and verified that day (proof/receipts/testnet/browser-gasless). Trades only: faucet, approve, open desk, claim and close desk still use the trader's MON | not configured |
 | Keeper | unit tests | n/a | runs locally with a funded key (graduation tx 0x4e61…87ed sent by it); not hosted | not configured |
-| Indexer | n/a | n/a | config validated; runs under WSL/Docker only; not hosted (the web app falls back to a bounded RPC scan) | not configured |
+| Indexer | n/a | n/a | config validated; runs under WSL/Docker only; hosted Envio deployments did not sync on the free plan (see HOSTING.md); the web app uses a bounded RPC scan | not configured |
 | Reference model / replay | Python, local | n/a | n/a | n/a |
 
 Environment variables: see `.env.example`. Required per component:

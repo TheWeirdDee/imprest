@@ -27,6 +27,18 @@ export function primaryClient(): PublicClient {
   return primary;
 }
 
+let strictPrimary: PublicClient | null = null;
+
+/**
+ * The primary provider ONLY, with no fallback. Transaction confirmation uses this so a receipt and
+ * the expected values always come from a different provider than the one that verifies them; with
+ * the fallback client, an outage of the primary would silently make both sides the same provider.
+ */
+export function strictPrimaryClient(): PublicClient {
+  strictPrimary ??= createPublicClient({ chain, transport: http(readUrl("primary"), { retryCount: 2, timeout: 20_000 }) }) as PublicClient;
+  return strictPrimary;
+}
+
 /** Second, independent RPC. Null when the environment has only one provider. */
 export function verifyClient(): PublicClient | null {
   if (!verifyRpc) return null;

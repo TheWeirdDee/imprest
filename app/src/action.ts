@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import type { Hex, PublicClient, TransactionReceipt } from "viem";
-import { compareReadback, toAppError, transition, type ActionState } from "@imprest/core";
+import { SendGate, compareReadback, decideFromReceipts, toAppError, transition, type ActionState, type LookupResult } from "@imprest/core";
 import { network, primary, verify } from "./chain";
 
 export interface ActionSpec {
@@ -18,25 +18,37 @@ export interface ActionSpec {
  * it survives moving between screens but not an app restart (no storage module in the native build).
  */
 const unresolved = new Map<Hex, { label: string; at: number }>();
-const DROPPED_AFTER_MS = 10 * 60_000;
+/** One send at a time, taken synchronously before the first await. */
+const gate = new SendGate();
 
+async function lookup<T>(f: () => Promise<T>): Promise<LookupResult<T>> {
+  try {
+    return { ok: true, value: await f() };
+  } catch (e) {
+    if (/NotFound/.test((e as Error)?.name ?? "")) return { ok: true, value: null };
+    return { ok: false, error: ((e as Error)?.message ?? String(e)).split("\n")[0]! };
+  }
+}
+
+/**
+ * The first transaction that must still block new sends. A hash leaves the list only when a
+ * receipt is found on a provider; a failed lookup or "not found" never releases it (there is no
+ * release button in the app, and the record ends with the app session, as documented).
+ */
 async function stillUnresolved(): Promise<[Hex, { label: string; at: number }] | null> {
   for (const [hash, info] of unresolved) {
-    const rc = await primary.getTransactionReceipt({ hash }).catch(() => null);
-    if (rc) {
-      unresolved.delete(hash);
-      continue;
-    }
-    const known = await primary.getTransaction({ hash }).catch(() => null);
-    if (!known && Date.now() - info.at > DROPPED_AFTER_MS) {
-      unresolved.delete(hash);
+    const d = decideFromReceipts(
+      await lookup(() => primary.getTransactionReceipt({ hash })),
+      verify ? await lookup(() => verify!.getTransactionReceipt({ hash })) : { ok: false, error: "no second RPC" },
+    );
+    if (d.kind === "failed" || d.kind === "mined" || d.kind === "single-provider") {
+      unresolved.delete(hash); // a receipt exists: it executed or reverted, so it cannot execute again
       continue;
     }
     return [hash, info];
   }
   return null;
 }
-
 /**
  * Same state machine as the web app: requested -> submitted -> confirming -> verified, with
  * "unknown" when no receipt arrives in time (the transaction may still settle; it is never shown
@@ -45,12 +57,30 @@ async function stillUnresolved(): Promise<[Hex, { label: string; at: number }] |
 export function useAction() {
   const [state, setState] = useState<ActionState>({ kind: "idle" });
   const run = useCallback(async (spec: ActionSpec) => {
+    if (!gate.tryAcquire()) {
+      setState(transition(transition({ kind: "idle" }, { type: "request", label: spec.label }), { type: "error", reason: "Another transaction is already being prepared or sent. Nothing else was sent.", code: "IN_FLIGHT" }));
+      return;
+    }
+    try {
+      await runOnce(spec);
+    } finally {
+      gate.release();
+    }
+  }, []);
+
+  const runOnce = async (spec: ActionSpec) => {
     let s: ActionState = transition({ kind: "idle" }, { type: "request", label: spec.label });
     const set = (n: ActionState) => {
       s = n;
       setState(n);
     };
-    const open = await stillUnresolved();
+    let open: Awaited<ReturnType<typeof stillUnresolved>>;
+    try {
+      open = await stillUnresolved();
+    } catch (e) {
+      set(transition(s, { type: "error", reason: `Could not check earlier transactions (${(e as Error).message}). Nothing was sent.`, code: "PENDING_CHECK_FAILED" }));
+      return;
+    }
     if (open) {
       set(transition(s, { type: "error", reason: `An earlier transaction (${open[0].slice(0, 10)}…, "${open[1].label}") is not confirmed yet. Nothing was sent, so it cannot be duplicated. Try again once it settles.`, code: "PENDING_TRANSACTION" }));
       return;
@@ -93,6 +123,6 @@ export function useAction() {
     } catch (e) {
       set(transition(s, { type: "error", reason: `Verification failed: ${(e as Error).message}` }));
     }
-  }, []);
+  };
   return { state, run, reset: () => setState({ kind: "idle" }) };
 }

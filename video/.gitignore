@@ -1,0 +1,10 @@
+﻿# Local only: browser profiles (cookies/storage), raw footage, renders, dependencies.
+capture/profile*/
+capture/handoff/
+capture/test/
+capture/clips/
+remotion/node_modules/
+remotion/public/
+remotion/out/
+voice/out/
+voice/samples/

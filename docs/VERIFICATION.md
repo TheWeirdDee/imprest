@@ -202,3 +202,24 @@ site. No transaction was sent in this section.
 
 Green CI does not establish a browser claim, graduation, gasless trade or phone behavior. Those rows
 stay open until the owner performs them and the transactions are recorded.
+
+## 7. 2026-10-13: fixes for the second external audit (IP-018 to IP-024)
+
+Code fixes with local tests; no transaction, deployment or accounting change.
+
+| Finding | Fix | Evidence |
+| --- | --- | --- |
+| IP-018 RPC errors read as a dropped transaction | Lookup failures are never "not found"; nothing auto-releases; the user may release a hash only after both RPCs definitely answer not-found for 10 min (My receipts). Mobile keeps blocking until a receipt is found | core tests `decideFromReceipts`, `releasable` |
+| IP-019 concurrent sends | Synchronous one-at-a-time gate before the first await, plus a cross-tab marker (web); same gate on mobile | core test: two concurrent runs, one send |
+| IP-020 receipt not bound to the order | Event must match perpId, side, order type, limit, lots, leverage, FOK and the signed nonce; transaction must target the desk (web and mobile) | core tests `eventMatchesOrder` |
+| IP-004 recovery provider scope | Recovery reads the primary without fallback; "mined" only when two distinct providers agree | core tests |
+| IP-008 / IP-010 native previews | Native claims use the shared realized-only preview; native "Maximum position" relabelled as a leverage ceiling that pool caps may lower | app typecheck and tests |
+| IP-011 validator scope | Required operation event from the named contract, sender, target and recorded inputs (lots, leverage, limit, nonce, equity) are checked on both providers | validator PASS on 25 transactions; a tampered size fails |
+| IP-012 relayer copy | FAQ, README, KNOWN_LIMITATIONS, ENVIRONMENT_MATRIX: trades are gasless via the hosted relayer; other actions use trader MON | commits `e6098ec`…`1743c06` |
+| IP-021 dead docs link | Repository links in rendered docs open on GitHub at the build commit | source |
+| IP-022 indexer freshness | Indexed history used only when the indexer is within 50 blocks of head and under 100 rows; otherwise the labelled chain scan | source |
+| IP-023 unknown inputs shown as PASS | Policy is ok only when every check passes; ticket shows INCOMPLETE and cannot submit until mark, positions and policy are known | core test |
+| IP-024 reduce-only wording | README states the fresh-mark floor exception (closing then requires `enforce()`) | README |
+
+Still open: native durable pending record across restarts (documented), public demo video, owner-verified
+portal rules, the hosted indexer, and any market-dependent live result (profit claim, live partial fill).

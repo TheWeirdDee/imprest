@@ -1,0 +1,50 @@
+{
+    "id":  "TESTNET_BROWSER_GASLESS_CLOSE",
+    "environment":  "testnet",
+    "network":  "Monad Testnet",
+    "chain_id":  10143,
+    "timestamp_utc":  "2026-10-13T10:56:53Z",
+    "git_commit":  "ad5bbda75edaa89e3d765a273511caf8d03f900b",
+    "operation":  "relayed_trade",
+    "status":  "TESTNET_VERIFIED",
+    "tx_hash":  "0x76b48df8353567a27a6d79164b151de9db8054c259889cb017e8196f2bfd4514",
+    "block_number":  70663809,
+    "contract":  "0x640ac0F4a2191Ae5A9522291fE4bca786d515DBf",
+    "explorer_url":  "https://testnet.monadscan.com/tx/0x76b48df8353567a27a6d79164b151de9db8054c259889cb017e8196f2bfd4514",
+    "inputs":  {
+                   "market":  "BTC-PERP",
+                   "perpId":  "16",
+                   "side":  1,
+                   "lots":  "100",
+                   "leverage":  "300",
+                   "priceLimit":  "830309",
+                   "reduceOnly":  true,
+                   "fillOrKill":  false,
+                   "nonce":  "2",
+                   "prepared_by":  "Close position button (reduce-only, opposite side, current size)",
+                   "signed_by":  "owner passkey in the browser (Mera)",
+                   "submitted_by":  "hosted relayer (wallet 0x017F46FdCC2fC946D7e1f86927Aa37267331b728)"
+               },
+    "outputs":  {
+                    "lotsAfterPrimary":  "0",
+                    "signed_position_before":  "100",
+                    "signed_position_after":  "0",
+                    "filled_lots":  "100",
+                    "fill":  "full",
+                    "eth_position_after":  "0",
+                    "tx_from":  "0x017f46fdcc2fc946d7e1f86927aa37267331b728",
+                    "relayer_gas":  "551488",
+                    "gas_paid_mon_by_relayer":  "0.056251776",
+                    "trader_mon_after":  "3.16088747",
+                    "equity_before":  "99838910",
+                    "equity_after":  "99809207",
+                    "closed_round_trips_this_tier":  "2"
+                },
+    "verification":  {
+                         "method":  "receipt, sender, signed Perpl position at block-1 and block, and desk equity read on both providers; desk inventory at block 70664122 confirms BTC and ETH flat and 2 closed round trips on both providers",
+                         "status_both_rpcs":  "success",
+                         "block_both_rpcs":  "70663809",
+                         "signed_position_after_both_rpcs":  "0"
+                     },
+    "notes":  "Closed with the Close position button: the ticket was prefilled as a reduce-only IOC sell of the full 100 lots; full fill, desk flat. Equity 99.809207 is below the 100 high-water mark, so no claim or graduation is possible."
+}

@@ -382,4 +382,21 @@ contract DeskPolicyTest is ImprestFixture {
         }
         revert("no TradeExecuted");
     }
-}
+
+    /// A non-reduce-only sell of 200 lots against a 100-lot long REVERSES it to a 100-lot short. The
+    /// TradeExecuted event records unsigned sizes (100 -> 100), so a fill can only be judged from the
+    /// signed position (the web, app and history use the before/after positionType for this).
+    function test_reversal_equalUnsignedSizesStillTraded() public {
+        _trade(desk, _buy(BTC, 100, 300));
+        (IPerplExchange.PositionInfo memory p0,,) = ex.getPosition(BTC, desk.accountId());
+        assertEq(p0.lotLNS, 100);
+        assertEq(p0.positionType, 0, "long");
+        _requote();
+        vm.recordLogs();
+        _trade(desk, _sell(BTC, 200, 300));
+        (IPerplExchange.PositionInfo memory p1,,) = ex.getPosition(BTC, desk.accountId());
+        assertEq(p1.lotLNS, 100);
+        assertEq(p1.positionType, 1, "now short: 200 lots traded");
+        (uint256 before, uint256 afterLots) = _lastTradeLots();
+        assertEq(before, afterLots, "the event alone shows no size change");
+    }}

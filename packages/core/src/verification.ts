@@ -3,7 +3,11 @@
  *
  *   idle -> requested -> submitted -> confirming -> verified
  *                     \-> failed     \-> failed  \-> verification_failed
+ *   submitted -> unknown (no receipt yet: the transaction may still settle) -> confirming | failed
  *   unsupported_environment | pending_external_dependency are display-only terminal states.
+ *
+ * "failed" after submission is reserved for a known revert. A receipt lookup that times out or
+ * errors is "unknown": the hash is kept and the lookup is resumed, never treated as a failure.
  *
  * "verified" is reachable ONLY from "confirming" through a readback from an independent RPC
  * that agrees with the expected post-state. A receipt alone is "confirming", never success.
@@ -16,6 +20,7 @@ export type ActionState =
   | { kind: "submitted"; label: string; txHash: TxHash }
   | { kind: "confirming"; label: string; txHash: TxHash; blockNumber: bigint }
   | { kind: "verified"; label: string; txHash: TxHash; blockNumber: bigint; evidence: Readback }
+  | { kind: "unknown"; label: string; txHash: TxHash; reason: string }
   | { kind: "failed"; label: string; txHash?: TxHash; reason: string; code?: string }
   | { kind: "verification_failed"; label: string; txHash: TxHash; reason: string; evidence?: Readback }
   | { kind: "unsupported_environment"; label: string; reason: string }
@@ -34,6 +39,7 @@ export type ActionEvent =
   | { type: "receipt"; status: "success" | "reverted"; blockNumber: bigint; reason?: string }
   | { type: "readback"; ok: boolean; evidence: Readback; reason?: string }
   | { type: "error"; reason: string; code?: string }
+  | { type: "receipt_unavailable"; reason: string }
   | { type: "unsupported"; label: string; reason: string }
   | { type: "external"; label: string; reason: string }
   | { type: "reset" };
@@ -55,7 +61,16 @@ export function transition(s: ActionState, e: ActionEvent): ActionState {
           ? { kind: "confirming", label, txHash: s.txHash, blockNumber: e.blockNumber }
           : { kind: "failed", label, txHash: s.txHash, reason: e.reason ?? "Transaction reverted" };
       }
-      if (e.type === "error") return { kind: "failed", label, txHash: s.txHash, reason: e.reason, code: e.code };
+      // Broadcast already happened: a lookup problem is not an execution failure.
+      if (e.type === "receipt_unavailable" || e.type === "error") return { kind: "unknown", label, txHash: s.txHash, reason: e.reason };
+      return s;
+    case "unknown":
+      if (e.type === "receipt") {
+        return e.status === "success"
+          ? { kind: "confirming", label, txHash: s.txHash, blockNumber: e.blockNumber }
+          : { kind: "failed", label, txHash: s.txHash, reason: e.reason ?? "Transaction reverted" };
+      }
+      if (e.type === "receipt_unavailable" || e.type === "error") return { ...s, reason: e.reason };
       return s;
     case "confirming":
       if (e.type === "readback") {
@@ -100,6 +115,7 @@ export const STATE_LABEL: Record<ActionState["kind"], string> = {
   requested: "Waiting for signature",
   submitted: "Transaction submitted",
   confirming: "Verifying on an independent RPC",
+  unknown: "Submitted, outcome not yet known",
   verified: "Verified",
   failed: "Failed",
   verification_failed: "Verification failed",

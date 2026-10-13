@@ -1,6 +1,6 @@
-﻿# Desk inventory (testnet)
+# Desk inventory (testnet)
 
-Block 70643979 (2026-10-13T09:16:01.000Z), read on rpc-testnet.monadinfra.com; money fields re-read on testnet-rpc.monad.xyz at the same block.
+Block 70664122 (2026-10-13T10:58:28.000Z), read on rpc-testnet.monadinfra.com; money fields re-read on testnet-rpc.monad.xyz at the same block.
 Desks: 4. Pool idle: 4600.000000 AUSD. Pool paused: false. Factory paused: false.
 
 Equity is the contract's riskState equity; it is realized equity only when the desk is flat. Fees accrue with time, so a claim or graduation re-checks them at execution.
@@ -71,13 +71,13 @@ Equity is the contract's riskState equity; it is realized equity only when the d
 | Tier | 0 of 1 |
 | Status | Active |
 | Positions (signed) | BTC flat; ETH flat |
-| Equity | 99.911529 AUSD (flat: realized) |
+| Equity | 99.809207 AUSD (flat: realized) |
 | Start equity / HWM | 100.000000 / 100.000000 |
 | Borrowed | 0.000000 |
 | Fees outstanding | 0.000000 |
-| Closed round trips this tier | 1 |
+| Closed round trips this tier | 2 |
 | Claims this tier | 0 |
-| Claim now | no: equity 99.911529 not above HWM 100.000000 |
-| Graduate now | no: equity 99.911529 < target 102.000000 (+2% on start 100.000000); closed round trips 1 < 2 |
+| Claim now | no: equity 99.809207 not above HWM 100.000000 |
+| Graduate now | no: equity 99.809207 < target 102.000000 (+2% on start 100.000000) |
 | Second RPC agrees | yes |
 

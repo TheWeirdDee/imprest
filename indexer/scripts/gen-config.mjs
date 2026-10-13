@@ -65,12 +65,15 @@ contracts:
 chains:
   - id: ${net.chainId}
     start_block: ${net.imprest.deployBlock ?? 0}
+    # Envio's HyperSync serves Monad testnet and is what the hosted service uses; the public RPCs
+    # are fallbacks only (they refused Envio's cloud: block height stayed 0 with RPC-only sync).
+    # For a local run without an Envio API token, set ENVIO_RPC_SYNC=true to sync over RPC instead.
     rpc:
-      - url: ${net.rpcUrls[0]}
-        for: ${process.env.ENVIO_API_TOKEN ? "fallback" : "sync"}
+${net.rpcUrls.slice(0, 2).map((u) => `      - url: ${u}
+        for: ${process.env.ENVIO_RPC_SYNC === "true" ? "sync" : "fallback"}
         # Monad public RPCs cap eth_getLogs at 100 blocks per call.
         initial_block_interval: 100
-        interval_ceiling: 100
+        interval_ceiling: 100`).join("\n")}
     contracts:
       - name: DeskFactory
         address: ${addr(net.imprest.factory)}

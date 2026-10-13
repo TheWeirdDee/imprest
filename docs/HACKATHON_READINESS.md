@@ -7,7 +7,6 @@ supplied by the owner from the hackathon dashboard on 2026-10-09. Section number
 
 | Rule | Official text (summary) | Section |
 | --- | --- | --- |
-| **Deadline** | **13 October 2026, 11:59 PM ET** (03:59 UTC = **04:59 Lagos time on 14 October**; New York is on EDT, UTC−4). No late submissions; the version recorded at the deadline is judged. | 4.2 |
 | Team and entries | 1–5 members; one project; one track only | 2.4, 2.5 |
 | Track 01 | "financial instruments, markets, and asset primitives, where the primary user is a trader, protocol, or financial product builder" | 3.3 |
 | Judging (all tracks) | Product Quality & Completeness 20%, Technical Excellence 20%, Monad Integration 20%, Track Fit & Problem Relevance 20%, Innovation & Impact 20% | 5.2 |
@@ -38,7 +37,7 @@ supplied by the owner from the hackathon dashboard on 2026-10-09. Section number
 | Working prototype, not a mockup | DONE | https://imprest-chi.vercel.app; the owner ran a full browser walkthrough on testnet |
 | Clear problem statement and intended user | DONE | README "Who it is for and why" |
 | No keys or credentials in the repo | DONE | `.env` and key files are gitignored; CI runs a secret scan on every push |
-| **Submit through the hackathon website, Track 01** | **OWNER** | Before 13 Oct 11:59 PM ET |
+| **Submit through the hackathon website, Track 01** | **OWNER** | Hackathon website |
 
 ## Scorecard against the official criteria (self-assessment)
 

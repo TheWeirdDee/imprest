@@ -1,66 +1,30 @@
-## Foundry
+# Imprest contracts
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Solidity 0.8.28 (via IR), built and tested with Foundry 1.5.1. Tests run against Perpl's real
+exchange bytecode, with a scripted market maker.
 
-Foundry consists of:
+| Contract | Role |
+| --- | --- |
+| `src/ImprestPool.sol` | LP pool. Lends restricted credit to registered desks, enforces gross-exposure and per-desk notional caps, and books fees, profit share and principal loss. |
+| `src/DeskFactory.sol` | Opens desks for a cohort, registers them with the pool, and predicts desk addresses. |
+| `src/Desk.sol` | One trader's desk: a Perpl account the trader can trade but never withdraw from. Enforces leverage, price band, mark freshness, floors, fee cap and reduce-only, plus graduation, claims, enforcement and settlement. |
+| `src/libraries/SettlementMath.sol` | Pure accounting: fee accrual, claim split, settlement waterfall. Mirrored by `packages/core` and the Python reference model. |
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Build and test
 
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```sh
+forge build
+forge test            # unit, accounting, security, invariant and Perpl-bytecode tests
+forge test --match-path test/perpl/TestnetFork.t.sol --fork-url $MONAD_TESTNET_RPC   # optional fork test
 ```
 
-### Test
+## Deploy
 
-```shell
-$ forge test
-```
+Use `script/Deploy.s.sol` with the runbook in [docs/DEPLOYMENT.md](../docs/DEPLOYMENT.md). The live
+testnet addresses and their bytecode checks are in [docs/DEPLOYMENTS.md](../docs/DEPLOYMENTS.md) and
+[docs/TESTNET_DEPLOYMENT.md](../docs/TESTNET_DEPLOYMENT.md). Do not redeploy the testnet contracts to
+refresh a headline: the recorded evidence refers to the deployed addresses.
 
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Design and risk notes: [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md),
+[docs/SECURITY.md](../docs/SECURITY.md), [docs/SECURITY_REVIEW.md](../docs/SECURITY_REVIEW.md).
+These are internal reviews, not an external security audit.

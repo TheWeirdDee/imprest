@@ -1,8 +1,9 @@
 # Verification table and browser walkthrough
 
-Audited commit: **`301157e`** (`301157e799408343a48e28a05344d6c657f6e667`). This is also the
-commit the live site reports at https://imprest-chi.vercel.app/api/version (production, built
-2026-10-09 13:01 UTC).
+> **Historical snapshot.** Sections 1–3 were recorded at commit `301157e`
+> (`301157e799408343a48e28a05344d6c657f6e667`), which the live site reported on 2026-10-09 13:01 UTC.
+> The site has been redeployed since: the current commit is whatever
+> https://imprest-chi.vercel.app/api/version reports. Later updates are dated sections below.
 
 Evidence types:
 
@@ -135,3 +136,32 @@ Still open:
 - full hosted history (needs a hosted indexer);
 - a real partial IOC fill observed in the browser;
 - the five remaining phone tabs.
+
+## 5. 2026-10-13: fixes for the 2026-10-12 external audit (IP-001 to IP-017)
+
+All are code fixes with local tests. No transaction was sent, no accounting or threshold changed, and
+nothing was redeployed onchain.
+
+| Finding | Fix | Evidence |
+| --- | --- | --- |
+| IP-001 receipt timeout shown as Failed | New `unknown` state; the hash is saved the moment it is broadcast; My receipts looks it up again; new sends are refused while one is unresolved (web). Mobile keeps the same guard for the app session only, with no storage across restarts. | core tests (state machine) |
+| IP-002 reversal shown as no fill | Fill = change in the SIGNED position just before and at the trade block, measured on the primary and re-read on the second RPC; History reads the same | core tests (flip, partial flip, exact close, no fill); contract test `test_reversal_equalUnsignedSizesStillTraded` |
+| IP-003 LP totals omit enforcing / older desks | Enforcing desks included until settled; up to 500 desks read; partial coverage labelled | source |
+| IP-004 one provider could stand in for two | Confirmations use the primary only (no fallback); if it is down the badge says single RPC; badge names pool totals only | source |
+| IP-005 mobile history 1000-block ranges | 100-block windows, 4 at a time, one retry, partial disclosure | app typecheck |
+| IP-006 mobile verification compared a constant | Same signed-fill verifier as web; same-block receipt check | app typecheck |
+| IP-007 `?close=abc` crashed the terminal | Only an allowlisted market id is accepted; others are removed | 7 malformed-link browser tests pass |
+| IP-008 claim preview used unrealized equity | Preview uses realized equity; "Eligible" only when active, flat and above HWM | source |
+| IP-009 "desk is flat" after one market | Other markets are read before saying so | source |
+| IP-010 "Max safe order" ignored pool caps | "Max new order (est.)" = min(leverage, desk cap, market pool cap), names the binding limit; worst-case post-trade equity | source |
+| IP-011 validator accepted a note as readback | VERIFIED needs a method plus a recorded reading; `--onchain` reconciles all 23 receipt transactions on both providers with decoded outcomes | `validate-evidence --onchain`: PASSED, 23 reconciled |
+| IP-012 stale docs | Environment matrix, contracts README, test counts dated, this file marked as snapshot | this commit range |
+| IP-013 deadline conversion | 04:59 Lagos on 14 October (EDT, UTC−4) | docs/HACKATHON_READINESS.md |
+| IP-014 address link target size | 24 px minimum height | axe: 14/14 routes pass |
+| IP-015 mobile session races | Generation guard on passkey prompts, one session at a time, lock after 5 min in background, stale poll results dropped | app typecheck + tests |
+| IP-016 no demo video | **Owner action** | — |
+| IP-017 networkidle fragility | New tests wait for explicit UI states; older tests unchanged | — |
+
+Still open, and only genuine market conditions or the owner can close them: a qualifying profit claim
+in the browser, a new graduation, a real partial fill, a public relayer and indexer, native passkeys,
+and the demo video.

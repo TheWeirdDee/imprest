@@ -1,15 +1,21 @@
 "use client";
 
 import { decodeEventLog, type Address, type Hex } from "viem";
-import { deskAbi } from "@imprest/core";
+import { deskAbi, perplExchangeAbi } from "@imprest/core";
 import { primaryClient } from "./chain";
-import { indexerUrl } from "./env";
+import { indexerUrl, network } from "./env";
 
 export interface DeskEvent {
   kind: "Trade" | "Graduated" | "Claimed" | "Settled" | "EnforcementStarted" | "FeesAccrued" | "PartialClose" | "DeskActivated";
   txHash: Hex;
   blockNumber: bigint;
   args: Record<string, unknown>;
+  /**
+   * Trades only: the signed Perpl position (long +, short -) just before and at the trade block, read
+   * from chain state. The event itself records unsigned sizes only, which cannot tell an equal-size
+   * reversal (long 100 -> short 100, 200 traded) from no fill. Absent when the read failed.
+   */
+  signed?: { before: bigint; after: bigint };
 }
 
 export interface HistoryResult {
@@ -97,14 +103,42 @@ async function fromRpc(desk: Address, maxBlocks = 5_000n, chunk = 100n, parallel
   return { events: out.sort((a, b) => Number(b.blockNumber - a.blockNumber)), range: `${start}-${head}`, missed, since };
 }
 
+/** Adds the signed position around each of the most recent trades (bounded, best effort). */
+async function withDirections(desk: Address, events: DeskEvent[]): Promise<DeskEvent[]> {
+  const trades = events.filter((e) => e.kind === "Trade").slice(0, 40);
+  if (trades.length === 0 || !network.perpl.exchange) return events;
+  const pc = primaryClient();
+  const accountId = (await pc.readContract({ address: desk, abi: deskAbi, functionName: "accountId" }).catch(() => null)) as bigint | null;
+  if (accountId === null) return events;
+  const at = async (perpId: bigint, blockNumber: bigint) => {
+    const p = (await pc.readContract({ address: network.perpl.exchange!, abi: perplExchangeAbi as any, functionName: "getPosition", args: [perpId, accountId], blockNumber })) as any;
+    const lots = BigInt(p[0].lotLNS);
+    return Number(p[0].positionType) === 0 ? lots : -lots;
+  };
+  await Promise.all(
+    trades.map(async (e) => {
+      try {
+        const perpId = BigInt(e.args.perpId as bigint);
+        const [before, after] = await Promise.all([at(perpId, e.blockNumber - 1n), at(perpId, e.blockNumber)]);
+        const abs = (v: bigint) => (v < 0n ? -v : v);
+        // Use the reads only when they agree with the event (no other change in the same block).
+        if (abs(before) === BigInt(e.args.lotsBefore as bigint) && abs(after) === BigInt(e.args.lotsAfter as bigint)) e.signed = { before, after };
+      } catch {
+        /* direction stays unknown for this row */
+      }
+    }),
+  );
+  return events;
+}
+
 export async function deskHistory(desk: Address): Promise<HistoryResult> {
   if (indexerUrl) {
     try {
-      return { source: "indexer", events: await fromIndexer(desk) };
+      return { source: "indexer", events: await withDirections(desk, await fromIndexer(desk)) };
     } catch {
       /* fall through to the bounded RPC scan */
     }
   }
   const r = await fromRpc(desk);
-  return { source: "rpc-scan", scannedBlocks: r.range, missedChunks: r.missed, scannedSince: r.since, events: r.events };
+  return { source: "rpc-scan", scannedBlocks: r.range, missedChunks: r.missed, scannedSince: r.since, events: await withDirections(desk, r.events) };
 }

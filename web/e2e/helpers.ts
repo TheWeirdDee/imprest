@@ -45,3 +45,14 @@ export async function expectNoPlaceholder(page: Page) {
     expect(text, `found "${bad}"`).not.toContain(bad);
   }
 }
+
+/**
+ * Navigates and waits for the page to settle without depending on "networkidle": the app polls live
+ * RPCs, so the network may never go quiet. Idle is waited for briefly as a best effort; each test
+ * then asserts the specific UI state it needs.
+ */
+export async function gotoReady(page: Page, path: string) {
+  const res = await page.goto(path, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle", { timeout: 8_000 }).catch(() => {});
+  return res;
+}

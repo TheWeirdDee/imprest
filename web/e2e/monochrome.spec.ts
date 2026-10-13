@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { gotoReady } from "./helpers";
 
 // Owner decision 2026-10-09: no blue anywhere. Fails on any rendered text, background, border
 // or SVG color with a clearly blue hue (semantic green/red/amber are allowed).
@@ -7,7 +8,7 @@ const PAGES = ["/", "/app", "/app/trade/btc", "/app/positions", "/app/risk", "/a
 test("no blue colors are rendered on any page", async ({ page }) => {
   test.setTimeout(240_000);
   for (const path of PAGES) {
-    await page.goto(path, { waitUntil: "networkidle" });
+    await gotoReady(page, path);
     const blue = await page.evaluate(() => {
       const parse = (c: string): number[] | null => {
         const n = c.match(/-?\d+(\.\d+)?(e-?\d+)?/g)?.map(Number);

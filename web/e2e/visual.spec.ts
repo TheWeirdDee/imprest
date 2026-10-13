@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { expectNoOverflow } from "./helpers";
+import { expectNoOverflow, gotoReady } from "./helpers";
 
 // Visual capture. Opt-in: SCREENSHOTS=1 npx playwright test visual
 // Optional: SHOT_WIDTHS=320,390 SHOT_PAGES=landing,trade SHOT_ACCOUNT=0x...
@@ -38,7 +38,7 @@ test.describe("visual capture", () => {
           );
         }
         await page.setViewportSize({ width, height: width < 768 ? 844 : 900 });
-        await page.goto(path, { waitUntil: "networkidle" });
+        await gotoReady(page, path);
         await page.waitForTimeout(1200);
         await expectNoOverflow(page, `${path} @ ${width}px`);
         await page.screenshot({

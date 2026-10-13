@@ -231,12 +231,16 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
           order,
           policy,
           risk,
-          markPns,
+          // Until the chain position read arrives there is no authoritative mark: unknown, not PASS.
+          markPns: d.positions.data ? markPns : null,
           markValid,
           positionLots: pos?.lots ?? 0n,
           positionIsLong: pos && pos.lots > 0n ? pos.isLong : null,
         })
       : null;
+  // INCOMPLETE: nothing is blocked but some input is unknown (no mark yet, positions not read).
+  // That is not a PASS, and it does not enable sending.
+  const incomplete = check ? !check.ok && check.checks.every((c) => c.status !== "blocked") : false;
   const blocked = check ? !check.ok : false;
   const canSubmit =
     deployed &&
@@ -245,6 +249,9 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
     a.status !== "connecting" &&
     Boolean(d.desk) &&
     Boolean(risk) &&
+    Boolean(check) &&
+    d.positions.data !== null &&
+    d.positions.data !== undefined &&
     !parsed.error &&
     !blocked;
   const busy = state.kind === "requested" || state.kind === "submitted" || state.kind === "confirming";
@@ -550,12 +557,14 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
                 "ml-1 rounded px-1.5 py-0.5 text-[10px] font-bold tracking-wider",
                 !check
                   ? "bg-surface-3 text-muted"
-                  : blocked
-                    ? "bg-breach/20 text-breach"
-                    : "bg-safe/20 text-safe",
+                  : incomplete
+                    ? "bg-warn/20 text-warn"
+                    : blocked
+                      ? "bg-breach/20 text-breach"
+                      : "bg-safe/20 text-safe",
               )}
             >
-              {!check ? "NEEDS A DESK" : blocked ? "BLOCKED" : "PASS"}
+              {!check ? "NEEDS A DESK" : incomplete ? "INCOMPLETE" : blocked ? "BLOCKED" : "PASS"}
             </span>
           </div>
           <span className="text-[10px] tracking-wide whitespace-nowrap text-muted uppercase">

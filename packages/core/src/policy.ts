@@ -23,7 +23,11 @@ export interface PolicyInput {
  * fail before signing. It authorizes nothing: the Desk contract re-checks every rule and
  * reverts on its own (see /proof, "Contract rejection"). A PASS here is never a fill.
  */
-export function checkPolicy(i: PolicyInput): { ok: boolean; checks: PolicyCheck[] } {
+/**
+ * `ok` is true only when EVERY check positively passes. An unknown input (no mark, no position
+ * read) is not a pass: `unknown` lists those checks so the UI can say "incomplete", not "PASS".
+ */
+export function checkPolicy(i: PolicyInput): { ok: boolean; unknown: string[]; checks: PolicyCheck[] } {
   const c: PolicyCheck[] = [];
   const { order: o, policy: p, risk: r } = i;
   const push = (rule: string, ok: boolean | null, detail: string) =>
@@ -65,5 +69,5 @@ export function checkPolicy(i: PolicyInput): { ok: boolean; checks: PolicyCheck[
   const aboveDaily = r.dailyFloor === INT256_MIN || r.equity >= r.dailyFloor;
   push("Equity floor", aboveFloor, aboveFloor ? "Equity above floor" : "Equity below floor: only enforcement runs");
   push("Daily loss", aboveDaily, aboveDaily ? "Inside today's loss limit" : "Daily loss limit reached");
-  return { ok: c.every((x) => x.status !== "blocked"), checks: c };
+  return { ok: c.every((x) => x.status === "pass"), unknown: c.filter((x) => x.status === "unknown").map((x) => x.rule), checks: c };
 }

@@ -1,0 +1,49 @@
+{
+    "id":  "TESTNET_BROWSER_GASLESS_OPEN",
+    "environment":  "testnet",
+    "network":  "Monad Testnet",
+    "chain_id":  10143,
+    "timestamp_utc":  "2026-10-13T10:51:29Z",
+    "git_commit":  "ad5bbda75edaa89e3d765a273511caf8d03f900b",
+    "operation":  "relayed_trade",
+    "status":  "TESTNET_VERIFIED",
+    "tx_hash":  "0xc29c4b1fce736f4a00d98c0ef51a2552e35970fade0639a95860e92c19635cec",
+    "block_number":  70662751,
+    "contract":  "0x640ac0F4a2191Ae5A9522291fE4bca786d515DBf",
+    "explorer_url":  "https://testnet.monadscan.com/tx/0xc29c4b1fce736f4a00d98c0ef51a2552e35970fade0639a95860e92c19635cec",
+    "inputs":  {
+                   "market":  "BTC-PERP",
+                   "perpId":  "16",
+                   "side":  0,
+                   "lots":  "100",
+                   "leverage":  "300",
+                   "priceLimit":  "834363",
+                   "reduceOnly":  false,
+                   "fillOrKill":  false,
+                   "nonce":  "1",
+                   "signed_by":  "owner passkey in the browser (Mera), https://imprest-chi.vercel.app",
+                   "submitted_by":  "hosted relayer https://imprest-relayer-production-74f6.up.railway.app (wallet 0x017F46FdCC2fC946D7e1f86927Aa37267331b728)"
+               },
+    "outputs":  {
+                    "lotsAfterPrimary":  "100",
+                    "signed_position_before":  "0",
+                    "signed_position_after":  "100",
+                    "filled_lots":  "100",
+                    "fill":  "full",
+                    "tx_from":  "0x017f46fdcc2fc946d7e1f86927aa37267331b728",
+                    "relayer_gas":  "644120",
+                    "gas_paid_mon_by_relayer":  "0.06570024",
+                    "trader_mon_before":  "3.16088747",
+                    "trader_mon_after":  "3.16088747",
+                    "equity_before":  "99911529",
+                    "equity_after":  "99891310"
+                },
+    "verification":  {
+                         "method":  "receipt, sender, signed Perpl position at block-1 and block, and desk equity read on both providers (testnet-rpc.monad.xyz and rpc-testnet.monadinfra.com); also the website\u0027s own second-RPC readback showed Verified",
+                         "status_both_rpcs":  "success",
+                         "block_both_rpcs":  "70662751",
+                         "signed_position_after_both_rpcs":  "100",
+                         "filled_lots_both_rpcs":  "100"
+                     },
+    "notes":  "First gasless trade from the public website: the owner signed an EIP-712 intent in the browser; the hosted Railway relayer paid the gas; the owner\u0027s MON balance did not change."
+}

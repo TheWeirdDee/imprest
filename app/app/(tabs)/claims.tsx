@@ -1,5 +1,5 @@
 import { ScrollView, View } from "react-native";
-import { accounting, deskAbi, erc20Abi } from "@imprest/core";
+import { claimPreview, deskAbi, erc20Abi } from "@imprest/core";
 import { useAccount } from "../../src/account";
 import { useDesk } from "../../src/data";
 import { useAction } from "../../src/action";
@@ -15,14 +15,22 @@ export default function Claims() {
   const p = d.policy.data;
   if (!r || !p) return <ScrollView style={s.screen} contentContainerStyle={s.scroll}><Notice tone="info" title="No desk yet" /></ScrollView>;
   const t = p.tiers[r.tier]!;
-  const split = accounting.claimSplit(r.equity, r.hwm, r.feeOutstanding, BigInt(t.traderSplitBps), BigInt(t.protocolSplitBps));
-  const reason = !r.flat
-    ? "Close all positions before claiming. Unrealized profit cannot be claimed."
-    : split.gross === 0n
-      ? "Realized equity is not above the high-water mark."
+  // Realized equity only (same rule and helper as the web app): unrealized PnL on open positions
+  // never enters the preview. Unknown positions mean no preview and no claim.
+  const positions = d.positions.data;
+  const unrealized = positions ? positions.filter((x) => x.lots > 0n).reduce((acc, x) => acc + x.deltaPnlCNS + x.premiumPnlCNS, 0n) : null;
+  const preview = unrealized === null ? null : claimPreview(r, unrealized, t.traderSplitBps, t.protocolSplitBps);
+  const split = preview?.split ?? { gross: 0n, feesPaid: 0n, traderShare: 0n, protocolShare: 0n, poolShare: 0n };
+  const reason =
+    preview === null
+      ? "Positions are still loading; the claim preview waits for them."
       : r.status !== 0
         ? "The desk is not active."
-        : null;
+        : !r.flat
+          ? "Close all positions before claiming. Unrealized profit cannot be claimed; the figures above are realized only."
+          : preview.claimable
+            ? null
+            : "Realized equity is not above the high-water mark.";
 
   const claim = () =>
     act.run({
@@ -35,7 +43,7 @@ export default function Claims() {
   return (
     <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
       <Card title="Profit claim">
-        <Row k="Realized profit above HWM" v={ausd(split.gross)} />
+        <Row k={r.flat ? "Realized profit above HWM" : "Realized profit above HWM (estimate; positions open)"} v={preview ? ausd(split.gross) : "—"} />
         <Row k="Credit fees, netted first" v={ausd(split.feesPaid, 4)} />
         <Row k={`Trader share (${t.traderSplitBps / 100}%)`} v={ausd(split.traderShare)} tone="safe" />
         <Row k="Pool share" v={ausd(split.poolShare)} />

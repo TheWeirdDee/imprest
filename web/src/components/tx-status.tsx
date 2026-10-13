@@ -11,7 +11,9 @@ export function TxStatus({ state, onReset }: { state: ActionState; onReset?: () 
   if (state.kind === "idle") return null;
   const failed = state.kind === "failed" || state.kind === "verification_failed";
   const blocked = state.kind === "unsupported_environment" || state.kind === "pending_external_dependency";
-  const idx = STEPS.indexOf(state.kind as (typeof STEPS)[number]);
+  // Broadcast, but no receipt yet: may still settle. Shown as a warning, never as a failure.
+  const unknown = state.kind === "unknown";
+  const idx = unknown ? 1 : STEPS.indexOf(state.kind as (typeof STEPS)[number]);
   const icon =
     state.kind === "verified" ? (
       <CheckCircle2 size={16} className="text-safe" aria-hidden />
@@ -19,6 +21,8 @@ export function TxStatus({ state, onReset }: { state: ActionState; onReset?: () 
       <XCircle size={16} className="text-breach" aria-hidden />
     ) : state.kind === "unsupported_environment" ? (
       <Ban size={16} className="text-warn" aria-hidden />
+    ) : unknown ? (
+      <CircleDashed size={16} className="text-warn" aria-hidden />
     ) : state.kind === "pending_external_dependency" ? (
       <PlugZap size={16} className="text-warn" aria-hidden />
     ) : (
@@ -30,7 +34,7 @@ export function TxStatus({ state, onReset }: { state: ActionState; onReset?: () 
       aria-live="polite"
       className={cx(
         "rounded-lg border p-3 text-sm",
-        state.kind === "verified" ? "border-safe/40 bg-safe-bg" : failed ? "border-breach/50 bg-breach-bg" : blocked ? "border-warn/40 bg-warn-bg" : "border-line bg-surface-2",
+        state.kind === "verified" ? "border-safe/40 bg-safe-bg" : failed ? "border-breach/50 bg-breach-bg" : blocked || unknown ? "border-warn/40 bg-warn-bg" : "border-line bg-surface-2",
       )}
     >
       <div className="flex items-center justify-between gap-2">
@@ -39,7 +43,7 @@ export function TxStatus({ state, onReset }: { state: ActionState; onReset?: () 
           <span>{"label" in state ? state.label : ""}</span>
           <span className="font-normal text-fg-2">· {STATE_LABEL[state.kind]}</span>
         </div>
-        {onReset && (state.kind === "verified" || failed || blocked) && (
+        {onReset && (state.kind === "verified" || failed || blocked || unknown) && (
           <button onClick={onReset} className="text-xs text-muted hover:text-fg">
             Dismiss
           </button>
@@ -67,7 +71,7 @@ export function TxStatus({ state, onReset }: { state: ActionState; onReset?: () 
           Transaction <TxLink hash={state.txHash} />
         </div>
       )}
-      {(state.kind === "failed" || state.kind === "verification_failed" || blocked) && (
+      {(state.kind === "failed" || state.kind === "verification_failed" || unknown || blocked) && (
         <div className="mt-1.5 text-xs text-fg-2">{state.reason}</div>
       )}
       {state.kind === "verified" && (

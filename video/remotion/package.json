@@ -1,0 +1,18 @@
+{
+  "name": "imprest-demo-videos",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:main": "remotion render src/index.ts MainDemo out/imprest-main-demo.mp4",
+    "render:perpl": "remotion render src/index.ts PerplDemo out/imprest-perpl-risk-demo.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.535",
+    "@remotion/media-utils": "^4.0.535",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.535",
+    "typescript": "^7.0.2"
+  }
+}

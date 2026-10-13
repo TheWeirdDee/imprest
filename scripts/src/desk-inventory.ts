@@ -13,7 +13,7 @@ const pc = createPublicClient({ transport: http(net.rpcUrls[1], { retryCount: 3 
 const block = await pc.getBlockNumber();
 const read = <T>(address: Address, abi: any, functionName: string, args: unknown[] = []) =>
   pc.readContract({ address, abi, functionName, args, blockNumber: block } as any) as Promise<T>;
-const f = (v: bigint) => (Number(v) / 1e6).toFixed(6);
+const f = (v: bigint | number) => (Number(v) / 1e6).toFixed(6);
 const idle = await read<bigint>(net.imprest.pool!, imprestPoolAbi, "idleAssets");
 const total = await read<bigint>(net.imprest.factory!, deskFactoryAbi, "deskTotal");
 console.log(`# Desk inventory\n\nblock ${block}, rpc ${net.rpcUrls[1]}, desks ${total}, pool idle ${f(idle)} AUSD\n`);

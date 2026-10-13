@@ -11,15 +11,18 @@ import { primaryClient } from "@/lib/chain";
 import { deployed, network } from "@/lib/env";
 import { ausd } from "@/lib/format";
 
+/** Desks read for the aggregates. Above this, the page says the totals are partial. */
+const BOOK_LIMIT = 500n;
+
 function useDeskBook(total: bigint | undefined) {
   return usePoll(
     deployed && total !== undefined
       ? async () => {
           const pc = primaryClient();
-          const n = Number(total > 50n ? 50n : total);
+          const n = Number(total > BOOK_LIMIT ? BOOK_LIMIT : total);
           const out: { desk: Address; r: RiskState }[] = [];
           for (let i = 0; i < n; i++) {
-            const idx = total - 1n - BigInt(i); // newest first, bounded to 50
+            const idx = total - 1n - BigInt(i); // newest first, bounded (coverage is shown when partial)
             const desk = (await pc.readContract({
               address: network.imprest.factory!,
               abi: deskFactoryAbi,
@@ -47,9 +50,15 @@ export default function LpConsole() {
   const book = useDeskBook(p?.deskTotal);
   const desks = book.data ?? [];
   const active = desks.filter((x) => x.r.status === 0);
-  const funded = active.filter((x) => x.r.borrowed > 0n);
-  const stakes = active.reduce((a, x) => a + x.r.originalStake, 0n);
-  const feeLiab = active.reduce((a, x) => a + x.r.feeOutstanding, 0n);
+  // Unsettled = Active or Enforcing. An enforcing desk still owes the pool until it settles, so its
+  // shortfall, stake and fees stay in every exposure total.
+  const unsettled = desks.filter((x) => x.r.status === 0 || x.r.status === 1);
+  const enforcing = unsettled.length - active.length;
+  const funded = unsettled.filter((x) => x.r.borrowed > 0n);
+  const stakes = unsettled.reduce((a, x) => a + x.r.originalStake, 0n);
+  const feeLiab = unsettled.reduce((a, x) => a + x.r.feeOutstanding, 0n);
+  const scanned = BigInt(desks.length);
+  const partial = book.data !== null && book.data !== undefined && p !== null && p !== undefined && scanned < p.deskTotal;
   const atRisk = funded.reduce((a, x) => {
     const shortfall = x.r.borrowed - (x.r.equity > 0n ? x.r.equity : 0n);
     return a + (shortfall > 0n ? shortfall : 0n);
@@ -65,14 +74,15 @@ export default function LpConsole() {
               <Landmark size={22} aria-hidden className="text-accent" /> LP risk console
             </h1>
             <p className="mt-1 text-sm text-fg-2">
-              Pool state read from chain. Money values are confirmed on a second RPC at the same block.
+              Pool state read from chain. Pool ledger totals are compared on a second RPC at the same block;
+              desk rows are read from one RPC and are not independently confirmed.
             </p>
           </div>
           {p && (
             <div className="flex items-center gap-2 text-xs">
               {p.confirmedOnSecondRpc ? (
                 <Pill tone="safe" icon={BadgeCheck}>
-                  confirmed on 2 RPCs at block {p.blockNumber.toString()}
+                  pool totals confirmed on 2 RPCs at block {p.blockNumber.toString()}
                 </Pill>
               ) : p.confirmedOnSecondRpc === false ? (
                 <Pill tone="breach" icon={TriangleAlert}>
@@ -118,7 +128,7 @@ export default function LpConsole() {
                   key="ad"
                   label="Active desks"
                   value={book.data ? `${active.length}` : null}
-                  sub={book.data ? `${funded.length} funded · ${p.deskTotal} opened` : undefined}
+                  sub={book.data ? `${funded.length} funded${enforcing ? ` · ${enforcing} enforcing` : ""} · ${p.deskTotal} opened${partial ? ` · newest ${scanned} counted` : ""}` : undefined}
                 />,
                 <Stat
                   key="pr"
@@ -126,7 +136,7 @@ export default function LpConsole() {
                   value={book.data ? ausd(atRisk) : null}
                   unit="AUSD"
                   tone={atRisk > 0n ? "breach" : undefined}
-                  sub="shortfall right now: borrowed minus equity on active funded desks (not a forecast)"
+                  sub={`shortfall right now: borrowed minus equity on unsettled (active or enforcing) funded desks, not a forecast${partial ? `; newest ${scanned} of ${p.deskTotal} desks only` : ""}`}
                 />,
                 <Stat
                   key="ts"
@@ -209,7 +219,7 @@ export default function LpConsole() {
               </p>
             </Card>
 
-            <Card title="Desks (newest 50)" pad={false}>
+            <Card title={partial ? `Desks (newest ${scanned} of ${p.deskTotal})` : `Desks (all ${scanned})`} pad={false}>
               {!book.data ? (
                 <Skeleton className="m-4 h-24" />
               ) : desks.length === 0 ? (
@@ -244,7 +254,7 @@ export default function LpConsole() {
                             <dd className="text-right">{ausd(r.equity)}</dd>
                             <dt className="font-sans text-muted">Floor (distance)</dt>
                             <dd className="text-right">
-                              {r.status === 0 ? `${ausd(r.floor)} (${ausd(r.equity - r.floor)})` : "— (closed)"}
+                              {r.status !== 2 ? `${ausd(r.floor)} (${ausd(r.equity - r.floor)})` : "— (closed)"}
                             </dd>
                             <dt className="font-sans text-muted">Borrowed</dt>
                             <dd className="text-right">{ausd(r.borrowed)}</dd>
@@ -288,8 +298,8 @@ export default function LpConsole() {
                               <td className="px-3 py-2 font-sans">{DESK_STATUS[r.status]}</td>
                               <td className="px-3 py-2">{r.tier}</td>
                               <td className="px-3 py-2">{ausd(r.equity)}</td>
-                              <td className="px-3 py-2">{r.status === 0 ? ausd(r.floor) : "—"}</td>
-                              <td className="px-3 py-2">{r.status === 0 ? ausd(r.equity - r.floor) : "—"}</td>
+                              <td className="px-3 py-2">{r.status !== 2 ? ausd(r.floor) : "—"}</td>
+                              <td className="px-3 py-2">{r.status !== 2 ? ausd(r.equity - r.floor) : "—"}</td>
                               <td className="px-3 py-2">{ausd(r.borrowed)}</td>
                               <td className="px-3 py-2">{ausd(r.feeOutstanding, 4)}</td>
                               <td className="px-3 py-2 font-sans">

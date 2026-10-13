@@ -18,7 +18,7 @@ import {
 import { INT256_MIN } from "@imprest/core";
 import { hasAccount, useAccount } from "@/lib/account/AccountProvider";
 import { useDesk } from "@/lib/desk-context";
-import { usePoll } from "@/lib/desk";
+import { usePoll, usePool } from "@/lib/desk";
 import { deployed, network, relayerUrl } from "@/lib/env";
 import { primaryClient } from "@/lib/chain";
 import { tradeAction } from "@/lib/actions";
@@ -49,6 +49,7 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
   const a = useAccount();
   const d = useDesk();
   const fee = useTakerFeePpm(m);
+  const pool = usePool();
   const { state, run, reset } = useAction();
   const [side, setSide] = useState<0 | 1>(0);
   const [fok, setFok] = useState(false);
@@ -62,8 +63,15 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
   const ticketRef = useRef<HTMLDivElement>(null);
   const search = useSearchParams();
   const router = useRouter();
-  const closeParam = search.get("close");
-  const closeKey = closeParam ? `${closeParam}:${search.get("n") ?? ""}` : null;
+  // Only a plain market id from the allowlist is accepted; anything else (edited or malformed link)
+  // is ignored and removed from the address bar, never parsed as a number.
+  const rawClose = search.get("close");
+  const closeParam = rawClose && /^\d{1,4}$/.test(rawClose) && network.perpl.markets.some((x) => String(x.perpId) === rawClose) ? rawClose : null;
+  const closeKey = closeParam ? `${closeParam}:${(search.get("n") ?? "").slice(0, 20)}` : null;
+  useEffect(() => {
+    if (rawClose !== null && closeParam === null) router.replace(`/app/trade/${m.symbol.toLowerCase()}`, { scroll: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rawClose]);
 
   const risk = d.risk.data;
   const policy = d.policy.data;
@@ -92,7 +100,7 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
   // closing order from the CURRENT position, show what was prepared, scroll to it. Never auto-submit.
   useEffect(() => {
     if (!closeKey || !closeParam) return;
-    if (BigInt(closeParam) !== BigInt(m.perpId)) return;
+    if (closeParam !== String(m.perpId)) return;
     if (!d.positions.data) return; // wait until positions are loaded
     const p = d.positions.data.find((x) => BigInt(x.perpId) === BigInt(m.perpId) && x.lots > 0n);
     if (!p) {
@@ -163,7 +171,8 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
           parsed.priceLimit > markPns ? parsed.priceLimit - markPns : markPns - parsed.priceLimit,
         )
       : 0n;
-  const postEquity = risk && feeEst !== null ? risk.equity - feeEst : null;
+  // Worst case: the taker fee plus filling at your limit instead of the mark.
+  const postEquity = risk && feeEst !== null ? risk.equity - feeEst - (reduceOnly ? 0n : crossCost) : null;
   // The nearest active limit is the higher of the desk floor and today's daily-loss floor.
   const dailyActive = risk ? risk.dailyFloor !== INT256_MIN && risk.dailyFloor > risk.floor : false;
   const activeFloor = risk ? (dailyActive ? risk.dailyFloor : risk.floor) : null;
@@ -184,8 +193,20 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
         0n,
       )
     : 0n;
-  const maxSafeNotional =
-    risk && policy ? (risk.equity * BigInt(policy.maxLeverageHdths)) / 100n - usedNotional : null;
+  // Largest new notional the contract would accept, estimated: leverage headroom, and for a funded
+  // desk also the pool's per-desk cap and this market's pool-wide cap (both checked onchain).
+  const maxOrder = (() => {
+    if (!risk || !policy) return null;
+    const lim: { v: bigint; why: string }[] = [{ v: (risk.equity * BigInt(policy.maxLeverageHdths)) / 100n - usedNotional, why: "leverage" }];
+    if (risk.borrowed > 0n) {
+      if (!pool.data) return null;
+      lim.push({ v: pool.data.deskNotionalCap - usedNotional, why: "desk cap" });
+      const ex = pool.data.exposure.find((x) => x.perpId === m.perpId);
+      if (ex) lim.push({ v: ex.cap - ex.gross, why: `${m.symbol} pool cap` });
+    }
+    const min = lim.reduce((a, b) => (b.v < a.v ? b : a));
+    return { v: min.v > 0n ? min.v : 0n, why: min.why };
+  })();
   // Price at which this position alone would take equity to the nearest active limit (the enforce trigger).
   const enforcementPrice =
     risk && postEquity !== null && parsed.lots > 0n && !reduceOnly
@@ -270,14 +291,38 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
         setNotice({ tone: "warn", title: "Not filled", body: "The immediate-or-cancel order found no liquidity at your limit, so nothing traded. Your position is unchanged." });
       } else if (wasClose && o.positionLots === "0") {
         setReduceOnly(false);
-        setNotice({ tone: "safe", title: "Position closed", body: `Your ${m.symbol} position is closed and the desk is flat. The form has been reset; nothing else needs to be sent.` });
+        // Only this market was verified. Check the others before saying anything about the desk.
+        const others = await openOtherMarkets(risk.accountId).catch(() => null);
+        const rest =
+          others === null
+            ? "Other markets could not be checked just now; see Positions before claiming."
+            : others.length === 0
+              ? "No other position is open, so the desk is flat."
+              : `Still open: ${others.join(", ")}. The desk is not flat until those are closed.`;
+        setNotice({ tone: "safe", title: `${m.symbol} position closed`, body: `Your ${m.symbol} position is closed. ${rest} The form has been reset.` });
       } else if (o.fill === "partial") {
         const left = formatUnitsFixed(BigInt(o.positionLots ?? "0"), m.lotDecimals, m.lotDecimals);
-        setNotice({ tone: "warn", title: "Partially filled", body: `Only part of the order filled. Position now ${left} ${m.symbol}.${wasClose ? " Use Close position again for the rest." : ""}` });
+        setNotice({ tone: "warn", title: "Partially filled", body: `Only part of the order filled (${formatUnitsFixed(BigInt(o.filledLots ?? "0"), m.lotDecimals, m.lotDecimals)} ${m.symbol}). Position now ${o.positionSide ?? ""} ${left} ${m.symbol}.${wasClose ? " Use Close position again for the rest." : ""}` });
       } else {
         setNotice(null);
       }
     }
+  };
+
+  /** Symbols of the other allowlisted markets that still hold a position (fresh chain read). */
+  const openOtherMarkets = async (accountId: bigint) => {
+    const out: string[] = [];
+    for (const x of network.perpl.markets) {
+      if (x.perpId === m.perpId) continue;
+      const p = (await primaryClient().readContract({
+        address: network.perpl.exchange!,
+        abi: perplExchangeAbi as any,
+        functionName: "getPosition",
+        args: [BigInt(x.perpId), accountId],
+      })) as any;
+      if (BigInt(p[0].lotLNS) > 0n) out.push(`${x.symbol} ${Number(p[0].positionType) === 0 ? "long" : "short"}`);
+    }
+    return out;
   };
 
   /** Direct contract call, deliberately skipping frontend validation and simulation. */
@@ -450,10 +495,8 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
           ["Cost vs mark at limit", parsed.error ? "—" : `${ausd(crossCost, 4)} AUSD (worst case)`],
           ["Max allowed leverage", `${maxLev.toFixed(2)}x`],
           [
-            "Max safe order",
-            maxSafeNotional === null
-              ? "—"
-              : `${ausd(maxSafeNotional > 0n ? maxSafeNotional : 0n)} AUSD notional`,
+            "Max new order (est.)",
+            maxOrder === null ? "—" : `${ausd(maxOrder.v)} AUSD notional (${maxOrder.why} limit)`,
           ],
           [
             "Restricted credit usage",
@@ -465,7 +508,7 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
           ],
           [
             "Post-trade equity",
-            parsed.error || postEquity === null ? "—" : `${ausd(postEquity)} AUSD (est.)`,
+            parsed.error || postEquity === null ? "—" : `${ausd(postEquity)} AUSD (est., worst case)`,
           ],
           [
             `Distance to ${limitName}`,

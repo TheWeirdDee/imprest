@@ -156,7 +156,6 @@ nothing was redeployed onchain.
 | IP-010 "Max safe order" ignored pool caps | "Max new order (est.)" = min(leverage, desk cap, market pool cap), names the binding limit; worst-case post-trade equity | source |
 | IP-011 validator accepted a note as readback | VERIFIED needs a method plus a recorded reading; `--onchain` reconciles all 23 receipt transactions on both providers with decoded outcomes | `validate-evidence --onchain`: PASSED, 23 reconciled |
 | IP-012 stale docs | Environment matrix, contracts README, test counts dated, this file marked as snapshot | this commit range |
-| IP-013 deadline conversion | 04:59 Lagos on 14 October (EDT, UTC−4) | docs/HACKATHON_READINESS.md |
 | IP-014 address link target size | 24 px minimum height | axe: 14/14 routes pass |
 | IP-015 mobile session races | Generation guard on passkey prompts, one session at a time, lock after 5 min in background, stale poll results dropped | app typecheck + tests |
 | IP-016 no demo video | **Owner action** | — |

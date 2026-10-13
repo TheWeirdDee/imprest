@@ -102,23 +102,39 @@ async function main() {
         blocks.add(rc.blockNumber.toString());
         if (rc.status !== wantStatus) findings.push({ file, id: r.id, rule: "onchain", message: `status ${rc.status} on ${new URL(url).host}, receipt implies ${wantStatus}` });
         if (r.block_number !== null && Number(rc.blockNumber) !== r.block_number) findings.push({ file, id: r.id, rule: "onchain", message: `block ${r.block_number} != ${rc.blockNumber} on ${new URL(url).host}` });
-        // Decoded outcomes the receipt records.
+        // Operation-specific evidence: the event that proves the operation must be present and,
+        // where the receipt names its contract, emitted by that contract; recorded values must match.
+        const required: Record<string, string> = { relayed_trade: "TradeExecuted", guarded_trade: "TradeExecuted", graduate: "Graduated", close_desk: "Settled" };
+        const need = wantStatus === "success" ? required[r.operation] : undefined;
+        const contract = typeof r.contract === "string" && r.contract ? r.contract.toLowerCase() : null;
+        let seen = false;
         for (const l of rc.logs) {
+          let ev: any;
           try {
-            const ev = decodeEventLog({ abi: deskAbi, data: l.data, topics: l.topics as any }) as any;
-            if (ev.eventName === "TradeExecuted" && r.outputs?.lotsAfterPrimary !== undefined && String(ev.args.lotsAfter) !== String(r.outputs.lotsAfterPrimary)) {
-              findings.push({ file, id: r.id, rule: "onchain", message: `TradeExecuted lotsAfter ${ev.args.lotsAfter} != recorded ${r.outputs.lotsAfterPrimary}` });
-            }
-            const g = r.outputs?.graduated_event as Record<string, unknown> | undefined;
-            if (ev.eventName === "Graduated" && g && String(ev.args.credit) !== String(g.credit)) {
-              findings.push({ file, id: r.id, rule: "onchain", message: `Graduated credit ${ev.args.credit} != recorded ${g.credit}` });
-            }
+            ev = decodeEventLog({ abi: deskAbi, data: l.data, topics: l.topics as any });
           } catch {
-            /* not a desk event */
+            continue; // not a desk event
           }
+          if (contract && l.address.toLowerCase() !== contract) continue; // another desk's event is not evidence
+          if (ev.eventName === need) seen = true;
+          const o = r.outputs ?? {};
+          if (ev.eventName === "TradeExecuted") {
+            if (o.lotsAfterPrimary !== undefined && String(ev.args.lotsAfter) !== String(o.lotsAfterPrimary)) findings.push({ file, id: r.id, rule: "onchain", message: `TradeExecuted lotsAfter ${ev.args.lotsAfter} != recorded ${o.lotsAfterPrimary}` });
+            if (o.equity_after !== undefined && String(ev.args.equityAfter) !== String(o.equity_after)) findings.push({ file, id: r.id, rule: "onchain", message: `TradeExecuted equityAfter ${ev.args.equityAfter} != recorded ${o.equity_after}` });
+            const i = r.inputs ?? {};
+            for (const k of ["lots", "leverage", "priceLimit", "nonce"] as const) {
+              if (i[k] !== undefined && String(ev.args[k]) !== String(i[k])) findings.push({ file, id: r.id, rule: "onchain", message: `TradeExecuted ${k} ${ev.args[k]} != recorded input ${i[k]}` });
+            }
+          }
+          const g = o.graduated_event as Record<string, unknown> | undefined;
+          if (ev.eventName === "Graduated" && g && String(ev.args.credit) !== String(g.credit)) findings.push({ file, id: r.id, rule: "onchain", message: `Graduated credit ${ev.args.credit} != recorded ${g.credit}` });
         }
-      }
-      if (blocks.size > 1) findings.push({ file, id: r.id, rule: "onchain", message: `providers disagree on the block: ${[...blocks].join(" vs ")}` });
+        if (need && !seen) findings.push({ file, id: r.id, rule: "onchain", message: `required ${need} event${contract ? ` from ${contract}` : ""} not found on ${new URL(url).host}` });
+        // Recorded sender and target, when the receipt states them.
+        const from = (r.outputs as Record<string, unknown> | undefined)?.tx_from;
+        if (typeof from === "string" && rc.from.toLowerCase() !== from.toLowerCase()) findings.push({ file, id: r.id, rule: "onchain", message: `sender ${rc.from} != recorded ${from}` });
+        if (contract && r.operation === "relayed_trade" && rc.to?.toLowerCase() !== contract) findings.push({ file, id: r.id, rule: "onchain", message: `sent to ${rc.to}, receipt names ${contract}` });
+      }      if (blocks.size > 1) findings.push({ file, id: r.id, rule: "onchain", message: `providers disagree on the block: ${[...blocks].join(" vs ")}` });
       reconciled++;
     }
     console.log(`receipts reconciled on chain (both providers): ${reconciled}`);

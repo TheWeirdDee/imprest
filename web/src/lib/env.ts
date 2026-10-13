@@ -5,8 +5,10 @@ const ENV = process.env.NEXT_PUBLIC_IMPREST_ENV ?? "testnet";
 
 export const network: NetworkConfig = getNetwork(ENV);
 export const deployed = isDeployed(network);
-export const relayerUrl = process.env.NEXT_PUBLIC_RELAYER_URL || null;
-export const indexerUrl = process.env.NEXT_PUBLIC_INDEXER_URL || null;
+// Trailing slashes are removed: "https://x.app/" + "/health" would request "//health" and get a 404.
+const baseUrl = (v: string | undefined) => (v ? v.trim().replace(/\/+$/, "") || null : null);
+export const relayerUrl = baseUrl(process.env.NEXT_PUBLIC_RELAYER_URL);
+export const indexerUrl = baseUrl(process.env.NEXT_PUBLIC_INDEXER_URL);
 export const passkeyRpId = process.env.NEXT_PUBLIC_PASSKEY_RP_ID || null;
 
 /** The dev mock account can only ever exist on the local development network. */

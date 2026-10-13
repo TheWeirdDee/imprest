@@ -1,0 +1,21 @@
+# Only what the relayer image needs. Everything else (web, app, contracts, proof, keys) stays out.
+*
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!config/
+!packages/
+!relayer/
+# Manifests of the other workspace packages, so the frozen lockfile still matches the workspace.
+!web/package.json
+!keeper/package.json
+!indexer/package.json
+!scripts/package.json
+
+# Never copied, even inside the included folders.
+**/node_modules
+**/.env
+**/.env.*
+**/*.key
+**/keystore
+**/.secrets

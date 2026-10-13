@@ -190,3 +190,25 @@ describe("relayer", () => {
     expect(JSON.stringify(logs)).not.toContain(sig.slice(2, 40));
   });
 });
+
+describe("relayer origin allowlist", () => {
+  const make = () =>
+    createRelayer(fakeChain(), {
+      maxGas: 1_200_000n,
+      gasHeadroomPct: 115n,
+      quotaPerTraderPerMin: 3,
+      maxDeadlineAheadSec: 600,
+      now: () => NOW,
+      log: () => undefined,
+      allowedOrigins: ["https://imprest-chi.vercel.app"],
+    });
+  it("answers the allowed website and echoes its origin", async () => {
+    const r = await make()(new Request("http://relayer/v1/intents", { method: "OPTIONS", headers: { origin: "https://imprest-chi.vercel.app" } }));
+    expect(r.status).toBe(204);
+    expect(r.headers.get("access-control-allow-origin")).toBe("https://imprest-chi.vercel.app");
+  });
+  it("refuses any other website", async () => {
+    const r = await make()(new Request("http://relayer/v1/intents", { method: "POST", headers: { origin: "https://evil.example", "content-type": "application/json" }, body: "{}" }));
+    expect(r.status).toBe(403);
+  });
+});

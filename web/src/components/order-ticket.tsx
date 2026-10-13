@@ -49,7 +49,8 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
   const a = useAccount();
   const d = useDesk();
   const fee = useTakerFeePpm(m);
-  const pool = usePool();
+  // Pool caps only bind a funded desk; an evaluation desk skips these ~30 RPC reads per poll.
+  const pool = usePool(Boolean(d.risk.data && d.risk.data.borrowed > 0n));
   const { state, run, reset } = useAction();
   const [side, setSide] = useState<0 | 1>(0);
   const [fok, setFok] = useState(false);

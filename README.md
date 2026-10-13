@@ -54,7 +54,7 @@ refused and anyone can call `enforce()` to close the desk. Your stake absorbs lo
 | Works now | Notes |
 | --- | --- |
 | Browse the live BTC/ETH market, risk rules, proof and status | No wallet needed |
-| Create a passkey account, get test AUSD, open a desk, trade, close, claim | Needs testnet MON for gas: the hosted site has no public relayer, so you submit transactions yourself |
+| Create a passkey account, get test AUSD, open a desk, trade, close, claim | Needs a little testnet MON for approve, open desk, claim and close. Trades are gasless through the hosted relayer (Railway) |
 | Watch risk, positions, history and receipts | Without the indexer (it runs only on the developer's machine), History reads the chain directly and covers only the most recent ~5,000 blocks (about half an hour) |
 
 Not available on the hosted site: gasless trading (relayed intents were verified from a script;
@@ -78,7 +78,7 @@ the native mobile app (it needs a linked domain).
 | ImprestPool and DeskFactory deployed; runtime bytecode matches the build on two RPCs | **TESTNET_VERIFIED** |
 | A 6x order sent straight to the desk reverted `LeverageExceeded`; a premature `graduate()` reverted `GraduationNotEligible` | **TESTNET_VERIFIED** |
 | Real Perpl trades opened and closed; a flat desk closed with 99.95 AUSD paid by contract | **TESTNET_VERIFIED** |
-| Trader-signed intents submitted by the relayer filled on Perpl (submitted from a script, not via the hosted site) | **TESTNET_VERIFIED** |
+| Trader-signed intents submitted by the relayer filled on Perpl: from a script (2026-10-07) and, on 2026-10-13, signed in the live website and relayed by the hosted relayer, which paid the gas (open, then a reduce-only close via the Close button) | **TESTNET_VERIFIED** |
 | Desk `0xfc65…FCC6` earned +2% over two closed trades; the keeper called `graduate()`; the pool funded 400 AUSD | **TESTNET_VERIFIED** |
 | After graduation, two real attempts to reach profit above the high-water mark lost money; the stake absorbed it and pool credit stayed intact | **TESTNET_VERIFIED** (receipts 06–13) |
 | 128 contract tests as of 2026-10-13 (unit, fuzz, invariant, security, paired-desk, partial fills, reversals) against **Perpl's own exchange bytecode**; reference model 26/26. The original 2026-10-07 run of 120 is kept as a dated snapshot. | LOCAL_REPRODUCTION |

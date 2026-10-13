@@ -108,6 +108,18 @@ Envio's schema; the schema and handlers are included. Backfill starts at the dep
 6. Check that /status shows "Indexer LIVE" with the processed block, and that History shows the
    transactions from 2026-10-09 and 2026-10-12.
 
+**Status, 2026-10-13: not working, left open.** Deployed on Envio's free Development plan
+(commits `f93e328`, `a1db37f`, `cb7c1db`). Every deployment stayed at block height 0, with 0 events
+and "Indexing Has Stopped", including with independent RPCs (dRPC, Ankr) that answer
+`eth_blockNumber` and 100-block `eth_getLogs` normally from elsewhere. Envio v3 needs
+`ENVIO_API_TOKEN` for HyperSync, and setting environment variables on the hosted service is a paid
+feature. Envio's log viewer timed out (504), so the exact error was not visible. Nothing was bought.
+
+The website does not need the indexer: History falls back to a bounded, read-only chain scan in
+100-block windows and says when its coverage is partial. To finish this later, either:
+
+- read the deployment logs once Envio's viewer loads, and fix the reported error; or
+- run the indexer where `ENVIO_API_TOKEN` can be set (locally under WSL, or a paid plan).
 ## 3. Keeper
 
 The keeper needs to run continuously. Options:

@@ -15,7 +15,7 @@ import {
   type MarketConfig,
   type OrderIntent,
 } from "@imprest/core";
-import { INT256_MIN } from "@imprest/core";
+import { INT256_MIN, closedMarketMessage, maxNewOrder } from "@imprest/core";
 import { hasAccount, useAccount } from "@/lib/account/AccountProvider";
 import { useDesk } from "@/lib/desk-context";
 import { usePoll, usePool } from "@/lib/desk";
@@ -195,18 +195,22 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
     : 0n;
   // Largest new notional the contract would accept, estimated: leverage headroom, and for a funded
   // desk also the pool's per-desk cap and this market's pool-wide cap (both checked onchain).
-  const maxOrder = (() => {
-    if (!risk || !policy) return null;
-    const lim: { v: bigint; why: string }[] = [{ v: (risk.equity * BigInt(policy.maxLeverageHdths)) / 100n - usedNotional, why: "leverage" }];
-    if (risk.borrowed > 0n) {
-      if (!pool.data) return null;
-      lim.push({ v: pool.data.deskNotionalCap - usedNotional, why: "desk cap" });
-      const ex = pool.data.exposure.find((x) => x.perpId === m.perpId);
-      if (ex) lim.push({ v: ex.cap - ex.gross, why: `${m.symbol} pool cap` });
-    }
-    const min = lim.reduce((a, b) => (b.v < a.v ? b : a));
-    return { v: min.v > 0n ? min.v : 0n, why: min.why };
-  })();
+  // (maxNewOrder, unit-tested in @imprest/core; null until a funded desk's pool limits are read.)
+  const marketEx = pool.data?.exposure.find((x) => x.perpId === m.perpId);
+  const max =
+    risk && policy
+      ? maxNewOrder({
+          equity: risk.equity,
+          maxLeverageHdths: policy.maxLeverageHdths,
+          usedNotional,
+          borrowed: risk.borrowed,
+          pool:
+            pool.data && marketEx
+              ? { deskNotionalCap: pool.data.deskNotionalCap, marketCap: marketEx.cap, marketGross: marketEx.gross, symbol: m.symbol }
+              : undefined,
+        })
+      : null;
+  const maxOrder = max ? { v: max.value, why: max.limit } : null;
   // Price at which this position alone would take equity to the nearest active limit (the enforce trigger).
   const enforcementPrice =
     risk && postEquity !== null && parsed.lots > 0n && !reduceOnly
@@ -293,13 +297,7 @@ export function OrderTicket({ m, tickerMark }: { m: MarketConfig; tickerMark: nu
         setReduceOnly(false);
         // Only this market was verified. Check the others before saying anything about the desk.
         const others = await openOtherMarkets(risk.accountId).catch(() => null);
-        const rest =
-          others === null
-            ? "Other markets could not be checked just now; see Positions before claiming."
-            : others.length === 0
-              ? "No other position is open, so the desk is flat."
-              : `Still open: ${others.join(", ")}. The desk is not flat until those are closed.`;
-        setNotice({ tone: "safe", title: `${m.symbol} position closed`, body: `Your ${m.symbol} position is closed. ${rest} The form has been reset.` });
+        setNotice({ tone: "safe", title: `${m.symbol} position closed`, body: closedMarketMessage(m.symbol, others) });
       } else if (o.fill === "partial") {
         const left = formatUnitsFixed(BigInt(o.positionLots ?? "0"), m.lotDecimals, m.lotDecimals);
         setNotice({ tone: "warn", title: "Partially filled", body: `Only part of the order filled (${formatUnitsFixed(BigInt(o.filledLots ?? "0"), m.lotDecimals, m.lotDecimals)} ${m.symbol}). Position now ${o.positionSide ?? ""} ${left} ${m.symbol}.${wasClose ? " Use Close position again for the rest." : ""}` });

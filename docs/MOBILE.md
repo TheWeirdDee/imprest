@@ -102,3 +102,17 @@ bought or signed up for on your behalf.
 3. A little testnet MON on the derived address for gas.
 
 Until then the app shows `RP_ID_NOT_CONFIGURED` instead of pretending to sign in.
+
+## Known limitation: pending transactions across an app restart
+
+The native app follows the same rules as the website:
+
+- a transaction whose receipt is late is shown as "Submitted, outcome not yet known", never as failed;
+- no new transaction is sent while one is unresolved;
+- verification compares the receipt block and the signed fill on two RPCs.
+
+The record of an unresolved transaction is kept **in memory only**. It survives moving between
+screens but **not an app restart**: the native build has no storage module (adding one, such as
+`@react-native-async-storage/async-storage`, needs a new native dependency and a development build).
+After a restart, check the transaction on the explorer before sending the same order again. The
+website keeps this record in browser storage and does survive a reload.

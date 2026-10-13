@@ -1,16 +1,16 @@
 # Environment matrix
 
-What runs where, and how each environment is labeled.
+What runs where, and how each environment is labeled. Current as of 2026-10-13; the deployed web commit is whatever `/api/version` reports.
 
 | Component | Local Foundry EVM | Testnet fork (anvil / forge fork) | Monad testnet | Monad mainnet |
 | --- | --- | --- | --- | --- |
-| Contracts | every test run (LOCAL_REPRODUCTION) | fork test + deploy rehearsal (SIMULATED) | PENDING (owner funds key) | PENDING (needs capital) |
+| Contracts | every test run (LOCAL_REPRODUCTION) | fork test + deploy rehearsal (SIMULATED) | deployed 2026-10-07 (blocks 69010507/69010521); runtime bytecode matches the build with immutables masked | not deployed (needs capital) |
 | Perpl | real exchange bytecode, scripted maker | live exchange state at the fork block | live | live |
 | AUSD | test token | live testnet AUSD + faucet | live + faucet | live (real value) |
-| Web app | `NEXT_PUBLIC_IMPREST_ENV=development` | n/a | `testnet` (built, runs; desk actions PENDING deployment) | not configured |
-| Relayer | unit tests (mock chain port) | n/a | PENDING key | not configured |
-| Keeper | unit tests | n/a | PENDING key | not configured |
-| Indexer | n/a | n/a | PENDING (Linux/Docker) | not configured |
+| Web app | `NEXT_PUBLIC_IMPREST_ENV=development` | n/a | public at https://imprest-chi.vercel.app (`/api/version` reports the deployed commit); desk actions live | not configured |
+| Relayer | unit tests (mock chain port) | n/a | runs locally with a funded key (relayed trades recorded in proof/receipts); public hosting prepared (`render.yaml`), not yet deployed | not configured |
+| Keeper | unit tests | n/a | runs locally with a funded key (graduation tx 0x4e61…87ed sent by it); not hosted | not configured |
+| Indexer | n/a | n/a | config validated; runs under WSL/Docker only; not hosted (the web app falls back to a bounded RPC scan) | not configured |
 | Reference model / replay | Python, local | n/a | n/a | n/a |
 
 Environment variables: see `.env.example`. Required per component:

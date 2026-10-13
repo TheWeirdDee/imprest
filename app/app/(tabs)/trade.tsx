@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { checkPolicy, deskAbi, formatUnitsFixed, notional, parseUnitsStrict, perplExchangeAbi, type OrderIntent } from "@imprest/core";
+import { decodeEventLog, type PublicClient, type TransactionReceipt } from "viem";
+import { checkPolicy, describeFill, deskAbi, formatUnitsFixed, notional, parseUnitsStrict, perplExchangeAbi, signedLots, type OrderIntent } from "@imprest/core";
 import { useAccount } from "../../src/account";
 import { useDesk, usePoll } from "../../src/data";
 import { useAction } from "../../src/action";
@@ -35,15 +36,42 @@ export default function Trade() {
   const n = notional(m, lots, price);
   const busy = ["requested", "submitted", "confirming"].includes(act.state.kind);
 
+  const fillFrom = async (cl: PublicClient, b: bigint, rc: TransactionReceipt): Promise<Record<string, string>> => {
+    let ev: any = null;
+    for (const l of rc.logs) {
+      if (l.address.toLowerCase() !== d.desk!.toLowerCase()) continue;
+      try {
+        const x = decodeEventLog({ abi: deskAbi, data: l.data, topics: l.topics as any });
+        if (x.eventName === "TradeExecuted") ev = x.args;
+      } catch {
+        /* other event */
+      }
+    }
+    if (!ev) return { tradeExecuted: "false" };
+    const at = async (bn: bigint) => {
+      const res = (await cl.readContract({ address: network.perpl.exchange!, abi: perplExchangeAbi as any, functionName: "getPosition", args: [BigInt(m.perpId), r!.accountId], blockNumber: bn })) as any;
+      return signedLots(BigInt(res[0].lotLNS), Number(res[0].positionType));
+    };
+    const before = await at(b - 1n);
+    const after = await at(b);
+    const abs = (v: bigint) => (v < 0n ? -v : v);
+    const consistent = abs(before) === BigInt(ev.lotsBefore) && abs(after) === BigInt(ev.lotsAfter);
+    return { tradeExecuted: "true", ...describeFill(order, before, after), eventMatchesState: consistent ? "yes" : "no" };
+  };
+
   const submit = () =>
     act.run({
       label: `${side === 0 ? "Buy" : "Sell"} ${size} ${m.symbol}`,
-      expect: async () => ({ executed: "true" }),
+      // Same verification as the web app: the desk's TradeExecuted event must be in the receipt, and
+      // the signed position before/after the block (so fill, direction and no-fill are explicit) is
+      // measured on the primary RPC and must be read identically on the independent one.
+      expect: async () => ({ tradeExecuted: "true", direction: "matches order", eventMatchesState: "yes" }),
       send: () => sendWrite(a.account!, { address: d.desk!, abi: deskAbi, functionName: "trade", args: [order] }),
-      observe: async (cl, b) => {
-        const res = (await cl.readContract({ address: network.perpl.exchange!, abi: perplExchangeAbi as any, functionName: "getPosition", args: [BigInt(m.perpId), r!.accountId], blockNumber: b })) as any;
-        return { executed: "true", lotsOnVerifyRpc: String(res[0].lotLNS) };
+      expectAfterReceipt: async (rc, cl) => {
+        const { direction: _d, eventMatchesState: _e, ...measured } = await fillFrom(cl, rc.blockNumber, rc);
+        return measured;
       },
+      observe: (cl, b, rc) => fillFrom(cl, b, rc),
     });
 
   return (

@@ -6,6 +6,8 @@ import {
   deskAbi,
   deskDomain,
   deskFactoryAbi,
+  describeFill,
+  signedLots,
   erc20Abi,
   perplExchangeAbi,
   toWire,
@@ -83,9 +85,16 @@ function tradeEventFrom(receiptLogs: readonly { address: Address; data: Hex; top
   return null;
 }
 
+/** Signed Perpl position at a block: long is positive, short negative, flat zero. */
+async function signedPosition(c: PublicClient, perpId: bigint, accountId: bigint, blockNumber: bigint): Promise<bigint> {
+  const pos = await readAt<any>(c, { address: network.perpl.exchange!, abi: perplExchangeAbi as any, functionName: "getPosition", args: [perpId, accountId] }, blockNumber);
+  return signedLots(BigInt(pos[0].lotLNS), Number(pos[0].positionType));
+}
+
 /**
- * Trade, self-submitted or relayed. Verification: the fill reported by the primary RPC's
- * receipt must equal the Perpl position read independently on the second RPC.
+ * Trade, self-submitted or relayed. Verification: the PRIMARY provider's receipt and its position
+ * reads (just before and at the trade block) give the fill and resulting direction; the SECOND
+ * provider must read the same receipt event, the same before/after positions and so the same fill.
  */
 export function tradeAction(
   account: LocalAccount,
@@ -95,23 +104,28 @@ export function tradeAction(
   via: "self" | "relayer",
   label: string,
 ): ActionSpec {
+  const fillFrom = async (c: PublicClient, bn: bigint, receipt: { logs: readonly any[] }) => {
+    const ev = tradeEventFrom(receipt.logs as any, desk);
+    if (!ev) return { tradeExecuted: "false" };
+    const before = await signedPosition(c, o.perpId, accountId, bn - 1n);
+    const after = await signedPosition(c, o.perpId, accountId, bn);
+    const abs = (v: bigint) => (v < 0n ? -v : v);
+    // The event's unsigned sizes must agree with the state reads, or the block held another change.
+    const consistent = abs(before) === BigInt(ev.lotsBefore) && abs(after) === BigInt(ev.lotsAfter);
+    return {
+      tradeExecuted: "true",
+      ...describeFill(o, before, after),
+      eventMatchesState: consistent ? "yes" : `event ${ev.lotsBefore}->${ev.lotsAfter}, state ${abs(before)}->${abs(after)}`,
+    };
+  };
   return {
     label,
-    expect: async () => ({ tradeExecuted: "true" }),
-    // From the PRIMARY RPC's receipt: the desk's TradeExecuted event says what the venue position was
-    // before and after. These numbers are then checked against Perpl state read on the SECOND RPC.
-    expectAfterReceipt: (receipt): Record<string, string> => {
-      const ev = tradeEventFrom(receipt.logs as any, desk);
-      if (!ev) return { tradeExecuted: "true", positionLots: "no TradeExecuted event in the primary receipt" };
-      const before = BigInt(ev.lotsBefore);
-      const after = BigInt(ev.lotsAfter);
-      const changed = after > before ? after - before : before - after;
-      return {
-        tradeExecuted: "true",
-        positionLots: s(after),
-        filledLots: s(changed),
-        fill: changed === 0n ? "none" : changed >= o.lots ? "full" : "partial",
-      };
+    expect: async () => ({ tradeExecuted: "true", direction: "matches order", eventMatchesState: "yes" }),
+    expectAfterReceipt: async (receipt, primary) => {
+      const f = await fillFrom(primary, receipt.blockNumber, receipt);
+      // Only the measured numbers are taken from the primary; the fixed expectations stay fixed.
+      const { direction: _d, eventMatchesState: _e, ...measured } = f as Record<string, string>;
+      return measured;
     },
     send: async () => {
       let hash: Hex;
@@ -144,23 +158,10 @@ export function tradeAction(
       }
       return hash;
     },
-    observe: async (c, bn, receipt) => {
-      // `receipt` here is the SECOND RPC's copy; the position is read from Perpl on that RPC at the block.
-      const ev = tradeEventFrom(receipt.logs as any, desk);
-      const pos = await readAt<any>(c, { address: network.perpl.exchange!, abi: perplExchangeAbi as any, functionName: "getPosition", args: [o.perpId, accountId] }, bn);
-      const lots = BigInt(pos[0].lotLNS);
-      const before = ev ? BigInt(ev.lotsBefore) : null;
-      const changed = before === null ? null : lots > before ? lots - before : before - lots;
-      return {
-        tradeExecuted: ev ? "true" : "false",
-        positionLots: s(lots),
-        filledLots: changed === null ? "unknown" : s(changed),
-        fill: changed === null ? "unknown" : changed === 0n ? "none" : changed >= o.lots ? "full" : "partial",
-      };
-    },
+    // `receipt` here is the SECOND RPC's copy; positions are read from Perpl on that RPC.
+    observe: (c, bn, receipt) => fillFrom(c, bn, receipt),
   };
 }
-
 export function graduateAction(account: LocalAccount, desk: Address, risk: RiskState, policy: CohortPolicy): ActionSpec {
   const next = risk.tier + 1;
   const mult = BigInt(policy.tiers[next]?.sizeMultiple ?? 1);

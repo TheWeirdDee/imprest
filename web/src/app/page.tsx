@@ -30,7 +30,7 @@ export default function Landing() {
     ["Real Perpl trades", v("TESTNET_CANONICAL_CLOSE_PAYOUT")],
     ["Contract settlement", v("TESTNET_CANONICAL_CLOSE_PAYOUT")],
     ["Independent RPC verification", v("TESTNET_CANONICAL_CLOSE_PAYOUT")],
-    ["Relayed trades (script-submitted)", v("TESTNET_RELAYED_TRADE")],
+    ["Gasless relayed trades (script and browser)", v("TESTNET_RELAYED_TRADE")],
     ["Earned graduation, keeper-executed", v("TESTNET_CANONICAL_GRADUATION") && v("TESTNET_KEEPER_ACTION")],
   ];
   const pending = [

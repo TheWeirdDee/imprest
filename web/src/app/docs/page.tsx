@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
 import { FileText } from "lucide-react";
 import { SiteHeader } from "@/components/shell";
 import { listDocs, readDoc } from "@/lib/proof";
 
-export const metadata: Metadata = {
-  title: "Docs",
-  description: "Imprest documentation rendered from the repository: architecture, security, risk, testnet deployment and known limitations.",
-  alternates: { canonical: "/docs" },
-};
+export const metadata: Metadata = pageMeta("Docs", "Imprest documentation rendered from the repository: architecture, security, risk, testnet deployment and known limitations.", "/docs");
 export const dynamic = "force-static";
 
 const ORDER = ["README_JUDGES", "ARCHITECTURE", "SECURITY", "THREAT_MODEL", "EVIDENCE_STANDARD", "SETUP", "DEMO_RUNBOOK", "TESTNET_DEPLOYMENT", "KNOWN_LIMITATIONS", "FINAL_STATUS"];
